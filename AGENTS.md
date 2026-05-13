@@ -1,0 +1,70 @@
+# AGENTS.md
+
+## Comandos
+- Usa `npm`; `package-lock.json` es el lockfile. `npm install` ejecuta `prisma generate` mediante `postinstall`.
+- Desarrollo y build deben usar los scripts existentes con Webpack: `npm run dev` y `npm run build`. No cambies a Turbopack sin resolver primero la externalizacion de Prisma.
+- Verifica cambios de app con `npm run lint` y `npm run build`. No existe script de tests en `package.json`.
+- Setup de Prisma: copia `.env.example` a `.env` y luego ejecuta `npm run db:migrate`. La base SQLite por defecto es `prisma/dev.db` con `DATABASE_URL="file:./dev.db"`.
+- Scraping: `npm run scrape`. Para una corrida rapida en PowerShell usa `$env:SCRAPE_LIMIT_PER_STORE="20"; $env:SCRAPE_DELAY_MS="100"; npm run scrape`; agrega `$env:SCRAPE_STORES="astrogrowshop"` para apuntar a tiendas especificas.
+- Auto-match de ofertas: `$env:AUTO_MATCH_MIN_STORES=2; $env:AUTO_MATCH_CATEGORIES="Bongs,Pipas"` ejecuta el matcher.
+- Curacion de productos: `CURATE_MAX_PRODUCTS_PER_CATEGORY=20; CURATE_MIN_STORES=2` controla los umbrales de creacion de productos.
+- Expansion de ofertas curadas: `EXPAND_MIN_SCORE=0.86` define el umbral de fuzzy matching.
+
+## Arquitectura
+- Esta es una app Next.js App Router. El catalogo home esta en `src/app/page.tsx`; el detalle comparativo esta en `src/app/productos/[...slug]/page.tsx` y soporta `/productos/<slug>` y `/productos/<brandKey>/<modelSlug>`.
+- Prisma es la capa de datos: `Store -> Offer -> PriceHistory`, con `Offer.productId -> Product` opcional. Usa el singleton de `src/lib/prisma.ts`.
+- `scripts/scrape.ts` concentra configuracion de tiendas, descubrimiento de URLs candidatas, clasificacion de productos, persistencia y creacion de historial de precios.
+- El scraper actualmente apunta a Astro Growshop, Fumetas, Piranha y GrowBarato Chile. Piranha/GrowBarato son PrestaShop y solo deben persistir URLs de producto `.html`; URLs de categoria o marca deben limpiarse como ofertas obsoletas.
+
+## Flujo Por Tipo De Cambio
+- Cambios UI o rutas Next.js: revisa `src/app/page.tsx`, `src/app/productos/[...slug]/page.tsx` y componentes relacionados; verifica con `npm run lint` y `npm run build`.
+- Cambios de scraper: modifica `scripts/scrape.ts`, ejecuta una corrida limitada con `SCRAPE_LIMIT_PER_STORE`, `SCRAPE_DELAY_MS` y, si aplica, `SCRAPE_STORES`; luego verifica `npm run lint` y `npm run build`.
+- Cambios de clasificacion, marcas o categorias: actualiza las reglas de scraping y las constantes del matcher si el detalle de producto depende de esos datos.
+- Cambios de matching o curacion: revisa que no se creen `Product` innecesarios, que las ofertas equivalentes sigan agrupandose y que las URLs publicas conserven la forma esperada.
+- Cambios de slugs, backfill o migraciones de datos: conserva juntos `brandKey`, `modelKey` y `modelSlug`; no edites `prisma/dev.db` manualmente.
+
+## Scraper
+- `SCRAPE_LIMIT_PER_STORE`, `SCRAPE_DELAY_MS`, `SCRAPE_TIMEOUT_MS` y `SCRAPE_STORES` controlan alcance y velocidad. Los scrapes completos llaman sitios externos y pueden ser lentos.
+- Las URLs candidatas se agrupan por categoria y familia/firma de producto antes de intercalarse para que limites bajos no dejen sin cobertura secciones pequenas como `Pipas`.
+- Despues de scrapear una tienda, las ofertas existentes de esa tienda se reclasifican desde titulo, URL y `sourceCategory` guardados para que fixes de categoria y marca reparen datos antiguos.
+- `PriceHistory` solo se agrega cuando cambia precio, precio original o stock.
+- No persistas URLs de categorias, marcas, busquedas o paginaciones como productos. En PrestaShop, Piranha/GrowBarato deben conservar solo URLs `.html` de producto.
+- Si una pagina no tiene precio util, stock interpretable o senales suficientes de producto, evita crear una oferta dudosa salvo que exista una regla explicita para esa tienda.
+
+## Matching Y Productos
+- Las filas `Product` representan productos curados con identidad clara; pueden tener una o varias ofertas asociadas.
+- Crea o conserva un `Product` cuando exista una identidad de producto clara: misma marca/modelo/variante/tamano. Si por ahora solo hay una tienda, igualmente debe poder abrir detalle y mostrar la grilla de comparacion con esa oferta.
+- La normalizacion y busqueda de modelos debe ser especifica por categoria. No reutilices ciegamente las reglas de una categoria en otra: `Papelillos` prioriza linea/variante/color/tamano/tips; `Pipas` prioriza modelo, forma, material, marca y senales distintivas evitando colores o ruido de tienda; `Moledores` prioriza marca, linea/modelo, material, tamano y numero de partes, ignorando colores y ruido comercial.
+- Para mejorar comparables, prioriza buscar coincidencias multi-tienda dentro de una categoria concreta antes de relajar reglas globales. Ejemplo: en `Pipas`, busca primero marcas/modelos presentes en 2, 3 o 4 growshops y solo luego ajusta normalizacion o seeds para esos candidatos seguros.
+- Si solo hay una tienda u oferta equivalente, el detalle debe mostrar igualmente el comparador con esa oferta; no ocultes la grilla por falta de una segunda tienda.
+- El matcher fuzzy en `src/app/productos/[...slug]/page.tsx` usa marcas conocidas, compatibilidad de categorias, descriptores, tamanos, variantes e identificadores. Actualiza esas constantes al agregar marcas o categorias nuevas.
+- `Otros parafernalia` puede matchear categorias concretas solo con senales fuertes de score; esto compensa clasificaciones scrapeadas imperfectas.
+
+## URLs Y Slugs
+- La forma actual de URLs esta aprobada y debe considerarse estable. No la cambies, no la simplifiques y no propongas otra estructura salvo que el usuario lo pida explicitamente.
+- Las URLs de producto deben ser simples y legibles: `/productos/<brandKey>/<modelSlug>` cuando existe marca.
+- No construyas slugs publicos concatenando `brandKey + raw modelKey + category`.
+- `brandKey` ocupa el primer segmento de URL, por lo que `modelSlug` no debe repetir la marca.
+- `modelSlug` debe derivarse de un concepto de modelo limpio: remueve prefijos tecnicos como `paper`, tokens de tamano duplicados, palabras de categoria y palabras genericas.
+- Para `Papelillos`, el segmento de modelo no debe incluir la palabra `papelillos` ni quedar solo como un tamano. Prioriza linea, color o modelo; omite tamanos default ruidosos como `1-1-4` si existe una variante real, y conserva tamanos distintivos como `king-size-slim` cuando sean necesarios.
+
+## Ejemplos De URLs
+- Bueno: `/productos/blazy-susan/pink`
+- Bueno: `/productos/raw/classic-king-size-slim`
+- Bueno: `/productos/ocb/bamboo`
+- Bueno si tips/boquillas son parte del comparable: `/productos/blazy-susan/1-1-4-con-tips`
+- Malo: `/productos/blazy-susan/blazy-susan-paper-1-1-4-papelillos`
+- Malo: `/productos/raw/raw-classic-papelillos-1-1-4`
+- Malo: `/productos/blazy-susan/papelillos-1-1-4` para `Papelillos`, porque repite la categoria en el segmento de modelo.
+
+## Checklist Antes De Terminar
+- Ejecuta `npm run lint` y `npm run build` para cambios de app, scraper, matching o datos derivados.
+- Si cambiaste scraper, haz al menos una corrida limitada con variables de entorno para validar que no persista URLs incorrectas.
+- Si cambiaste matching o curacion, verifica que los `Product` creados tengan identidad clara y slugs publicos limpios, aunque tengan una sola oferta.
+- Si cambiaste URLs o slugs, confirma que `brandKey`, `modelKey` y `modelSlug` sigan sincronizados.
+- Verifica que no editaste manualmente `.next/`, `node_modules/`, clientes Prisma generados ni `prisma/dev.db`.
+
+## Gotchas
+- `searchParams` y los `params` de rutas dinamicas estan tipados como Promises en este codebase con Next 16; conserva ese patron.
+- `next.config.ts` define `serverExternalPackages: ["@prisma/client"]`; mantenlo salvo que se revise intencionalmente el bundling de Prisma.
+- Evita editar `.next/`, `node_modules/`, archivos generados del cliente Prisma o `prisma/dev.db` manualmente; usa scripts, migraciones o scraping segun corresponda.

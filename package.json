@@ -1,0 +1,40 @@
+{
+  "name": "soloweed",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "scrape": "tsx scripts/scrape.ts",
+    "match:auto": "tsx scripts/auto-match-offers.ts",
+    "catalog:curate": "tsx scripts/curate-comparable-products.ts",
+    "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
+    "brand:backfill": "tsx scripts/backfill-brand-keys.ts",
+    "model:backfill": "tsx scripts/backfill-model-keys.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "cheerio": "^1.0.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "prisma": "^6.19.3",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}

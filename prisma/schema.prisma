@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  name      String
+  baseUrl   String
+  platform  String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  offers Offer[]
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  name           String
+  normalizedName String
+  brand          String?
+  brandKey       String?
+  modelKey       String?
+  modelSlug      String?
+  category       String
+  imageUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  offers Offer[]
+
+  @@index([category])
+  @@index([brand])
+  @@index([brandKey])
+  @@index([modelKey])
+  @@index([modelSlug])
+  @@unique([brandKey, modelSlug])
+}
+
+model Offer {
+  id              Int      @id @default(autoincrement())
+  storeId         Int
+  productId       Int?
+  url             String   @unique
+  sourceId        String?
+  title           String
+  normalizedTitle String
+  brand           String?
+  brandKey        String?
+  modelKey        String?
+  category        String
+  sourceCategory  String?
+  description     String?
+  imageUrl        String?
+  price           Int
+  originalPrice   Int?
+  currency        String   @default("CLP")
+  inStock         Boolean  @default(true)
+  availability    String?
+  enabled         Int      @default(0)
+  lastSeenAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  store     Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  product   Product?       @relation(fields: [productId], references: [id], onDelete: SetNull)
+  histories PriceHistory[]
+
+  @@index([storeId])
+  @@index([productId])
+  @@index([category])
+  @@index([brand])
+  @@index([brandKey])
+  @@index([modelKey])
+}
+
+model PriceHistory {
+  id            Int      @id @default(autoincrement())
+  offerId       Int
+  price         Int
+  originalPrice Int?
+  inStock       Boolean
+  recordedAt    DateTime @default(now())
+
+  offer Offer @relation(fields: [offerId], references: [id], onDelete: Cascade)
+
+  @@index([offerId, recordedAt])
+}
+
+model MatchDecision {
+  id               Int      @id @default(autoincrement())
+  seedOfferId      Int
+  candidateOfferId Int
+  status           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([seedOfferId, candidateOfferId])
+  @@index([status])
+  @@index([seedOfferId])
+  @@index([candidateOfferId])
+}
