@@ -1008,7 +1008,7 @@ function getCandidateCategoryKey(text: string) {
     return "conos";
   }
 
-  if (hasAny(text, ["bong", "bubbler", "beaker", "rig"])) {
+  if (hasAny(text, ["bong", "bubbler", "beaker", "rig"]) || hasKnownBongModel(text)) {
     return "bongs";
   }
 
@@ -1028,7 +1028,7 @@ function getCandidateCategoryKey(text: string) {
     return "bandejas";
   }
 
-  if (hasAny(text, ["contenedor", "contenedores", "container", "estuche", "bolso", "anti-olor", "antiolor", "stash", "jar", "ocultacion"])) {
+  if (hasAny(text, ["contenedor", "contenedores", "container", "estuche", "bolso", "anti-olor", "antiolor", "stash", "jar", "ocultacion", "chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "tubo case", "porta joint", "cajita metalica", "porta papeles"])) {
     return "contenedores";
   }
 
@@ -1498,8 +1498,12 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
     return "Encendedores y sopletes";
   }
 
-  if (hasAny(text, ["rosin", "dab", "dabber", "dabbing", "banger", "wax liquidizer", "nectar collector"])) {
+  if (isExtractVape(titleOnly)) {
     return "Accesorios de extraccion";
+  }
+
+  if (isDisposableVape(titleOnly)) {
+    return "Vaporizadores electronicos";
   }
 
   if (isVaporizerAccessory(titleOnly, text)) {
@@ -1510,15 +1514,27 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
     return "Vaporizadores herbales";
   }
 
-  if (hasAny(titleOnly, ["quemador", "difusor", "atrapa ceniza", "atrapaceniza", "bowl", "repuesto"])) {
-    return VAPORIZER_REPLACEMENT_CATEGORY;
+  if (/\biso\s*[- ]?plex\b|\bisoplex\b/.test(text)) {
+    return "Accesorios de extraccion";
   }
 
   if (hasAny(titleOnly, ["limpia", "limpieza", "cleaner", "escobilla"])) {
     return "Limpieza";
   }
 
-  if (/\bbongs?\b|\bbubbler\b|\bbeaker\b|\brig\b|\bhookah\b|\bwater pipe\b/.test(titleOnly)) {
+  if (hasAny(text, ["rosin", "dab", "dabber", "dabbing", "banger", "wax liquidizer", "nectar collector"])) {
+    return "Accesorios de extraccion";
+  }
+
+  if (hasAny(titleOnly, ["chiller unit", "purify carbon", "adaptador", "titanium screen", "terp balls", "carb cap", "marble set", "malla para extractos"])) {
+    return VAPORIZER_REPLACEMENT_CATEGORY;
+  }
+
+  if (hasAny(titleOnly, ["quemador", "difusor", "atrapa ceniza", "atrapaceniza", "bowl", "repuesto"])) {
+    return VAPORIZER_REPLACEMENT_CATEGORY;
+  }
+
+  if (/\bbongs?\b|\bbubbler\b|\bbeaker\b|\brig\b|\bhookah\b|\bwater pipe\b/.test(titleOnly) || hasKnownBongModel(titleOnly)) {
     return "Bongs";
   }
 
@@ -1555,7 +1571,7 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
     return "Bandejas y ceniceros";
   }
 
-  if (hasAny(titleOnly, ["contenedor", "container", "estuche", "bolso", "anti olor", "antiolor", "stash", "jar", "ocultacion", "guarda"])) {
+  if (hasAny(titleOnly, ["contenedor", "container", "estuche", "bolso", "anti olor", "antiolor", "stash", "jar", "ocultacion", "guarda", "chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "tubo case", "porta joint", "cajita metalica", "porta papeles"])) {
     return "Contenedores y estuches";
   }
 
@@ -1581,6 +1597,19 @@ function isVaporizerAccessory(titleOnly: string, text: string) {
     (hasAny(text, ["airis", "airistech", "storz", "bickel", "dynavap", "davinci", "pax", "arizer", "xvape", "fenix", "focus v", "vivant", "volcano", "mighty", "crafty", "venty", "veazy"]) &&
       hasAny(titleOnly, VAPE_ACCESSORY_TERMS))
   );
+}
+
+function isDisposableVape(titleOnly: string) {
+  return /\b(?:vaper|vape|recarga\s+vaporizador)\b/.test(titleOnly) || /\b(?:oxbar|svopp|p\d{4,5}|neo\s+p8000)\b/.test(titleOnly);
+}
+
+function isExtractVape(titleOnly: string) {
+  return /\b(?:puffco|yocan|apx\s+volt|wax\s+pen|cartridge\s+510|bateria\s+510|bater[ií]a\s+510)\b/.test(titleOnly) ||
+    (/\bvaporizador\b/.test(titleOnly) && /\b(?:extractos?|wax|cartridge)\b/.test(titleOnly));
+}
+
+function hasKnownBongModel(text: string) {
+  return /\b(?:r3\s+mini|big\s+blow|bongbastic|classic\s+ice|color\s+cube|double\s+shot|fat\s+candy|headshot|heavy\s+trash|honey\s+waffle|jelly\s+drop|jelly\s+fish|km3|little\s+buchner|mad\s+professor|medusa|mercurial\s+kh1|pocket\s+bell|prisma|roller\s+coaster|the\s+(?:sheikh|trash)|tiny\s+bell|water\s+splash|glycerin\s+green\s+avalanche)\b/.test(text);
 }
 
 function isHerbalVaporizer(titleOnly: string, text: string) {

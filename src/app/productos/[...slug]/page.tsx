@@ -741,6 +741,19 @@ function getMatchScore(seedOffer: MatchableOffer, candidateOffer: MatchableOffer
   const seed = buildComparableProfile(seedOffer);
   const candidate = buildComparableProfile(candidateOffer);
 
+  if (
+    seed.category === "accesorios de extraccion" ||
+    candidate.category === "accesorios de extraccion" ||
+    seed.category === "limpieza" ||
+    candidate.category === "limpieza" ||
+    seed.category === "otros parafernalia" ||
+    candidate.category === "otros parafernalia" ||
+    seed.category === "vaporizadores electronicos" ||
+    candidate.category === "vaporizadores electronicos"
+  ) {
+    return 0;
+  }
+
   if (!areCompatibleCategories(seed.category, candidate.category)) {
     return 0;
   }

@@ -489,7 +489,11 @@ function isTooGenericModelKey(category: string, modelKey: string, kind: string |
     return descriptiveTokens.length === 0;
   }
 
-  if (category === "Accesorios de extraccion" || category === "Repuestos para bongs y vaporizadores") {
+  if (category === "Accesorios de extraccion") {
+    return tokens.every((token) => /^(?:\d+mm|45|90|banger|hembra|macho|simple)$/.test(token));
+  }
+
+  if (category === "Repuestos para bongs y vaporizadores") {
     return tokens.every((token) => /^(?:\d+mm|45|90|banger|bowl|bucket|hembra|macho|quemador)$/.test(token));
   }
 

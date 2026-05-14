@@ -741,11 +741,15 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
   }
 
   if (
+    firstProfile.category === "accesorios de extraccion" ||
     firstProfile.category === "bandejas y ceniceros" ||
     firstProfile.category === "contenedores y estuches" ||
     firstProfile.category === "encendedores y sopletes" ||
     firstProfile.category === "filtros y boquillas" ||
+    firstProfile.category === "limpieza" ||
+    firstProfile.category === "otros parafernalia" ||
     firstProfile.category === "repuestos para bongs y vaporizadores" ||
+    firstProfile.category === "vaporizadores electronicos" ||
     firstProfile.category === "vaporizadores herbales"
   ) {
     return false;

@@ -52,7 +52,7 @@ async function main() {
   const offers = await prisma.$queryRaw<OfferRow[]>`
     SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url"
     FROM "Offer"
-    WHERE "brandKey" IS NOT NULL OR "category" IN ('Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Moledores', 'Repuestos para bongs y vaporizadores', 'Vaporizadores herbales')
+    WHERE "brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores herbales')
     ORDER BY "category", "brandKey", "modelKey", "price"
   `;
   const groups = buildGroups(offers);
@@ -143,12 +143,15 @@ function buildGroups(offers: OfferRow[]) {
     if (!comparableBrandKey) continue;
     if (
       !offer.modelKey &&
+      offer.category !== "Accesorios de extraccion" &&
       offer.category !== "Bandejas y ceniceros" &&
       offer.category !== "Conos y blunts" &&
       offer.category !== "Contenedores y estuches" &&
       offer.category !== "Encendedores y sopletes" &&
       offer.category !== "Filtros y boquillas" &&
+      offer.category !== "Limpieza" &&
       offer.category !== "Moledores" &&
+      offer.category !== "Otros parafernalia" &&
       offer.category !== "Repuestos para bongs y vaporizadores" &&
       offer.category !== "Vaporizadores herbales"
     ) {
@@ -156,11 +159,14 @@ function buildGroups(offers: OfferRow[]) {
     }
     if (
       offer.modelKey &&
+      offer.category !== "Accesorios de extraccion" &&
       offer.category !== "Bandejas y ceniceros" &&
       offer.category !== "Conos y blunts" &&
       offer.category !== "Contenedores y estuches" &&
       offer.category !== "Encendedores y sopletes" &&
       offer.category !== "Filtros y boquillas" &&
+      offer.category !== "Limpieza" &&
+      offer.category !== "Otros parafernalia" &&
       offer.category !== "Repuestos para bongs y vaporizadores" &&
       offer.category !== "Vaporizadores herbales" &&
       (isAmbiguousModelKey(offer.modelKey) || isTooGenericModelKey(offer.category, offer.modelKey))
@@ -236,6 +242,18 @@ function getComparableModelKey(offer: OfferRow) {
     return getReplacementModelKey(offer);
   }
 
+  if (offer.category === "Accesorios de extraccion") {
+    return getExtractionModelKey(offer);
+  }
+
+  if (offer.category === "Limpieza") {
+    return getCleaningModelKey(offer);
+  }
+
+  if (offer.category === "Otros parafernalia") {
+    return getOtherParaphernaliaModelKey(offer);
+  }
+
   return offer.modelKey;
 }
 
@@ -266,6 +284,18 @@ function getComparableBrandKey(offer: OfferRow) {
 
   if (offer.category === "Repuestos para bongs y vaporizadores") {
     return getReplacementBrandKey(offer);
+  }
+
+  if (offer.category === "Accesorios de extraccion") {
+    return getExtractionBrandKey(offer);
+  }
+
+  if (offer.category === "Limpieza") {
+    return getCleaningBrandKey(offer);
+  }
+
+  if (offer.category === "Otros parafernalia") {
+    return getOtherParaphernaliaBrandKey(offer);
   }
 
   if (offer.category !== "Bongs") {
@@ -393,6 +423,28 @@ function isEligibleComparableOffer(offer: OfferRow) {
     return !/\b(?:bong\s+k\d+|bong\s+submarino|micro\s+rig|pipa\s+silicona|pipa\s+con\s+quemador|wise\s+owl|vaporizador\s+dynavap|kit\s+de\s+inicio|dynakit|bateria\s+vaporizador|portable\s+charging\s+case|vertex|porta\s+capsulas|con\s+tampon|enigma\s+box)\b/.test(title);
   }
 
+  if (offer.category === "Accesorios de extraccion") {
+    const title = normalizeText(offer.title);
+
+    if (/\biso\s*[- ]?plex\b|\bisoplex\b/.test(title)) {
+      return true;
+    }
+
+    return !/\b(?:cleaner|limpieza|vaporizador|mini\s+beaker\s+kit|dab\s+rig|rig\s+extractos|pipa\s+para\s+dabs|pipa\s+silicona)\b/.test(title);
+  }
+
+  if (offer.category === "Limpieza") {
+    const title = normalizeText(offer.title);
+
+    return !/\b(?:isoplex|iso\s*[- ]?plex|detox|toxinas|enjuague\s+bucal)\b/.test(title);
+  }
+
+  if (offer.category === "Otros parafernalia") {
+    const title = normalizeText(offer.title);
+
+    return /\b(?:maquina\s+enroladora|enroladora|enrolador)\b/.test(title) && !/\b(?:kit|cajita|box|starter|metalica|met[aá]lica)\b/.test(title);
+  }
+
   if (offer.category !== "Papelillos") return true;
 
   const title = normalizeText(offer.title);
@@ -432,7 +484,19 @@ function isTooGenericModelKey(category: string, modelKey: string) {
     return descriptiveTokens.length === 0;
   }
 
-  if (category === "Accesorios de extraccion" || category === "Repuestos para bongs y vaporizadores") {
+  if (category === "Accesorios de extraccion") {
+    return tokens.every((token) => /^(?:\d+mm|45|90|banger|hembra|macho|simple)$/.test(token));
+  }
+
+  if (category === "Limpieza") {
+    return tokens.every((token) => /^(?:cleaner|limpiador|limpieza|bong|pipe|grinder|250ml|500ml|1l|420|710)$/.test(token));
+  }
+
+  if (category === "Otros parafernalia") {
+    return !tokens.includes("rolling") && !tokens.includes("machine");
+  }
+
+  if (category === "Repuestos para bongs y vaporizadores") {
     return tokens.every((token) => /^(?:\d+mm|45|90|banger|bowl|bucket|hembra|macho|quemador)$/.test(token));
   }
 
@@ -1426,6 +1490,218 @@ function getReplacementBrandKey(offer: OfferRow) {
   return offer.brandKey;
 }
 
+function getExtractionBrandKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.brand ?? ""} ${offer.title} ${offer.url}`);
+
+  if (/\bbong\s*lab\b|\bbonglab\b|\bbongalab\b/.test(text)) return "bonglab";
+  if (/\bblazy\s*susan\b/.test(text)) return "blazy-susan";
+  if (/\bcalvo\b/.test(text)) return "calvo";
+  if (/\bhemper\b/.test(text)) return "hemper";
+  if (/\bpulsar\b/.test(text)) return "pulsar";
+
+  return offer.brandKey;
+}
+
+function getCleaningBrandKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.brand ?? ""} ${offer.title} ${offer.url}`);
+
+  if (/\bformula\s*(?:secreta|420)\b/.test(text)) return "formula-secreta";
+  if (/\bmr\s*pipe\s*cleaner\b/.test(text)) return "mr-pipe-cleaner";
+  if (/\bthievery\b/.test(text)) return "thievery";
+  if (/\bhemper\b/.test(text)) return "hemper";
+  if (/\bfocus\s*v\b/.test(text)) return "focus-v";
+
+  return offer.brandKey;
+}
+
+function getCleaningModelKey(offer: OfferRow) {
+  const text = cleanCleaningText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
+  const tokens = tokenizeSlug(text);
+  const tokenSet = new Set(tokens);
+  const family = tokenSet.has("guantes")
+    ? "gloves"
+    : tokenSet.has("swabs") || tokenSet.has("cotonos") || tokenSet.has("hisopos")
+      ? "swabs"
+      : tokenSet.has("tapones") || tokenSet.has("caps")
+        ? "caps"
+        : "cleaner";
+  const target = tokenSet.has("grinder")
+    ? "grinder"
+    : tokenSet.has("bong") || tokenSet.has("bongs") || tokenSet.has("pipa") || tokenSet.has("pipas")
+      ? "bong-pipe"
+      : tokenSet.has("vapo") || tokenSet.has("vaporizador")
+        ? "vaporizer"
+        : tokenSet.has("manos")
+          ? "hands"
+          : tokenSet.has("resina")
+            ? "resin"
+            : null;
+  const line = firstExtractionToken(tokens, ["420", "710", "bifasico", "super", "pipe"]);
+  const size = firstExtractionToken(tokens, ["250ml", "500ml", "1l"]);
+  const pieces = [family, target, line, size].filter(Boolean) as string[];
+
+  return pieces.length >= 2 ? pieces.join("-") : null;
+}
+
+function cleanCleaningText(value: string) {
+  return normalizeText(value)
+    .replace(/&amp;/g, " and ")
+    .replace(/\b(\d+(?:[.,]\d+)?)\s*(ml|l|litro|litros)\b/g, (_, amount: string, unit: string) => ` ${amount.replace(",", ".")}${unit.startsWith("litro") ? "l" : unit} `)
+    .replace(/\b(?:growbarato|growbaratochile|https?|www|cl|com|inicio|limpiador|limpieza|para|enjuague|bucal)\b/g, " ")
+    .replace(/[^a-z0-9\s/.+-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getOtherParaphernaliaBrandKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.brand ?? ""} ${offer.title} ${offer.url}`);
+
+  if (/\braw\b/.test(text)) return "raw";
+  if (/\bocb\b/.test(text)) return "ocb";
+  if (/\bblazy\s*susan\b/.test(text)) return "blazy-susan";
+  if (/\blion\s*rolling\s*circus\b/.test(text)) return "lion-rolling-circus";
+
+  return offer.brandKey;
+}
+
+function getOtherParaphernaliaModelKey(offer: OfferRow) {
+  const text = cleanOtherParaphernaliaText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
+  const tokens = tokenizeSlug(text);
+  const tokenSet = new Set(tokens);
+
+  if (tokenSet.has("maquina") || tokenSet.has("enroladora") || tokenSet.has("enrolador") || (tokenSet.has("rolling") && tokenSet.has("machine"))) {
+    const material = firstExtractionToken(tokens, ["acrilica", "acrilico", "ecoplastic", "metalica", "metalico"]);
+    const mechanism = firstExtractionToken(tokens, ["automatica", "ajustable", "2-way"]);
+    const size = /\b1-1\/4\b/.test(text) ? "1-1-4" : firstExtractionToken(tokens, ["79mm", "king-size", "king-size-slim"]);
+
+    return ["rolling-machine", material, mechanism, size].filter(Boolean).join("-");
+  }
+
+  return null;
+}
+
+function cleanOtherParaphernaliaText(value: string) {
+  return normalizeText(value)
+    .replace(/&amp;/g, " and ")
+    .replace(/\b1\s*1\/4\b|\b1\.1\/4\b|\b1-1-4\b/g, " 1-1/4 ")
+    .replace(/\bking\s*size\s*slim\b/g, " king-size-slim ")
+    .replace(/\bking\s*size\b/g, " king-size ")
+    .replace(/\b(\d+(?:[.,]\d+)?)\s*(mm|cm)\b/g, (_, amount: string, unit: string) => ` ${amount.replace(",", ".")}${unit} `)
+    .replace(/\b(?:growbarato|growbaratochile|https?|www|cl|com|inicio|parafernalia|raw|ocb|blazy|susan|maquina|enroladora|enrolador)\b/g, " ")
+    .replace(/[^a-z0-9\s/.+-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getExtractionModelKey(offer: OfferRow) {
+  const text = cleanExtractionText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
+  const tokens = tokenizeSlug(text);
+  const family = getExtractionFamily(text, tokens);
+
+  if (!family) {
+    return null;
+  }
+
+  if (family === "station") {
+    const line = /\biso-plex\b/.test(text) || (tokens.includes("iso") && tokens.includes("plex")) || tokens.includes("isoplex") ? "iso-plex" : null;
+    return line ? `${family}-${line}` : null;
+  }
+
+  if (family === "rosin-bag") {
+    const microns = [...text.matchAll(/\b(\d+)\s*(?:mic|micra|micras|micron|microns)\b/g)].map((match) => `${match[1]}mic`);
+    return microns.length > 0 ? [family, ...microns].join("-") : null;
+  }
+
+  if (family === "rosin-paper") {
+    return tokens.includes("aluminio") ? `${family}-aluminio` : family;
+  }
+
+  if (family === "dabber") {
+    const line = firstExtractionToken(tokens, ["classic", "dual"]);
+    return line ? `${family}-${line}` : null;
+  }
+
+  if (family === "nectar-collector") {
+    const line = firstExtractionToken(tokens, ["obelisk", "deco", "rosewood", "silicona", "straw"]);
+    const size = getExtractionSize(tokens, null);
+    return [family, line, size].filter(Boolean).join("-") || null;
+  }
+
+  const line = getBangerLine(text, tokens);
+  const gender = firstExtractionToken(tokens, ["macho", "hembra"]);
+  const angle = firstExtractionToken(tokens, ["45", "90"]);
+  const size = getExtractionSize(tokens, line);
+  const pieces = [family, line, gender, angle, size].filter(Boolean) as string[];
+
+  if (pieces.length < 3) {
+    return null;
+  }
+
+  return pieces.join("-");
+}
+
+function cleanExtractionText(value: string) {
+  return normalizeText(value)
+    .replace(/&amp;/g, " and ")
+    .replace(/&quot;/g, " ")
+    .replace(/\bterp\s+sluter\b/g, " terp slurper ")
+    .replace(/\biso\s*[- ]?plex\b/g, " iso-plex ")
+    .replace(/\bflat\s+bucket\b/g, " flat-bucket ")
+    .replace(/\bfull\s+weld\b/g, " full-weld ")
+    .replace(/\b(\d+(?:[.,]\d+)?)\s*(mm|cm|micras?|microns?)\b/g, (_, amount: string, unit: string) => ` ${amount.replace(",", ".")}${unit.startsWith("mic") ? "mic" : unit} `)
+    .replace(/\|\s*piranha\b/g, " ")
+    .replace(/\b(?:growbarato|growbaratochile|https?|www|cl|com|inicio|parafernalia|extracciones?|extractos?|cuarzo|quartz|nail|vidrio|color|eleccion|simple|durabilidad|calor|uniforme|compacta|chile|the|green|brand)\b/g, " ")
+    .replace(/[^a-z0-9\s/.+-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getExtractionFamily(text: string, tokens: string[]) {
+  const tokenSet = new Set(tokens);
+
+  if ((tokenSet.has("mallas") || tokenSet.has("malla")) && /\brosin\b/.test(text)) return "rosin-bag";
+  if (tokenSet.has("papel") && /\brosin\b/.test(text)) return "rosin-paper";
+  if (tokenSet.has("iso-plex") || tokenSet.has("isoplex") || tokenSet.has("estacion")) return "station";
+  if (tokenSet.has("nectar") || tokenSet.has("collector") || tokenSet.has("straw")) return "nectar-collector";
+  if (tokenSet.has("dabber") || tokenSet.has("dabbers")) return "dabber";
+  if (tokenSet.has("banger") || tokenSet.has("bucket") || tokenSet.has("slurper") || tokenSet.has("insert")) return "banger";
+
+  return null;
+}
+
+function getBangerLine(text: string, tokens: string[]) {
+  const tokenSet = new Set(tokens);
+
+  if (tokenSet.has("insert")) return "insert";
+  if (tokenSet.has("slurper")) {
+    const scale = firstExtractionToken(tokens, ["big", "thin"]);
+    return scale ? `${scale}-slurper` : "terp-slurper";
+  }
+  if (tokenSet.has("diseno") || tokenSet.has("bs")) return "diseno";
+  if (tokenSet.has("flat-bucket") || tokenSet.has("bucket")) return "flat-bucket";
+  if (tokenSet.has("full-weld")) {
+    const scale = firstExtractionToken(tokens, ["regular", "big", "thin"]);
+    return scale ? `full-weld-${scale}` : "full-weld";
+  }
+  if (tokenSet.has("pro")) return /\bbase\s+plana\b/.test(text) ? "pro-base-plana" : tokenSet.has("redondo") ? "pro-redondo" : "pro";
+
+  return "simple";
+}
+
+function getExtractionSize(tokens: string[], line: string | null) {
+  if (line === "insert") {
+    return tokens.includes("15mm") && tokens.includes("20mm") ? "15mm-20mm" : null;
+  }
+
+  const sizes = ["10mm", "14mm", "15mm", "18mm", "20mm", "15cm", "25cm"].filter((size) => tokens.includes(size));
+
+  return sizes.length > 0 ? [...new Set(sizes)].join("-") : null;
+}
+
+function firstExtractionToken(tokens: string[], values: string[]) {
+  return values.find((value) => tokens.includes(value)) ?? null;
+}
+
 function getReplacementModelKey(offer: OfferRow) {
   const text = cleanReplacementText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
   const tokens = tokenizeSlug(text);
@@ -1574,6 +1850,10 @@ function buildModelSlug(category: string, modelKey: string, hasTips: boolean, pa
     const core = [paperVariant, size, hasTips ? "con-tips" : null].filter(Boolean).join("-");
 
     return slugify(core || cleanPaperModelSlug(modelKey));
+  }
+
+  if (category === "Accesorios de extraccion") {
+    return slugify(modelKey);
   }
 
   const categoryPrefix = slugify(category).split("-")[0];

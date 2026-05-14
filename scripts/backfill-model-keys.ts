@@ -158,6 +158,18 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
   const material = getMaterial(tokens);
   const type = getType(category, tokens);
 
+  if (category === "Accesorios de extraccion") {
+    return getExtractionModelKey(text, tokens, sizes);
+  }
+
+  if (category === "Limpieza") {
+    return getCleaningModelKey(tokens, sizes);
+  }
+
+  if (category === "Otros parafernalia") {
+    return getOtherParaphernaliaModelKey(tokens, sizes);
+  }
+
   if (known) {
     return compactKey([type, known, ...sizes]);
   }
@@ -185,7 +197,7 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
     return line || material || sizes.length > 0 || parts ? compactKey([type, line, material, ...sizes, parts]) : null;
   }
 
-  if (category === "Accesorios de extraccion" || category === "Repuestos para bongs y vaporizadores") {
+  if (category === "Repuestos para bongs y vaporizadores") {
     const angle = firstToken(tokens, ["45", "90"]);
     const gender = firstToken(tokens, ["macho", "hembra"]);
     const model = firstToken(tokens, ["banger", "bowl", "bucket", "difusor", "honeycomb", "perlas", "quemador", "slurper", "saber", "screen", "venty", "volcano"]);
@@ -197,14 +209,129 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
     return model ? compactKey([type, model, ...sizes]) : null;
   }
 
-  if (category === "Limpieza") {
-    const model = firstToken(tokens, ["420", "710", "cleaner", "grinder", "isoplex", "kleaner", "limpiador", "resina"]);
-    return model ? compactKey([type, model, ...sizes]) : null;
-  }
-
   const distinctive = tokenize(text).filter((token) => !GENERIC_TOKENS.has(token) && token.length > 2 && !brandKey?.split("-").includes(token));
 
   return distinctive.length >= 2 ? compactKey([type, ...distinctive.slice(0, 4), ...sizes]) : null;
+}
+
+function getCleaningModelKey(tokens: Set<string>, sizes: string[]) {
+  const family = hasAny(tokens, ["guantes"])
+    ? "gloves"
+    : hasAny(tokens, ["swabs", "cotonos", "hisopos"])
+      ? "swabs"
+      : hasAny(tokens, ["tapones", "caps"])
+        ? "caps"
+        : hasAny(tokens, ["kleaner", "detox", "toxinas", "bucal"])
+          ? "detox"
+          : "cleaner";
+  const target = hasAny(tokens, ["grinder"])
+    ? "grinder"
+    : hasAny(tokens, ["bong", "bongs", "pipa", "pipas"])
+      ? "bong-pipe"
+      : hasAny(tokens, ["vapo", "vaporizador"])
+        ? "vaporizer"
+        : hasAny(tokens, ["manos"])
+          ? "hands"
+          : hasAny(tokens, ["resina"])
+            ? "resin"
+            : null;
+  const line = firstToken(tokens, ["420", "710", "kleaner", "bifasico", "super", "pipe"]);
+
+  return compactKey([family, target, line, ...sizes]);
+}
+
+function getOtherParaphernaliaModelKey(tokens: Set<string>, sizes: string[]) {
+  if (hasAny(tokens, ["maquina", "enroladora", "enrolador"])) {
+    const material = firstToken(tokens, ["acrilica", "acrilico", "metalica", "metalico", "ecoplastic"]);
+    const mechanism = firstToken(tokens, ["automatica", "ajustable", "2-way"]);
+    const size = sizes.includes("1-1/4") ? "1-1/4" : sizes.find((item) => item === "king-size-slim" || item === "king-size" || item.endsWith("mm"));
+
+    return compactKey(["rolling-machine", material, mechanism, size]);
+  }
+
+  if (hasAny(tokens, ["figura", "bobblehead"])) {
+    const model = firstToken(tokens, ["ruby", "tora"]);
+
+    return compactKey(["figure", model]);
+  }
+
+  if (hasAny(tokens, ["pin"])) {
+    return compactKey(["pin", firstToken(tokens, ["chill", "coast"])]);
+  }
+
+  if (hasAny(tokens, ["vela"])) {
+    return compactKey(["candle", firstToken(tokens, ["canamo", "neutralizadora"])]);
+  }
+
+  if (hasAny(tokens, ["piedra", "humidificadora"])) {
+    return "humidifying-stone";
+  }
+
+  return null;
+}
+
+function getExtractionModelKey(text: string, tokens: Set<string>, sizes: string[]) {
+  const family = getExtractionFamily(tokens);
+
+  if (!family) {
+    return null;
+  }
+
+  if (family === "station") {
+    const line = hasAny(tokens, ["isoplex", "iso", "plex"]) ? "iso-plex" : firstToken(tokens, ["limpieza"]);
+    return compactKey([family, line]);
+  }
+
+  if (family === "rosin-bag") {
+    const microns = [...text.matchAll(/\b(\d+)\s*(?:micra|micras|micron|microns)\b/g)].map((match) => `${match[1]}mic`);
+    return compactKey([family, ...microns]);
+  }
+
+  if (family === "rosin-paper") {
+    return compactKey([family, firstToken(tokens, ["aluminio", "parchment"])]);
+  }
+
+  if (family === "nectar-collector") {
+    const line = firstToken(tokens, ["obelisk", "straw", "deco", "rosewood", "silicona"]);
+    return compactKey([family, line, ...sizes]);
+  }
+
+  if (family === "dab-rig") {
+    const line = hasAny(tokens, ["terpies", "beaker"]) ? "terpies-mini-beaker" : firstToken(tokens, ["mini"]);
+    return compactKey([family, line]);
+  }
+
+  if (family === "dabber") {
+    const line = firstToken(tokens, ["classic", "dual"]);
+    return compactKey([family, line]);
+  }
+
+  const angle = firstToken(tokens, ["45", "90"]);
+  const gender = firstToken(tokens, ["macho", "hembra"]);
+  const line = getBangerLine(text, tokens);
+
+  return compactKey([family, line, gender, angle, ...sizes]);
+}
+
+function getExtractionFamily(tokens: Set<string>) {
+  if (hasAny(tokens, ["mallas", "malla"]) && hasAny(tokens, ["rosin", "micras", "micra"])) return "rosin-bag";
+  if (hasAny(tokens, ["papel"]) && tokens.has("rosin")) return "rosin-paper";
+  if (hasAny(tokens, ["isoplex", "iso", "plex", "estacion"])) return "station";
+  if (hasAny(tokens, ["nectar", "collector", "straw"])) return "nectar-collector";
+  if (hasAny(tokens, ["dabber", "dabbers"])) return "dabber";
+  if (hasAny(tokens, ["rig", "beaker"])) return "dab-rig";
+  if (hasAny(tokens, ["banger", "bucket", "slurper", "nail", "insert"])) return "banger";
+  return null;
+}
+
+function getBangerLine(text: string, tokens: Set<string>) {
+  if (tokens.has("insert")) return "insert";
+  if (tokens.has("slurper") || tokens.has("sluter")) return hasAny(tokens, ["big", "thin"]) ? `${firstToken(tokens, ["big", "thin"])}-slurper` : "terp-slurper";
+  if (tokens.has("diseno") || tokens.has("bs")) return "diseno";
+  if (tokens.has("flat") || tokens.has("bucket")) return "flat-bucket";
+  if (tokens.has("full") && tokens.has("weld")) return firstToken(tokens, ["regular", "big", "thin"]) ? `full-weld-${firstToken(tokens, ["regular", "big", "thin"])}` : "full-weld";
+  if (tokens.has("pro")) return /\bbase\s+plana\b/.test(text) ? "pro-base-plana" : firstToken(tokens, ["redondo"]) ? "pro-redondo" : "pro";
+  return "simple";
 }
 
 function getKnownModel(text: string) {
