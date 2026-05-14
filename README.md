@@ -8,6 +8,21 @@ Comparador de precios de parafernalia en Chile, inspirado en el flujo de SoloTod
 - Prisma + SQLite
 - Cheerio para scraping HTML/JSON-LD
 
+## Antes De Modificar El Proyecto
+
+Si tomas este proyecto como modelo, agente o colaborador nuevo, lee primero:
+
+- `AGENTS.md`
+- `docs/HANDOFF.md`
+- `docs/PROJECT_RULES.md`
+
+La documentacion operativa completa esta en `docs/`:
+
+- `docs/RUNBOOK.md`
+- `docs/SCRAPER_RULES.md`
+- `docs/MATCHING_AND_SLUGS.md`
+- `docs/DATA_MODEL.md`
+
 ## Comandos
 
 ```bash

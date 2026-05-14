@@ -593,7 +593,28 @@ function buildCatalogItems(offers: CatalogOffer[]) {
 
   const items = [...offersByCategory.values()].flatMap(buildCatalogCategoryItems);
 
+  debugCatalogItems(items);
+
   return sortCatalogItems(items);
+}
+
+function debugCatalogItems(items: CatalogItem[]) {
+  const category = process.env.CATALOG_DEBUG_CATEGORY;
+
+  if (!category) return;
+
+  for (const item of items.filter((entry) => entry.category === category && entry.storeCount > 1).sort((first, second) => first.title.localeCompare(second.title))) {
+    console.log(
+      JSON.stringify({
+        brand: item.brand,
+        hasProduct: Boolean(item.product),
+        offerCount: item.offerCount,
+        price: [item.minPrice, item.maxPrice],
+        stores: item.stores.map((store) => store.name),
+        title: item.title,
+      }),
+    );
+  }
 }
 
 function buildCatalogCategoryItems(offers: CatalogOffer[]) {
@@ -716,6 +737,17 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
   const secondProfile = buildCatalogProfile(second);
 
   if (firstProfile.category !== secondProfile.category) {
+    return false;
+  }
+
+  if (
+    firstProfile.category === "bandejas y ceniceros" ||
+    firstProfile.category === "contenedores y estuches" ||
+    firstProfile.category === "encendedores y sopletes" ||
+    firstProfile.category === "filtros y boquillas" ||
+    firstProfile.category === "repuestos para bongs y vaporizadores" ||
+    firstProfile.category === "vaporizadores herbales"
+  ) {
     return false;
   }
 
