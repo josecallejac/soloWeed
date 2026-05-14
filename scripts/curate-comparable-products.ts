@@ -52,7 +52,7 @@ async function main() {
   const offers = await prisma.$queryRaw<OfferRow[]>`
     SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url"
     FROM "Offer"
-    WHERE "brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores herbales')
+    WHERE "brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores electronicos', 'Vaporizadores herbales')
     ORDER BY "category", "brandKey", "modelKey", "price"
   `;
   const groups = buildGroups(offers);
@@ -198,7 +198,15 @@ function buildGroups(offers: OfferRow[]) {
     groupsByKey.set(key, group);
   }
 
-  return [...groupsByKey.values()].filter((group) => group.stores.size >= MIN_STORES && !hasPriceOutlier(group.offers) && !hasTipConflict(group.offers));
+  return [...groupsByKey.values()].filter((group) => group.stores.size >= getMinStoresForGroup(group) && !hasPriceOutlier(group.offers) && !hasTipConflict(group.offers));
+}
+
+function getMinStoresForGroup(group: CandidateGroup) {
+  if (group.category === "Limpieza" || group.category === "Vaporizadores electronicos") {
+    return 1;
+  }
+
+  return MIN_STORES;
 }
 
 function getComparableModelKey(offer: OfferRow) {
@@ -250,6 +258,10 @@ function getComparableModelKey(offer: OfferRow) {
     return getCleaningModelKey(offer);
   }
 
+  if (offer.category === "Vaporizadores electronicos") {
+    return getElectronicVaporizerModelKey(offer);
+  }
+
   if (offer.category === "Otros parafernalia") {
     return getOtherParaphernaliaModelKey(offer);
   }
@@ -292,6 +304,10 @@ function getComparableBrandKey(offer: OfferRow) {
 
   if (offer.category === "Limpieza") {
     return getCleaningBrandKey(offer);
+  }
+
+  if (offer.category === "Vaporizadores electronicos") {
+    return getElectronicVaporizerBrandKey(offer);
   }
 
   if (offer.category === "Otros parafernalia") {
@@ -436,7 +452,11 @@ function isEligibleComparableOffer(offer: OfferRow) {
   if (offer.category === "Limpieza") {
     const title = normalizeText(offer.title);
 
-    return !/\b(?:isoplex|iso\s*[- ]?plex|detox|toxinas|enjuague\s+bucal)\b/.test(title);
+    return !/\b(?:isoplex|iso\s*[- ]?plex)\b/.test(title);
+  }
+
+  if (offer.category === "Vaporizadores electronicos") {
+    return true;
   }
 
   if (offer.category === "Otros parafernalia") {
@@ -490,6 +510,10 @@ function isTooGenericModelKey(category: string, modelKey: string) {
 
   if (category === "Limpieza") {
     return tokens.every((token) => /^(?:cleaner|limpiador|limpieza|bong|pipe|grinder|250ml|500ml|1l|420|710)$/.test(token));
+  }
+
+  if (category === "Vaporizadores electronicos") {
+    return tokens.length === 0;
   }
 
   if (category === "Otros parafernalia") {
@@ -645,7 +669,13 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
   }
 
   if (brandKey === "the-bulldog" && text.includes("bulldog") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
-    return "plastic-60mm";
+    return ["plastic", ...getGrinderPartCounts(text, tokens), "60mm"].join("-");
+  }
+
+  if (brandKey === "the-bulldog" && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "metal")) {
+    const partCounts = getGrinderPartCounts(text, tokens);
+
+    return ["metal", ...partCounts].join("-");
   }
 
   if (brandKey === "storz-bickel" && tokens.includes("xl") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
@@ -1514,6 +1544,40 @@ function getCleaningBrandKey(offer: OfferRow) {
   return offer.brandKey;
 }
 
+function getElectronicVaporizerBrandKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.brand ?? ""} ${offer.title} ${offer.url}`);
+
+  if (/\bairis(?:tech)?\b/.test(text)) return "airis";
+  if (/\boxbar\b/.test(text)) return "oxbar";
+  if (/\bsvopp\b/.test(text)) return "svopp";
+
+  return offer.brandKey;
+}
+
+function getElectronicVaporizerModelKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`)
+    .replace(/&amp;/g, " and ")
+    .replace(/[^a-z0-9\s/-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const tokens = tokenizeSlug(text);
+  const tokenSet = new Set(tokens);
+
+  if (tokenSet.has("neo") && tokenSet.has("p8000")) {
+    const flavor = ["black-ice", "strawberry-cream"].find((item) => item.split("-").every((token) => tokenSet.has(token)));
+
+    return ["disposable", "neo-p8000", flavor].filter(Boolean).join("-");
+  }
+
+  if (tokenSet.has("oxbar")) {
+    const model = firstExtractionToken(tokens, ["p25000", "p28000"]);
+
+    return ["disposable", "oxbar", model].filter(Boolean).join("-");
+  }
+
+  return null;
+}
+
 function getCleaningModelKey(offer: OfferRow) {
   const text = cleanCleaningText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
   const tokens = tokenizeSlug(text);
@@ -1859,6 +1923,7 @@ function buildModelSlug(category: string, modelKey: string, hasTips: boolean, pa
   const categoryPrefix = slugify(category).split("-")[0];
   const core = modelKey
     .replace(new RegExp(`^${categoryPrefix}-`), "")
+    .replace(/^wick-zippo-wick$/, "wick")
     .replace(/^(banger|bong|container|filter|grinder|otros|tray)-/, "");
 
   return slugify(core || modelKey);
@@ -2203,7 +2268,7 @@ function getPaperSizeSlug(modelKey: string) {
 }
 
 function hasPaperTips(offer: OfferRow) {
-  return /\b(?:boquilla|boquillas|tips?|connoisseur)\b/i.test(offer.title);
+  return /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?)\b/i.test(offer.title);
 }
 
 function tipsSegment(hasTips: boolean) {

@@ -190,10 +190,12 @@ async function getCatalogData(query: string, selectedCategory: string) {
       prisma.priceHistory.count(),
     ]);
 
+    const catalogItems = buildCatalogItems(offers).filter((item) => hasCatalogVisibility(item, selectedCategory));
+
     return {
       dbReady: true,
       stores,
-      offers: buildCatalogItems(offers).filter(hasCatalogComparison).slice(0, CATALOG_PAGE_LIMIT),
+      offers: selectCatalogPageItems(catalogItems, selectedCategory),
       categories,
       stats: {
         offerCount,
@@ -216,6 +218,44 @@ async function getCatalogData(query: string, selectedCategory: string) {
       },
     };
   }
+}
+
+function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string) {
+  if (selectedCategory) {
+    return items.slice(0, CATALOG_PAGE_LIMIT);
+  }
+
+  const byCategory = new Map<string, CatalogItem[]>();
+
+  for (const item of items) {
+    const categoryItems = byCategory.get(item.category) ?? [];
+    categoryItems.push(item);
+    byCategory.set(item.category, categoryItems);
+  }
+
+  const categories = [...byCategory.keys()].sort((first, second) => {
+    const firstMin = byCategory.get(first)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
+    const secondMin = byCategory.get(second)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
+
+    return firstMin - secondMin || first.localeCompare(second);
+  });
+  const selected: CatalogItem[] = [];
+
+  while (selected.length < CATALOG_PAGE_LIMIT && categories.some((category) => (byCategory.get(category)?.length ?? 0) > 0)) {
+    for (const category of categories) {
+      const next = byCategory.get(category)?.shift();
+
+      if (next) {
+        selected.push(next);
+      }
+
+      if (selected.length >= CATALOG_PAGE_LIMIT) {
+        break;
+      }
+    }
+  }
+
+  return selected;
 }
 
 function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
@@ -253,7 +293,7 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
     orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
   });
   const categories = buildCatalogItems(offers)
-    .filter(hasCatalogComparison)
+    .filter(hasCatalogCategoryVisibility)
     .reduce((counts, item) => {
       counts.set(item.category, Math.min((counts.get(item.category) ?? 0) + 1, CATALOG_PAGE_LIMIT));
 
@@ -679,6 +719,14 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
 
 function hasCatalogComparison(item: CatalogItem) {
   return item.storeCount > 1;
+}
+
+function hasCatalogVisibility(item: CatalogItem, selectedCategory: string) {
+  return hasCatalogComparison(item) || Boolean(selectedCategory && item.product);
+}
+
+function hasCatalogCategoryVisibility(item: CatalogItem) {
+  return hasCatalogComparison(item) || Boolean(item.product);
 }
 
 function compareCatalogOffers(first: CatalogOffer, second: CatalogOffer) {

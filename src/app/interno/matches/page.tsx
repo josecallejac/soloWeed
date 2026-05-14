@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth";
+import { LogoutButton } from "../logout-button";
 
 export const dynamic = "force-dynamic";
 
@@ -199,6 +201,8 @@ const KNOWN_MODEL_PHRASES = [
 ];
 
 export default async function InternalMatches({ searchParams }: InternalMatchesProps) {
+  await requireAdmin();
+
   const params = (await searchParams) ?? {};
   const selectedCategory = typeof params.category === "string" ? params.category : "";
   const selectedStatus = typeof params.status === "string" ? params.status : "pending";
@@ -209,9 +213,12 @@ export default async function InternalMatches({ searchParams }: InternalMatchesP
       <section className="mx-auto w-full max-w-7xl">
         <header className="flex flex-col gap-5 rounded-[2rem] bg-[#17150f] p-6 text-[#f8f4df] shadow-[10px_10px_0_#bddf57] sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Link className="text-sm font-black uppercase tracking-[0.2em] text-[#bddf57]" href="/">
-              SoloWeed
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link className="text-sm font-black uppercase tracking-[0.2em] text-[#bddf57]" href="/">
+                SoloWeed
+              </Link>
+              <LogoutButton />
+            </div>
             <h1 className="mt-3 text-4xl font-black tracking-[-0.05em] sm:text-6xl">Revisión de matches</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-[#f8f4df]/70">
               Panel interno para aprobar o rechazar coincidencias sugeridas antes de consolidarlas como comparaciones reales.
@@ -261,6 +268,8 @@ export default async function InternalMatches({ searchParams }: InternalMatchesP
 async function approveMatch(formData: FormData) {
   "use server";
 
+  await requireAdmin();
+
   const seedOfferId = Number(formData.get("seedOfferId"));
   const candidateOfferId = Number(formData.get("candidateOfferId"));
 
@@ -285,6 +294,8 @@ async function approveMatch(formData: FormData) {
 
 async function rejectMatch(formData: FormData) {
   "use server";
+
+  await requireAdmin();
 
   const seedOfferId = Number(formData.get("seedOfferId"));
   const candidateOfferId = Number(formData.get("candidateOfferId"));

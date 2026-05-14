@@ -324,6 +324,7 @@ const CANDIDATE_BRAND_PHRASES = [
   "ozeta",
   "pax",
   "piecemaker",
+  "puffco",
   "pulsar",
   "raw",
   "ronson",
@@ -338,6 +339,7 @@ const CANDIDATE_BRAND_PHRASES = [
   "top smoke",
   "vibes",
   "xvape",
+  "yocan",
   "zengaz",
   "zippo",
 ];

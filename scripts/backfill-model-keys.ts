@@ -166,6 +166,10 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
     return getCleaningModelKey(tokens, sizes);
   }
 
+  if (category === "Vaporizadores electronicos") {
+    return getElectronicVaporizerModelKey(tokens);
+  }
+
   if (category === "Otros parafernalia") {
     return getOtherParaphernaliaModelKey(tokens, sizes);
   }
@@ -238,6 +242,26 @@ function getCleaningModelKey(tokens: Set<string>, sizes: string[]) {
   const line = firstToken(tokens, ["420", "710", "kleaner", "bifasico", "super", "pipe"]);
 
   return compactKey([family, target, line, ...sizes]);
+}
+
+function getElectronicVaporizerModelKey(tokens: Set<string>) {
+  if (hasAny(tokens, ["neo", "p8000"])) {
+    const flavor = hasAny(tokens, ["black", "ice"])
+      ? "black-ice"
+      : hasAny(tokens, ["strawberry", "cream"])
+        ? "strawberry-cream"
+        : null;
+
+    return compactKey(["disposable", "neo-p8000", flavor]);
+  }
+
+  if (tokens.has("oxbar")) {
+    const model = firstToken(tokens, ["p25000", "p28000"]);
+
+    return compactKey(["disposable", "oxbar", model]);
+  }
+
+  return null;
 }
 
 function getOtherParaphernaliaModelKey(tokens: Set<string>, sizes: string[]) {
