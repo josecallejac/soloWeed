@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PriceHistoryChart } from "./price-history-chart";
 
 export const dynamic = "force-dynamic";
 
@@ -178,6 +179,23 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           ) : (
             <NoComparableMatches />
           )}
+
+          <div className="mt-6">
+            <PriceHistoryChart
+              onlyOnFullCoverage
+              stores={storesWithPrice
+                .filter((row) => row.offer)
+                .map((row) => ({
+                  storeName: row.store.name,
+                  histories: row.offer!.histories.map((h) => ({
+                    price: h.price,
+                    recordedAt: h.recordedAt,
+                  })),
+                  currentPrice: row.offer!.price,
+                }))}
+              totalStores={stores.length}
+            />
+          </div>
         </section>
       </section>
     </main>

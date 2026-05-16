@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { CategoryFilters } from "./category-filters";
+import { SortControls } from "./sort-controls";
+import { StoreFilters } from "./store-filters";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
@@ -8,8 +10,13 @@ export const dynamic = "force-dynamic";
 
 type HomeProps = {
   searchParams?: Promise<{
-    q?: string;
     category?: string;
+    maxPrice?: string;
+    minPrice?: string;
+    page?: string;
+    q?: string;
+    sort?: string;
+    store?: string | string[];
   }>;
 };
 
@@ -17,9 +24,8 @@ type CatalogData = Awaited<ReturnType<typeof getCatalogData>>;
 type CatalogOffer = Prisma.OfferGetPayload<{
   include: {
     store: true;
-    product: true;
   };
-}>;
+}> & { product?: Prisma.ProductGetPayload<object> | null };
 type CatalogItem = {
   brand: string | null;
   category: string;
@@ -36,6 +42,7 @@ type CatalogItem = {
   storeCount: number;
   stores: CatalogOffer["store"][];
   title: string;
+  totalStores: number;
   url: string;
 };
 type CategoryCount = {
@@ -48,11 +55,32 @@ const CATEGORY_COUNT_CACHE_TTL_MS = 30_000;
 
 const categoryCountCache = new Map<string, { categories: CategoryCount[]; expiresAt: number }>();
 
+function buildPageUrl(page: number, query: string, category: string, sort: string, minPrice: string, maxPrice: string, stores: string[]) {
+  const params = new URLSearchParams();
+  if (page > 1) params.set("page", String(page));
+  if (query) params.set("q", query);
+  if (category) params.set("category", category);
+  if (sort) params.set("sort", sort);
+  if (minPrice) params.set("minPrice", minPrice);
+  if (maxPrice) params.set("maxPrice", maxPrice);
+  for (const s of stores) params.append("store", s);
+  const qs = params.toString();
+  return qs ? `/?${qs}` : "/";
+}
+
 export default async function Home({ searchParams }: HomeProps) {
   const params = (await searchParams) ?? {};
   const query = typeof params.q === "string" ? params.q.trim() : "";
   const selectedCategory = typeof params.category === "string" ? params.category.trim() : "";
-  const data = await getCatalogData(query, selectedCategory);
+  const minPrice = typeof params.minPrice === "string" ? Number(params.minPrice) : undefined;
+  const maxPrice = typeof params.maxPrice === "string" ? Number(params.maxPrice) : undefined;
+  const sort = typeof params.sort === "string" ? params.sort : "";
+  const storeRaw = params.store;
+  const selectedStores = storeRaw
+    ? (Array.isArray(storeRaw) ? storeRaw : storeRaw.split(",").map((s) => s.trim()).filter(Boolean))
+    : [];
+  const page = Math.max(1, typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1);
+  const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page });
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f4f1e8] text-[#17150f]">
@@ -96,6 +124,7 @@ export default async function Home({ searchParams }: HomeProps) {
                   placeholder="Busca RAW, Bonglab, moledor, vaporizador..."
                   defaultValue={query}
                 />
+                {selectedCategory ? <input name="category" type="hidden" value={selectedCategory} /> : null}
                 <button className="min-h-14 rounded-[1.4rem] bg-[#bddf57] px-7 text-base font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]">
                   Buscar ofertas
                 </button>
@@ -111,8 +140,18 @@ export default async function Home({ searchParams }: HomeProps) {
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
           <CategoryFilters categories={data.categories} query={query} selectedCategory={selectedCategory} />
 
+          <StoreFilters
+            stores={data.stores.map((s) => ({ slug: s.slug, name: s.name }))}
+            selectedStores={selectedStores}
+            query={query}
+            category={selectedCategory}
+            sort={sort}
+            minPrice={params.minPrice ?? ""}
+            maxPrice={params.maxPrice ?? ""}
+          />
+
           <div className="rounded-[2rem] border border-black/10 bg-[#d8c8ff] p-5">
-            <h2 className="text-lg font-black">Tiendas revisadas</h2>
+            <h2 className="text-lg font-black">Visitar tiendas</h2>
             <div className="mt-4 space-y-3">
               {data.stores.map((store) => (
                 <a
@@ -145,12 +184,57 @@ export default async function Home({ searchParams }: HomeProps) {
             </p>
           </div>
 
+          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[2rem] border border-black/10 bg-white p-3">
+            <SortControls
+              sort={sort}
+              minPrice={params.minPrice ?? ""}
+              maxPrice={params.maxPrice ?? ""}
+              category={selectedCategory}
+              query={query}
+              stores={selectedStores}
+            />
+          </div>
+
           {data.offers.length > 0 ? (
-            <div className="grid gap-4 xl:grid-cols-2">
-              {data.offers.map((offer, index) => (
-                <OfferCard key={offer.id} offer={offer} rank={index + 1} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-4 xl:grid-cols-2">
+                {data.offers.map((offer, index) => (
+                  <OfferCard key={offer.id} offer={offer} rank={(data.page - 1) * CATALOG_PAGE_LIMIT + index + 1} />
+                ))}
+              </div>
+
+              {data.totalPages > 1 ? (
+                <div className="mt-8 flex items-center justify-between rounded-[2rem] border border-black/10 bg-white p-4">
+                  <div>
+                    {data.page > 1 ? (
+                      <a
+                        className="rounded-2xl bg-[#17150f] px-5 py-3 text-sm font-black text-[#f8f4df] transition hover:bg-black"
+                        href={buildPageUrl(data.page - 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
+                      >
+                        ← Anterior
+                      </a>
+                    ) : (
+                      <span className="rounded-2xl bg-black/5 px-5 py-3 text-sm font-bold text-black/25">← Anterior</span>
+                    )}
+                  </div>
+                  <span className="text-sm font-bold text-black/45">
+                    Pagina {data.page} de {data.totalPages}
+                  </span>
+                  <div>
+                    {data.page < data.totalPages ? (
+                      <a
+                        className="rounded-2xl bg-[#17150f] px-5 py-3 text-sm font-black text-[#f8f4df] transition hover:bg-black"
+                        href={buildPageUrl(data.page + 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
+                      >
+                        Siguiente →
+                      </a>
+                    ) : (
+                      <span className="rounded-2xl bg-black/5 px-5 py-3 text-sm font-bold text-black/25">Siguiente →</span>
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </>
           ) : (
             <EmptyState dbReady={data.dbReady} />
           )}
@@ -164,23 +248,22 @@ export default async function Home({ searchParams }: HomeProps) {
   );
 }
 
-async function getCatalogData(query: string, selectedCategory: string) {
+async function getCatalogData(query: string, selectedCategory: string, options?: { maxPrice?: number; minPrice?: number; sort?: string; storeFilter?: string[]; page?: number }) {
   try {
     const normalizedQuery = normalizeForSearch(query);
     const queryWhere = buildSearchWhere(normalizedQuery);
     const where: Prisma.OfferWhereInput = {
       ...queryWhere,
       ...(selectedCategory ? { category: selectedCategory } : {}),
+      ...(options?.storeFilter?.length ? { store: { slug: { in: options.storeFilter } } } : {}),
     };
+    const page = options?.page ?? 1;
 
-    const [stores, offers, categories, offerCount, productCount, historyCount] = await Promise.all([
+    const [stores, offersRaw, categories, offerCount, productCount, historyCount, covRows] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
       prisma.offer.findMany({
         where,
-        include: {
-          store: true,
-          product: true,
-        },
+        include: { store: true },
         orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
         take: 800,
       }),
@@ -188,15 +271,70 @@ async function getCatalogData(query: string, selectedCategory: string) {
       prisma.offer.count(),
       prisma.product.count(),
       prisma.priceHistory.count(),
+      prisma.$queryRaw<Array<{ productId: number; cnt: number }>>`
+        SELECT "productId", COUNT(DISTINCT "storeId") AS "cnt"
+        FROM "Offer"
+        WHERE "productId" IS NOT NULL
+        GROUP BY "productId"
+      `,
     ]);
 
-    const catalogItems = buildCatalogItems(offers).filter((item) => hasCatalogVisibility(item, selectedCategory));
+    // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
+    const productIds = [...new Set(offersRaw.map((o) => o.productId).filter(Boolean))] as number[];
+    const productMap = new Map<number, CatalogOffer["product"]>();
+    if (productIds.length > 0) {
+      const products = await prisma.product.findMany({
+        where: { id: { in: productIds } },
+      });
+      for (const p of products) productMap.set(p.id, p);
+    }
+    const offers = offersRaw.map((o): CatalogOffer => ({
+      ...o,
+      product: o.productId ? productMap.get(o.productId) ?? null : null,
+    }));
+
+    const totalStores = stores.length;
+    let catalogItems = buildCatalogItems(offers)
+      .filter((item) => hasCatalogVisibility(item, selectedCategory, (options?.storeFilter?.length ?? 0) > 0))
+      .map((item) => ({ ...item, totalStores }));
+
+    if (options?.minPrice !== undefined && !Number.isNaN(options.minPrice)) {
+      catalogItems = catalogItems.filter((item) => item.minPrice >= options.minPrice!);
+    }
+
+    if (options?.maxPrice !== undefined && !Number.isNaN(options.maxPrice)) {
+      catalogItems = catalogItems.filter((item) => item.minPrice <= options.maxPrice!);
+    }
+
+    if (options?.sort === "price_asc") {
+      catalogItems.sort((first, second) => first.minPrice - second.minPrice);
+    } else if (options?.sort === "price_desc") {
+      catalogItems.sort((first, second) => second.minPrice - first.minPrice);
+    } else if (options?.sort === "stores_desc") {
+      catalogItems.sort((first, second) => second.storeCount - first.storeCount || first.minPrice - second.minPrice);
+    } else if (options?.sort === "name_asc") {
+      catalogItems.sort((first, second) => first.title.localeCompare(second.title, "es-CL"));
+    }
+
+    // Compute coverage from DB
+    const coverage = { full: 0, high: 0, mid: 0 };
+    for (const row of covRows) {
+      if (row.cnt >= 4) coverage.full++;
+      else if (row.cnt >= 3) coverage.high++;
+      else if (row.cnt >= 2) coverage.mid++;
+    }
+
+    const { items: pageItems, totalItems } = selectCatalogPageItems(catalogItems, selectedCategory, options?.sort, page);
+    const totalPages = Math.max(1, Math.ceil(totalItems / CATALOG_PAGE_LIMIT));
 
     return {
       dbReady: true,
       stores,
-      offers: selectCatalogPageItems(catalogItems, selectedCategory),
+      offers: pageItems,
       categories,
+      page,
+      totalPages,
+      coverage,
       stats: {
         offerCount,
         productCount,
@@ -204,12 +342,16 @@ async function getCatalogData(query: string, selectedCategory: string) {
         storeCount: stores.length,
       },
     };
-  } catch {
+  } catch (err) {
+    console.error("getCatalogData failed:", err);
     return {
       dbReady: false,
       stores: [],
       offers: [],
       categories: [],
+      page: 1,
+      totalPages: 1,
+      coverage: { full: 0, high: 0, mid: 0 },
       stats: {
         offerCount: 0,
         productCount: 0,
@@ -220,9 +362,14 @@ async function getCatalogData(query: string, selectedCategory: string) {
   }
 }
 
-function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string) {
-  if (selectedCategory) {
-    return items.slice(0, CATALOG_PAGE_LIMIT);
+function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string, sort?: string, page = 1) {
+  const getPageSlice = (list: CatalogItem[]) => {
+    const start = (page - 1) * CATALOG_PAGE_LIMIT;
+    return { items: list.slice(start, start + CATALOG_PAGE_LIMIT), totalItems: list.length };
+  };
+
+  if (selectedCategory || sort) {
+    return getPageSlice(items);
   }
 
   const byCategory = new Map<string, CatalogItem[]>();
@@ -240,22 +387,17 @@ function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string) 
     return firstMin - secondMin || first.localeCompare(second);
   });
   const selected: CatalogItem[] = [];
+  const remaining = new Map(byCategory);
+  const catList = [...categories];
 
-  while (selected.length < CATALOG_PAGE_LIMIT && categories.some((category) => (byCategory.get(category)?.length ?? 0) > 0)) {
-    for (const category of categories) {
-      const next = byCategory.get(category)?.shift();
-
-      if (next) {
-        selected.push(next);
-      }
-
-      if (selected.length >= CATALOG_PAGE_LIMIT) {
-        break;
-      }
+  while (catList.some((category) => (remaining.get(category)?.length ?? 0) > 0)) {
+    for (const category of catList) {
+      const next = remaining.get(category)?.shift();
+      if (next) selected.push(next);
     }
   }
 
-  return selected;
+  return getPageSlice(selected);
 }
 
 function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
@@ -696,6 +838,11 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
   );
   const prices = offers.map((offer) => offer.price);
   const lastSeenAt = new Date(Math.max(...offers.map((offer) => offer.lastSeenAt.getTime())));
+  // Prefer real product store count over fuzzy grouping
+  const productOffers = productOffer.productId
+    ? offers.filter((offer) => offer.productId === productOffer.productId)
+    : offers;
+  const productStores = Array.from(new Map(productOffers.map((offer) => [offer.store.id, offer.store])).values());
 
   return {
     brand: getCatalogBrand(offers),
@@ -710,9 +857,10 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
     offerCount: offers.length,
     originalPrice: representative.originalPrice,
     product: productOffer.product,
-    storeCount: stores.length,
+    storeCount: productOffer.productId ? productStores.length : stores.length,
     stores,
     title: getCatalogTitle(offers, representative),
+    totalStores: 0,
     url: representative.url,
   };
 }
@@ -721,7 +869,8 @@ function hasCatalogComparison(item: CatalogItem) {
   return item.storeCount > 1;
 }
 
-function hasCatalogVisibility(item: CatalogItem, selectedCategory: string) {
+function hasCatalogVisibility(item: CatalogItem, selectedCategory: string, storeFilterActive = false) {
+  if (storeFilterActive) return true;
   return hasCatalogComparison(item) || Boolean(selectedCategory && item.product);
 }
 
@@ -1472,6 +1621,25 @@ function StatsPanel({ data }: { data: CatalogData }) {
         <p className="mt-3 text-3xl font-black tracking-[-0.04em]">
           Catalogo en movimiento con ofertas de tiendas reales.
         </p>
+        {data.dbReady && (data.coverage.full > 0 || data.coverage.high > 0) ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {data.coverage.full > 0 ? (
+              <span className="rounded-full bg-emerald-200 px-3 py-1 text-xs font-black text-emerald-800">
+                ⬤ {data.coverage.full} cobertura total
+              </span>
+            ) : null}
+            {data.coverage.high > 0 ? (
+              <span className="rounded-full bg-amber-200 px-3 py-1 text-xs font-black text-amber-800">
+                ◐ {data.coverage.high} en 3 tiendas
+              </span>
+            ) : null}
+            {data.coverage.mid > 0 ? (
+              <span className="rounded-full bg-stone-200 px-3 py-1 text-xs font-black text-stone-600">
+                ◌ {data.coverage.mid} en 2 tiendas
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {stats.map(([label, value]) => (
@@ -1488,6 +1656,15 @@ function StatsPanel({ data }: { data: CatalogData }) {
       </div>
     </div>
   );
+}
+
+function CoverageBadge({ storeCount, totalStores }: { storeCount: number; totalStores: number }) {
+  const pct = totalStores > 0 ? storeCount / totalStores : 0;
+  const color = pct >= 1 ? "bg-emerald-100 text-emerald-800"
+    : pct >= 0.75 ? "bg-amber-100 text-amber-800"
+    : "bg-stone-100 text-stone-600";
+  const icon = pct >= 1 ? "\u2B24" : pct >= 0.75 ? "\u25D0" : "\u25CC";
+  return <span className={`rounded-full px-3 py-1 text-xs font-black ${color}`}>{icon} {storeCount}/{totalStores}</span>;
 }
 
 function OfferCard({
@@ -1527,9 +1704,9 @@ function OfferCard({
           <span className="rounded-full bg-[#bddf57] px-3 py-1 text-xs font-black uppercase tracking-[0.12em]">
             {offer.category}
           </span>
-          <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
-            {offer.storeCount > 1 ? `${offer.storeCount} tiendas` : offer.stores[0]?.name}
-          </span>
+          {offer.product ? (
+            <CoverageBadge storeCount={offer.storeCount} totalStores={offer.totalStores} />
+          ) : null}
           {offer.offerCount > 1 ? (
             <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
               {offer.offerCount} opciones

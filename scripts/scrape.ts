@@ -1899,11 +1899,18 @@ function normalizeForSearch(value: string) {
     .trim();
 }
 
+function sanitizeText(value: string) {
+  return new TextDecoder("utf-8", { fatal: false })
+    .decode(new TextEncoder().encode(value));
+}
+
 function cleanText(value: unknown) {
-  return String(value ?? "")
-    .replace(/\s+/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .trim();
+  return sanitizeText(
+    String(value ?? "")
+      .replace(/\s+/g, " ")
+      .replace(/&nbsp;/g, " ")
+      .trim(),
+  );
 }
 
 function cleanOptional(value: unknown) {

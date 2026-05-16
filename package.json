@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test tests/password.test.ts tests/export-catalog-audit.test.ts",
+    "test": "tsx --test tests/password.test.ts tests/export-catalog-audit.test.ts tests/matching.test.ts tests/catalog.test.ts",
     "scrape": "tsx scripts/scrape.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
