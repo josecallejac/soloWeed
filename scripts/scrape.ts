@@ -1325,7 +1325,6 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
     where: { url: offer.url },
     update: {
       storeId,
-      productId: null,
       sourceId: offer.sourceId,
       title: offer.title,
       normalizedTitle: offer.normalizedTitle,

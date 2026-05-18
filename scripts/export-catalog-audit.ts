@@ -196,20 +196,35 @@ function selectBalancedHomeProducts(products: VisibleProduct[]) {
     byCategory.set(product.category, categoryProducts);
   }
 
+  for (const [category, categoryProducts] of byCategory.entries()) {
+    categoryProducts.sort((first, second) => second.storeCount - first.storeCount || first.minPrice - second.minPrice);
+    byCategory.set(category, categoryProducts);
+  }
+
   const categories = [...byCategory.keys()].sort((first, second) => {
     const firstMin = byCategory.get(first)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
     const secondMin = byCategory.get(second)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
 
     return firstMin - secondMin || first.localeCompare(second);
   });
+
+  // Phase 1: prioritize items with 4+ stores
   const selected: VisibleProduct[] = [];
+  const remaining = new Map<string, VisibleProduct[]>();
 
-  while (selected.length < 40 && categories.some((category) => (byCategory.get(category)?.length ?? 0) > 0)) {
-    for (const category of categories) {
-      const next = byCategory.get(category)?.shift();
+  for (const [category, categoryProducts] of byCategory.entries()) {
+    const fourStore = categoryProducts.filter((item) => item.storeCount >= 4);
+    const other = categoryProducts.filter((item) => item.storeCount < 4);
+    for (const item of fourStore) selected.push(item);
+    remaining.set(category, other);
+  }
 
+  // Phase 2: round-robin to fill remaining items (no cap, pagination handles slicing)
+  const catList = [...categories];
+  while (catList.some((category) => (remaining.get(category)?.length ?? 0) > 0)) {
+    for (const category of catList) {
+      const next = remaining.get(category)?.shift();
       if (next) selected.push(next);
-      if (selected.length >= 40) break;
     }
   }
 

@@ -103,11 +103,13 @@ export const MODEL_TOKENS = new Set([
   "artesano",
   "automatico",
   "bamboo",
+  "beaker",
   "brazilian",
   "bucket",
   "classic",
   "clasica",
   "clasico",
+  "coil",
   "crafty",
   "diamond",
   "emerald",
@@ -116,14 +118,19 @@ export const MODEL_TOKENS = new Set([
   "full",
   "girl",
   "honeycomb",
+  "inline",
   "king-size",
   "macho",
   "mighty",
   "organic",
+  "percolator",
   "prepare",
   "pro",
   "regular",
+  "rig",
   "slurper",
+  "straight",
+  "tube",
   "venty",
   "weld",
 ]);
@@ -138,34 +145,46 @@ export const KNOWN_MODEL_PHRASES = [
   "bubbler kush",
   "color cube",
   "classic ice",
+  "cristal mini",
   "diamond",
   "doble cuerno",
   "doble inline",
   "dream rig",
   "fat candy",
+  "glycerin green avalanche",
   "glycerin thicc",
   "glycerin the yeti",
   "handy rig",
   "headshot",
   "heavy bubbler",
   "heavy trash",
+  "honey drips",
   "honey waffle",
   "jelly drop",
   "jelly fish",
+  "k104 moon",
   "k276",
   "k306",
   "k41",
   "k47 medusa",
   "k99 octopus",
+  "km3 clear",
   "km8 viper",
   "little buchner",
   "mad professor",
+  "mercurial kh1",
+  "mercurial smokey",
   "mini beaker",
   "nevis rig",
+  "new pro",
   "pocket bell",
+  "prisma",
+  "pro model",
+  "r2 bonglab",
   "r3 mini",
   "rick sanchez",
   "roller coaster",
+  "shiva blue",
   "space oddity",
   "space opera",
   "straight tube",
@@ -618,13 +637,24 @@ function hasFilterConflict(
   seed: ReturnType<typeof buildReviewProfile>,
   candidate: ReturnType<typeof buildReviewProfile>,
 ) {
-  // Filter type: paper-tip vs gummed vs carbon vs glass vs pre-rolled
-  const filterTypes = new Set(["gummed", "carbon", "carbón", "glass", "vidrio", "premium", "original", "classic", "perforated", "wide", "pre-rolled"]);
-  const seedTypes = new Set([...seed.coreTokens].filter((t) => filterTypes.has(t)));
-  const candTypes = new Set([...candidate.coreTokens].filter((t) => filterTypes.has(t)));
+  // Filter type: only conflict on fundamentally incompatible types
+  const fundamentalFilterTypes = new Set(["gummed", "carbon", "carbón", "glass", "vidrio", "pre-rolled"]);
+  const seedTypes = new Set([...seed.coreTokens].filter((t) => fundamentalFilterTypes.has(t)));
+  const candTypes = new Set([...candidate.coreTokens].filter((t) => fundamentalFilterTypes.has(t)));
 
   if (seedTypes.size > 0 && candTypes.size > 0 && !hasIntersection(seedTypes, candTypes)) {
     return true;
+  }
+  // Also check broader set: if one side has a fundamental type and the other has a non-fundamental paper subtype (premium, original, classic, perforated, wide), allow it
+  const allFilterTypes = new Set(["gummed", "carbon", "carbón", "glass", "vidrio", "pre-rolled", "premium", "original", "classic", "perforated", "wide"]);
+  const seedAll = new Set([...seed.coreTokens].filter((t) => allFilterTypes.has(t)));
+  const candAll = new Set([...candidate.coreTokens].filter((t) => allFilterTypes.has(t)));
+  if (seedAll.size > 0 && candAll.size > 0) {
+    const seedFundamental = new Set([...seedAll].filter((t) => fundamentalFilterTypes.has(t)));
+    const candFundamental = new Set([...candAll].filter((t) => fundamentalFilterTypes.has(t)));
+    if (seedFundamental.size > 0 && candFundamental.size > 0 && !hasIntersection(seedFundamental, candFundamental)) {
+      return true;
+    }
   }
 
   // Filter size: 6mm vs 8mm
@@ -687,17 +717,21 @@ export function scoreSuggestion(seed: ReviewOfferInput, candidate: ReviewOfferIn
     return { reasons: ["Modelo RAW distinto"], score: 0 };
   }
 
-  // Paper variant mismatch for all brands (OCB, Blazy Susan, Gizeh, etc.)
+  let paperVariantPenalty = 0;
+
   if (seedProfile.paperVariant && candidateProfile.paperVariant && seedProfile.paperVariant !== candidateProfile.paperVariant) {
-    return { reasons: ["Variante de papel distinta"], score: 0 };
-  }
-  if (seedProfile.paperVariant && !candidateProfile.paperVariant) {
+    paperVariantPenalty = 0.22;
+    reasons.push("variante de papel distinta");
+  } else if (seedProfile.paperVariant && !candidateProfile.paperVariant) {
     if (seedProfile.paperVariant !== "classic" || hasPaperVariantToken(candidateProfile.coreTokens)) {
-      return { reasons: ["Variante de papel distinta"], score: 0 };
+      paperVariantPenalty = 0.16;
+      reasons.push("variante de papel sin clasificar");
     }
-  }
-  if (!seedProfile.paperVariant && candidateProfile.paperVariant) {
-    return { reasons: ["Variante de papel distinta"], score: 0 };
+  } else if (!seedProfile.paperVariant && candidateProfile.paperVariant) {
+    if (candidateProfile.paperVariant !== "classic" || hasPaperVariantToken(seedProfile.coreTokens)) {
+      paperVariantPenalty = 0.16;
+      reasons.push("variante de papel sin clasificar");
+    }
   }
 
   // Category-specific mismatch checks
@@ -785,6 +819,8 @@ export function scoreSuggestion(seed: ReviewOfferInput, candidate: ReviewOfferIn
     score += 0.22;
     reasons.push(`modelo ${seedProfile.rawModel}`);
   }
+
+  score = Math.max(0, score - paperVariantPenalty);
 
   return { reasons, score };
 }

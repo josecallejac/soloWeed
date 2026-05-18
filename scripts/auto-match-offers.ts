@@ -458,7 +458,7 @@ function buildProfile(offer: OfferRow) {
   const kind = getKind(tokens);
   const phraseModel = getPhraseModel(text);
   const variantTokens = getVariantTokens(text, tokens);
-  const modelKey = offer.modelKey ?? (phraseModel ? [phraseModel, ...variantTokens].join("-") : getGenericModelKey(offer, tokens, brandKey, kind));
+    const modelKey = phraseModel ? [phraseModel, ...variantTokens].join("-") : getGenericModelKey(offer, tokens, brandKey, kind);
   const centimeterSizes = getCentimeterSizes(tokens);
 
   return { brandKey, centimeterSizes, kind, modelKey };
@@ -548,7 +548,16 @@ function getGenericModelKey(offer: OfferRow, tokens: Set<string>, brandKey: stri
 
     return true;
   });
-  const sizeTokens = meaningful.filter((token) => /^\d+(?:\.\d+)?(?:cm|mm|ml|g|gr|oz)$/.test(token) || token === "1-1/4" || token === "king-size");
+  const titleText = `${offer.brandKey ?? ""} ${offer.brand ?? ""} ${offer.title} ${offer.url}`.toLowerCase();
+  const hasKingSize = /\bking[\s-]*size\b/.test(titleText);
+  const has114 = /\b1[\s/-]*1[/\s-]*4\b|\b1-1\/4\b/.test(titleText);
+  const sizeTokens = meaningful.filter((token) =>
+    /^\d+(?:\.\d+)?(?:cm|mm|ml|g|gr|oz)$/.test(token) ||
+    token === "king-size" ||
+    token === "1-1/4" ||
+    (hasKingSize && (token === "king" || token === "size")) ||
+    (has114 && (token === "1" || token === "4"))
+  );
   const distinctive = meaningful.filter((token) => !sizeTokens.includes(token));
 
   if (distinctive.length < 2) {

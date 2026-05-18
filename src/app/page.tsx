@@ -265,7 +265,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
         where,
         include: { store: true },
         orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
-        take: 800,
+        take: 2000, // must cover all offers so storeCount is accurate for expensive products
       }),
       getComparableCategoryCounts(normalizedQuery, queryWhere),
       prisma.offer.count(),
@@ -380,16 +380,31 @@ function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string, 
     byCategory.set(item.category, categoryItems);
   }
 
+  for (const [category, categoryItems] of byCategory.entries()) {
+    categoryItems.sort((first, second) => second.storeCount - first.storeCount || first.minPrice - second.minPrice);
+    byCategory.set(category, categoryItems);
+  }
+
   const categories = [...byCategory.keys()].sort((first, second) => {
     const firstMin = byCategory.get(first)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
     const secondMin = byCategory.get(second)?.[0]?.minPrice ?? Number.MAX_SAFE_INTEGER;
 
     return firstMin - secondMin || first.localeCompare(second);
   });
-  const selected: CatalogItem[] = [];
-  const remaining = new Map(byCategory);
-  const catList = [...categories];
 
+  // Phase 1: prioritize items with 4+ stores
+  const selected: CatalogItem[] = [];
+  const remaining = new Map<string, CatalogItem[]>();
+
+  for (const [category, categoryItems] of byCategory.entries()) {
+    const fourStore = categoryItems.filter((item) => item.storeCount >= 4);
+    const other = categoryItems.filter((item) => item.storeCount < 4);
+    for (const item of fourStore) selected.push(item);
+    remaining.set(category, other);
+  }
+
+  // Phase 2: round-robin to fill remaining items (no cap, pagination handles slicing)
+  const catList = [...categories];
   while (catList.some((category) => (remaining.get(category)?.length ?? 0) > 0)) {
     for (const category of catList) {
       const next = remaining.get(category)?.shift();
@@ -437,7 +452,7 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
   const categories = buildCatalogItems(offers)
     .filter(hasCatalogCategoryVisibility)
     .reduce((counts, item) => {
-      counts.set(item.category, Math.min((counts.get(item.category) ?? 0) + 1, CATALOG_PAGE_LIMIT));
+      counts.set(item.category, (counts.get(item.category) ?? 0) + 1);
 
       return counts;
     }, new Map<string, number>());
@@ -800,11 +815,25 @@ function debugCatalogItems(items: CatalogItem[]) {
 }
 
 function buildCatalogCategoryItems(offers: CatalogOffer[]) {
-  const groups: CatalogOffer[][] = [];
+  // Phase 1: pre-group by productId so same-product offers always stay together
+  const byProduct = new Map<number, CatalogOffer[]>();
+  const noProductOffers: CatalogOffer[] = [];
 
   for (const offer of offers) {
-    const group = groups.find((items) => items.every((item) => areCatalogEquivalent(item, offer)));
+    if (offer.productId) {
+      if (!byProduct.has(offer.productId)) byProduct.set(offer.productId, []);
+      byProduct.get(offer.productId)!.push(offer);
+    } else {
+      noProductOffers.push(offer);
+    }
+  }
 
+  // Start with one group per productId
+  const groups: CatalogOffer[][] = [...byProduct.values()];
+
+  // Phase 2: try to merge no-product offers into existing groups via fuzzy matching
+  for (const offer of noProductOffers) {
+    const group = groups.find((items) => items.every((item) => areCatalogEquivalent(item, offer)));
     if (group) {
       group.push(offer);
     } else {
@@ -812,7 +841,19 @@ function buildCatalogCategoryItems(offers: CatalogOffer[]) {
     }
   }
 
-  return groups.map(buildCatalogItem);
+  // Phase 3: try to merge product groups together via fuzzy matching
+  // (handles cases where different products are truly equivalent)
+  const merged: CatalogOffer[][] = [];
+  for (const group of groups) {
+    const target = merged.find((items) => items.every((item) => areCatalogEquivalent(item, group[0])));
+    if (target) {
+      target.push(...group);
+    } else {
+      merged.push(group);
+    }
+  }
+
+  return merged.map(buildCatalogItem);
 }
 
 function sortCatalogItems(items: CatalogItem[]) {
@@ -1071,7 +1112,12 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
   }
 
   if (firstProfile.category === "papelillos" && brandMatches && (sizeMatches || colorMatches || coreOverlap > 0)) {
-    return coreOverlap > 0 || colorMatches || (firstProfile.coreTokens.size === 0 && secondProfile.coreTokens.size === 0);
+    if (firstProfile.coreTokens.size === 0 && secondProfile.coreTokens.size === 0) {
+      if (!colorMatches || firstProfile.colorKeys.size === 0 || secondProfile.colorKeys.size === 0) return false;
+      if (firstProfile.sizes.size > 0 && secondProfile.sizes.size > 0 && !sizeMatches) return false;
+      return true;
+    }
+    return coreOverlap >= 2 || (coreOverlap > 0 && (colorMatches || sizeMatches || identifierMatches));
   }
 
   if (canCatalogMatchFilterTips(firstProfile, brandMatches, materialMatches, sizeMatches, identifierMatches, coreOverlap)) {
@@ -1088,7 +1134,12 @@ function buildCatalogProfile(offer: CatalogOffer): CatalogProfile {
     return cached;
   }
 
-  const text = normalizeCatalogText(`${offer.brand ?? ""} ${cleanCatalogTitle(offer.title)} ${getCatalogUrlPath(offer.url)}`);
+  const category = normalizeCatalogText(offer.category);
+  const text = normalizeCatalogText(
+    category === "papelillos"
+      ? `${offer.brand ?? ""} ${cleanCatalogTitle(offer.title)}`
+      : `${offer.brand ?? ""} ${cleanCatalogTitle(offer.title)} ${getCatalogUrlPath(offer.url)}`,
+  );
   const tokens = tokenizeCatalogText(text);
   const brandTokens = extractCatalogBrandTokens(text, offer.brand);
   const colorKeys = new Set([...tokens].map((token) => CATALOG_COLOR_KEYS.get(token)).filter(Boolean) as string[]);
@@ -1114,7 +1165,7 @@ function buildCatalogProfile(offer: CatalogOffer): CatalogProfile {
   const profile = {
     accessoryKind: getCatalogAccessoryKind(tokens),
     brandTokens,
-    category: normalizeCatalogText(offer.category),
+    category,
     colorKeys,
     coreTokens,
     hasColorWildcard: hasAnyCatalogToken(tokens, ["aleatorio", "aleatoria", "color", "colores", "eleccion", "variado", "variados", "variedad", "variedades"]),
