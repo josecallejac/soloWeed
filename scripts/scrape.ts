@@ -41,6 +41,13 @@ const STORE_FILTER = new Set(
     .filter(Boolean),
 );
 
+const CATEGORY_FILTER = new Set(
+  (process.env.SCRAPE_CATEGORIES ?? "")
+    .split(",")
+    .map((cat) => cat.trim())
+    .filter(Boolean),
+);
+
 const STORES: StoreConfig[] = [
   {
     slug: "astrogrowshop",
@@ -104,6 +111,11 @@ const STORES: StoreConfig[] = [
       "https://fumetas.cl/vaporizacion",
       "https://fumetas.cl/vaporizadores",
       "https://fumetas.cl/vaporizacion/accesorios",
+      "https://fumetas.cl/marcas/storz-bickel",
+      "https://fumetas.cl/marcas/bonglab",
+      "https://fumetas.cl/marcas/calvo",
+      "https://fumetas.cl/marcas/pax",
+      "https://fumetas.cl/marcas/dynavap",
     ],
     seedUrls: [
       "https://fumetas.cl/moledor-plastico-bulldog-3-partes",
@@ -136,19 +148,27 @@ const STORES: StoreConfig[] = [
       "https://piranha.cl/613-calvo?resultsPerPage=9999999",
       "https://piranha.cl/1323-slx?resultsPerPage=9999999",
       "https://piranha.cl/1309-the-bulldog-amsterdam?resultsPerPage=9999999",
-      "https://piranha.cl/329-contenedores-transporte",
-      "https://piranha.cl/881-bongs",
+      "https://piranha.cl/329-contenedores-transporte?resultsPerPage=9999999",
+      "https://piranha.cl/881-bongs?resultsPerPage=9999999",
       "https://piranha.cl/324-pipas?resultsPerPage=9999999",
       "https://piranha.cl/606-piecemaker?resultsPerPage=9999999",
+      "https://piranha.cl/brand/133-formula-secreta",
+      "https://piranha.cl/brand/194-thievery-industrial-solution",
+      "https://piranha.cl/brand/118-clean-me-detox",
+      "https://piranha.cl/brand/93-can-detox",
+      "https://piranha.cl/brand/139-storz-bickel",
+      "https://piranha.cl/brand/175-bonglab",
+      "https://piranha.cl/brand/166-pax",
+      "https://piranha.cl/brand/178-calvo",
       "https://piranha.cl/205-parafernalia",
       "https://piranha.cl/1293-tabaqueria",
-      "https://piranha.cl/325-papelillos",
-      "https://piranha.cl/326-boquillas-y-pre-enrolados",
-      "https://piranha.cl/327-encendedores",
-      "https://piranha.cl/328-bandejas-ceniceros",
-      "https://piranha.cl/206-vaporx",
-      "https://piranha.cl/306-vaporizadores-hierbas-secas",
-      "https://piranha.cl/1375-accesorios-vaporizadores",
+      "https://piranha.cl/325-papelillos?resultsPerPage=9999999",
+      "https://piranha.cl/326-boquillas-y-pre-enrolados?resultsPerPage=9999999",
+      "https://piranha.cl/327-encendedores?resultsPerPage=9999999",
+      "https://piranha.cl/328-bandejas-ceniceros?resultsPerPage=9999999",
+      "https://piranha.cl/206-vaporx?resultsPerPage=9999999",
+      "https://piranha.cl/306-vaporizadores-hierbas-secas?resultsPerPage=9999999",
+      "https://piranha.cl/1375-accesorios-vaporizadores?resultsPerPage=9999999",
     ],
     seedUrls: [
       "https://piranha.cl/inicio/223/moledor-plastico-bulldog.html",
@@ -182,7 +202,16 @@ const STORES: StoreConfig[] = [
       "https://www.growbaratochile.cl/ocultacion/",
       "https://www.growbaratochile.cl/despues-de-la-cosecha/",
       "https://www.growbaratochile.cl/bonglab/",
+      "https://www.growbaratochile.cl/storz-bickel/",
+      "https://www.growbaratochile.cl/calvo/",
+      "https://www.growbaratochile.cl/pax/",
+      "https://www.growbaratochile.cl/dynavap/",
       "https://www.growbaratochile.cl/ozeta/",
+      "https://www.growbaratochile.cl/raw/",
+      "https://www.growbaratochile.cl/ocb/",
+      "https://www.growbaratochile.cl/gizeh/",
+      "https://www.growbaratochile.cl/blazy-susan/",
+      "https://www.growbaratochile.cl/galaxy/",
     ],
     seedUrls: [
       "https://www.growbaratochile.cl/moledores/moledor-metalico-lion-rolling-circus.html",
@@ -556,7 +585,11 @@ const VAPE_ACCESSORY_TERMS = [
 const VAPORIZER_REPLACEMENT_CATEGORY = "Repuestos para bongs y vaporizadores";
 
 async function main() {
-  console.log(`SoloWeed scraper: up to ${MAX_PRODUCTS_PER_STORE} products per store.`);
+  if (CATEGORY_FILTER.size > 0) {
+    console.log(`SoloWeed scraper: filtering categories: ${[...CATEGORY_FILTER].join(", ")}.`);
+  } else {
+    console.log(`SoloWeed scraper: up to ${MAX_PRODUCTS_PER_STORE} products per store.`);
+  }
 
   const storesToScrape = STORE_FILTER.size
     ? STORES.filter((store) => STORE_FILTER.has(store.slug) || STORE_FILTER.has(store.name))
@@ -600,6 +633,11 @@ async function main() {
         const offer = extractOffer(html, url);
 
         if (!offer) {
+          skipped += 1;
+          continue;
+        }
+
+        if (CATEGORY_FILTER.size > 0 && !CATEGORY_FILTER.has(offer.category)) {
           skipped += 1;
           continue;
         }
@@ -727,11 +765,21 @@ async function prioritizeComparableCandidates(candidates: string[], storeId: num
   });
   const knownFamilies = new Set(knownOffers.map((offer) => getCandidateFamilyKey(offer.url)));
 
-  if (knownFamilies.size === 0) {
-    return candidates;
+  let filtered = candidates;
+
+  if (CATEGORY_FILTER.size > 0) {
+    const categoryKeywords = new Set([...CATEGORY_FILTER].map((cat) => normalizeForSearch(cat).replace(/[^a-z0-9]/g, "")));
+    filtered = candidates.filter((url) => {
+      const category = getCandidateCategoryKey(normalizeForSearch(new URL(url).pathname));
+      return category && categoryKeywords.has(category);
+    });
   }
 
-  return [...candidates].sort((first, second) => {
+  if (knownFamilies.size === 0) {
+    return filtered;
+  }
+
+  return [...filtered].sort((first, second) => {
     const seedPriority = Number(SEEDED_CANDIDATE_URLS.has(second)) - Number(SEEDED_CANDIDATE_URLS.has(first));
 
     if (seedPriority !== 0) {

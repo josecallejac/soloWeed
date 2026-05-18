@@ -509,7 +509,8 @@ function isTooGenericModelKey(category: string, modelKey: string) {
   }
 
   if (category === "Limpieza") {
-    return tokens.every((token) => /^(?:cleaner|limpiador|limpieza|bong|pipe|grinder|250ml|500ml|1l|420|710)$/.test(token));
+    const distinctiveTokens = tokens.filter((token) => !/^(?:cleaner|limpiador|limpieza|bong|pipe|grinder|250ml|500ml|1l|420|710)$/.test(token));
+    return distinctiveTokens.length === 0 && tokens.length <= 3;
   }
 
   if (category === "Vaporizadores electronicos") {

@@ -195,7 +195,41 @@ export const KNOWN_MODEL_PHRASES = [
   "water splash",
 ];
 
-export const KNOWN_BRANDS = ["raw", "ocb", "bonglab", "galaxy", "gizeh", "zippo", "calvo", "clipper", "pax", "ozeta", "futurola"];
+export const KNOWN_BRANDS = [
+  "raw",
+  "ocb",
+  "bonglab",
+  "galaxy",
+  "gizeh",
+  "zippo",
+  "calvo",
+  "clipper",
+  "pax",
+  "ozeta",
+  "futurola",
+  "blazy susan",
+  "storz bickel",
+  "storz & bickel",
+  "dynavap",
+  "davinci",
+  "slx",
+  "hemper",
+  "the bulldog",
+  "cabo",
+  "piecemaker",
+  "american helix",
+  "top smoke",
+  "zengaz",
+  "blunt wrap",
+  "kush hemp",
+  "formula secreta",
+  "focus v",
+  "lion rolling circus",
+  "airis",
+  "mr pipe cleaner",
+  "vibes",
+  "kush",
+];
 
 export type ReviewProfile = ReturnType<typeof buildReviewProfile>;
 
@@ -235,6 +269,17 @@ export function normalizeText(value: string) {
     .trim();
 }
 
+export function getKnownBrand(tokens: Set<string>) {
+  const text = [...tokens].join(" ");
+  for (const brand of KNOWN_BRANDS) {
+    if (text.includes(brand)) {
+      return brand.replace(/\s+/g, "-").replace(/&\s*/g, "-");
+    }
+  }
+
+  return "";
+}
+
 export function hasIntersection(first: Set<string>, second: Set<string>) {
   for (const value of first) {
     if (second.has(value)) {
@@ -265,16 +310,6 @@ export function getSetSimilarity(first: Set<string>, second: Set<string>) {
   const overlap = countIntersection(first, second);
 
   return overlap / (first.size + second.size - overlap);
-}
-
-export function getKnownBrand(tokens: Set<string>) {
-  for (const brand of KNOWN_BRANDS) {
-    if (tokens.has(brand)) {
-      return brand;
-    }
-  }
-
-  return "";
 }
 
 export function getKind(tokens: Set<string>) {

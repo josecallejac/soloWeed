@@ -58,7 +58,9 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
     return pad.top + plotH - ((p - minPrice) / priceRange) * plotH;
   }
 
-  const yTicks = [minPrice, Math.round((minPrice + maxPrice) / 2), maxPrice];
+  const yTicks = [...new Set([minPrice, Math.round((minPrice + maxPrice) / 2), maxPrice])].filter(
+    (v, i, a) => a.indexOf(v) === i,
+  );
   const xTicks = padded[0]?.histories.map((h) => new Date(h.recordedAt).getTime()).sort() ?? [];
 
   function fmtPrice(p: number) {
