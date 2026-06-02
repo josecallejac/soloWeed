@@ -436,8 +436,15 @@ export function extractSizeTokens(text: string, tokens: Set<string>) {
     sizes.add("1-1/4");
   }
 
+  if (/\bking\s*size\s*slim\b|\bking-size-slim\b|\bks\s*slim\b/.test(text)) {
+    sizes.add("king-size-slim");
+  }
+
   if (/\bking\s*size\b|\bking-size\b/.test(text)) {
     sizes.add("king-size");
+    if (/\bblazy-susan\b/.test(text)) {
+      sizes.add("king-size-slim");
+    }
   }
 
   for (const token of tokens) {

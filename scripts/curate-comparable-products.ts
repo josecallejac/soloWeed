@@ -266,6 +266,10 @@ function getComparableModelKey(offer: OfferRow) {
     return getOtherParaphernaliaModelKey(offer);
   }
 
+  if (offer.category === "Papelillos") {
+    return getPaperModelKey(offer);
+  }
+
   return offer.modelKey;
 }
 
@@ -2278,6 +2282,35 @@ const GRINDER_WEAK_MODEL_TOKENS = new Set([
   "piso",
   "pisos",
 ]);
+
+function getPaperModelKey(offer: OfferRow) {
+  const text = normalizeText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url ?? ""}`);
+  const brandKey = offer.brandKey ?? "";
+
+  let size: string | null = null;
+
+  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1\s*-\s*1\s*\/\s*4|1[-_.\s]1[-_.\s]4|1[.,]25|78\s*mm)\b/.test(text)) {
+    size = "1-1-4";
+  } else if (/\b(?:king\s*size\s*slim|ks\s*slim|king\s*slim)\b/.test(text)) {
+    size = "king-size-slim";
+  } else if (/\b(?:king\s*size|ks)\b/.test(text)) {
+    size = "king-size";
+  } else if (/\b(?:30\s*cm|supernatural)\b/.test(text)) {
+    size = "30cm";
+  } else if (/\b(?:single\s*wide|70\s*mm|regular|corto)\b/.test(text)) {
+    size = "single-wide";
+  }
+
+  if (brandKey === "blazy-susan" && size === "king-size") {
+    size = "king-size-slim";
+  }
+
+  if (!size) {
+    return offer.modelKey ? cleanPaperModelSlug(offer.modelKey) : null;
+  }
+
+  return size;
+}
 
 function cleanPaperModelSlug(modelKey: string) {
   return modelKey

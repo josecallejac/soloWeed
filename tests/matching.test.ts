@@ -810,6 +810,20 @@ describe("hasCategorySpecificMismatch", () => {
     assert.equal(hasCategorySpecificMismatch(a, b), false);
   });
 
+  it("allows Blazy Susan king-size and king-size-slim matching", () => {
+    const a = buildReviewProfile({
+      brand: "Blazy Susan", brandKey: "blazy-susan", category: "Papelillos",
+      id: 1, price: 990, productId: 10, storeId: 1,
+      title: "Blazy Susan Papelillos King Size Purple", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "Blazy Susan", brandKey: "blazy-susan", category: "Papelillos",
+      id: 2, price: 1290, productId: null, storeId: 2,
+      title: "Blazy Susan Papelillos King Size Slim Pink", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), false);
+  });
+
   it("detects grinder model conflict", () => {
     const a = buildReviewProfile({
       brand: "galaxy", brandKey: "galaxy", category: "Moledores",
