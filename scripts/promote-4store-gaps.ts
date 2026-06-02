@@ -87,6 +87,32 @@ async function main() {
     console.log('   ⚠️ Error: No se encontró la oferta ID 1442.');
   }
 
+  // 5. OCB X-Pert 1 1/4 (Promocionar a 4 Tiendas)
+  console.log('\n--- 5. OCB X-Pert 1 1/4 ---');
+  const xpertOffer = await prisma.offer.findUnique({
+    where: { id: 787 },
+    include: { store: true }
+  });
+
+  const xpertProduct = await prisma.product.findFirst({
+    where: {
+      brandKey: 'ocb',
+      name: { contains: 'X-Pert' },
+      category: 'Papelillos'
+    }
+  });
+
+  if (xpertOffer && xpertProduct) {
+    await prisma.offer.update({
+      where: { id: xpertOffer.id },
+      data: { productId: xpertProduct.id }
+    });
+    console.log(`   🚨 Vinculada oferta ID ${xpertOffer.id} ("${xpertOffer.title}" de ${xpertOffer.store.name}, $${xpertOffer.price}) al Producto #${xpertProduct.id} ("${xpertProduct.name}").`);
+    console.log(`   ➡️ OCB X-Pert 1 1/4 promovido a 4 TIENDAS.`);
+  } else {
+    console.log('   ⚠️ Error: No se encontró la oferta ID 787 o el producto OCB X-Pert.');
+  }
+
   console.log('\n=== PROCESO COMPLETADO EXITOSAMENTE ===');
 }
 
