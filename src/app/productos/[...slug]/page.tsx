@@ -1,4 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { EmptyState } from "@/components/empty-state";
+import { SiteHeader, BackLink } from "@/components/site-header";
+import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
+import { SummaryCard } from "@/components/summary-card";
+import { formatDateTime, formatPrice, formatPriceRange, formatShortDate } from "@/lib/format";
+import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
@@ -67,25 +73,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       <section className="relative overflow-hidden border-b border-black/10 bg-[#17150f] text-[#f8f4df]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,#bddf57_0,transparent_30%),radial-gradient(circle_at_78%_18%,#7f5af0_0,transparent_24%)] opacity-35" />
         <div className="relative mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:px-10">
-          <header className="flex items-center justify-between gap-4">
-            <Link className="flex items-center gap-3" href="/">
-              <span className="grid size-11 place-items-center rounded-2xl bg-[#bddf57] font-black text-[#17150f] shadow-[5px_5px_0_#000]">
-                SW
-              </span>
-              <span>
-                <span className="block text-xl font-black tracking-tight">SoloWeed</span>
-                <span className="block text-xs uppercase tracking-[0.35em] text-[#bddf57]">
-                  Comparador
-                </span>
-              </span>
-            </Link>
-            <Link
-              className="rounded-full border border-[#f8f4df]/20 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-[#f8f4df]/80 transition hover:border-[#bddf57] hover:text-[#bddf57]"
-              href="/"
-            >
-              Volver
-            </Link>
-          </header>
+          <SiteHeader subtitle="Comparador" trailing={<BackLink />} />
 
           <div className="grid gap-8 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
             <div className="rounded-[2.5rem] border border-[#f8f4df]/15 bg-[#f8f4df] p-4 text-[#17150f] shadow-[14px_14px_0_#000]">
@@ -146,11 +134,11 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           <div className="rounded-[2rem] border border-black/10 bg-[#d8c8ff] p-5">
             <h2 className="text-lg font-black">Datos del catalogo</h2>
             <dl className="mt-4 space-y-3 text-sm">
-              <DetailRow label="Producto" value={`#${product.id}`} />
-              <DetailRow label="Actualizado" value={formatDateTime(product.updatedAt)} />
-              <DetailRow label="Cobertura" value={`${coverage}%`} />
-              <DetailRow label="Con stock" value={`${storesInStock.length}/${stores.length}`} />
-              <DetailRow label="Rango" value={formatPriceRange(minPrice, maxPrice)} />
+              <SummaryCard label="Producto" value={`#${product.id}`} variant="light" />
+              <SummaryCard label="Actualizado" value={formatDateTime(product.updatedAt)} variant="light" />
+              <SummaryCard label="Cobertura" value={`${coverage}%`} variant="light" />
+              <SummaryCard label="Con stock" value={`${storesInStock.length}/${stores.length}`} variant="light" />
+              <SummaryCard label="Rango" value={formatPriceRange(minPrice, maxPrice)} variant="light" />
             </dl>
           </div>
         </aside>
@@ -1438,258 +1426,11 @@ function getDescriptorBonus(seed: ComparableProfile, candidate: ComparableProfil
   return 0;
 }
 
-function hasIntersection(first: Set<string>, second: Set<string>) {
-  for (const value of first) {
-    if (second.has(value)) {
-      return true;
-    }
-  }
 
-  return false;
-}
-
-function hasAnyToken(tokens: Set<string>, values: string[]) {
-  return values.some((value) => tokens.has(value));
-}
-
-function countIntersection(first: Set<string>, second: Set<string>) {
-  let count = 0;
-
-  for (const value of first) {
-    if (second.has(value)) {
-      count += 1;
-    }
-  }
-
-  return count;
-}
-
-function SummaryCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-[1.5rem] border border-[#f8f4df]/15 bg-[#f8f4df]/10 p-5 backdrop-blur">
-      <span className="block text-xs font-black uppercase tracking-[0.18em] text-[#f8f4df]/55">{label}</span>
-      <span className="mt-2 block text-2xl font-black tracking-[-0.04em] text-[#f8f4df]">{value}</span>
-    </div>
-  );
-}
-
-function StoreStatusRow({ row }: { row: StorePrice }) {
-  return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-black/5 px-4 py-3">
-      <div className="min-w-0">
-        <p className="truncate text-sm font-black">{row.store.name}</p>
-        <p className="text-xs font-bold text-black/45">{row.store.platform}</p>
-      </div>
-      <span
-        className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${
-          row.offer ? "bg-[#bddf57] text-[#17150f]" : "bg-white text-black/45"
-        }`}
-      >
-        {row.offer ? formatPrice(row.offer.price) : "Sin dato"}
-      </span>
-    </div>
-  );
-}
-
-function DetailRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl bg-white/60 px-4 py-3">
-      <dt className="font-bold text-black/50">{label}</dt>
-      <dd className="text-right font-black">{value}</dd>
-    </div>
-  );
-}
 
 function NoComparableMatches() {
-  return (
-    <div className="rounded-[2rem] border border-dashed border-black/25 bg-white p-10 text-center">
-      <h3 className="text-2xl font-black">Aun no hay ofertas asociadas</h3>
-      <p className="mx-auto mt-3 max-w-xl text-black/55">
-        Este producto curado todavia no tiene ofertas vigentes asociadas. Vuelve mas tarde para revisar disponibilidad.
-      </p>
-    </div>
-  );
+  return <EmptyState variant="product" />;
 }
 
-function StorePriceCard({
-  row,
-  minPrice,
-  productId,
-}: {
-  row: StorePrice;
-  minPrice?: number;
-  productId: number;
-}) {
-  const { store, offer, offers } = row;
 
-  if (!offer) {
-    return (
-      <article className="flex min-h-72 flex-col justify-between rounded-[2rem] border border-dashed border-black/20 bg-white/65 p-5">
-        <div>
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-2xl font-black tracking-[-0.04em]">{store.name}</p>
-              <p className="mt-1 text-sm font-bold text-black/45">{store.platform}</p>
-            </div>
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-black text-black/45">
-              No detectado
-            </span>
-          </div>
 
-          <div className="mt-8 rounded-[1.5rem] bg-[#eee6d0] p-5">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-black/40">Precio</p>
-            <p className="mt-2 text-4xl font-black tracking-[-0.06em] text-black/35">Sin dato</p>
-            <p className="mt-3 text-sm leading-6 text-black/55">
-              Todavia no hay una opcion asociada a este producto en este growshop.
-            </p>
-          </div>
-        </div>
-
-        <a
-          className="mt-5 rounded-2xl border border-black/10 px-5 py-3 text-center text-sm font-black text-[#17150f] transition hover:bg-white"
-          href={store.baseUrl}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Ver growshop
-        </a>
-      </article>
-    );
-  }
-
-  const hasDiscount = offer.originalPrice && offer.originalPrice > offer.price;
-  const discount = hasDiscount
-    ? Math.round(((offer.originalPrice! - offer.price) / offer.originalPrice!) * 100)
-    : 0;
-  const isLowest = minPrice !== undefined && offer.price === minPrice;
-  const isSuggestedMatch = offer.productId !== productId;
-
-  return (
-    <article className="rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-2xl font-black tracking-[-0.04em]">{store.name}</p>
-          <p className="mt-1 text-sm font-bold text-black/45">{store.platform}</p>
-        </div>
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-black ${
-            offer.inStock ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
-          }`}
-        >
-          {offer.inStock ? "Con stock" : "Sin stock"}
-        </span>
-      </div>
-
-      <div className="mt-5 grid gap-4 sm:grid-cols-[120px_1fr]">
-        <div className="min-h-32 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
-          {offer.imageUrl ? (
-            <img alt={offer.title} className="h-full w-full object-contain p-3" loading="lazy" src={offer.imageUrl} />
-          ) : (
-            <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-3xl font-black">
-              SW
-            </div>
-          )}
-        </div>
-
-        <div className="min-w-0">
-          <div className="flex flex-wrap gap-2">
-            {isLowest ? (
-              <span className="rounded-full bg-[#7f5af0] px-3 py-1 text-xs font-black text-white">
-                Precio menor
-              </span>
-            ) : null}
-            {isSuggestedMatch ? (
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-800">
-                Match sugerido
-              </span>
-            ) : null}
-            {offers.length > 1 ? (
-              <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-black text-black/55">
-                {offers.length} opciones
-              </span>
-            ) : null}
-            {discount > 0 ? (
-              <span className="rounded-full bg-[#bddf57] px-3 py-1 text-xs font-black text-[#17150f]">
-                -{discount}%
-              </span>
-            ) : null}
-          </div>
-
-          <h3 className="mt-3 text-lg font-black leading-tight tracking-[-0.02em]">{offer.title}</h3>
-          <p className="mt-2 text-sm leading-6 text-black/55">
-            {offer.sourceCategory ? `${offer.sourceCategory} · ` : ""}
-            Actualizado {formatDateTime(offer.lastSeenAt)}
-            {offer.availability ? ` · ${offer.availability}` : ""}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-5 rounded-[1.5rem] bg-[#17150f] p-5 text-[#f8f4df]">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f8f4df]/50">Precio detectado</p>
-        <div className="mt-2 flex flex-wrap items-end gap-3">
-          <span className="text-4xl font-black tracking-[-0.06em]">{formatPrice(offer.price)}</span>
-          {hasDiscount ? (
-            <span className="pb-1 text-sm font-semibold text-[#f8f4df]/40 line-through">
-              {formatPrice(offer.originalPrice!)}
-            </span>
-          ) : null}
-        </div>
-      </div>
-
-      {offer.histories.length > 1 ? (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {offer.histories.map((history) => (
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/50" key={history.id}>
-              {formatShortDate(history.recordedAt)}: {formatPrice(history.price)}
-            </span>
-          ))}
-        </div>
-      ) : null}
-
-      <a
-        className="mt-5 block rounded-2xl bg-[#bddf57] px-5 py-3 text-center text-sm font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]"
-        href={offer.url}
-        rel="noreferrer"
-        target="_blank"
-      >
-        Ir a tienda
-      </a>
-    </article>
-  );
-}
-
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("es-CL", {
-    style: "currency",
-    currency: "CLP",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatPriceRange(minPrice?: number, maxPrice?: number) {
-  if (minPrice === undefined || maxPrice === undefined) {
-    return "Sin precio";
-  }
-
-  if (minPrice === maxPrice) {
-    return formatPrice(minPrice);
-  }
-
-  return `${formatPrice(minPrice)} - ${formatPrice(maxPrice)}`;
-}
-
-function formatDateTime(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(value);
-}
-
-function formatShortDate(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
-    day: "2-digit",
-    month: "short",
-  }).format(value);
-}

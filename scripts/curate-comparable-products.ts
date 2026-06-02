@@ -25,7 +25,7 @@ type CandidateGroup = {
   stores: Set<number>;
 };
 
-const MAX_PRODUCTS_PER_CATEGORY = Number(process.env.CURATE_MAX_PRODUCTS_PER_CATEGORY ?? 20);
+const MAX_PRODUCTS_PER_CATEGORY = Number(process.env.CURATE_MAX_PRODUCTS_PER_CATEGORY ?? 9999);
 const MIN_STORES = Number(process.env.CURATE_MIN_STORES ?? 2);
 const APPLY = process.argv.includes("--apply");
 const PINNED_GROUP_KEYS = new Set([
@@ -670,13 +670,19 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
   }
 
   if (brandKey === "the-bulldog" && text.includes("bulldog") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
-    return ["plastic", ...getGrinderPartCounts(text, tokens), "60mm"].join("-");
+    const plasticSizes = sizes.length > 0 ? sizes : ["60mm"];
+    return ["plastic", ...getGrinderPartCounts(text, tokens), ...plasticSizes].join("-");
   }
 
   if (brandKey === "the-bulldog" && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "metal")) {
+    const metalSizes = sizes.length > 0 ? sizes : [];
     const partCounts = getGrinderPartCounts(text, tokens);
 
-    return ["metal", ...partCounts].join("-");
+    if (text.includes("llavero") || text.includes("keychain")) {
+      return ["metal", "llavero", ...metalSizes].join("-");
+    }
+
+    return ["metal", ...partCounts, ...metalSizes].join("-");
   }
 
   if (brandKey === "storz-bickel" && tokens.includes("xl") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
@@ -687,6 +693,32 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
 
   if (brandKey === "lion-rolling-circus" && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "metal")) {
     return ["metal", ...getGrinderPartCounts(text, tokens)].join("-");
+  }
+
+  if (brandKey === "ocb") {
+    if (rawTokens.some((t) => t === "eco" || t === "hemp" || t === "mix")) {
+      return "eco";
+    }
+    if (rawTokens.some((t) => GRINDER_MATERIAL_TOKENS.get(t) === "metal")) {
+      return ["metal", ...sizes].join("-");
+    }
+  }
+
+  if (brandKey === "g-rollz") {
+    if (sizes.includes("53mm")) {
+      return "banksy-53mm";
+    }
+    if (rawTokens.some((t) => GRINDER_MATERIAL_TOKENS.get(t) === "metal")) {
+      return ["metal", ...getGrinderPartCounts(text, tokens), ...sizes].join("-");
+    }
+  }
+
+  if (brandKey === "blazy-susan" && rawTokens.some((t) => GRINDER_MATERIAL_TOKENS.get(t) === "metal")) {
+    return ["metal", ...sizes].join("-");
+  }
+
+  if (brandKey === "soulblime" && (text.includes("tarjeta") || text.includes("card"))) {
+    return "tarjeta";
   }
 
   return null;
@@ -2201,17 +2233,25 @@ const GRINDER_MATERIAL_TOKENS = new Map([
 
 const GRINDER_MODEL_PATTERNS: Array<[string, string[]]> = [
   ["herb-saver", ["herb", "saver"]],
+  ["herb-saver-mini", ["herb", "saver", "mini"]],
   ["new-pro-model", ["new", "pro", "model"]],
   ["new-pro-model", ["pro", "model"]],
   ["square-ceramic", ["square", "ceramic"]],
   ["pocket-ceramic", ["pocket", "ceramic"]],
   ["ceramics", ["ceramics"]],
   ["ecologico", ["ecologico"]],
+  ["eco", ["eco"]],
   ["lightning", ["lightning"]],
   ["quartz", ["quartz"]],
   ["swing", ["swing"]],
   ["lite", ["lite"]],
   ["mars", ["mars"]],
+  ["tarjeta", ["tarjeta"]],
+  ["card", ["card"]],
+  ["acrilico", ["acrilico"]],
+  ["acrylic", ["acrylic"]],
+  ["llavero", ["llavero"]],
+  ["keychain", ["keychain"]],
 ];
 
 const GRINDER_WEAK_MODEL_TOKENS = new Set([

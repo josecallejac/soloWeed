@@ -133,6 +133,24 @@ export const MODEL_TOKENS = new Set([
   "tube",
   "venty",
   "weld",
+  // Grinder models
+  "herb",
+  "saver",
+  "mini",
+  "mars",
+  "swing",
+  "lite",
+  "ecologico",
+  "eco",
+  "tarjeta",
+  "card",
+  "acrilico",
+  "acrylic",
+  "llavero",
+  "keychain",
+  "ceramics",
+  "quartz",
+  "lightning",
 ]);
 
 export const KNOWN_MODEL_PHRASES = [
@@ -619,9 +637,21 @@ function hasGrinderConflict(
   const candAll = new Set([...candidate.coreTokens, ...candidate.modelTokens, ...candidate.materials]);
 
   // Check for distinct model indicator tokens
-  const grinderModels = new Set(["quartz", "lightning", "ceramic"]);
+  const grinderModels = new Set([
+    "quartz", "lightning", "ceramic", "ceramics",
+    "mars", "new-pro-model", "ecologico", "eco",
+    "swing", "lite",
+    "tarjeta", "card", "acrilico", "acrylic", "llavero", "keychain",
+  ]);
   const seedModels = new Set([...seedAll].filter((t) => grinderModels.has(t)));
   const candModels = new Set([...candAll].filter((t) => grinderModels.has(t)));
+
+  // Check for herb-saver phrase (tokenized as "herb" + "saver")
+  const seedHasHerbSaver = seedAll.has("herb") && seedAll.has("saver");
+  const candHasHerbSaver = candAll.has("herb") && candAll.has("saver");
+  if (seedHasHerbSaver) seedModels.add("herb-saver");
+  if (candHasHerbSaver) candModels.add("herb-saver");
+
   if (seedModels.size > 0 && candModels.size > 0 && !hasIntersection(seedModels, candModels)) return true;
 
   // Check for "new pro model" phrase vs different model
@@ -673,7 +703,7 @@ function hasFilterConflict(
   candidate: ReturnType<typeof buildReviewProfile>,
 ) {
   // Filter type: only conflict on fundamentally incompatible types
-  const fundamentalFilterTypes = new Set(["gummed", "carbon", "carbón", "glass", "vidrio", "pre-rolled"]);
+  const fundamentalFilterTypes = new Set(["gummed", "carbon", "carbón", "glass", "vidrio", "pre-rolled", "original"]);
   const seedTypes = new Set([...seed.coreTokens].filter((t) => fundamentalFilterTypes.has(t)));
   const candTypes = new Set([...candidate.coreTokens].filter((t) => fundamentalFilterTypes.has(t)));
 
@@ -752,21 +782,8 @@ export function scoreSuggestion(seed: ReviewOfferInput, candidate: ReviewOfferIn
     return { reasons: ["Modelo RAW distinto"], score: 0 };
   }
 
-  let paperVariantPenalty = 0;
-
   if (seedProfile.paperVariant && candidateProfile.paperVariant && seedProfile.paperVariant !== candidateProfile.paperVariant) {
-    paperVariantPenalty = 0.22;
-    reasons.push("variante de papel distinta");
-  } else if (seedProfile.paperVariant && !candidateProfile.paperVariant) {
-    if (seedProfile.paperVariant !== "classic" || hasPaperVariantToken(candidateProfile.coreTokens)) {
-      paperVariantPenalty = 0.16;
-      reasons.push("variante de papel sin clasificar");
-    }
-  } else if (!seedProfile.paperVariant && candidateProfile.paperVariant) {
-    if (candidateProfile.paperVariant !== "classic" || hasPaperVariantToken(seedProfile.coreTokens)) {
-      paperVariantPenalty = 0.16;
-      reasons.push("variante de papel sin clasificar");
-    }
+    return { reasons: ["Variante de papel distinta"], score: 0 };
   }
 
   // Category-specific mismatch checks
@@ -854,8 +871,6 @@ export function scoreSuggestion(seed: ReviewOfferInput, candidate: ReviewOfferIn
     score += 0.22;
     reasons.push(`modelo ${seedProfile.rawModel}`);
   }
-
-  score = Math.max(0, score - paperVariantPenalty);
 
   return { reasons, score };
 }

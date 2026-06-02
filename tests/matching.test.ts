@@ -792,4 +792,60 @@ describe("hasCategorySpecificMismatch", () => {
     });
     assert.equal(hasCategorySpecificMismatch(a, b), true);
   });
+
+  it("detects grinder model conflict (mars vs quartz)", () => {
+    const a = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 1, price: 27990, productId: 10, storeId: 1,
+      title: "Mars Grinder 55mm Galaxy", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 2, price: 47990, productId: null, storeId: 2,
+      title: "Galaxy Moledor Quartz 63mm", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects grinder model conflict (herb-saver vs mars)", () => {
+    const a = buildReviewProfile({
+      brand: "blazy-susan", brandKey: "blazy-susan", category: "Moledores",
+      id: 1, price: 24493, productId: 10, storeId: 1,
+      title: "Blazy Susan Herb Saver Grinder", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 2, price: 27990, productId: null, storeId: 2,
+      title: "Mars Grinder 55mm Galaxy", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects grinder model conflict (swing vs lite)", () => {
+    const a = buildReviewProfile({
+      brand: "the-bulldog", brandKey: "the-bulldog", category: "Moledores",
+      id: 1, price: 22100, productId: 10, storeId: 1,
+      title: "Moledor Bulldog Amsterdam Metalico Swing Giratorio", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "calvo", brandKey: "calvo", category: "Moledores",
+      id: 2, price: 9990, productId: null, storeId: 2,
+      title: "Calvo Moledor Lite 63mm Aluminio", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("allows matching grinders with same model (mars vs mars)", () => {
+    const a = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 1, price: 27990, productId: 10, storeId: 1,
+      title: "Mars Grinder 55mm Galaxy", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 2, price: 29512, productId: null, storeId: 2,
+      title: "Galaxy Mars Grinder Aluminio 55mm", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), false);
+  });
 });

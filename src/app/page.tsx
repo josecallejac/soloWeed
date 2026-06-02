@@ -2,6 +2,47 @@
 import { CategoryFilters } from "./category-filters";
 import { SortControls } from "./sort-controls";
 import { StoreFilters } from "./store-filters";
+import { OfferCard } from "@/components/offer-card";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { StatsPanel } from "@/components/stats-panel";
+import { EmptyState } from "@/components/empty-state";
+import { formatDate } from "@/lib/format";
+import {
+  BRAND_MODEL_MATCH_CATEGORIES,
+  BRAND_SIZE_MATCH_CATEGORIES,
+  COLOR_KEYS,
+  GENERIC_TOKENS,
+  HARD_MODEL_TOKENS,
+  KNOWN_BRAND_PHRASES,
+  MATERIAL_KEYS,
+  MATERIAL_TOKENS,
+  SCALE_KEYS,
+} from "@/lib/matching-constants";
+import {
+  cleanTitle,
+  countIntersection,
+  getAccessoryKind,
+  getColorKeys,
+  getDescriptorKey,
+  getHardModelTokens,
+  getMaterialKey,
+  getMillimeters,
+  getRawTrayModel,
+  getScaleKeys,
+  getSizeKey,
+  getUrlPath,
+  hasAccessoryKindConflict,
+  hasAnyToken,
+  hasCompatibleSize,
+  hasHardModelConflict,
+  hasIntersection,
+  hasRawTrayModelConflict,
+  hasScaleConflict,
+  isIdentifierToken,
+  isSizeResidue,
+} from "@/lib/matching-utils";
+import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
@@ -87,22 +128,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <section className="relative border-b border-black/10 bg-[#17150f] text-[#f8f4df]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#bddf57_0,transparent_34%),radial-gradient(circle_at_80%_20%,#7f5af0_0,transparent_26%)] opacity-35" />
         <div className="relative mx-auto flex min-h-[520px] w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
-          <header className="flex items-center justify-between gap-4">
-            <Link className="flex items-center gap-3" href="/">
-              <span className="grid size-11 place-items-center rounded-2xl bg-[#bddf57] font-black text-[#17150f] shadow-[5px_5px_0_#000]">
-                SW
-              </span>
-              <span>
-                <span className="block text-xl font-black tracking-tight">SoloWeed</span>
-                <span className="block text-xs uppercase tracking-[0.35em] text-[#bddf57]">
-                  Compara parafernalia
-                </span>
-              </span>
-            </Link>
-            <span className="rounded-full border border-[#f8f4df]/25 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[#f8f4df]/75">
-              +18
-            </span>
-          </header>
+          <SiteHeader subtitle="Compara parafernalia" />
 
           <div className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -241,9 +267,7 @@ export default async function Home({ searchParams }: HomeProps) {
         </section>
       </section>
 
-      <footer className="border-t border-black/10 bg-white/50 px-5 py-8 text-center text-sm text-black/55">
-        SoloWeed no vende productos. Te ayudamos a comparar alternativas disponibles en tiendas externas para mayores de edad.
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
@@ -252,21 +276,17 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
   try {
     const normalizedQuery = normalizeForSearch(query);
     const queryWhere = buildSearchWhere(normalizedQuery);
-    const where: Prisma.OfferWhereInput = {
-      ...queryWhere,
-      ...(selectedCategory ? { category: selectedCategory } : {}),
-      ...(options?.storeFilter?.length ? { store: { slug: { in: options.storeFilter } } } : {}),
-    };
     const page = options?.page ?? 1;
 
     const [stores, offersRaw, categories, offerCount, productCount, historyCount, covRows] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
-      prisma.offer.findMany({
-        where,
-        include: { store: true },
-        orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
-        take: 2000, // must cover all offers so storeCount is accurate for expensive products
-      }),
+      prisma.$queryRawUnsafe(`
+        SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
+        FROM "Offer"
+        LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
+        ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
+        LIMIT 2000
+      `),
       getComparableCategoryCounts(normalizedQuery, queryWhere),
       prisma.offer.count(),
       prisma.product.count(),
@@ -279,8 +299,71 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       `,
     ]);
 
+    // Reconstruct offers from raw query results (bypasses Prisma strict type coercion)
+    const storeMap = new Map<string, { id: number; slug: string; name: string; baseUrl: string; platform: string; enabled: boolean; createdAt: Date; updatedAt: Date }>();
+    for (const s of stores) storeMap.set(s.slug, s);
+
+    const rawOffers = offersRaw as Array<Record<string, unknown>>;
+    const offersWithStore = rawOffers.map((row) => {
+      const store = {
+        id: row.store_slug ? (storeMap.get(row.store_slug as string)?.id ?? 0) : 0,
+        slug: (row.store_slug as string) ?? "",
+        name: (row.store_name as string) ?? "",
+        baseUrl: (row.store_baseUrl as string) ?? "",
+        platform: (row.store_platform as string) ?? "",
+        enabled: Boolean(row.store_enabled),
+        createdAt: row.store_createdAt as Date,
+        updatedAt: row.store_updatedAt as Date,
+      };
+      const offer = {
+        id: row.id as number,
+        storeId: row.storeId as number,
+        productId: (row.productId === "null" || row.productId === "" || row.productId === null) ? null : Number(row.productId),
+        url: row.url as string,
+        sourceId: row.sourceId as string | null,
+        title: row.title as string,
+        normalizedTitle: row.normalizedTitle as string,
+        brand: row.brand as string | null,
+        brandKey: row.brandKey as string | null,
+        modelKey: row.modelKey as string | null,
+        category: row.category as string,
+        sourceCategory: row.sourceCategory as string | null,
+        description: row.description as string | null,
+        imageUrl: row.imageUrl as string | null,
+        price: row.price as number,
+        originalPrice: row.originalPrice as number | null,
+        currency: row.currency as string,
+        inStock: Boolean(row.inStock),
+        availability: row.availability as string | null,
+        enabled: row.enabled as number,
+        lastSeenAt: row.lastSeenAt as Date,
+        createdAt: row.createdAt as Date,
+        updatedAt: row.updatedAt as Date,
+        store,
+      };
+      return offer;
+    });
+
+    // Apply where clause filtering in JS
+    const terms = normalizedQuery.split(" ").filter(Boolean);
+    const filtered = offersWithStore.filter((o) => {
+      if (terms.length > 0) {
+        const matchTerm = terms.some((term) =>
+          o.normalizedTitle.toLowerCase().includes(term) ||
+          (o.brand?.toLowerCase().includes(term) ?? false) ||
+          o.category.toLowerCase().includes(term)
+        );
+        if (!matchTerm) return false;
+      }
+      if (selectedCategory && o.category !== selectedCategory) return false;
+      if (options?.storeFilter?.length && !options.storeFilter.includes(o.store.slug)) return false;
+      return true;
+    });
+
+    const filteredOffers = filtered;
+
     // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
-    const productIds = [...new Set(offersRaw.map((o) => o.productId).filter(Boolean))] as number[];
+    const productIds = [...new Set(filteredOffers.map((o) => o.productId).filter(Boolean))] as number[];
     const productMap = new Map<number, CatalogOffer["product"]>();
     if (productIds.length > 0) {
       const products = await prisma.product.findMany({
@@ -288,7 +371,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       });
       for (const p of products) productMap.set(p.id, p);
     }
-    const offers = offersRaw.map((o): CatalogOffer => ({
+    const offers = filteredOffers.map((o): CatalogOffer => ({
       ...o,
       product: o.productId ? productMap.get(o.productId) ?? null : null,
     }));
@@ -441,14 +524,75 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
     return cached.categories;
   }
 
-  const offers = await prisma.offer.findMany({
-    where,
-    include: {
-      store: true,
-      product: true,
-    },
-    orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
-  });
+  const offersRaw = await prisma.$queryRawUnsafe(`
+    SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
+    FROM "Offer"
+    LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
+    ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
+  `) as Array<Record<string, unknown>>;
+
+  const stores = await prisma.store.findMany({ orderBy: { name: "asc" } });
+  const storeMap = new Map<string, { id: number; slug: string; name: string; baseUrl: string; platform: string; enabled: boolean; createdAt: Date; updatedAt: Date }>();
+  for (const s of stores) storeMap.set(s.slug, s);
+
+  const terms = normalizedQuery.split(" ").filter(Boolean);
+  const categoryFilter = (where as Record<string, unknown>).category as string | undefined;
+  const storeFilter = ((where as Record<string, unknown>).store as Record<string, unknown> | undefined)?.slug as { in?: string[] } | undefined;
+  const storeSlugs = storeFilter?.in;
+
+  const offers = offersRaw
+    .map((row) => {
+      const store = {
+        id: row.store_slug ? (storeMap.get(row.store_slug as string)?.id ?? 0) : 0,
+        slug: (row.store_slug as string) ?? "",
+        name: (row.store_name as string) ?? "",
+        baseUrl: (row.store_baseUrl as string) ?? "",
+        platform: (row.store_platform as string) ?? "",
+        enabled: Boolean(row.store_enabled),
+        createdAt: row.store_createdAt as Date,
+        updatedAt: row.store_updatedAt as Date,
+      };
+      return {
+        id: row.id as number,
+        storeId: row.storeId as number,
+        productId: (row.productId === "null" || row.productId === "" || row.productId === null) ? null : Number(row.productId),
+        url: row.url as string,
+        sourceId: row.sourceId as string | null,
+        title: row.title as string,
+        normalizedTitle: row.normalizedTitle as string,
+        brand: row.brand as string | null,
+        brandKey: row.brandKey as string | null,
+        modelKey: row.modelKey as string | null,
+        category: row.category as string,
+        sourceCategory: row.sourceCategory as string | null,
+        description: row.description as string | null,
+        imageUrl: row.imageUrl as string | null,
+        price: row.price as number,
+        originalPrice: row.originalPrice as number | null,
+        currency: row.currency as string,
+        inStock: Boolean(row.inStock),
+        availability: row.availability as string | null,
+        enabled: row.enabled as number,
+        lastSeenAt: row.lastSeenAt as Date,
+        createdAt: row.createdAt as Date,
+        updatedAt: row.updatedAt as Date,
+        store,
+        product: null,
+      };
+    })
+    .filter((o) => {
+      if (terms.length > 0) {
+        const matchTerm = terms.some((term) =>
+          o.normalizedTitle.toLowerCase().includes(term) ||
+          (o.brand?.toLowerCase().includes(term) ?? false) ||
+          o.category.toLowerCase().includes(term)
+        );
+        if (!matchTerm) return false;
+      }
+      if (categoryFilter && o.category !== categoryFilter) return false;
+      if (storeSlugs?.length && !storeSlugs.includes(o.store.slug)) return false;
+      return true;
+    });
   const categories = buildCatalogItems(offers)
     .filter(hasCatalogCategoryVisibility)
     .reduce((counts, item) => {
@@ -470,297 +614,15 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
   return categoryCounts;
 }
 
-const CATALOG_BRAND_PHRASES = [
-  "airis",
-  "american helix",
-  "actitube",
-  "arizer",
-  "blazy susan",
-  "blazer",
-  "bonglab",
-  "bulldog",
-  "cabo",
-  "calvo",
-  "dynavap",
-  "elements",
-  "dream high",
-  "eyce",
-  "formula secreta",
-  "futurola",
-  "galaxy",
-  "gizeh",
-  "grav",
-  "g-rollz",
-  "hemper",
-  "hightrip",
-  "ignite",
-  "lion rolling circus",
-  "mj arsenal",
-  "ocb",
-  "ozeta",
-  "pax",
-  "piecemaker",
-  "pulsar",
-  "raw",
-  "ronson",
-  "santa cruz shredder",
-  "santa cruz",
-  "slx",
-  "soulblime",
-  "smokers choice",
-  "storz bickel",
-  "strabe glass",
-  "the bulldog",
-  "the bulldog amsterdam",
-  "top smoke",
-  "vibes",
-  "xvape",
-  "zengaz",
-  "zippo",
-];
+const CATALOG_GENERIC_TOKENS = GENERIC_TOKENS;
 
-const CATALOG_GENERIC_TOKENS = new Set([
-  "a",
-  "accesorio",
-  "accesorios",
-  "aleatoria",
-  "aleatorio",
-  "aprox",
-  "aproximado",
-  "articulo",
-  "articulos",
-  "activado",
-  "activo",
-  "bandeja",
-  "bandejas",
-  "bong",
-  "bongs",
-  "boquilla",
-  "boquillas",
-  "brand",
-  "blanqueado",
-  "blanqueados",
-  "blanquear",
-  "blanqueamiento",
-  "cannabis",
-  "chile",
-  "cl",
-  "cierre",
-  "cm",
-  "color",
-  "colorante",
-  "colorantes",
-  "colores",
-  "compacto",
-  "compartidor",
-  "compartimento",
-  "compartimentos",
-  "con",
-  "de",
-  "del",
-  "duradero",
-  "diseno",
-  "el",
-  "eleccion",
-  "en",
-  "enrolar",
-  "extra",
-  "extrafino",
-  "extrafinos",
-  "fine",
-  "fino",
-  "finos",
-  "fumar",
-  "filtro",
-  "filtros",
-  "generico",
-  "gb",
-  "grinder",
-  "growbarato",
-  "hoja",
-  "hojas",
-  "html",
-  "http",
-  "https",
-  "king",
-  "la",
-  "las",
-  "liar",
-  "los",
-  "m",
-  "modelo",
-  "ml",
-  "mm",
-  "moledor",
-  "moledores",
-  "natural",
-  "neodimio",
-  "new",
-  "origen",
-  "para",
-  "parafernalia",
-  "papel",
-  "papeleria",
-  "papeles",
-  "papelillo",
-  "papelillos",
-  "parte",
-  "partes",
-  "pipa",
-  "pipas",
-  "piranha",
-  "producto",
-  "productos",
-  "resistente",
-  "shop",
-  "sin",
-  "size",
-  "slim",
-  "the",
-  "tienda",
-  "tamiz",
-  "tip",
-  "tips",
-  "ultra",
-  "ultrafino",
-  "ultrafinos",
-  "u",
-  "ud",
-  "uds",
-  "und",
-  "unidad",
-  "unidades",
-  "variado",
-  "variados",
-  "variedad",
-  "variedades",
-  "vegano",
-  "www",
-  "y",
-]);
-
-const CATALOG_MATERIAL_TOKENS = new Set([
-  "acrilico",
-  "aluminio",
-  "aluminum",
-  "ceramic",
-  "ceramics",
-  "ceramica",
-  "ceramico",
-  "carton",
-  "cartonico",
-  "cardboard",
-  "carbon",
-  "borosilicato",
-  "borosilicate",
-  "glass",
-  "cuarzo",
-  "madera",
-  "metalica",
-  "metalico",
-  "plastic",
-  "plastico",
-  "pyrex",
-  "quartz",
-  "silicona",
-  "silicone",
-  "vidrio",
-]);
-
-const CATALOG_MATERIAL_KEYS = new Map([
-  ["aluminio", "metal"],
-  ["aluminum", "metal"],
-  ["ceramic", "ceramic"],
-  ["ceramics", "ceramic"],
-  ["ceramica", "ceramic"],
-  ["ceramico", "ceramic"],
-  ["carton", "paper"],
-  ["cartonico", "paper"],
-  ["cardboard", "paper"],
-  ["carbon", "carbon"],
-  ["borosilicato", "glass"],
-  ["borosilicate", "glass"],
-  ["cuarzo", "quartz"],
-  ["pyrex", "glass"],
-  ["quartz", "quartz"],
-  ["vidrio", "glass"],
-  ["metalica", "metal"],
-  ["metalico", "metal"],
-  ["plastic", "plastic"],
-  ["plastico", "plastic"],
-  ["silicona", "silicone"],
-  ["silicone", "silicone"],
-]);
-
-const CATALOG_COLOR_GROUPS = [
-  ["amarillo"],
-  ["azul", "blue", "celeste"],
-  ["black", "negra", "negro"],
-  ["blanco", "white"],
-  ["clear", "transparente"],
-  ["dorado", "gold"],
-  ["green", "verde"],
-  ["morado", "purple"],
-  ["pink", "rosada", "rosado", "rose"],
-  ["plateado", "silver"],
-  ["red", "rojo"],
-];
-
-const CATALOG_COLOR_KEYS = new Map<string, string>(
-  CATALOG_COLOR_GROUPS.flatMap((group) => group.map((token) => [token, group[0]] as const)),
-);
-
-const CATALOG_SCALE_GROUPS = [
-  ["mini", "pequena", "pequeno", "small"],
-  ["mediana", "mediano", "medium"],
-  ["grande", "large"],
-];
-
-const CATALOG_SCALE_KEYS = new Map<string, string>(
-  CATALOG_SCALE_GROUPS.flatMap((group) => group.map((token) => [token, group[0]] as const)),
-);
-
-const CATALOG_HARD_MODEL_TOKENS = new Set([
-  "diamond",
-  "giratorio",
-  "herb",
-  "lightning",
-  "lite",
-  "mars",
-  "model",
-  "pocket",
-  "pro",
-  "quartz",
-  "saver",
-  "square",
-  "swing",
-]);
-
-const CATALOG_BRAND_SIZE_MATCH_CATEGORIES = new Set([
-  "accesorios de extraccion",
-  "conos y blunts",
-  "contenedores y estuches",
-  "encendedores y sopletes",
-  "filtros y boquillas",
-  "limpieza",
-  "papelillos",
-  "repuestos para bongs y vaporizadores",
-]);
-
-const CATALOG_BRAND_MODEL_MATCH_CATEGORIES = new Set([
-  "accesorios de extraccion",
-  "bandejas y ceniceros",
-  "bongs",
-  "contenedores y estuches",
-  "encendedores y sopletes",
-  "filtros y boquillas",
-  "limpieza",
-  "moledores",
-  "papelillos",
-  "pipas",
-  "repuestos para bongs y vaporizadores",
-  "vaporizadores herbales",
-]);
+const CATALOG_MATERIAL_TOKENS = MATERIAL_TOKENS;
+const CATALOG_MATERIAL_KEYS = MATERIAL_KEYS;
+const CATALOG_COLOR_KEYS = COLOR_KEYS;
+const CATALOG_SCALE_KEYS = SCALE_KEYS;
+const CATALOG_HARD_MODEL_TOKENS = HARD_MODEL_TOKENS;
+const CATALOG_BRAND_SIZE_MATCH_CATEGORIES = BRAND_SIZE_MATCH_CATEGORIES;
+const CATALOG_BRAND_MODEL_MATCH_CATEGORIES = BRAND_MODEL_MATCH_CATEGORIES;
 
 type CatalogProfile = {
   accessoryKind: string | null;
@@ -877,7 +739,7 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
   const stores = Array.from(new Map(offers.map((offer) => [offer.store.id, offer.store])).values()).sort((first, second) =>
     first.name.localeCompare(second.name),
   );
-  const prices = offers.map((offer) => offer.price);
+  const prices = offers.filter((offer) => offer.inStock && offer.price > 0).map((offer) => offer.price);
   const lastSeenAt = new Date(Math.max(...offers.map((offer) => offer.lastSeenAt.getTime())));
   // Prefer real product store count over fuzzy grouping
   const productOffers = productOffer.productId
@@ -893,8 +755,8 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
     imageUrl: representative.imageUrl ?? productOffer.product?.imageUrl ?? offers.find((offer) => offer.imageUrl)?.imageUrl ?? null,
     inStock: offers.some((offer) => offer.inStock),
     lastSeenAt,
-    maxPrice: Math.max(...prices),
-    minPrice: Math.min(...prices),
+    maxPrice: prices.length > 0 ? Math.max(...prices) : 0,
+    minPrice: prices.length > 0 ? Math.min(...prices) : 0,
     offerCount: offers.length,
     originalPrice: representative.originalPrice,
     product: productOffer.product,
@@ -1051,7 +913,7 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
   const sizeMatches = hasCatalogCompatibleSize(firstProfile.sizes, secondProfile.sizes);
   const colorMatches = hasCatalogIntersection(firstProfile.colorKeys, secondProfile.colorKeys);
   const identifierMatches = hasCatalogIntersection(firstProfile.identifiers, secondProfile.identifiers);
-  const coreOverlap = countCatalogIntersection(firstProfile.coreTokens, secondProfile.coreTokens);
+  const coreOverlap = countIntersection(firstProfile.coreTokens, secondProfile.coreTokens);
 
   if (
     hasCatalogDistinctiveConflict(firstProfile.coreTokens, secondProfile.coreTokens) &&
@@ -1248,7 +1110,7 @@ function extractCatalogBrandTokens(text: string, brand: string | null) {
     }
   }
 
-  for (const brandPhrase of CATALOG_BRAND_PHRASES) {
+  for (const brandPhrase of KNOWN_BRAND_PHRASES) {
     const parts = [...tokenizeCatalogText(normalizeCatalogText(brandPhrase))];
 
     if (parts.length > 0 && parts.every((part) => tokens.has(part))) {
@@ -1360,14 +1222,14 @@ function hasCatalogCompatibleSize(first: Set<string>, second: Set<string>) {
   }
 
   for (const firstSize of first) {
-    const firstMillimeters = getCatalogMillimeters(firstSize);
+    const firstMillimeters = getMillimeters(firstSize);
 
     if (firstMillimeters === undefined) {
       continue;
     }
 
     for (const secondSize of second) {
-      const secondMillimeters = getCatalogMillimeters(secondSize);
+      const secondMillimeters = getMillimeters(secondSize);
 
       if (secondMillimeters !== undefined && Math.abs(firstMillimeters - secondMillimeters) <= 4) {
         return true;
@@ -1632,233 +1494,12 @@ function getCatalogScaleKeys(tokens: Set<string>) {
   return keys;
 }
 
-function getCatalogMillimeters(size: string) {
-  const match = size.match(/^(\d+)mm$/);
-  return match ? Number(match[1]) : undefined;
-}
-
 function hasCatalogDistinctiveConflict(first: Set<string>, second: Set<string>) {
   if (first.size === 0 && second.size === 0) {
     return false;
   }
 
-  return !hasCatalogIntersection(first, second);
+  return !hasIntersection(first, second);
 }
 
-function countCatalogIntersection(first: Set<string>, second: Set<string>) {
-  let count = 0;
 
-  for (const value of first) {
-    if (second.has(value)) {
-      count += 1;
-    }
-  }
-
-  return count;
-}
-
-function StatsPanel({ data }: { data: CatalogData }) {
-  const stats = [
-    ["Tiendas", data.stats.storeCount],
-    ["Ofertas", data.stats.offerCount],
-    ["Productos", data.stats.productCount],
-    ["Seguimiento", data.stats.historyCount],
-  ];
-
-  return (
-    <div className="rounded-[2.5rem] border border-[#f8f4df]/15 bg-[#f8f4df] p-4 text-[#17150f] shadow-[14px_14px_0_#000]">
-      <div className="rounded-[2rem] bg-[#bddf57] p-6">
-        <p className="text-sm font-black uppercase tracking-[0.22em]">Radar SoloWeed</p>
-        <p className="mt-3 text-3xl font-black tracking-[-0.04em]">
-          Catalogo en movimiento con ofertas de tiendas reales.
-        </p>
-        {data.dbReady && (data.coverage.full > 0 || data.coverage.high > 0) ? (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {data.coverage.full > 0 ? (
-              <span className="rounded-full bg-emerald-200 px-3 py-1 text-xs font-black text-emerald-800">
-                ⬤ {data.coverage.full} cobertura total
-              </span>
-            ) : null}
-            {data.coverage.high > 0 ? (
-              <span className="rounded-full bg-amber-200 px-3 py-1 text-xs font-black text-amber-800">
-                ◐ {data.coverage.high} en 3 tiendas
-              </span>
-            ) : null}
-            {data.coverage.mid > 0 ? (
-              <span className="rounded-full bg-stone-200 px-3 py-1 text-xs font-black text-stone-600">
-                ◌ {data.coverage.mid} en 2 tiendas
-              </span>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        {stats.map(([label, value]) => (
-          <div className="rounded-3xl border border-black/10 bg-white p-5" key={label}>
-            <span className="block text-3xl font-black">{value}</span>
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-black/45">
-              {label}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div className="mt-4 rounded-3xl bg-[#17150f] p-5 text-sm leading-6 text-[#f8f4df]/75">
-        Priorizamos variedad, disponibilidad y precios competitivos para destacar oportunidades utiles antes de comprar.
-      </div>
-    </div>
-  );
-}
-
-function CoverageBadge({ storeCount, totalStores }: { storeCount: number; totalStores: number }) {
-  const pct = totalStores > 0 ? storeCount / totalStores : 0;
-  const color = pct >= 1 ? "bg-emerald-100 text-emerald-800"
-    : pct >= 0.75 ? "bg-amber-100 text-amber-800"
-    : "bg-stone-100 text-stone-600";
-  const icon = pct >= 1 ? "\u2B24" : pct >= 0.75 ? "\u25D0" : "\u25CC";
-  return <span className={`rounded-full px-3 py-1 text-xs font-black ${color}`}>{icon} {storeCount}/{totalStores}</span>;
-}
-
-function OfferCard({
-  offer,
-  rank,
-}: {
-  offer: CatalogItem;
-  rank: number;
-}) {
-  const hasDiscount = offer.originalPrice && offer.originalPrice > offer.minPrice;
-  const discount = hasDiscount
-    ? Math.round(((offer.originalPrice! - offer.minPrice) / offer.originalPrice!) * 100)
-    : 0;
-
-  return (
-    <article className="grid min-w-0 gap-4 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[160px_minmax(0,1fr)]">
-      <div className="relative min-h-44 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
-        {offer.imageUrl ? (
-          <img
-            alt={offer.title}
-            className="h-full w-full object-contain p-3"
-            loading="lazy"
-            src={offer.imageUrl}
-          />
-        ) : (
-          <div className="grid h-full place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-4xl font-black">
-            SW
-          </div>
-        )}
-        <span className="absolute left-3 top-3 rounded-full bg-[#17150f] px-3 py-1 text-xs font-black text-[#f8f4df]">
-          #{rank}
-        </span>
-      </div>
-
-      <div className="flex min-w-0 flex-col gap-3">
-        <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-[#bddf57] px-3 py-1 text-xs font-black uppercase tracking-[0.12em]">
-            {offer.category}
-          </span>
-          {offer.product ? (
-            <CoverageBadge storeCount={offer.storeCount} totalStores={offer.totalStores} />
-          ) : null}
-          {offer.offerCount > 1 ? (
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
-              {offer.offerCount} opciones
-            </span>
-          ) : null}
-          {!offer.inStock ? (
-            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-black text-red-700">
-              Sin stock detectado
-            </span>
-          ) : null}
-        </div>
-
-        <h3 className="text-xl font-black leading-tight tracking-[-0.02em]">{offer.title}</h3>
-        <p className="text-sm text-black/55">
-          {offer.brand ? `${offer.brand} · ` : ""}
-          Actualizado {formatDate(offer.lastSeenAt)}
-        </p>
-
-        <div className="mt-auto flex min-w-0 flex-col gap-3">
-          <div className="min-w-0">
-            <div className="flex min-w-0 flex-wrap items-center gap-2">
-              <span className="text-3xl font-black tracking-[-0.05em]">
-                {formatPrice(offer.minPrice)}
-              </span>
-              {offer.maxPrice > offer.minPrice ? (
-                <span className="text-sm font-bold text-black/45">
-                  hasta {formatPrice(offer.maxPrice)}
-                </span>
-              ) : null}
-              {discount > 0 ? (
-                <span className="rounded-full bg-[#7f5af0] px-2 py-1 text-xs font-black text-white">
-                  -{discount}%
-                </span>
-              ) : null}
-            </div>
-            {hasDiscount ? (
-              <span className="text-sm font-semibold text-black/40 line-through">
-                {formatPrice(offer.originalPrice!)}
-              </span>
-            ) : null}
-          </div>
-          <div className={`grid w-full min-w-0 gap-2 ${offer.product ? "grid-cols-2" : "grid-cols-1"}`}>
-            {offer.product?.brandKey && offer.product.modelSlug ? (
-              <Link
-                className="min-w-0 rounded-2xl bg-[#bddf57] px-4 py-3 text-center text-sm font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]"
-                href={`/productos/${offer.product.brandKey}/${offer.product.modelSlug}`}
-              >
-                Comparar
-              </Link>
-            ) : null}
-            <a
-              className="min-w-0 rounded-2xl bg-[#17150f] px-4 py-3 text-center text-sm font-black text-[#f8f4df] transition hover:bg-black"
-              href={offer.url}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Ir a tienda
-            </a>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function EmptyState({ dbReady }: { dbReady: boolean }) {
-  return (
-    <div className="rounded-[2rem] border border-dashed border-black/25 bg-white p-10 text-center">
-      <h3 className="text-2xl font-black">Aun no hay ofertas para mostrar</h3>
-      <p className="mx-auto mt-3 max-w-xl text-black/55">
-        {dbReady
-          ? "No encontramos productos para estos filtros. Prueba quitando filtros o vuelve mas tarde para ver nuevas ofertas."
-          : "Estamos preparando el catalogo. Vuelve pronto para revisar las primeras ofertas disponibles."}
-      </p>
-    </div>
-  );
-}
-
-function formatPrice(value: number) {
-  return new Intl.NumberFormat("es-CL", {
-    style: "currency",
-    currency: "CLP",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatDate(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(value);
-}
-
-function normalizeForSearch(value: string) {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\s\-/&.]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
