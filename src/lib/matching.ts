@@ -279,7 +279,8 @@ export function normalizeText(value: string) {
     .replace(/\b(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, " $1$3 $2$3 ")
     .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|g)\b/g, " $1$2 ")
     .replace(/\bking\s*size\b/g, " king-size ")
-    .replace(/\b1\s*1\/4\b|\b1\s*-\s*14\b/g, " 1-1/4 ")
+    .replace(/\b1[.\s]*1\s*[\/\-]\s*4\b|\b1[.\s-]*14\b/g, " 1-1/4 ")
+    .replace(/\b(\d+)\s*(?:partes?|pieces?|piezas?|pisos?)\b/g, " $1partes ")
     .replace(/\b(\d+)\s*(?:u|ud|uds|und|unidad|unidades?)\b/g, " $1u ")
     .replace(/\bx\s*(\d+)\b/g, " $1u ")
     .replace(/[^a-z0-9\s/.-]/g, " ")
@@ -407,6 +408,30 @@ export function slugifyModel(value: string) {
 export function extractSizeTokens(text: string, tokens: Set<string>) {
   const sizes = new Set([...tokens].filter((token) => /^\d+(?:\.\d+)?(?:cm|mm|ml|g|gr|oz)$/.test(token)));
 
+  // cm ⇄ mm automatic equivalence metric conversion
+  for (const size of [...sizes]) {
+    const cmMatch = size.match(/^(\d+(?:\.\d+)?)cm$/);
+    if (cmMatch) {
+      const cmVal = parseFloat(cmMatch[1]);
+      if (cmVal >= 2 && cmVal <= 15) {
+        const mmVal = Math.round(cmVal * 10);
+        sizes.add(`${mmVal}mm`);
+      }
+    }
+
+    const mmMatch = size.match(/^(\d+(?:\.\d+)?)mm$/);
+    if (mmMatch) {
+      const mmVal = parseFloat(mmMatch[1]);
+      if (mmVal >= 20 && mmVal <= 150) {
+        const cmVal = mmVal / 10;
+        sizes.add(`${cmVal}cm`);
+        if (Math.floor(cmVal) === cmVal) {
+          sizes.add(`${Math.floor(cmVal)}cm`);
+        }
+      }
+    }
+  }
+
   if (/\b(?:1-1\/4|1\s*1\/4|1-14|114)\b/.test(text)) {
     sizes.add("1-1/4");
   }
@@ -495,6 +520,7 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
     "accesorios",
     "bandeja",
     "bandejas",
+    "basic",
     "bong",
     "bongs",
     "cenicero",
@@ -508,17 +534,21 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
     "gb",
     "green",
     "growbarato",
+    "kit",
     "la",
     "las",
     "liar",
     "los",
     "metalica",
     "metalico",
+    "pack",
     "para",
     "piranha",
     "producto",
     "raw",
+    "set",
     "shop",
+    "starter",
     "the",
     "tienda",
     "www",
@@ -541,6 +571,8 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
   return {
     brand,
     category: offer.category,
+    title: offer.title,
+    url: offer.url,
     coreTokens,
     descriptors,
     kind: getKind(tokens),
@@ -606,6 +638,81 @@ export function hasCategorySpecificMismatch(
     return hasLighterConflict(seed, candidate);
   }
 
+  if (cat === "Contenedores y estuches" || cat === "contenedores y estuches") {
+    return hasContainerConflict(seed, candidate);
+  }
+
+  if (cat === "Vaporizadores herbales" || cat === "vaporizadores herbales") {
+    return hasVaporizerConflict(seed, candidate);
+  }
+
+  if (cat === "Bandejas y ceniceros" || cat === "bandejas y ceniceros") {
+    return hasTrayAshtrayConflict(seed, candidate);
+  }
+
+  if (cat === "Pipas" || cat === "pipas") {
+    return hasPipeConflict(seed, candidate);
+  }
+
+  if (cat === "Bongs" || cat === "bongs") {
+    return hasBongConflict(seed, candidate);
+  }
+
+  return false;
+}
+
+
+function hasContainerConflict(
+  seed: ReturnType<typeof buildReviewProfile>,
+  candidate: ReturnType<typeof buildReviewProfile>,
+) {
+  const seedAll = new Set([...seed.coreTokens, ...seed.modelTokens, ...seed.descriptors, ...seed.sizes]);
+  const candAll = new Set([...candidate.coreTokens, ...candidate.modelTokens, ...candidate.descriptors, ...candidate.sizes]);
+
+  // Model/Type conflicts
+  const seedHasChestbag = seedAll.has("chestbag") || seed.title.toLowerCase().includes("chestbag");
+  const candHasChestbag = candAll.has("chestbag") || candidate.title.toLowerCase().includes("chestbag");
+  if (seedHasChestbag !== candHasChestbag) return true;
+
+  const seedHasShoulderbag = seedAll.has("shoulderbag") || seed.title.toLowerCase().includes("shoulderbag");
+  const candHasShoulderbag = candAll.has("shoulderbag") || candidate.title.toLowerCase().includes("shoulderbag");
+  if (seedHasShoulderbag !== candHasShoulderbag) return true;
+
+  const seedHasMuslera = seedAll.has("muslera") || seed.title.toLowerCase().includes("muslera");
+  const candHasMuslera = candAll.has("muslera") || candidate.title.toLowerCase().includes("muslera");
+  if (seedHasMuslera !== candHasMuslera) return true;
+
+  const seedHasBanano = seedAll.has("banano") || seed.title.toLowerCase().includes("banano");
+  const candHasBanano = candAll.has("banano") || candidate.title.toLowerCase().includes("banano");
+  if (seedHasBanano !== candHasBanano) return true;
+
+  // Bolso conflict (separates bolsos/shoulderbags from plain cases/estuches)
+  const seedHasBolso = seedAll.has("bolso") || seed.title.toLowerCase().includes("bolso");
+  const candHasBolso = candAll.has("bolso") || candidate.title.toLowerCase().includes("bolso");
+  if (seedHasBolso !== candHasBolso) return true;
+
+  // Porta Papeles / Porta Papelillo conflict (flat steel paper holder vs deep pre-rolled stash box)
+  const seedHasPortaPapel = seedAll.has("porta-papeles") || seed.title.toLowerCase().includes("porta papel") || seed.title.toLowerCase().includes("porta papeles") || seed.title.toLowerCase().includes("porta-papel");
+  const candHasPortaPapel = candAll.has("porta-papeles") || candidate.title.toLowerCase().includes("porta papel") || candidate.title.toLowerCase().includes("porta papeles") || candidate.title.toLowerCase().includes("porta-papel");
+  if (seedHasPortaPapel !== candHasPortaPapel) return true;
+
+  // Size conflicts (Ozeta style: pequeño/small vs mediano/medium vs grande/large vs xl)
+  const smallTokens = new Set(["pequeno", "pequena", "small", "mini"]);
+  const mediumTokens = new Set(["mediano", "mediana", "medium"]);
+  const largeTokens = new Set(["grande", "large", "xl"]);
+
+  const seedIsSmall = hasIntersection(seedAll, smallTokens) || seed.title.toLowerCase().includes("pequeñ");
+  const candIsSmall = hasIntersection(candAll, smallTokens) || candidate.title.toLowerCase().includes("pequeñ");
+  const seedIsMedium = hasIntersection(seedAll, mediumTokens) || seed.title.toLowerCase().includes("median");
+  const candIsMedium = hasIntersection(candAll, mediumTokens) || candidate.title.toLowerCase().includes("median");
+  const seedIsLarge = hasIntersection(seedAll, largeTokens) || seed.title.toLowerCase().includes("grand");
+  const candIsLarge = hasIntersection(candAll, largeTokens) || candidate.title.toLowerCase().includes("grand");
+
+  if (seedIsSmall && (candIsMedium || candIsLarge)) return true;
+  if (candIsSmall && (seedIsMedium || seedIsLarge)) return true;
+  if (seedIsMedium && candIsLarge) return true;
+  if (candIsMedium && seedIsLarge) return true;
+
   return false;
 }
 
@@ -664,6 +771,16 @@ function hasGrinderConflict(
   }
   if (!seedHasNewPro && candHasNewPro && (seedAll.has("quartz") || seedAll.has("ceramic") || seedAll.has("lightning"))) {
     return true;
+  }
+
+  // Grinder parts conflict (2-partes vs 3-partes vs 4-partes)
+  const seedPartsMatch = seed.title.toLowerCase().match(/\b(\d+)\s*-?\s*(?:partes?|parts?)\b/);
+  const candPartsMatch = candidate.title.toLowerCase().match(/\b(\d+)\s*-?\s*(?:partes?|parts?)\b/);
+
+  if (seedPartsMatch && candPartsMatch) {
+    const sParts = parseInt(seedPartsMatch[1], 10);
+    const cParts = parseInt(candPartsMatch[1], 10);
+    if (sParts !== cParts) return true;
   }
 
   // Grinder size conflict
@@ -929,3 +1046,129 @@ export function buildMatchSuggestions(offers: ReviewOfferInput[], decisionMap: M
 
   return suggestions.sort((first, second) => second.score - first.score).slice(0, SUGGESTION_LIMIT);
 }
+
+function hasVaporizerConflict(
+  seed: ReturnType<typeof buildReviewProfile>,
+  candidate: ReturnType<typeof buildReviewProfile>,
+) {
+  const seedAll = new Set([...seed.coreTokens, ...seed.modelTokens, ...seed.descriptors, ...seed.sizes]);
+  const candAll = new Set([...candidate.coreTokens, ...candidate.modelTokens, ...candidate.descriptors, ...candidate.sizes]);
+
+  if (seed.brand && candidate.brand && seed.brand !== candidate.brand) return true;
+
+  const seedHasPlus = seedAll.has("plus") || seed.title.toLowerCase().includes("plus") || seed.title.toLowerCase().includes("+");
+  const candHasPlus = candAll.has("plus") || candidate.title.toLowerCase().includes("plus") || candidate.title.toLowerCase().includes("+");
+  if (seedHasPlus !== candHasPlus) return true;
+
+  const seedHasXl = seedAll.has("xl") || seed.title.toLowerCase().includes("xl");
+  const candHasXl = candAll.has("xl") || candidate.title.toLowerCase().includes("xl");
+  if (seedHasXl !== candHasXl) return true;
+
+  const seedHasHybrid = seedAll.has("hybrid") || seed.title.toLowerCase().includes("hybrid");
+  const candHasHybrid = candAll.has("hybrid") || candidate.title.toLowerCase().includes("hybrid");
+  if (seedHasHybrid !== candHasHybrid) return true;
+
+  const seedHasOnyx = seedAll.has("onyx") || seed.title.toLowerCase().includes("onyx");
+  const candHasOnyx = candAll.has("onyx") || candidate.title.toLowerCase().includes("onyx");
+  if (seedHasOnyx !== candHasOnyx) return true;
+
+  const vapeAccessoryTerms = new Set([
+    "boquilla", "tapa", "reja", "rejilla", "cooler", "cooling", "filtro", "screen",
+    "batery", "bateria", "cargador", "charger", "piezas", "repuesto", "parts",
+    "dosing", "capsula", "capsules", "caso", "estuche", "case", "bolso", "bag",
+    "tup", "boquillas", "tapas", "rejillas", "filtros", "baterias"
+  ]);
+  const seedHasAccessory = [...seedAll].some(t => vapeAccessoryTerms.has(t));
+  const candHasAccessory = [...candAll].some(t => vapeAccessoryTerms.has(t));
+  if (seedHasAccessory !== candHasAccessory) return true;
+
+  return false;
+}
+
+function hasTrayAshtrayConflict(
+  seed: ReturnType<typeof buildReviewProfile>,
+  candidate: ReturnType<typeof buildReviewProfile>,
+) {
+  const seedAll = new Set([...seed.coreTokens, ...seed.modelTokens, ...seed.descriptors, ...seed.sizes]);
+  const candAll = new Set([...candidate.coreTokens, ...candidate.modelTokens, ...candidate.descriptors, ...candidate.sizes]);
+
+  if (seed.kind && candidate.kind && seed.kind !== candidate.kind) return true;
+
+  const seedHasLid = seedAll.has("tapa") || seedAll.has("lid") || seed.title.toLowerCase().includes("tapa") || seed.title.toLowerCase().includes("magnetic");
+  const candHasLid = candAll.has("tapa") || candAll.has("lid") || candidate.title.toLowerCase().includes("tapa") || candidate.title.toLowerCase().includes("magnetic");
+  if (seedHasLid !== candHasLid) return true;
+
+  const choiceTokens = new Set(["eleccion", "variedad", "varios", "variados", "diseños", "disenos"]);
+  const seedHasChoice = [...seedAll].some(t => choiceTokens.has(t)) || seed.title.toLowerCase().includes("elección");
+  const candHasChoice = [...candAll].some(t => choiceTokens.has(t)) || candidate.title.toLowerCase().includes("elección");
+  if (seedHasChoice !== candHasChoice) return true;
+
+  return false;
+}
+
+function hasPipeConflict(
+  seed: ReturnType<typeof buildReviewProfile>,
+  candidate: ReturnType<typeof buildReviewProfile>,
+) {
+  const seedAll = new Set([...seed.coreTokens, ...seed.modelTokens, ...seed.descriptors, ...seed.sizes]);
+  const candAll = new Set([...candidate.coreTokens, ...candidate.modelTokens, ...candidate.descriptors, ...candidate.sizes]);
+
+  const seedIsSilicone = seed.materials.has("silicone");
+  const candIsSilicone = candidate.materials.has("silicone");
+  if (seedIsSilicone !== candIsSilicone) return true;
+
+  const seedIsMetal = seed.materials.has("metal");
+  const candIsMetal = candidate.materials.has("metal");
+  if (seedIsMetal !== candIsMetal) return true;
+
+  const seedIsWood = seed.materials.has("madera") || seed.materials.has("wood");
+  const candIsWood = candidate.materials.has("madera") || candidate.materials.has("wood");
+  if (seedIsWood !== candIsWood) return true;
+
+  const hammerTokens = new Set(["hammer", "martillo"]);
+  const spoonTokens = new Set(["spoon", "cuchara"]);
+  const seedIsHammer = hasIntersection(seedAll, hammerTokens);
+  const candIsHammer = hasIntersection(candAll, hammerTokens);
+  const seedIsSpoon = hasIntersection(seedAll, spoonTokens);
+  const candIsSpoon = hasIntersection(candAll, spoonTokens);
+
+  if (seedIsHammer !== candIsHammer) return true;
+  if (seedIsSpoon !== candIsSpoon) return true;
+
+  return false;
+}
+
+function hasBongConflict(
+  seed: ReturnType<typeof buildReviewProfile>,
+  candidate: ReturnType<typeof buildReviewProfile>,
+) {
+  const seedIsSilicone = seed.materials.has("silicone");
+  const candIsSilicone = candidate.materials.has("silicone");
+  if (seedIsSilicone !== candIsSilicone) return true;
+
+  const seedIsAcrylic = seed.materials.has("acrilico") || seed.materials.has("acrylic");
+  const candIsAcrylic = candidate.materials.has("acrilico") || candidate.materials.has("acrylic");
+  if (seedIsAcrylic !== candIsAcrylic) return true;
+
+  const extractHeightCm = (title: string, sizes: Set<string>) => {
+    const match = title.toLowerCase().match(/\b(\d+)\s*cm\b/);
+    if (match) return parseInt(match[1], 10);
+    for (const size of sizes) {
+      const tokenMatch = size.match(/^(\d+)cm$/);
+      if (tokenMatch) return parseInt(tokenMatch[1], 10);
+    }
+    return null;
+  };
+
+  const seedHeight = extractHeightCm(seed.title, seed.sizes);
+  const candHeight = extractHeightCm(candidate.title, candidate.sizes);
+
+  if (seedHeight !== null && candHeight !== null) {
+    if (Math.abs(seedHeight - candHeight) > 5) {
+      return true;
+    }
+  }
+
+  return false;
+}
+

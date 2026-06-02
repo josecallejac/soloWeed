@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { CategoryFilters } from "./category-filters";
 import { SortControls } from "./sort-controls";
 import { StoreFilters } from "./store-filters";
@@ -7,7 +6,6 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { StatsPanel } from "@/components/stats-panel";
 import { EmptyState } from "@/components/empty-state";
-import { formatDate } from "@/lib/format";
 import {
   BRAND_MODEL_MATCH_CATEGORIES,
   BRAND_SIZE_MATCH_CATEGORIES,
@@ -20,32 +18,13 @@ import {
   SCALE_KEYS,
 } from "@/lib/matching-constants";
 import {
-  cleanTitle,
   countIntersection,
-  getAccessoryKind,
-  getColorKeys,
-  getDescriptorKey,
-  getHardModelTokens,
-  getMaterialKey,
   getMillimeters,
-  getRawTrayModel,
-  getScaleKeys,
-  getSizeKey,
-  getUrlPath,
-  hasAccessoryKindConflict,
-  hasAnyToken,
-  hasCompatibleSize,
-  hasHardModelConflict,
   hasIntersection,
-  hasRawTrayModelConflict,
-  hasScaleConflict,
-  isIdentifierToken,
-  isSizeResidue,
 } from "@/lib/matching-utils";
 import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +40,6 @@ type HomeProps = {
   }>;
 };
 
-type CatalogData = Awaited<ReturnType<typeof getCatalogData>>;
 type CatalogOffer = Prisma.OfferGetPayload<{
   include: {
     store: true;
@@ -703,19 +681,7 @@ function buildCatalogCategoryItems(offers: CatalogOffer[]) {
     }
   }
 
-  // Phase 3: try to merge product groups together via fuzzy matching
-  // (handles cases where different products are truly equivalent)
-  const merged: CatalogOffer[][] = [];
-  for (const group of groups) {
-    const target = merged.find((items) => items.every((item) => areCatalogEquivalent(item, group[0])));
-    if (target) {
-      target.push(...group);
-    } else {
-      merged.push(group);
-    }
-  }
-
-  return merged.map(buildCatalogItem);
+  return groups.map(buildCatalogItem);
 }
 
 function sortCatalogItems(items: CatalogItem[]) {
@@ -933,31 +899,23 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
     firstCoverage * 0.08 +
     secondCoverage * 0.08;
 
-  if (firstProfile.category === "moledores" && brandMatches && materialMatches && partMatches) {
+  if (firstProfile.category === "moledores" && brandMatches && materialMatches && partMatches && (sizeMatches || identifierMatches || coreOverlap >= 2)) {
     return true;
   }
 
-  if (firstProfile.category === "moledores" && brandMatches && sizeMatches && firstProfile.coreTokens.size === 0 && secondProfile.coreTokens.size === 0) {
+  if (firstProfile.category === "moledores" && brandMatches && sizeMatches && coreOverlap >= 2) {
     return true;
   }
 
-  if (firstProfile.category === "moledores" && brandMatches && sizeMatches && coreOverlap > 0) {
+  if (firstProfile.category === "moledores" && brandMatches && identifierMatches && coreOverlap >= 2) {
     return true;
   }
 
-  if (firstProfile.category === "moledores" && brandMatches && identifierMatches && coreOverlap > 0) {
+  if (firstProfile.category === "moledores" && brandMatches && coreOverlap >= 3) {
     return true;
   }
 
-  if (firstProfile.category === "moledores" && brandMatches && coreOverlap >= 2) {
-    return true;
-  }
-
-  if (firstProfile.category === "bongs" && brandMatches && coreOverlap >= 2) {
-    return true;
-  }
-
-  if (firstProfile.category === "bongs" && brandMatches && coreOverlap > 0 && (materialMatches || sizeMatches || identifierMatches)) {
+  if (firstProfile.category === "bongs" && brandMatches && coreOverlap >= 3 && (materialMatches || sizeMatches)) {
     return true;
   }
 
@@ -973,7 +931,7 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
     return true;
   }
 
-  if (firstProfile.category === "papelillos" && brandMatches && (sizeMatches || colorMatches || coreOverlap > 0)) {
+  if (firstProfile.category === "papelillos" && brandMatches && (coreOverlap >= 2 || (sizeMatches && colorMatches))) {
     if (firstProfile.coreTokens.size === 0 && secondProfile.coreTokens.size === 0) {
       if (!colorMatches || firstProfile.colorKeys.size === 0 || secondProfile.colorKeys.size === 0) return false;
       if (firstProfile.sizes.size > 0 && secondProfile.sizes.size > 0 && !sizeMatches) return false;
@@ -986,7 +944,7 @@ function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
     return true;
   }
 
-  return score >= 0.62;
+  return score >= 0.70;
 }
 
 function buildCatalogProfile(offer: CatalogOffer): CatalogProfile {

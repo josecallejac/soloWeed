@@ -1,4 +1,5 @@
 import { formatDateTime, formatPrice, formatShortDate } from "@/lib/format";
+import Image from "next/image";
 
 type PriceHistory = {
   id: number;
@@ -98,13 +99,14 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
       </div>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-[120px_1fr]">
-        <div className="min-h-32 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
+        <div className="relative min-h-32 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
           {offer.imageUrl ? (
-            <img
+            <Image
               alt={offer.title}
               className="h-full w-full object-contain p-3"
-              loading="lazy"
               src={offer.imageUrl}
+              unoptimized
+              fill
             />
           ) : (
             <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-3xl font-black">

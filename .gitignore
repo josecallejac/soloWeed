@@ -45,6 +45,20 @@ next-env.d.ts
 # local database
 /prisma/*.db
 /prisma/*.db-journal
+/prisma/*.db-shm
+/prisma/*.db-wal
 
 # database backups
 /backups/*.db
+
+# temporary DB files and dumps
+/prisma/*.before-docs
+/prisma/*.checkpoint
+/prisma/*.current-backup
+/prisma/*.temp-round3
+/prisma/recover.sql
+
+# reports runs and scratch directory
+/reports/catalog-audit/runs/
+/scratch/
+

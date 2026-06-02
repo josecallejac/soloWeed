@@ -661,8 +661,13 @@ function isGenericGalaxyCeramicsGrinder(offer: OfferRow) {
 function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, rawTokens: string[], tokens: string[]) {
   const sizes = getGrinderSizes(rawTokens, []);
 
-  if (brandKey === "galaxy" && sizes.includes("38mm")) {
-    return "metal-38mm";
+  if (brandKey === "galaxy") {
+    if (sizes.includes("38mm")) {
+      return "metal-38mm";
+    }
+    if (sizes.includes("63mm") && !text.includes("ceramico") && !text.includes("ceramic") && !text.includes("square") && !text.includes("quartz")) {
+      return "metal-63mm";
+    }
   }
 
   if (brandKey === "the-bulldog" && sizes.includes("40mm")) {
@@ -719,6 +724,15 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
 
   if (brandKey === "soulblime" && (text.includes("tarjeta") || text.includes("card"))) {
     return "tarjeta";
+  }
+
+  if (brandKey === "slx") {
+    const size = sizes.includes("90mm") || text.includes("9cm") || text.includes("90 mm")
+      ? "90mm"
+      : (sizes.includes("60mm") || sizes.includes("62mm") || text.includes("6cm") || text.includes("60 mm") || text.includes("62 mm")
+        ? "60mm"
+        : "50mm");
+    return `ceramic-${size}`;
   }
 
   return null;
@@ -1160,7 +1174,7 @@ function getContainerFamily(text: string, tokens: string[]) {
   if (tokenSet.has("lata") || tokenSet.has("ocultacion")) return "concealment-can";
   if (tokenSet.has("tubo") || tokenSet.has("tubos") || tokenSet.has("paqcase") || tokenSet.has("pitos") || tokenSet.has("canos")) return "tube-case";
   if (tokenSet.has("bolso") || tokenSet.has("banano") || tokenSet.has("bandolera") || tokenSet.has("chestbag") || tokenSet.has("crossbag") || tokenSet.has("maletin") || tokenSet.has("muslera")) return "bag";
-  if (tokenSet.has("estuche") || tokenSet.has("case")) return "case";
+  if (tokenSet.has("estuche") || tokenSet.has("case") || tokenSet.has("cajita") || tokenSet.has("caja")) return "case";
   if (tokenSet.has("jar") || tokenSet.has("mason") || tokenSet.has("frasco") || tokenSet.has("tarro") || tokenSet.has("miron")) return "jar";
   if (tokenSet.has("extractos") || tokenSet.has("extracciones") || tokenSet.has("lupa") || tokenSet.has("silicona") || /\b4ml\b|\b9ml\b/.test(text)) return "extract-container";
   if (tokenSet.has("container") || tokenSet.has("contenedor")) return "container";
@@ -1214,6 +1228,8 @@ function getContainerSize(text: string, tokens: string[], family: string | null,
   if (tokenSet.has("grande")) return "large";
   if (tokenSet.has("mediano") || tokenSet.has("mediana")) return "medium";
   if (tokenSet.has("pequeno") || tokenSet.has("pequena")) return "small";
+
+  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114)\b/.test(text)) return "1-1/4";
 
   if (family === "jar" && (tokenSet.has("16oz") || tokenSet.has("473ml"))) return "473ml";
   if (family === "jar" && tokenSet.has("1000cc")) return "1000ml";
@@ -1726,7 +1742,7 @@ function getExtractionModelKey(offer: OfferRow) {
 
   const line = getBangerLine(text, tokens);
   const gender = firstExtractionToken(tokens, ["macho", "hembra"]);
-  const angle = firstExtractionToken(tokens, ["45", "90"]);
+  const angle = firstExtractionToken(tokens, ["45", "90"]) || "90";
   const size = getExtractionSize(tokens, line);
   const pieces = [family, line, gender, angle, size].filter(Boolean) as string[];
 

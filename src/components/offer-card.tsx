@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CoverageBadge } from "./coverage-badge";
 import { formatDate, formatPrice } from "@/lib/format";
 
@@ -41,11 +42,12 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
     <article className="grid min-w-0 gap-4 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[160px_minmax(0,1fr)]">
       <div className="relative min-h-44 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
         {offer.imageUrl ? (
-          <img
+          <Image
             alt={offer.title}
             className="h-full w-full object-contain p-3"
-            loading="lazy"
             src={offer.imageUrl}
+            unoptimized
+            fill
           />
         ) : (
           <div className="grid h-full place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-4xl font-black">

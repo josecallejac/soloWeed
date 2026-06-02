@@ -2,10 +2,9 @@
 
 type PriceSparklineProps = {
   histories: Array<{ price: number; recordedAt: Date }>;
-  currentPrice: number;
 };
 
-export function PriceSparkline({ histories, currentPrice }: PriceSparklineProps) {
+export function PriceSparkline({ histories }: PriceSparklineProps) {
   if (histories.length < 2) return null;
 
   // Sort oldest first

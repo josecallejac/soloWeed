@@ -37,6 +37,15 @@ describe("normalizeText", () => {
   it("normalizes 1 1/4 variants", () => {
     assert.match(normalizeText("1 1/4 papel"), /1-1\/4 papel/);
     assert.match(normalizeText("1-14 papel"), /1-1\/4 papel/);
+    assert.match(normalizeText("1.1/4 papel"), /1-1\/4 papel/);
+    assert.match(normalizeText("1.14 papel"), /1-1\/4 papel/);
+  });
+
+  it("normalizes grinder parts/floors/pieces", () => {
+    assert.match(normalizeText("grinder 4 piezas"), /grinder 4partes/);
+    assert.match(normalizeText("grinder 4 pisos"), /grinder 4partes/);
+    assert.match(normalizeText("grinder 4 partes"), /grinder 4partes/);
+    assert.match(normalizeText("grinder 3 pieces"), /grinder 3partes/);
   });
 
   it("normalizes unit quantities", () => {
@@ -88,6 +97,20 @@ describe("extractSizeTokens", () => {
     const sizes = extractSizeTokens(text, tokens);
 
     assert.equal(sizes.has("king-size"), true);
+  });
+
+  it("automatically converts cm to mm and vice versa", () => {
+    const textCm = normalizeText("grinder 6cm");
+    const tokensCm = new Set(textCm.split(/[\s/-]+/));
+    const sizesCm = extractSizeTokens(textCm, tokensCm);
+    assert.equal(sizesCm.has("6cm"), true);
+    assert.equal(sizesCm.has("60mm"), true);
+
+    const textMm = normalizeText("grinder 50mm");
+    const tokensMm = new Set(textMm.split(/[\s/-]+/));
+    const sizesMm = extractSizeTokens(textMm, tokensMm);
+    assert.equal(sizesMm.has("50mm"), true);
+    assert.equal(sizesMm.has("5cm"), true);
   });
 });
 
@@ -148,6 +171,28 @@ describe("getPhraseModels", () => {
     const models = getPhraseModels("random bong text");
 
     assert.equal(models.size, 0);
+  });
+});
+
+describe("buildReviewProfile", () => {
+  it("filters out generic packaging and kit words from coreTokens", () => {
+    const profile = buildReviewProfile({
+      brand: null,
+      brandKey: null,
+      category: "Vaporizadores herbales",
+      id: 1,
+      price: 200000,
+      productId: null,
+      storeId: 1,
+      title: "Vaporizador Crafty Plus Starter Kit Basic Set Pack",
+      url: "https://example.com/crafty-plus",
+    });
+
+    assert.equal(profile.coreTokens.has("starter"), false);
+    assert.equal(profile.coreTokens.has("kit"), false);
+    assert.equal(profile.coreTokens.has("basic"), false);
+    assert.equal(profile.coreTokens.has("set"), false);
+    assert.equal(profile.coreTokens.has("pack"), false);
   });
 });
 
@@ -848,4 +893,191 @@ describe("hasCategorySpecificMismatch", () => {
     });
     assert.equal(hasCategorySpecificMismatch(a, b), false);
   });
+
+  it("detects grinder parts conflict (2-partes vs 4-partes)", () => {
+    const a = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 1, price: 15990, productId: 10, storeId: 1,
+      title: "Moledor Galaxy 2-partes Metalico 50mm", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "galaxy", brandKey: "galaxy", category: "Moledores",
+      id: 2, price: 24990, productId: null, storeId: 2,
+      title: "Moledor Galaxy 4-partes Metalico 50mm", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects ozeta model conflict (chestbag vs shoulderbag)", () => {
+    const a = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 1, price: 29990, productId: 10, storeId: 1,
+      title: "Ozeta Chestbag 4x4 Antiolor", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 2, price: 32990, productId: null, storeId: 2,
+      title: "Shoulderbag Ozeta Con Clave Antiolor", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects ozeta size conflict (pequeno vs grande)", () => {
+    const a = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 1, price: 15990, productId: 10, storeId: 1,
+      title: "Estuche Ozeta Pequeno Con Clave", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 2, price: 25990, productId: null, storeId: 2,
+      title: "Estuche Ozeta Grande Con Clave", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects ozeta bolso conflict (bolso vs case)", () => {
+    const a = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 1, price: 24990, productId: 10, storeId: 1,
+      title: "Bolso Ywiwis Antiolor-Ozeta", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "ozeta", brandKey: "ozeta", category: "Contenedores y estuches",
+      id: 2, price: 28700, productId: null, storeId: 2,
+      title: "Estuche Rigido Grande OZeta", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects raw flat paper holder conflict (porta papeles vs pre-rolled box)", () => {
+    const a = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Contenedores y estuches",
+      id: 1, price: 1400, productId: 10, storeId: 1,
+      title: "RAW Porta Papeles de 1.1/4 caja metalica", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Contenedores y estuches",
+      id: 2, price: 2990, productId: null, storeId: 2,
+      title: "Cajita Metalica Para Preenrolados 1 1/4-RAW", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  // Vaporizadores herbales
+  it("detects vaporizer plus conflict (standard vs plus)", () => {
+    const a = buildReviewProfile({
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Vaporizadores herbales",
+      id: 1, price: 320000, productId: 10, storeId: 1,
+      title: "Vaporizador Mighty Storz & Bickel", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Vaporizadores herbales",
+      id: 2, price: 380000, productId: null, storeId: 2,
+      title: "Vaporizador Mighty+ Plus Storz & Bickel", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects vaporizer accessory/parts conflict", () => {
+    const a = buildReviewProfile({
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Vaporizadores herbales",
+      id: 1, price: 340000, productId: 10, storeId: 1,
+      title: "Vaporizador Crafty Plus", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Vaporizadores herbales",
+      id: 2, price: 9990, productId: null, storeId: 2,
+      title: "Boquillas de repuesto Crafty 4u", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  // Bandejas y ceniceros
+  it("detects tray magnetic lid conflict (tray vs tray with lid)", () => {
+    const a = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Bandejas y ceniceros",
+      id: 1, price: 6990, productId: 10, storeId: 1,
+      title: "Bandeja RAW Classic Mediana", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Bandejas y ceniceros",
+      id: 2, price: 14990, productId: null, storeId: 2,
+      title: "Bandeja Metalica RAW Mediana con Tapa Magnetica", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects tray choice conflict (concrete size vs choice list)", () => {
+    const a = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Bandejas y ceniceros",
+      id: 1, price: 4990, productId: 10, storeId: 1,
+      title: "Bandeja RAW Classic Mini", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Bandejas y ceniceros",
+      id: 2, price: 5990, productId: null, storeId: 2,
+      title: "Bandeja RAW Diseños a Elección", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  // Pipas
+  it("detects pipe material conflict (silicone vs glass)", () => {
+    const a = buildReviewProfile({
+      brand: "calvo", brandKey: "calvo", category: "Pipas",
+      id: 1, price: 7990, productId: 10, storeId: 1,
+      title: "Pipa de Silicona Calvo Glass Spoon 10cm", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "calvo", brandKey: "calvo", category: "Pipas",
+      id: 2, price: 9990, productId: null, storeId: 2,
+      title: "Pipa de Pyrex Vidrio Calvo Spoon 10cm", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects pipe shape conflict (spoon vs hammer)", () => {
+    const a = buildReviewProfile({
+      brand: "calvo", brandKey: "calvo", category: "Pipas",
+      id: 1, price: 12990, productId: 10, storeId: 1,
+      title: "Pipa Calvo Spoon 10cm", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "calvo", brandKey: "calvo", category: "Pipas",
+      id: 2, price: 18990, productId: null, storeId: 2,
+      title: "Pipa Hammer Martillo Calvo 12cm", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  // Bongs
+  it("detects bong material conflict (silicone vs glass)", () => {
+    const a = buildReviewProfile({
+      brand: "bonglab", brandKey: "bonglab", category: "Bongs",
+      id: 1, price: 25000, productId: 10, storeId: 1,
+      title: "Bong de Silicona Bonglab Jelly", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "bonglab", brandKey: "bonglab", category: "Bongs",
+      id: 2, price: 35000, productId: null, storeId: 2,
+      title: "Bong de Vidrio Borosilicato Bonglab Jelly", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects bong height conflict (30cm vs 20cm)", () => {
+    const a = buildReviewProfile({
+      brand: "bonglab", brandKey: "bonglab", category: "Bongs",
+      id: 1, price: 39990, productId: 10, storeId: 1,
+      title: "Bong Beaker Bonglab 30cm Classic", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "bonglab", brandKey: "bonglab", category: "Bongs",
+      id: 2, price: 24990, productId: null, storeId: 2,
+      title: "Bong Beaker Bonglab 20cm Classic", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
 });
+

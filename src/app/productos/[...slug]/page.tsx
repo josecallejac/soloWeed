@@ -3,11 +3,10 @@ import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
-import { formatDateTime, formatPrice, formatPriceRange, formatShortDate } from "@/lib/format";
+import { formatDateTime, formatPriceRange } from "@/lib/format";
 import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PriceHistoryChart } from "./price-history-chart";
 
@@ -372,7 +371,7 @@ function getBestMatchScore(seedOffers: MatchableOffer[], candidateOffer: Matchab
   return Math.max(...seedOffers.map((seedOffer) => getMatchScore(seedOffer, candidateOffer)));
 }
 
-const MATCH_THRESHOLD = 0.68;
+const MATCH_THRESHOLD = 0.72;
 
 const KNOWN_BRAND_PHRASES = [
   "airis",
@@ -826,15 +825,7 @@ function getMatchScore(seedOffer: MatchableOffer, candidateOffer: MatchableOffer
   const identifierBonus = identifierMatches ? 0.12 : 0;
   let score = seedCoverage * 0.5 + candidateCoverage * 0.2 + brandBonus + sizeBonus + variantBonus + descriptorBonus + identifierBonus;
 
-  if (brandMatches && sizeMatches) {
-    score = Math.max(score, 0.72);
-  }
-
-  if (brandMatches && (overlap > 0 || variantMatches || identifierMatches)) {
-    score = Math.max(score, 0.7);
-  }
-
-  if (hasStrongMoledorStructure(seed, candidate) && !hasHardModelConflict(seed.coreTokens, candidate.coreTokens)) {
+  if (hasStrongMoledorStructure(seed, candidate) && !hasHardModelConflict(seed.coreTokens, candidate.coreTokens) && overlap >= 2) {
     score = Math.max(score, 0.72);
   }
 
@@ -920,7 +911,7 @@ function getMatchUrlPath(value?: string) {
 }
 
 function areCompatibleCategories(first: string, second: string) {
-  return first === second || first === "otros parafernalia" || second === "otros parafernalia";
+  return first === second;
 }
 
 function getVariantMatchKey(token: string) {

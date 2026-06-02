@@ -69,6 +69,24 @@ const KNOWN_MODELS = [
   "conos pre enrolados",
   "king size",
   "1 1/4",
+  "m7 xl",
+  "m7",
+  "b2",
+  "woodwynd",
+  "von glo",
+  "vong",
+  "mighty plus",
+  "mighty",
+  "crafty plus",
+  "crafty",
+  "venty",
+  "volcano hybrid",
+  "volcano classic",
+  "volcano onyx",
+  "iq3",
+  "iq2",
+  "miqro-c",
+  "miqro",
 ];
 
 const GENERIC_TOKENS = new Set([
@@ -150,8 +168,22 @@ async function main() {
   console.log({ offersWithModelKey, productsWithModelKey });
 }
 
+function extractUrlTokens(url: string) {
+  try {
+    const parsed = new URL(url);
+    const path = parsed.pathname
+      .replace(/\.(?:html?|php|aspx?)$/i, "")
+      .replace(/^\/+|\/+$/g, "");
+    const segments = path.split("/").filter((segment) => segment.length > 1);
+    return segments.join(" ");
+  } catch {
+    return "";
+  }
+}
+
 function getModelKey(category: string, brandKey: string | null, brand: string | null, title: string, url: string, sourceCategory: string) {
-  const text = normalizeText(`${brandKey ?? ""} ${brand ?? ""} ${title} ${url} ${sourceCategory}`);
+  const cleanUrl = extractUrlTokens(url);
+  const text = normalizeText(`${brandKey ?? ""} ${brand ?? ""} ${title} ${cleanUrl} ${sourceCategory}`);
   const tokens = new Set(tokenize(text));
   const known = getKnownModel(text);
   const sizes = getSizeTokens(text, tokens);

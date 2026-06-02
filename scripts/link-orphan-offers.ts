@@ -71,7 +71,6 @@ async function main() {
   }
 
   let updatedOffers = 0;
-  let createdProducts = 0;
   const errors: string[] = [];
 
   if (DRY_RUN) {

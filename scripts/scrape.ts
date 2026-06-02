@@ -1531,12 +1531,17 @@ function extractBreadcrumbCategory(product: Record<string, unknown> | null) {
   return asText(category);
 }
 
-function classifyProduct(title: string, url: string, sourceCategory?: string) {
+export function classifyProduct(title: string, url: string, sourceCategory?: string) {
   const text = normalizeForSearch(`${title} ${url} ${sourceCategory ?? ""}`);
   const titleOnly = normalizeForSearch(title);
 
   if (EXCLUDED_PRODUCT_TERMS.some((term) => text.includes(term))) {
     return null;
+  }
+
+  // Estuches y Bolsos Ozeta específicos (por encima de moledores genéricos)
+  if (hasAny(titleOnly, ["chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "estuche antiolor", "bolso antiolor", "anti-olor ozeta", "tubo case", "porta joint"])) {
+    return "Contenedores y estuches";
   }
 
   if (hasAny(titleOnly, ["moledor", "grinder"])) {
@@ -1555,12 +1560,12 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
     return "Vaporizadores electronicos";
   }
 
-  if (isVaporizerAccessory(titleOnly, text)) {
-    return VAPORIZER_REPLACEMENT_CATEGORY;
-  }
-
   if (isHerbalVaporizer(titleOnly, text)) {
     return "Vaporizadores herbales";
+  }
+
+  if (isVaporizerAccessory(titleOnly, text)) {
+    return VAPORIZER_REPLACEMENT_CATEGORY;
   }
 
   if (/\biso\s*[- ]?plex\b|\bisoplex\b/.test(text)) {
@@ -1571,15 +1576,17 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
     return "Limpieza";
   }
 
-  if (hasAny(text, ["rosin", "dab", "dabber", "dabbing", "banger", "wax liquidizer", "nectar collector"])) {
+  // Bangers de Cuarzo y accesorios específicos de dabbing (Accesorios de extracción)
+  if (hasAny(titleOnly, ["banger", "nail quartz", "clavo cuarzo", "slurper", "terp slurper", "terp balls", "carb cap", "marble set"])) {
     return "Accesorios de extraccion";
   }
 
-  if (hasAny(titleOnly, ["chiller unit", "purify carbon", "adaptador", "titanium screen", "terp balls", "carb cap", "marble set", "malla para extractos"])) {
-    return VAPORIZER_REPLACEMENT_CATEGORY;
+  if (hasAny(text, ["rosin", "dab", "dabber", "dabbing", "wax liquidizer", "nectar collector"])) {
+    return "Accesorios de extraccion";
   }
 
-  if (hasAny(titleOnly, ["quemador", "difusor", "atrapa ceniza", "atrapaceniza", "bowl", "repuesto"])) {
+  // Quemadores, difusores, bowls y repuestos (Repuestos de Bongs y Vapos)
+  if (hasAny(titleOnly, ["quemador", "difusor", "atrapa ceniza", "atrapaceniza", "bowl", "repuesto", "chiller unit", "purify carbon", "adaptador", "titanium screen", "malla para extractos"])) {
     return VAPORIZER_REPLACEMENT_CATEGORY;
   }
 
@@ -1637,6 +1644,14 @@ function classifyProduct(title: string, url: string, sourceCategory?: string) {
 
 function isVaporizerAccessory(titleOnly: string, text: string) {
   if (hasAny(text, VAPE_EXCLUDED_TERMS)) {
+    return false;
+  }
+
+  if (hasAny(titleOnly, ["sin bateria", "sin baterias", "sin pila", "sin pilas", "no incluye bateria"])) {
+    return false;
+  }
+
+  if (/\bstarter\s*set\b/.test(titleOnly) && hasAny(text, ["dynavap", "storz", "bickel", "davinci", "pax", "arizer", "volcano", "mighty", "crafty", "venty"])) {
     return false;
   }
 
