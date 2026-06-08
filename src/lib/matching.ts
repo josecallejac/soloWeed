@@ -276,6 +276,7 @@ export function normalizeText(value: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/&amp;/g, "&")
     .toLowerCase()
+    .replace(/\bking\s*[- ]\s*size\s+slim\b/g, " king-size-slim ")
     .replace(/\b(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, " $1$3 $2$3 ")
     .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|g)\b/g, " $1$2 ")
     .replace(/\bking\s*size\b/g, " king-size ")
@@ -353,6 +354,15 @@ export function getPaperVariant(tokens: Set<string>) {
   if (tokens.has("emerald")) return "emerald";
   if (tokens.has("girl")) return "girl";
   if (tokens.has("classic") || tokens.has("clasica") || tokens.has("clasico")) return "classic";
+  if (tokens.has("ocb") && (tokens.has("black") || tokens.has("negro") || tokens.has("negra") || tokens.has("premium"))) {
+    return "premium";
+  }
+  if (
+    (tokens.has("black") || tokens.has("negro") || tokens.has("negra")) &&
+    (tokens.has("organic") || tokens.has("organico") || tokens.has("organica") || tokens.has("hemp") || tokens.has("canamo"))
+  ) {
+    return "black-organic-hemp";
+  }
   if (tokens.has("black") || tokens.has("negro") || tokens.has("negra")) return "black";
   if (tokens.has("organic") || tokens.has("organico") || tokens.has("organica") || tokens.has("hemp") || tokens.has("canamo")) return "organic";
   if (tokens.has("pink") || tokens.has("rosado") || tokens.has("rosada") || tokens.has("rosa")) return "pink";
@@ -432,8 +442,12 @@ export function extractSizeTokens(text: string, tokens: Set<string>) {
     }
   }
 
-  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114)\b/.test(text)) {
+  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1[-_.\s\/]1[-_.\s\/]4)\b/.test(text)) {
     sizes.add("1-1/4");
+  }
+
+  if (/\b(?:rolls|roll|rollo|rollos)\b/.test(text)) {
+    sizes.add("rolls");
   }
 
   if (/\bking\s*size\s*slim\b|\bking-size-slim\b|\bks\s*slim\b/.test(text)) {
@@ -589,6 +603,7 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
     phraseModels,
     rawModel: brand === "raw" ? getPaperVariant(tokens) : null,
     paperVariant: ["Papelillos", "papelillos"].includes(offer.category) ? getPaperVariant(tokens) : null,
+    hasTips: /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?)\b/i.test(offer.title),
     sizes,
     quantities: extractQuantities(tokens),
     hasPack: hasPackIndicator(text),
@@ -626,7 +641,12 @@ export function hasCategorySpecificMismatch(
   const cat = seed.category;
 
   if (cat === "Papelillos" || cat === "papelillos") {
+    if (seed.hasTips !== candidate.hasTips) return true;
     return hasPaperSizeMismatch(seed, candidate);
+  }
+
+  if (cat === "Conos y blunts" || cat === "conos y blunts") {
+    if (seed.hasTips !== candidate.hasTips) return true;
   }
 
   if (cat === "Moledores" || cat === "moledores") {
@@ -727,13 +747,19 @@ function hasPaperSizeMismatch(
   seed: ReturnType<typeof buildReviewProfile>,
   candidate: ReturnType<typeof buildReviewProfile>,
 ) {
-  const paperSizes = new Set(["1-1/4", "king-size", "king-size-slim", "30cm"]);
+  const paperSizes = new Set(["1-1/4", "king-size", "king-size-slim", "30cm", "rolls"]);
   const seedSizes = new Set([...seed.sizes].filter((s) => paperSizes.has(s)));
   const candSizes = new Set([...candidate.sizes].filter((s) => paperSizes.has(s)));
 
+  const isSeedRolls = seedSizes.has("rolls");
+  const isCandRolls = candSizes.has("rolls");
+  if (isSeedRolls !== isCandRolls) {
+    return true;
+  }
+
   // Also check coreTokens for size indicators
-  if (seed.coreTokens.has("slim") && !candSizes.has("king-size-slim")) candSizes.add("king-size-slim");
-  if (candidate.coreTokens.has("slim") && !seedSizes.has("king-size-slim")) seedSizes.add("king-size-slim");
+  if (seed.coreTokens.has("slim")) seedSizes.add("king-size-slim");
+  if (candidate.coreTokens.has("slim")) candSizes.add("king-size-slim");
 
   if (seedSizes.size > 0 && candSizes.size > 0 && !hasIntersection(seedSizes, candSizes)) {
     return true;
@@ -808,6 +834,14 @@ function hasReplacementConflict(
   const candTypes = new Set([...candidate.coreTokens].filter((t) => replacementTypes.has(t)));
 
   if (seedTypes.size > 0 && candTypes.size > 0 && !hasIntersection(seedTypes, candTypes)) {
+    return true;
+  }
+
+  const chargerTokens = new Set(["cargador", "charger", "supercarga", "supercharger", "usb"]);
+  const seedIsCharger = hasIntersection(seed.coreTokens, chargerTokens);
+  const candIsCharger = hasIntersection(candidate.coreTokens, chargerTokens);
+
+  if (seedIsCharger !== candIsCharger) {
     return true;
   }
 
@@ -1178,4 +1212,3 @@ function hasBongConflict(
 
   return false;
 }
-

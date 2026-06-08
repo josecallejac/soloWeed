@@ -119,6 +119,10 @@ async function main() {
     let bestScore = 0;
     let bestCandidate: OfferCandidate | null = null;
     for (const cand of rawCandidates) {
+      if (!isCompatibleWithProductSeeds(seeds, cand)) {
+        continue;
+      }
+
       const candR = toReviewOffer(cand);
       for (const seed of seeds) {
         const seedR = toReviewOffer(seed);
@@ -229,6 +233,14 @@ async function main() {
   }
 
   await prisma.$disconnect();
+}
+
+function isCompatibleWithProductSeeds(seeds: OfferCandidate[], candidate: OfferCandidate) {
+  return seeds.every((seed) => {
+    const { score } = scoreSuggestion(toReviewOffer(seed), toReviewOffer(candidate));
+
+    return score > 0;
+  });
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

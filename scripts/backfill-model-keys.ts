@@ -112,6 +112,7 @@ const GENERIC_TOKENS = new Set([
   "gb",
   "green",
   "growbarato",
+  "inicio",
   "la",
   "las",
   "los",
@@ -245,7 +246,25 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
     return model ? compactKey([type, model, ...sizes]) : null;
   }
 
-  const distinctive = tokenize(text).filter((token) => !GENERIC_TOKENS.has(token) && token.length > 2 && !brandKey?.split("-").includes(token));
+  const brandTokens = new Set<string>();
+  if (brandKey) {
+    brandKey.split("-").forEach((t) => brandTokens.add(t));
+  }
+  if (brand) {
+    tokenize(brand).forEach((t) => brandTokens.add(t));
+  }
+  if (brandKey === "piecemaker") {
+    brandTokens.add("pmg");
+  }
+  if (brandKey === "top-smoke") {
+    brandTokens.add("top");
+    brandTokens.add("smoke");
+  }
+  if (brandKey === "calvo") {
+    brandTokens.add("glass");
+  }
+
+  const distinctive = tokenize(text).filter((token) => !GENERIC_TOKENS.has(token) && token.length > 2 && !brandTokens.has(token) && !/^\d+$/.test(token));
 
   return distinctive.length >= 2 ? compactKey([type, ...distinctive.slice(0, 4), ...sizes]) : null;
 }
@@ -362,6 +381,12 @@ function getExtractionModelKey(text: string, tokens: Set<string>, sizes: string[
     return compactKey([family, line]);
   }
 
+  if (family === "vaporizer") {
+    const model = firstToken(tokens, ["peak", "proxy", "plus", "carta"]);
+    const version = hasAny(tokens, ["pro"]) ? "pro" : null;
+    return compactKey([family, model, version, ...sizes]);
+  }
+
   const angle = firstToken(tokens, ["45", "90"]);
   const gender = firstToken(tokens, ["macho", "hembra"]);
   const line = getBangerLine(text, tokens);
@@ -377,6 +402,7 @@ function getExtractionFamily(tokens: Set<string>) {
   if (hasAny(tokens, ["dabber", "dabbers"])) return "dabber";
   if (hasAny(tokens, ["rig", "beaker"])) return "dab-rig";
   if (hasAny(tokens, ["banger", "bucket", "slurper", "nail", "insert"])) return "banger";
+  if (hasAny(tokens, ["vaporizador", "vaporizadores", "vapo", "erig", "e-rig", "peak", "proxy", "plus", "carta"])) return "vaporizer";
   return null;
 }
 
@@ -400,15 +426,15 @@ function getKnownModel(text: string) {
 }
 
 function getType(category: string, tokens: Set<string>) {
-  if (hasAny(tokens, ["bandeja", "bandejas", "tray"])) return "tray";
-  if (hasAny(tokens, ["bong", "bongs", "rig", "bubbler"])) return "bong";
-  if (hasAny(tokens, ["pipa", "pipas", "pipe"])) return "pipe";
-  if (hasAny(tokens, ["papel", "papelillo", "papelillos"])) return "paper";
-  if (hasAny(tokens, ["filtro", "filtros", "boquilla", "boquillas", "tips"])) return "filter";
-  if (hasAny(tokens, ["cono", "conos", "blunt", "blunts", "wrap", "wraps"])) return "cone";
-  if (hasAny(tokens, ["moledor", "grinder"])) return "grinder";
+  if (hasAny(tokens, ["bandeja", "bandejas", "tray"]) || category === "Bandejas y ceniceros") return "tray";
+  if (hasAny(tokens, ["bong", "bongs", "rig", "bubbler"]) || category === "Bongs") return "bong";
+  if (hasAny(tokens, ["pipa", "pipas", "pipe"]) || category === "Pipas") return "pipe";
+  if (hasAny(tokens, ["papel", "papelillo", "papelillos"]) || category === "Papelillos") return "paper";
+  if (hasAny(tokens, ["filtro", "filtros", "boquilla", "boquillas", "tips"]) || category === "Filtros y boquillas") return "filter";
+  if (hasAny(tokens, ["cono", "conos", "blunt", "blunts", "wrap", "wraps"]) || category === "Conos y blunts") return "cone";
+  if (hasAny(tokens, ["moledor", "grinder"]) || category === "Moledores") return "grinder";
   if (hasAny(tokens, ["banger", "quemador", "bowl"])) return "banger";
-  if (hasAny(tokens, ["contenedor", "estuche", "bolso", "jar"])) return "container";
+  if (hasAny(tokens, ["contenedor", "estuche", "bolso", "jar"]) || category === "Contenedores y estuches") return "container";
   if (category === "Encendedores y sopletes") return "lighter";
   return slugify(category).split("-")[0];
 }

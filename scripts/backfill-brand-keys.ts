@@ -47,6 +47,15 @@ const BRAND_PHRASES = [
   "xvape",
   "zengaz",
   "zippo",
+  "puffco",
+  "davinci",
+  "da vinci",
+  "marley natural",
+  "focus v",
+  "higher standards",
+  "blunt wrap",
+  "kush hemp",
+  "ryot",
 ];
 
 const BRAND_ALIASES = new Map([
@@ -76,7 +85,10 @@ async function main() {
   });
 
   for (const offer of offers) {
-    const brandKey = getBrandKey([offer.brand, offer.title, offer.url, offer.sourceCategory, offer.description].filter(Boolean).join(" "));
+    let brandKey = getBrandKey([offer.brand, offer.title, offer.url, offer.sourceCategory].filter(Boolean).join(" "));
+    if (!brandKey && offer.description) {
+      brandKey = getBrandKey(offer.description);
+    }
 
     await prisma.$executeRaw`
       UPDATE "Offer"
@@ -123,6 +135,7 @@ function getBrandKey(value: string) {
   }
 
   for (const [alias, key] of BRAND_ALIASES) {
+    if (key === "gb-the-green-brand") continue;
     const parts = tokenize(alias);
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
@@ -135,6 +148,15 @@ function getBrandKey(value: string) {
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
       return slugify(brand);
+    }
+  }
+
+  for (const [alias, key] of BRAND_ALIASES) {
+    if (key !== "gb-the-green-brand") continue;
+    const parts = tokenize(alias);
+
+    if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
+      return key;
     }
   }
 

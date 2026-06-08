@@ -21,6 +21,7 @@ type CandidateMatch = {
   missingStoreId: number; missingStoreName: string;
   candidateId: number; candidateTitle: string;
   candidatePrevProductId: number | null; score: number;
+  mergeSourceProductId?: number;
 };
 
 // ── constants ──────────────────────────────────────────────────────
@@ -108,6 +109,10 @@ async function main() {
       let bestScore = 0;
       let bestCand: OfferRow | null = null;
       for (const cand of candidates) {
+        if (!isCompatibleWithProductSeeds(seeds, cand)) {
+          continue;
+        }
+
         for (const seed of seeds) {
           const { score } = scoreSuggestion(toReviewOffer(seed), toReviewOffer(cand));
           if (score > bestScore) { bestScore = score; bestCand = cand; }
@@ -139,8 +144,14 @@ async function main() {
       continue;
     }
     if (m.candidatePrevProductId && m.candidatePrevProductId !== m.productId) {
-      skipped.push({ match: m, reason: `ya linkeado a producto #${m.candidatePrevProductId}` });
-      continue;
+      if (await canMergePaperProducts(m.productId, m.candidatePrevProductId)) {
+        seenCandidates.add(m.candidateId);
+        applied.push({ ...m, mergeSourceProductId: m.candidatePrevProductId });
+        continue;
+      } else {
+        skipped.push({ match: m, reason: `ya linkeado a producto #${m.candidatePrevProductId}` });
+        continue;
+      }
     }
     seenCandidates.add(m.candidateId);
     applied.push(m);
@@ -149,10 +160,18 @@ async function main() {
   // ── PASS 3: apply ──────────────────────────────────────────────
   if (APPLY) {
     for (const m of applied) {
-      await prisma.offer.update({
-        where: { id: m.candidateId },
-        data: { productId: m.productId },
-      });
+      if (m.mergeSourceProductId) {
+        await prisma.offer.updateMany({
+          where: { productId: m.mergeSourceProductId },
+          data: { productId: m.productId },
+        });
+        await prisma.product.delete({ where: { id: m.mergeSourceProductId } });
+      } else {
+        await prisma.offer.update({
+          where: { id: m.candidateId },
+          data: { productId: m.productId },
+        });
+      }
     }
   }
 
@@ -162,7 +181,8 @@ async function main() {
   console.log("═".repeat(120));
 
   for (const m of applied) {
-    console.log(`LINK [${m.productId}] ${m.productName.slice(0, 45).padEnd(45)} | ${m.missingStoreName.padEnd(18)} | ${m.score.toFixed(2)} | ${m.candidateTitle.slice(0, 48).padEnd(48)} |`);
+    const action = m.mergeSourceProductId ? `MERGE #${m.mergeSourceProductId}` : "LINK";
+    console.log(`${action} [${m.productId}] ${m.productName.slice(0, 45).padEnd(45)} | ${m.missingStoreName.padEnd(18)} | ${m.score.toFixed(2)} | ${m.candidateTitle.slice(0, 48).padEnd(48)} |`);
   }
   for (const s of skipped) {
     console.log(`SKIP [${s.match.productId}] ${s.match.productName.slice(0, 45).padEnd(45)} | ${s.match.missingStoreName.padEnd(18)} | ${s.match.score.toFixed(2)} | ${s.match.candidateTitle.slice(0, 48).padEnd(48)} | ${s.reason}`);
@@ -191,6 +211,39 @@ async function main() {
   }
 
   await prisma.$disconnect();
+}
+
+function isCompatibleWithProductSeeds(seeds: OfferRow[], candidate: OfferRow) {
+  return seeds.every((seed) => {
+    const { score } = scoreSuggestion(toReviewOffer(seed), toReviewOffer(candidate));
+
+    return score > 0;
+  });
+}
+
+async function canMergePaperProducts(targetProductId: number, sourceProductId: number) {
+  const [targetProduct, sourceProduct] = await Promise.all([
+    prisma.product.findUnique({ where: { id: targetProductId }, include: { offers: true } }),
+    prisma.product.findUnique({ where: { id: sourceProductId }, include: { offers: true } }),
+  ]);
+
+  if (!targetProduct || !sourceProduct) return false;
+  if (targetProduct.category !== "Papelillos" || sourceProduct.category !== "Papelillos") return false;
+  if (targetProduct.brandKey !== sourceProduct.brandKey) return false;
+
+  const targetStores = new Set(targetProduct.offers.map((offer) => offer.storeId));
+  if (sourceProduct.offers.some((offer) => targetStores.has(offer.storeId))) return false;
+
+  let hasHighConfidencePair = false;
+  for (const targetOffer of targetProduct.offers) {
+    for (const sourceOffer of sourceProduct.offers) {
+      const { score } = scoreSuggestion(toReviewOffer(targetOffer), toReviewOffer(sourceOffer));
+      if (score <= 0) return false;
+      if (score >= MIN_SCORE) hasHighConfidencePair = true;
+    }
+  }
+
+  return hasHighConfidencePair;
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

@@ -31,7 +31,8 @@ describe("normalizeText", () => {
   });
 
   it("normalizes king size variants", () => {
-    assert.match(normalizeText("king size slim"), /king-size slim/);
+    assert.match(normalizeText("king size slim"), /king-size-slim/);
+    assert.match(normalizeText("king-size slim"), /king-size-slim/);
   });
 
   it("normalizes 1 1/4 variants", () => {
@@ -583,7 +584,11 @@ describe("getPaperVariant", () => {
 
   it("detects black variant", () => {
     assert.equal(getPaperVariant(new Set(["black", "raw", "1-1/4"])), "black");
-    assert.equal(getPaperVariant(new Set(["negra", "ocb"])), "black");
+    assert.equal(getPaperVariant(new Set(["negra", "ocb"])), "premium");
+  });
+
+  it("detects black organic hemp as its own variant", () => {
+    assert.equal(getPaperVariant(new Set(["black", "organic", "hemp", "raw"])), "black-organic-hemp");
   });
 
   it("detects organic/hemp", () => {
@@ -644,6 +649,23 @@ describe("scoreSuggestion — category-specific protections", () => {
     assert.equal(result.score, 0);
   });
 
+  it("rejects RAW Black Organic Hemp vs RAW Black", () => {
+    const organic = {
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 1, price: 990, productId: 10, storeId: 1,
+      title: "Papelillos RAW Black Organic Hemp 1 1/4",
+      url: "https://a.com/raw-black-organic-hemp",
+    };
+    const black = {
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 2, price: 1000, productId: null, storeId: 2,
+      title: "Papelillos RAW Black 1.1/4 para Liar Cannabis",
+      url: "https://b.com/raw-black",
+    };
+    const result = scoreSuggestion(organic, black);
+    assert.equal(result.score, 0);
+  });
+
   it("rejects paper size mismatch (1 1/4 vs king size slim)", () => {
     const small = {
       brand: "raw", brandKey: "raw", category: "Papelillos",
@@ -656,6 +678,23 @@ describe("scoreSuggestion — category-specific protections", () => {
       id: 2, price: 990, productId: null, storeId: 2,
       title: "RAW Classic King Size Slim",
       url: "https://b.com/raw-classic-ks-slim",
+    };
+    const result = scoreSuggestion(small, ksSlim);
+    assert.equal(result.score, 0);
+  });
+
+  it("rejects same paper variant with different size", () => {
+    const small = {
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 1, price: 2290, productId: 10, storeId: 1,
+      title: "Papelillos RAW Artesano 1 1/4",
+      url: "https://a.com/raw-artesano-114",
+    };
+    const ksSlim = {
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 2, price: 2700, productId: null, storeId: 2,
+      title: "Comprar RAW Artesano King Size Slim",
+      url: "https://b.com/raw-artesano-king-size-slim",
     };
     const result = scoreSuggestion(small, ksSlim);
     assert.equal(result.score, 0);
@@ -726,6 +765,23 @@ describe("scoreSuggestion — category-specific protections", () => {
       url: "https://b.com/bowl-18",
     };
     const result = scoreSuggestion(small, large);
+    assert.equal(result.score, 0);
+  });
+
+  it("rejects replacement charger vs wear parts", () => {
+    const charger = {
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Repuestos para bongs y vaporizadores",
+      id: 1, price: 44990, productId: 10, storeId: 1,
+      title: "Storz & Bickel Cargador Supercarga Tipo C Mighty+",
+      url: "https://a.com/mighty-plus-supercharger",
+    };
+    const wearParts = {
+      brand: "storz-bickel", brandKey: "storz-bickel", category: "Repuestos para bongs y vaporizadores",
+      id: 2, price: 44400, productId: null, storeId: 2,
+      title: "Piezas Desgaste Mighty Storz & Bickel",
+      url: "https://b.com/mighty-piezas-desgaste",
+    };
+    const result = scoreSuggestion(charger, wearParts);
     assert.equal(result.score, 0);
   });
 
@@ -822,6 +878,34 @@ describe("hasCategorySpecificMismatch", () => {
       title: "Blazy Susan Papelillos King Size Slim Pink", url: "https://b.com",
     });
     assert.equal(hasCategorySpecificMismatch(a, b), false);
+  });
+
+  it("detects paper rolls vs slim mismatch", () => {
+    const a = buildReviewProfile({
+      brand: "ocb", brandKey: "ocb", category: "Papelillos",
+      id: 1, price: 990, productId: 10, storeId: 1,
+      title: "OCB Slim Ultimate King Size", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "ocb", brandKey: "ocb", category: "Papelillos",
+      id: 2, price: 1490, productId: null, storeId: 2,
+      title: "Papelillo OCB Ultimate Rolls Slim", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
+  });
+
+  it("detects paper with tips vs without tips mismatch", () => {
+    const a = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 1, price: 990, productId: 10, storeId: 1,
+      title: "RAW Classic 1 1/4", url: "https://a.com",
+    });
+    const b = buildReviewProfile({
+      brand: "raw", brandKey: "raw", category: "Papelillos",
+      id: 2, price: 1990, productId: null, storeId: 2,
+      title: "Papelillo RAW Classic Connoisseur 1 1/4 + Boquillas", url: "https://b.com",
+    });
+    assert.equal(hasCategorySpecificMismatch(a, b), true);
   });
 
   it("detects grinder model conflict", () => {
@@ -1094,4 +1178,3 @@ describe("hasCategorySpecificMismatch", () => {
     assert.equal(hasCategorySpecificMismatch(a, b), true);
   });
 });
-

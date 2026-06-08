@@ -98,7 +98,13 @@ async function main() {
   if (!APPLY) return;
 
   for (const candidate of candidates) {
-    await prisma.offer.update({ where: { id: candidate.offer.id }, data: { productId: candidate.product.id } });
+    await prisma.offer.update({
+      where: { id: candidate.offer.id },
+      data: {
+        productId: candidate.product.id,
+        category: candidate.product.category,
+      },
+    });
   }
 
   console.log(`Updated offers: ${candidates.length}`);

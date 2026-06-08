@@ -85,6 +85,9 @@ const STORES: StoreConfig[] = [
       "https://astrogrowshop.cl/ceramics-pocket-grinder-galaxy",
       "https://astrogrowshop.cl/moledor-quartz-grinder-galaxy",
       "https://astrogrowshop.cl/moledor-6cm-slx",
+      "https://astrogrowshop.cl/heavy-gear-cabo",
+      "https://astrogrowshop.cl/pipa-silicona-pocket-travel-top-smoke",
+      "https://astrogrowshop.cl/hitter-signature-calvo-glass",
     ],
   },
   {
@@ -126,6 +129,7 @@ const STORES: StoreConfig[] = [
       "https://fumetas.cl/pmg-pipa-kazili-12cm",
       "https://fumetas.cl/pmg-pipa-kuban-11cm",
       "https://fumetas.cl/pmg-konjurer",
+      "https://fumetas.cl/bonglab-american-hitter",
     ],
   },
   {
@@ -178,6 +182,7 @@ const STORES: StoreConfig[] = [
       "https://piranha.cl/inicio/777/pipa-kazili-piecemaker-color-aleatorio.html",
       "https://piranha.cl/inicio/778/pipa-konjurer-piecemaker-color-a-eleccion.html",
       "https://piranha.cl/inicio/1913/pipa-karma-piecemaker-color-aleatorio.html",
+      "https://piranha.cl/inicio/7456/cabo-heavy-gear-20mm-clearblack.html",
     ],
   },
   {
@@ -353,6 +358,7 @@ const CANDIDATE_BRAND_PHRASES = [
   "ozeta",
   "pax",
   "piecemaker",
+  "pmg",
   "puffco",
   "pulsar",
   "raw",
@@ -371,6 +377,14 @@ const CANDIDATE_BRAND_PHRASES = [
   "yocan",
   "zengaz",
   "zippo",
+  "davinci",
+  "da vinci",
+  "marley natural",
+  "focus v",
+  "higher standards",
+  "blunt wrap",
+  "kush hemp",
+  "ryot",
 ];
 
 const CANDIDATE_SIGNATURE_STOP_WORDS = new Set([
@@ -1130,14 +1144,13 @@ function getBrandKey(value: string) {
   }
 
   const aliases = new Map([
-    ["gb the green brand", "gb-the-green-brand"],
-    ["green brand", "gb-the-green-brand"],
     ["the bulldog amsterdam", "the-bulldog"],
     ["the bulldog", "the-bulldog"],
     ["bulldog", "the-bulldog"],
     ["calvo glass", "calvo"],
     ["bong lab", "bonglab"],
     ["piece maker", "piecemaker"],
+    ["pmg", "piecemaker"],
   ]);
 
   for (const [alias, key] of aliases) {
@@ -1153,6 +1166,17 @@ function getBrandKey(value: string) {
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
       return slugify(brand);
+    }
+  }
+
+  const fallbackAliases = [
+    "gb the green brand",
+    "green brand",
+  ];
+  for (const alias of fallbackAliases) {
+    const parts = tokenizeCandidatePath(alias);
+    if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
+      return "gb-the-green-brand";
     }
   }
 
@@ -1369,6 +1393,10 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
     },
   });
 
+  const categoryToSave = existing?.productId
+    ? (await prisma.product.findUnique({ where: { id: existing.productId } }))?.category ?? offer.category
+    : offer.category;
+
   const saved = await prisma.offer.upsert({
     where: { url: offer.url },
     update: {
@@ -1377,7 +1405,7 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
       title: offer.title,
       normalizedTitle: offer.normalizedTitle,
       brand: offer.brand,
-      category: offer.category,
+      category: categoryToSave,
       sourceCategory: offer.sourceCategory,
       description: offer.description,
       imageUrl: offer.imageUrl,
@@ -1396,7 +1424,7 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
       title: offer.title,
       normalizedTitle: offer.normalizedTitle,
       brand: offer.brand,
-      category: offer.category,
+      category: categoryToSave,
       sourceCategory: offer.sourceCategory,
       description: offer.description,
       imageUrl: offer.imageUrl,

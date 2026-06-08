@@ -12,6 +12,7 @@ type OfferRow = {
   storeId: number;
   title: string;
   url: string;
+  description: string | null;
 };
 
 type CandidateGroup = {
@@ -50,7 +51,7 @@ const AMBIGUOUS_MODEL_KEYS = new Set([
 
 async function main() {
   const offers = await prisma.$queryRaw<OfferRow[]>`
-    SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url"
+    SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url", "description"
     FROM "Offer"
     WHERE "brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores electronicos', 'Vaporizadores herbales')
     ORDER BY "category", "brandKey", "modelKey", "price"
@@ -123,7 +124,10 @@ async function main() {
 
       await tx.offer.updateMany({
         where: { id: { in: group.offers.map((offer) => offer.id) } },
-        data: { productId: product.id },
+        data: {
+          productId: product.id,
+          category: product.category,
+        },
       });
     }
 
@@ -141,22 +145,7 @@ function buildGroups(offers: OfferRow[]) {
     const comparableBrandKey = getComparableBrandKey(offer);
 
     if (!comparableBrandKey) continue;
-    if (
-      !offer.modelKey &&
-      offer.category !== "Accesorios de extraccion" &&
-      offer.category !== "Bandejas y ceniceros" &&
-      offer.category !== "Conos y blunts" &&
-      offer.category !== "Contenedores y estuches" &&
-      offer.category !== "Encendedores y sopletes" &&
-      offer.category !== "Filtros y boquillas" &&
-      offer.category !== "Limpieza" &&
-      offer.category !== "Moledores" &&
-      offer.category !== "Otros parafernalia" &&
-      offer.category !== "Repuestos para bongs y vaporizadores" &&
-      offer.category !== "Vaporizadores herbales"
-    ) {
-      continue;
-    }
+
     if (
       offer.modelKey &&
       offer.category !== "Accesorios de extraccion" &&
@@ -450,6 +439,12 @@ function isEligibleComparableOffer(offer: OfferRow) {
       return true;
     }
 
+    const tokens = tokenizeSlug(title);
+    const family = getExtractionFamily(title, tokens);
+    if (family === "vaporizer") {
+      return true;
+    }
+
     return !/\b(?:cleaner|limpieza|vaporizador|mini\s+beaker\s+kit|dab\s+rig|rig\s+extractos|pipa\s+para\s+dabs|pipa\s+silicona)\b/.test(title);
   }
 
@@ -478,8 +473,14 @@ function isEligibleComparableOffer(offer: OfferRow) {
   }
 
   const unitMatch = title.match(/\b(\d+)\s*(?:u|ud|uds|und|unidad|unidades)\b/);
-
-  return !unitMatch || Number(unitMatch[1]) <= 1;
+  if (unitMatch) {
+    const q = Number(unitMatch[1]);
+    if (q === 114 || q === 78 || q === 79) {
+      return true;
+    }
+    return q <= 1;
+  }
+  return true;
 }
 
 function hasTipConflict(offers: OfferRow[]) {
@@ -666,6 +667,9 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
   const sizes = getGrinderSizes(rawTokens, []);
 
   if (brandKey === "galaxy") {
+    if (tokens.includes("pro") && tokens.includes("model")) {
+      return "new-pro-model";
+    }
     if (sizes.includes("38mm")) {
       return "metal-38mm";
     }
@@ -689,6 +693,10 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
 
     if (text.includes("llavero") || text.includes("keychain")) {
       return ["metal", "llavero", ...metalSizes].join("-");
+    }
+    if (text.includes("swing")) {
+      const swingSize = metalSizes.length > 0 ? metalSizes[0] : "60mm";
+      return ["swing", swingSize].join("-");
     }
 
     return ["metal", ...partCounts, ...metalSizes].join("-");
@@ -733,7 +741,7 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
   if (brandKey === "slx") {
     const size = sizes.includes("90mm") || text.includes("9cm") || text.includes("90 mm")
       ? "90mm"
-      : (sizes.includes("60mm") || sizes.includes("62mm") || text.includes("6cm") || text.includes("60 mm") || text.includes("62 mm")
+      : (sizes.includes("60mm") || sizes.includes("62mm") || sizes.includes("63mm") || text.includes("6cm") || text.includes("60 mm") || text.includes("62 mm")
         ? "60mm"
         : "50mm");
     return `ceramic-${size}`;
@@ -827,11 +835,39 @@ function normalizeGrinderSize(value: string) {
   const amount = Number(match[1].replace(",", "."));
   const millimeters = match[2] === "cm" ? (amount >= 20 ? amount : amount * 10) : amount;
 
-  return `${Math.round(millimeters)}mm`;
+  let finalMm = Math.round(millimeters);
+  if (finalMm === 70) finalMm = 73;
+  if (finalMm === 60) finalMm = 63;
+
+  return `${finalMm}mm`;
 }
 
 function getPipeModelKey(offer: OfferRow) {
-  const brandTokens = new Set(tokenizeSlug(offer.brandKey ?? ""));
+  if (offer.brandKey === "piecemaker") {
+    const titleLower = offer.title.toLowerCase();
+    if (titleLower.includes("kiwi") || titleLower.includes("llavero")) {
+      return "kiwi";
+    }
+  }
+
+  const brandTokens = new Set<string>();
+  if (offer.brandKey) {
+    tokenizeSlug(offer.brandKey).forEach((t) => brandTokens.add(t));
+  }
+  if (offer.brand) {
+    tokenizeSlug(offer.brand).forEach((t) => brandTokens.add(t));
+  }
+  if (offer.brandKey === "piecemaker") {
+    brandTokens.add("pmg");
+  }
+  if (offer.brandKey === "top-smoke") {
+    brandTokens.add("top");
+    brandTokens.add("smoke");
+  }
+  if (offer.brandKey === "calvo") {
+    brandTokens.add("glass");
+  }
+
   const tokens = tokenizeSlug(cleanPipeText(`${offer.title} ${offer.modelKey ?? ""}`)).filter(
     (token) =>
       !brandTokens.has(token) &&
@@ -847,7 +883,7 @@ function getPipeModelKey(offer: OfferRow) {
     return null;
   }
 
-  const core = distinctiveTokens.slice(0, 3).join("-");
+  const core = distinctiveTokens.slice(0, 3).sort().join("-");
   const sizes = [...new Set(tokens.filter(isPipeSizeToken))];
 
   if (core === "heavy-hitter") {
@@ -1174,6 +1210,7 @@ function cleanContainerText(value: string) {
 function getContainerFamily(text: string, tokens: string[]) {
   const tokenSet = new Set(tokens);
 
+  if (tokenSet.has("ywiwis") || tokenSet.has("gollo")) return "case";
   if (tokenSet.has("bolsa") || tokenSet.has("bolsitas") || tokenSet.has("hermetica") || tokenSet.has("hermeticas")) return "baggie";
   if (tokenSet.has("lata") || tokenSet.has("ocultacion")) return "concealment-can";
   if (tokenSet.has("tubo") || tokenSet.has("tubos") || tokenSet.has("paqcase") || tokenSet.has("pitos") || tokenSet.has("canos")) return "tube-case";
@@ -1188,6 +1225,10 @@ function getContainerFamily(text: string, tokens: string[]) {
 
 function getContainerLine(text: string, tokens: string[], brandKey: string | null) {
   const tokenSet = new Set(tokens);
+
+  if (brandKey === "raw" && (tokenSet.has("starter") || tokenSet.has("kit") || tokenSet.has("set"))) {
+    return "starter-box";
+  }
 
   if (tokenSet.has("miron")) return tokenSet.has("integraboost") ? "miron-integraboost" : "miron";
   if (tokenSet.has("restash")) return "restash";
@@ -1233,7 +1274,7 @@ function getContainerSize(text: string, tokens: string[], family: string | null,
   if (tokenSet.has("mediano") || tokenSet.has("mediana")) return "medium";
   if (tokenSet.has("pequeno") || tokenSet.has("pequena")) return "small";
 
-  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114)\b/.test(text)) return "1-1/4";
+  if (/\b(?:1-1\/4|1\s*1\/4|1\.1\/4|1-14|114)\b/.test(text)) return "1-1/4";
 
   if (family === "jar" && (tokenSet.has("16oz") || tokenSet.has("473ml"))) return "473ml";
   if (family === "jar" && tokenSet.has("1000cc")) return "1000ml";
@@ -1568,6 +1609,7 @@ function getReplacementBrandKey(offer: OfferRow) {
   if (/\bfocus\s*v\b/.test(text)) return "focus-v";
   if (/\bpax\b/.test(text)) return "pax";
   if (/\bstorz\b|\bbickel\b|\bmighty\b|\bcrafty\b|\bvolcano\b|\bventy\b/.test(text)) return "storz-bickel";
+  if (/\bhoneycomb\b/.test(text)) return "bonglab";
   if (/\bgenerico\b|\bgen[eé]rico\b/.test(text)) return "generico";
 
   return offer.brandKey;
@@ -1744,6 +1786,12 @@ function getExtractionModelKey(offer: OfferRow) {
     return [family, line, size].filter(Boolean).join("-") || null;
   }
 
+  if (family === "vaporizer") {
+    const model = firstExtractionToken(tokens, ["peak", "proxy", "plus", "carta"]);
+    const version = tokens.includes("pro") ? "pro" : null;
+    return [family, model, version].filter(Boolean).join("-") || null;
+  }
+
   const line = getBangerLine(text, tokens);
   const gender = firstExtractionToken(tokens, ["macho", "hembra"]);
   const angle = firstExtractionToken(tokens, ["45", "90"]) || "90";
@@ -1782,6 +1830,7 @@ function getExtractionFamily(text: string, tokens: string[]) {
   if (tokenSet.has("nectar") || tokenSet.has("collector") || tokenSet.has("straw")) return "nectar-collector";
   if (tokenSet.has("dabber") || tokenSet.has("dabbers")) return "dabber";
   if (tokenSet.has("banger") || tokenSet.has("bucket") || tokenSet.has("slurper") || tokenSet.has("insert")) return "banger";
+  if (tokenSet.has("vaporizador") || tokenSet.has("vaporizadores") || tokenSet.has("vapo") || tokenSet.has("erig") || tokenSet.has("e-rig") || tokenSet.has("peak") || tokenSet.has("proxy") || tokenSet.has("plus") || tokenSet.has("carta")) return "vaporizer";
 
   return null;
 }
@@ -1987,26 +2036,36 @@ function tokenizeSlug(value: string) {
 }
 
 const PIPE_GENERIC_TOKENS = new Set([
+  "a",
   "agua",
   "alargada",
+  "brand",
   "calidad",
   "chile",
+  "cm",
   "color",
+  "colores",
   "con",
   "de",
   "del",
+  "diseno",
+  "diseño",
   "eleccion",
   "en",
   "fabricadas",
+  "gb",
   "glass",
+  "green",
   "growbarato",
   "growbaratochile",
   "hierbas",
   "http",
   "https",
+  "inicio",
   "la",
   "maker",
   "mano",
+  "mm",
   "para",
   "piece",
   "pipe",
@@ -2022,6 +2081,11 @@ const PIPE_GENERIC_TOKENS = new Set([
   "tamano",
   "the",
   "top",
+  "u",
+  "uds",
+  "und",
+  "unidad",
+  "unidades",
   "vidrio",
   "www",
   "y",
@@ -2284,12 +2348,18 @@ const GRINDER_WEAK_MODEL_TOKENS = new Set([
 ]);
 
 function getPaperModelKey(offer: OfferRow) {
-  const text = normalizeText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url ?? ""}`);
+  let text = normalizeText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url ?? ""}`);
+  // Fix concatenated sizes:
+  text = text.replace(/([a-z])(1\s*1\/4|1-1\/4|1\s*14|114|78mm)\b/g, "$1 $2");
+  text = text.replace(/([a-z])(king-size|ks|30cm)\b/g, "$1 $2");
+
   const brandKey = offer.brandKey ?? "";
 
   let size: string | null = null;
 
-  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1\s*-\s*1\s*\/\s*4|1[-_.\s]1[-_.\s]4|1[.,]25|78\s*mm)\b/.test(text)) {
+  if (/\b(?:rolls|roll|rollo|rollos)\b/.test(text)) {
+    size = "rolls";
+  } else if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1\s*-\s*1\s*\/\s*4|1[-_.\s\/]1[-_.\s\/]4|1[.,]25|78\s*mm)\b/.test(text)) {
     size = "1-1-4";
   } else if (/\b(?:king\s*size\s*slim|ks\s*slim|king\s*slim)\b/.test(text)) {
     size = "king-size-slim";
@@ -2346,7 +2416,11 @@ function getPaperVariant(offer: OfferRow) {
     ["x-pert", /\bx\s*-?\s*pert\b|\bxpert\b/],
   ];
 
-  return variantPatterns.find(([, pattern]) => pattern.test(text))?.[0] ?? null;
+  const detected = variantPatterns.find(([, pattern]) => pattern.test(text))?.[0] ?? null;
+  if (detected === "black" && (offer.brandKey === "ocb" || /ocb/.test(text))) {
+    return "premium";
+  }
+  return detected;
 }
 
 function getPaperSizeSlug(modelKey: string) {
@@ -2378,7 +2452,10 @@ function normalizeText(value: string) {
   return value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/\ufffd/g, "o")
+    .replace(/ca[o\s]amo/g, "canamo")
+    .replace(/org[o\s]nic/g, "organic");
 }
 
 main()

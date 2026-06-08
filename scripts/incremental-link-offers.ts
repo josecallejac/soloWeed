@@ -133,11 +133,12 @@ async function main() {
   let linkedCount = 0;
   let createdCount = 0;
   for (const { groupKey, offers } of candidates) {
+    const modelSlug = buildModelSlug(offers[0].category, offers[0].modelKey ?? groupKey.split(":")[2]);
+
     const existing = await prisma.product.findFirst({
       where: {
-        category: offers[0].category,
-        brandKey: offers[0].brandKey ?? undefined,
-        modelKey: offers[0].modelKey ?? undefined,
+        brandKey: offers[0].brandKey ?? "unknown",
+        modelSlug: modelSlug,
       },
     });
 
@@ -148,7 +149,7 @@ async function main() {
         brand: offers[0].brand,
         brandKey: offers[0].brandKey ?? "unknown",
         modelKey: offers[0].modelKey ?? groupKey.split(":")[2],
-        modelSlug: (offers[0].modelKey ?? offers[0].brandKey ?? "unknown").slice(0, 100),
+        modelSlug: modelSlug,
         category: offers[0].category,
       },
     });
@@ -156,13 +157,42 @@ async function main() {
 
     await prisma.offer.updateMany({
       where: { id: { in: offers.map((o) => o.id) } },
-      data: { productId: product.id },
+      data: {
+        productId: product.id,
+        category: product.category,
+      },
     });
 
     linkedCount += offers.length;
   }
 
   console.log(`\nCreated ${createdCount} products, linked ${linkedCount} offers.`);
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function buildModelSlug(category: string, modelKey: string) {
+  if (category === "Papelillos") {
+    return slugify(modelKey);
+  }
+  if (category === "Accesorios de extraccion") {
+    return slugify(modelKey);
+  }
+
+  const categoryPrefix = slugify(category).split("-")[0];
+  const core = modelKey
+    .replace(new RegExp(`^${categoryPrefix}-`), "")
+    .replace(/^wick-zippo-wick$/, "wick")
+    .replace(/^(banger|bong|container|filter|grinder|otros|tray)-/, "");
+
+  return slugify(core || modelKey);
 }
 
 main()

@@ -58,7 +58,7 @@ async function checkDb(dbPath: string): Promise<CheckDbResult> {
 
 async function main() {
   const dirs = [
-    { dir: "./prisma", files: ["dev.db", "dev.db.bak", "dev.db.before-docs", "dev.db.checkpoint"] },
+    { dir: "./prisma", files: ["dev.db", "dev_recovered.db", "dev.db.bak", "dev.db.before-docs", "dev.db.checkpoint"] },
     { dir: "./backups", filter: "*.db" }
   ];
 

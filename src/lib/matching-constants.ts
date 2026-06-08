@@ -59,6 +59,15 @@ export const KNOWN_BRAND_PHRASES = [
   "xvape",
   "zengaz",
   "zippo",
+  "puffco",
+  "davinci",
+  "da vinci",
+  "marley natural",
+  "focus v",
+  "higher standards",
+  "blunt wrap",
+  "kush hemp",
+  "ryot",
 ];
 
 export const KNOWN_BRANDS = [

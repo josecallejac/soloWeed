@@ -324,7 +324,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
 
     // Apply where clause filtering in JS
     const terms = normalizedQuery.split(" ").filter(Boolean);
-    const filtered = offersWithStore.filter((o) => {
+    const initialMatched = offersWithStore.filter((o) => {
       if (terms.length > 0) {
         const matchTerm = terms.some((term) =>
           o.normalizedTitle.toLowerCase().includes(term) ||
@@ -338,7 +338,18 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       return true;
     });
 
-    const filteredOffers = filtered;
+    // Expand result: if a product is matched, include all of its offers (respecting category/store filters)
+    const matchedProductIds = new Set(initialMatched.map((o) => o.productId).filter(Boolean));
+    const expandedOffers = offersWithStore.filter((o) => {
+      if (o.productId && matchedProductIds.has(o.productId)) {
+        if (selectedCategory && o.category !== selectedCategory) return false;
+        if (options?.storeFilter?.length && !options.storeFilter.includes(o.store.slug)) return false;
+        return true;
+      }
+      return initialMatched.some((init) => init.id === o.id);
+    });
+
+    const filteredOffers = expandedOffers;
 
     // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
     const productIds = [...new Set(filteredOffers.map((o) => o.productId).filter(Boolean))] as number[];
@@ -518,7 +529,7 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
   const storeFilter = ((where as Record<string, unknown>).store as Record<string, unknown> | undefined)?.slug as { in?: string[] } | undefined;
   const storeSlugs = storeFilter?.in;
 
-  const offers = offersRaw
+  const baseOffers = offersRaw
     .map((row) => {
       const store = {
         id: row.store_slug ? (storeMap.get(row.store_slug as string)?.id ?? 0) : 0,
@@ -555,7 +566,6 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
         createdAt: row.createdAt as Date,
         updatedAt: row.updatedAt as Date,
         store,
-        product: null,
       };
     })
     .filter((o) => {
@@ -571,6 +581,21 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
       if (storeSlugs?.length && !storeSlugs.includes(o.store.slug)) return false;
       return true;
     });
+
+  // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
+  const productIds = [...new Set(baseOffers.map((o) => o.productId).filter(Boolean))] as number[];
+  const productMap = new Map<number, CatalogOffer["product"]>();
+  if (productIds.length > 0) {
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds } },
+    });
+    for (const p of products) productMap.set(p.id, p);
+  }
+  const offers = baseOffers.map((o): CatalogOffer => ({
+    ...o,
+    product: o.productId ? productMap.get(o.productId) ?? null : null,
+  }));
+
   const categories = buildCatalogItems(offers)
     .filter(hasCatalogCategoryVisibility)
     .reduce((counts, item) => {
@@ -622,10 +647,11 @@ function buildCatalogItems(offers: CatalogOffer[]) {
   const offersByCategory = new Map<string, CatalogOffer[]>();
 
   for (const offer of offers) {
-    const categoryOffers = offersByCategory.get(offer.category) ?? [];
+    const offerCategory = offer.product?.category ?? offer.category;
+    const categoryOffers = offersByCategory.get(offerCategory) ?? [];
 
     categoryOffers.push(offer);
-    offersByCategory.set(offer.category, categoryOffers);
+    offersByCategory.set(offerCategory, categoryOffers);
   }
 
   const items = [...offersByCategory.values()].flatMap(buildCatalogCategoryItems);

@@ -125,6 +125,15 @@ const BRAND_PHRASES = [
   "xvape",
   "zengaz",
   "zippo",
+  "puffco",
+  "davinci",
+  "da vinci",
+  "marley natural",
+  "focus v",
+  "higher standards",
+  "blunt wrap",
+  "kush hemp",
+  "ryot",
 ];
 
 const BRAND_ALIASES = new Map([
@@ -606,6 +615,7 @@ function getBrandKey(value: string) {
   const tokens = tokenize(value);
 
   for (const [alias, key] of BRAND_ALIASES) {
+    if (key === "gb-the-green-brand") continue;
     const parts = tokenize(alias);
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
@@ -618,6 +628,15 @@ function getBrandKey(value: string) {
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
       return slugify(brand);
+    }
+  }
+
+  for (const [alias, key] of BRAND_ALIASES) {
+    if (key !== "gb-the-green-brand") continue;
+    const parts = tokenize(alias);
+
+    if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {
+      return key;
     }
   }
 
