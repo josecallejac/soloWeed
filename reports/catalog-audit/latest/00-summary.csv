@@ -1,14 +1,14 @@
 ﻿metric,value
-runId,2026-06-06T02-50-16-401Z
-generatedAt,2026-06-06T02:50:16.726Z
+runId,2026-06-09T02-22-09-079Z
+generatedAt,2026-06-09T02:22:09.242Z
 regeneratedFiles,00-summary.csv | 01-home-visible.csv | 02-visible-products.csv | 03-categories.csv | 04-risks.csv | 05-opportunities.csv | 06-single-store-curated.csv | 07-two-store-curated.csv | 08-three-store-curated.csv | 09-four-store-curated.csv
 stores,Astro Growshop | Fumetas | GrowBarato Chile | Piranha
-totalOffers,1443
-curatedProducts,371
-visibleProducts,179
-singleStoreCuratedProducts,192
-homeProducts,179
-twoStoreProducts,102
-threeStoreProducts,47
+totalOffers,1444
+curatedProducts,214
+visibleProducts,200
+singleStoreCuratedProducts,14
+homeProducts,200
+twoStoreProducts,115
+threeStoreProducts,55
 fourStoreProducts,30
 missingImages,0

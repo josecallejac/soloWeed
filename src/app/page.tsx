@@ -118,7 +118,7 @@ export default async function Home({ searchParams }: HomeProps) {
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-[#f8f4df]/75 sm:text-xl">
                 Reunimos bongs, pipas, moledores, papelillos, contenedores,
-                limpieza y vaporizadores herbales para ayudarte a elegir entre opciones del mercado chileno.
+                y vaporizadores herbales para ayudarte a elegir entre opciones del mercado chileno.
               </p>
 
               <form className="mt-8 grid gap-3 rounded-[2rem] border border-[#f8f4df]/15 bg-[#f8f4df]/10 p-3 shadow-2xl backdrop-blur md:grid-cols-[1fr_auto]">
@@ -765,11 +765,15 @@ function hasCatalogComparison(item: CatalogItem) {
 }
 
 function hasCatalogVisibility(item: CatalogItem, selectedCategory: string, storeFilterActive = false) {
+  const cat = item.category.toLowerCase();
+  if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
   if (storeFilterActive) return true;
   return hasCatalogComparison(item) || Boolean(selectedCategory && item.product);
 }
 
 function hasCatalogCategoryVisibility(item: CatalogItem) {
+  const cat = item.category.toLowerCase();
+  if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
   return hasCatalogComparison(item) || Boolean(item.product);
 }
 

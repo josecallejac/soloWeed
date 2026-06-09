@@ -536,6 +536,11 @@ function isTooGenericModelKey(category: string, modelKey: string) {
 function getBongModelKey(offer: OfferRow) {
   const brandTokens = new Set(tokenizeSlug(getComparableBrandKey(offer) ?? ""));
   const text = cleanBongText(`${offer.brand ?? ""} ${offer.title} ${offer.modelKey ?? ""} ${offer.url ?? ""}`);
+
+  // Early text-based detection for models whose tokens would be filtered
+  if (/\bpurple\s+rig\b/.test(text)) return "purple-rig";
+  if (/\bhandy\s*rig\b/.test(text) || /\bhandy\b/.test(text)) return "handy-rig";
+
   const rawTokens = tokenizeSlug(text).filter(
     (token) => !brandTokens.has(token) && !BONG_GENERIC_TOKENS.has(token) && !BONG_COLOR_TOKENS.has(token) && !/^\d+$/.test(token),
   );
@@ -628,11 +633,25 @@ function normalizeBongSize(value: string) {
 function getGrinderModelKey(offer: OfferRow) {
   const brandTokens = new Set(tokenizeSlug(offer.brandKey ?? ""));
   const text = cleanGrinderText(`${offer.title} ${offer.modelKey ?? ""}`);
+
+  // Custom check for Herb Saver / Blazy Susan Herb Saver
+  const descLower = (offer.description ?? "").toLowerCase();
+  const textLower = text.toLowerCase();
+  if (
+    (textLower.includes("herb") && textLower.includes("saver")) ||
+    (descLower.includes("herb") && descLower.includes("saver"))
+  ) {
+    if (textLower.includes("mini") || descLower.includes("mini")) {
+      return "herb-saver-mini";
+    }
+    return "herb-saver";
+  }
+
   const rawTokens = tokenizeSlug(text).filter(
     (token) => !brandTokens.has(token) && !GRINDER_GENERIC_TOKENS.has(token) && !GRINDER_COLOR_TOKENS.has(token) && !/^\d+$/.test(token),
   );
 
-  if (isGenericGalaxyCeramicsGrinder(offer) || rawTokens.includes("pack")) {
+  if (rawTokens.includes("pack")) {
     return null;
   }
 
@@ -655,26 +674,30 @@ function getGrinderModelKey(offer: OfferRow) {
   return [...new Set(core)].join("-");
 }
 
-function isGenericGalaxyCeramicsGrinder(offer: OfferRow) {
-  if (offer.brandKey !== "galaxy") return false;
-
-  const title = normalizeText(offer.title).replace(/[^a-z0-9\s]+/g, " ").replace(/\s+/g, " ").trim();
-
-  return title === "ceramics grinder" || title === "ceramics grinder galaxy";
-}
-
 function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, rawTokens: string[], tokens: string[]) {
   const sizes = getGrinderSizes(rawTokens, []);
 
   if (brandKey === "galaxy") {
+    if (tokens.includes("mars") || text.includes("mars")) {
+      return "mars-55mm";
+    }
     if (tokens.includes("pro") && tokens.includes("model")) {
       return "new-pro-model";
     }
     if (sizes.includes("38mm")) {
       return "metal-38mm";
     }
-    if (sizes.includes("63mm") && !text.includes("ceramico") && !text.includes("ceramic") && !text.includes("square") && !text.includes("quartz")) {
+    if ((sizes.includes("63mm") || tokens.includes("lightning") || text.includes("lightning")) && !text.includes("ceramico") && !text.includes("ceramic") && !text.includes("square") && !text.includes("quartz")) {
       return "metal-63mm";
+    }
+    if (text.includes("square")) {
+      return "square-ceramic";
+    }
+    if (text.includes("ceramic") || text.includes("ceramico")) {
+      if (text.includes("pocket") || sizes.includes("55mm") || text.includes("5,5cm") || text.includes("5.5cm")) {
+        return "pocket-ceramic";
+      }
+      return "ceramic-60mm";
     }
   }
 
@@ -683,7 +706,7 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
   }
 
   if (brandKey === "the-bulldog" && text.includes("bulldog") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
-    const plasticSizes = sizes.length > 0 ? sizes : ["60mm"];
+    const plasticSizes = sizes.length > 0 ? sizes : ["63mm"];
     return ["plastic", ...getGrinderPartCounts(text, tokens), ...plasticSizes].join("-");
   }
 
@@ -702,9 +725,12 @@ function getBrandSpecificGrinderModelKey(brandKey: string | null, text: string, 
     return ["metal", ...partCounts, ...metalSizes].join("-");
   }
 
-  if (brandKey === "storz-bickel" && tokens.includes("xl") && rawTokens.some((token) => GRINDER_MATERIAL_TOKENS.get(token) === "plastic")) {
-    if (sizes.includes("90mm") || (!sizes.length && text.includes("reforzado"))) {
+  if (brandKey === "storz-bickel") {
+    const isXl = (tokens.includes("xl") || text.includes("xl")) && !sizes.includes("60mm") && !sizes.includes("63mm") && !sizes.includes("55mm") && !sizes.includes("59mm");
+    if (isXl) {
       return "plastic-xl-90mm";
+    } else {
+      return "plastic-59mm";
     }
   }
 
@@ -786,7 +812,7 @@ function getGrinderMaterials(brandKey: string | null, tokens: string[], modelTok
 
   const materials = tokens.map((token) => GRINDER_MATERIAL_TOKENS.get(token)).filter(Boolean) as string[];
 
-  if (materials.length === 0 && brandKey === "galaxy" && modelTokens.length === 0 && tokens.some(isGrinderSizeToken)) {
+  if (materials.length === 0 && (brandKey === "galaxy" || brandKey === "calvo")) {
     materials.push("metal");
   }
 
@@ -833,7 +859,11 @@ function normalizeGrinderSize(value: string) {
   }
 
   const amount = Number(match[1].replace(",", "."));
-  const millimeters = match[2] === "cm" ? (amount >= 20 ? amount : amount * 10) : amount;
+  let millimeters = match[2] === "cm" ? (amount >= 20 ? amount : amount * 10) : amount;
+
+  if (match[2] === "mm" && amount < 15) {
+    millimeters = amount * 10;
+  }
 
   let finalMm = Math.round(millimeters);
   if (finalMm === 70) finalMm = 73;
@@ -904,6 +934,7 @@ function isBrandSpecificPipeNoise(brandKey: string | null, token: string) {
 function cleanPipeText(value: string) {
   return normalizeText(value)
     .replace(/&quot;/g, " ")
+    .replace(/\bwigwag\b/g, " wig-wag ")
     .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, (_, amount: string, unit: string) => ` ${amount.replace(",", ".")}${unit} `)
     .replace(/\|\s*piranha\b/g, " ")
     .replace(/\b(?:piranha|growbarato|growbaratochile)\b/g, " ")
@@ -956,6 +987,7 @@ function cleanConeText(value: string) {
     .replace(/\bpre\s*[- ]?roll(?:ed)?\b/g, " preroll ")
     .replace(/\b(\d+)\s*(?:u|ud|uds|und|unidad|unidades)\b/g, " $1u ")
     .replace(/\bx\s*(\d+)\b/g, " $1u ")
+    .replace(/\b(\d+)\s*x\b/g, " $1u ")
     .replace(/\b(\d+)\s*conos?\b/g, " $1u conos ")
     .replace(/\b1\s+1\s*\/\s*4\b/g, " 1-1-4 ")
     .replace(/\b1\s*1\/4\b/g, " 1-1-4 ")
@@ -998,6 +1030,10 @@ function getConeLine(text: string, tokens: string[]) {
   if (tokenSet.has("purple")) return "purple";
   if (tokenSet.has("blancos") || tokenSet.has("blanco")) return "white";
   if (tokenSet.has("premium")) return "premium";
+
+  if (text.includes("blazy") || text.includes("susan")) {
+    return "pink";
+  }
 
   return null;
 }
@@ -1146,6 +1182,10 @@ function getFilterCount(offer: OfferRow, text: string, tokens: string[], line: s
     return "10u";
   }
 
+  if (offer.brandKey === "raw" && line === "metal-case") {
+    return "100u";
+  }
+
   const cajaCount = text.match(/\bcaja\s+de\s+(\d+)u\b/);
 
   return cajaCount ? `${cajaCount[1]}u` : null;
@@ -1215,7 +1255,7 @@ function getContainerFamily(text: string, tokens: string[]) {
   if (tokenSet.has("lata") || tokenSet.has("ocultacion")) return "concealment-can";
   if (tokenSet.has("tubo") || tokenSet.has("tubos") || tokenSet.has("paqcase") || tokenSet.has("pitos") || tokenSet.has("canos")) return "tube-case";
   if (tokenSet.has("bolso") || tokenSet.has("banano") || tokenSet.has("bandolera") || tokenSet.has("chestbag") || tokenSet.has("crossbag") || tokenSet.has("maletin") || tokenSet.has("muslera")) return "bag";
-  if (tokenSet.has("estuche") || tokenSet.has("case") || tokenSet.has("cajita") || tokenSet.has("caja")) return "case";
+  if (tokenSet.has("estuche") || tokenSet.has("case") || tokenSet.has("cajita") || tokenSet.has("caja") || tokenSet.has("porta")) return "case";
   if (tokenSet.has("jar") || tokenSet.has("mason") || tokenSet.has("frasco") || tokenSet.has("tarro") || tokenSet.has("miron")) return "jar";
   if (tokenSet.has("extractos") || tokenSet.has("extracciones") || tokenSet.has("lupa") || tokenSet.has("silicona") || /\b4ml\b|\b9ml\b/.test(text)) return "extract-container";
   if (tokenSet.has("container") || tokenSet.has("contenedor")) return "container";
@@ -1286,6 +1326,7 @@ function getContainerSize(text: string, tokens: string[], family: string | null,
 
   if (!size && /\b4x4\b/.test(text)) return "4x4";
   if (!size && /\b5x5\b/.test(text)) return "5x5";
+  if (!size && line === "restash") return "4oz";
 
   return size ?? null;
 }
@@ -1362,6 +1403,9 @@ function getLighterLine(text: string, tokens: string[]) {
   const zengazModel = text.match(/\bzl-(\d+)\b/);
 
   if (zengazModel) return `zl-${zengazModel[1]}`;
+  if (text.includes("zengaz") && (text.includes("jet-flame") || text.includes("soplete")) && !/\bzl-\d+\b/.test(text)) {
+    return "zl-12";
+  }
   if (tokenSet.has("big-shot")) return "big-shot";
   if (/\bjet-flame\b/.test(text)) return "jet-flame";
   if (tokenSet.has("metalico") || tokenSet.has("metalica")) return "metal";
@@ -1554,6 +1598,7 @@ function cleanVaporizerText(value: string) {
   return normalizeText(value)
     .replace(/&amp;/g, " and ")
     .replace(/&quot;/g, " ")
+    .replace(/\bveazy\b/g, " venty ")
     .replace(/\bcrafty\s*\+/g, " crafty plus ")
     .replace(/\bcrafty\s+plus\b/g, " crafty-plus ")
     .replace(/\bmighty\s*\+/g, " mighty plus ")
@@ -1582,8 +1627,7 @@ function getVaporizerModel(text: string, tokens: string[]) {
   if (tokenSet.has("mighty-plus") || (tokenSet.has("mighty") && tokenSet.has("plus"))) return "mighty-plus";
   if (tokenSet.has("mighty")) return "mighty";
   if (tokenSet.has("crafty-plus") || (tokenSet.has("crafty") && tokenSet.has("plus"))) return "crafty-plus";
-  if (tokenSet.has("venty")) return "venty";
-  if (tokenSet.has("veazy")) return "veazy";
+  if (tokenSet.has("venty") || tokenSet.has("veazy")) return "venty";
   if (tokenSet.has("volcano") && tokenSet.has("hybrid") && tokenSet.has("onyx")) return "volcano-hybrid-onyx";
   if (tokenSet.has("volcano") && tokenSet.has("hybrid")) return "volcano-hybrid";
   if (tokenSet.has("volcano") && tokenSet.has("classic") && tokenSet.has("onyx")) return "volcano-classic-onyx";
@@ -1724,32 +1768,62 @@ function getOtherParaphernaliaBrandKey(offer: OfferRow) {
 }
 
 function getOtherParaphernaliaModelKey(offer: OfferRow) {
-  const text = cleanOtherParaphernaliaText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
-  const tokens = tokenizeSlug(text);
-  const tokenSet = new Set(tokens);
+  const titleLower = offer.title.toLowerCase();
+  const isRollingMachine = /\b(?:maquina|enroladora|enrolador|rolling\s+machine)\b/.test(titleLower) ||
+    (offer.modelKey && /\b(?:rolling|machine)\b/.test(offer.modelKey.toLowerCase()));
 
-  if (tokenSet.has("maquina") || tokenSet.has("enroladora") || tokenSet.has("enrolador") || (tokenSet.has("rolling") && tokenSet.has("machine"))) {
-    const material = firstExtractionToken(tokens, ["acrilica", "acrilico", "ecoplastic", "metalica", "metalico"]);
-    const mechanism = firstExtractionToken(tokens, ["automatica", "ajustable", "2-way"]);
-    const size = /\b1-1\/4\b/.test(text) ? "1-1-4" : firstExtractionToken(tokens, ["79mm", "king-size", "king-size-slim"]);
-
-    return ["rolling-machine", material, mechanism, size].filter(Boolean).join("-");
+  if (!isRollingMachine) {
+    return null;
   }
 
-  return null;
+  const text = cleanOtherParaphernaliaText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
+  const tokens = tokenizeSlug(text);
+
+  let mechanism = firstExtractionToken(tokens, ["automatica", "ajustable", "2-way"]) || (text.includes("ajustable") ? "ajustable" : null);
+  if (mechanism === "2-way") {
+    mechanism = "ajustable";
+  }
+
+  let material = firstExtractionToken(tokens, ["acrilica", "acrilico", "ecoplastic", "metalica", "metalico"]);
+  if (!material && offer.brandKey === "raw" && mechanism !== "automatica") {
+    material = "ecoplastic";
+  }
+
+  let size: string | null = null;
+  if (/\b1-1\/4\b/.test(text) || tokens.includes("79mm")) {
+    size = "1-1-4";
+  } else if (/\bking-size-slim\b/.test(text) || (tokens.includes("king") && tokens.includes("size") && tokens.includes("slim"))) {
+    size = "king-size";
+  } else if (/\bking-size\b/.test(text) || (tokens.includes("king") && tokens.includes("size"))) {
+    size = "king-size";
+  }
+
+  if (!size && offer.brandKey === "raw") {
+    size = "1-1-4";
+  }
+
+  return ["rolling-machine", material, mechanism, size].filter(Boolean).join("-");
 }
 
 function cleanOtherParaphernaliaText(value: string) {
-  return normalizeText(value)
+  let text = value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  text = text
     .replace(/&amp;/g, " and ")
-    .replace(/\b1\s*1\/4\b|\b1\.1\/4\b|\b1-1-4\b/g, " 1-1/4 ")
+    .replace(/\b1\s*1\/4\b|\b1\.1\/4\b|\b1-1-4\b|\b1\s+1\s*4\b|\b1[-_./]1[-_./]4\b/g, " 1-1/4 ")
+    .replace(/\b2-way\b|\b2\s+way\b/g, " ajustable ")
+    .replace(/\b79\s*mm\b|\b79\s+mm\b/g, " 1-1/4 ")
+    .replace(/\b110\s*mm\b|\b110\s+mm\b/g, " king-size ")
     .replace(/\bking\s*size\s*slim\b/g, " king-size-slim ")
-    .replace(/\bking\s*size\b/g, " king-size ")
-    .replace(/\b(\d+(?:[.,]\d+)?)\s*(mm|cm)\b/g, (_, amount: string, unit: string) => ` ${amount.replace(",", ".")}${unit} `)
+    .replace(/\bking\s*size\b/g, " king-size ");
+
+  text = text
     .replace(/\b(?:growbarato|growbaratochile|https?|www|cl|com|inicio|parafernalia|raw|ocb|blazy|susan|maquina|enroladora|enrolador)\b/g, " ")
-    .replace(/[^a-z0-9\s/.+-]+/g, " ")
+    .replace(/[^a-z0-9\s/.-]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+
+  return text;
 }
 
 function getExtractionModelKey(offer: OfferRow) {
@@ -1793,7 +1867,7 @@ function getExtractionModelKey(offer: OfferRow) {
   }
 
   const line = getBangerLine(text, tokens);
-  const gender = firstExtractionToken(tokens, ["macho", "hembra"]);
+  const gender = firstExtractionToken(tokens, ["macho", "hembra"]) || "macho";
   const angle = firstExtractionToken(tokens, ["45", "90"]) || "90";
   const size = getExtractionSize(tokens, line);
   const pieces = [family, line, gender, angle, size].filter(Boolean) as string[];
@@ -1861,7 +1935,11 @@ function getExtractionSize(tokens: string[], line: string | null) {
 
   const sizes = ["10mm", "14mm", "15mm", "18mm", "20mm", "15cm", "25cm"].filter((size) => tokens.includes(size));
 
-  return sizes.length > 0 ? [...new Set(sizes)].join("-") : null;
+  if (sizes.includes("10mm") && sizes.includes("14mm")) {
+    return "14mm";
+  }
+
+  return sizes.length > 0 ? [...new Set(sizes)].join("-") : "14mm";
 }
 
 function firstExtractionToken(tokens: string[], values: string[]) {
@@ -1891,6 +1969,13 @@ function cleanReplacementText(value: string) {
     .replace(/\batrapa\s*cenizas?\b/g, " ash-catcher ")
     .replace(/\batrapacenizas?\b/g, " ash-catcher ")
     .replace(/\bunidad\s+de\s+enfriamiento\b/g, " cooling-unit ")
+    .replace(/\bchiller\s+unit\b/g, " chiller-unit ")
+    .replace(/\bpurify\s+carbon\s+filter\s+system\s+kit\b/g, " purify-carbon-kit ")
+    .replace(/\bpurify\s+carbon\s+filter\s+system\s+solo\b/g, " purify-carbon-solo ")
+    .replace(/\bpurify\s+carbon\s+filter\b/g, " purify-carbon ")
+    .replace(/\bpurify\s+(?:repuesto\s+)?carb[o\u00f3]n\s+activado\b/g, " purify-carbon-refill ")
+    .replace(/\bpurify\s+carbon\s+activado\b/g, " purify-carbon-refill ")
+    .replace(/\badaptador\s+pyrex\b/g, " adapter ")
     .replace(/\bcargador\s+supercarga\s+tipo\s+c\b/g, " usb-c-supercharger ")
     .replace(/\bsupercharger\b/g, " usb-c-supercharger ")
     .replace(/\bcargador\s+(?:para\s+)?(?:auto|coches?)\s+12\s*voltios\b/g, " car-charger 12v ")
@@ -1924,6 +2009,11 @@ function getReplacementFamily(text: string, tokens: string[]) {
   if (tokenSet.has("boquillas") || tokenSet.has("boquilla") || tokenSet.has("mouthpiece") || tokenSet.has("flat-mouthpiece")) return "mouthpiece";
   if (tokenSet.has("saber") || tokenSet.has("saber-tip") || tokenSet.has("replacement-tip")) return "tip";
   if (tokenSet.has("bolsa") || tokenSet.has("tubos") || tokenSet.has("valvula") || tokenSet.has("valve")) return "volcano-part";
+  if (tokenSet.has("chiller-unit") || /\bchiller-unit\b/.test(text)) return "chiller-unit";
+  if (tokenSet.has("purify-carbon-kit") || /\bpurify-carbon-kit\b/.test(text)) return "carbon-filter";
+  if (tokenSet.has("purify-carbon-solo") || /\bpurify-carbon-solo\b/.test(text)) return "carbon-filter";
+  if (tokenSet.has("purify-carbon-refill") || /\bpurify-carbon-refill\b/.test(text)) return "carbon-refill";
+  if (tokenSet.has("adapter") || tokenSet.has("adaptador")) return "adapter";
 
   if (/\bsaber-tip\b|\breplacement-tip\b/.test(text)) return "tip";
 
@@ -1962,6 +2052,11 @@ function getReplacementLine(text: string, tokens: string[]) {
   if (tokenSet.has("slits")) return "slits";
   if (tokenSet.has("triple")) return "triple";
   if (tokenSet.has("tree")) return "tree";
+  if (tokenSet.has("chiller-unit") || /\bchiller-unit\b/.test(text)) return "red";
+  if (/\bpurify-carbon-kit\b/.test(text)) return "kit";
+  if (/\bpurify-carbon-solo\b/.test(text)) return "solo";
+  if (/\bpurify-carbon-refill\b/.test(text)) return "refill";
+  if (tokenSet.has("hembra") && tokenSet.has("macho")) return "hembra-macho";
 
   return null;
 }
@@ -1976,7 +2071,9 @@ function getReplacementSize(text: string, tokens: string[], line: string | null)
     line === "mighty-car-charger" ||
     line === "mighty-plus-usb-c-supercharger" ||
     line === "small" ||
-    line === "venty"
+    line === "venty" ||
+    line === "refill" ||
+    line === "hembra-macho"
   ) {
     return null;
   }
@@ -2123,6 +2220,7 @@ const BONG_GENERIC_TOKENS = new Set([
   "bong",
   "bonglab",
   "borosilicato",
+  "cachimbas",
   "calidad",
   "calvo",
   "calvoglass",
@@ -2156,6 +2254,7 @@ const BONG_GENERIC_TOKENS = new Set([
   "percoladores",
   "piece",
   "piecemaker",
+  "pipas",
   "piranha",
   "pmg",
   "premium",
@@ -2199,25 +2298,36 @@ const BONG_MODEL_PATTERNS: Array<[string, string[]]> = [
   ["classic-ice-pro", ["classic", "ice", "pro"]],
   ["classic-ice", ["classic", "ice"]],
   ["color-cube", ["cube"]],
+  ["double-shot", ["double", "shot"]],
   ["dream-rig-x4", ["dream", "x4"]],
   ["dream-rig", ["dream"]],
   ["fat-candy", ["fat", "candy"]],
+  ["glycerin-avalanche", ["glycerin", "avalanche"]],
   ["glycerin-black-ice", ["glycerin", "black", "ice"]],
   ["glycerin-thicc", ["glycerin", "thicc"]],
   ["glycerin-yeti", ["glycerin", "yeti"]],
   ["gummy-bear", ["gummy", "bear"]],
+  ["handy-rig", ["handy"]],
+  ["headshot", ["headshot"]],
   ["heavy-bubbler", ["heavy", "bubbler"]],
   ["honey-waffle", ["honey", "waffle"]],
   ["jelly-drop", ["jelly", "drop"]],
   ["jelly-fish", ["jelly", "fish"]],
+  ["km3", ["km3"]],
   ["km8-viper", ["km8", "viper"]],
+  ["kraken", ["kraken"]],
   ["little-buchner", ["little", "buchner"]],
   ["mad-professor", ["mad", "professor"]],
+  ["medusa", ["medusa"]],
+  ["mercurial", ["mercurial"]],
+  ["moon", ["moon"]],
   ["nevis-rig", ["nevis"]],
   ["pocket-bell", ["pocket", "bell"]],
+  ["purple-rig", ["purple", "rig"]],
   ["r3-mini", ["r3", "mini"]],
   ["rick-sanchez", ["rick", "sanchez"]],
   ["sheikh", ["sheikh"]],
+  ["shiva", ["shiva"]],
   ["space-oddity", ["space", "oddity"]],
   ["space-opera", ["space", "opera"]],
   ["the-trash", ["trash"]],
@@ -2359,14 +2469,14 @@ function getPaperModelKey(offer: OfferRow) {
 
   if (/\b(?:rolls|roll|rollo|rollos)\b/.test(text)) {
     size = "rolls";
+  } else if (/\b(?:30\s*cm|supernatural)\b/.test(text)) {
+    size = "30cm";
   } else if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1\s*-\s*1\s*\/\s*4|1[-_.\s\/]1[-_.\s\/]4|1[.,]25|78\s*mm)\b/.test(text)) {
     size = "1-1-4";
-  } else if (/\b(?:king\s*size\s*slim|ks\s*slim|king\s*slim)\b/.test(text)) {
+  } else if (/\b(?:king\s*size\s*slim|ks\s*slim|king\s*slim|slim)\b/.test(text)) {
     size = "king-size-slim";
   } else if (/\b(?:king\s*size|ks)\b/.test(text)) {
     size = "king-size";
-  } else if (/\b(?:30\s*cm|supernatural)\b/.test(text)) {
-    size = "30cm";
   } else if (/\b(?:single\s*wide|70\s*mm|regular|corto)\b/.test(text)) {
     size = "single-wide";
   }
@@ -2396,24 +2506,23 @@ function cleanPaperModelSlug(modelKey: string) {
 function getPaperVariant(offer: OfferRow) {
   const text = normalizeText(`${offer.title} ${offer.modelKey ?? ""}`);
   const variantPatterns: Array<[string, RegExp]> = [
-    ["artesano", /\bartesano\b/],
-    ["bamboo", /\bbamboo\b/],
     ["black-organic-hemp", /\bblack\b.*\borganic\b|\borganic\b.*\bblack\b/],
     ["black", /\bblack\b|\bnegro\b|\bnegra\b/],
-    ["bamboo", /\bbambu\b/],
-    ["classic", /\bclassic\b|\bclasico\b|\bclasica\b/],
+    ["bamboo", /\bbamboo\b|\bbambu\b/],
     ["organic", /\borganic\b|\borganico\b|\borganica\b|\bcanamo\b|\bhemp\b/],
     ["pink", /\bpink\b|\brosado\b|\brosada\b|\brosa\b/],
-    ["premium", /\bpremium\b/],
     ["purple", /\bpurple\b|\bmorado\b|\bmorada\b|\blila\b/],
-    ["rainbow", /\brainbow\b/],
-    ["rice", /\brice\b|\barroz\b/],
-    ["super-king", /\bsupernatural\b|\bsuper\s+king\b|\blargos\b/],
-    ["ultimate", /\bultimate\b/],
     ["unbleached", /\bunbleached\b|\bsin\s+blanquear\b|\bnatural\b/],
     ["virgin", /\bvirgin\b/],
-    ["white", /\bwhite\b|\bblanco\b|\bblanca\b/],
+    ["ultimate", /\bultimate\b/],
     ["x-pert", /\bx\s*-?\s*pert\b|\bxpert\b/],
+    ["rainbow", /\brainbow\b/],
+    ["rice", /\brice\b|\barroz\b/],
+    ["white", /\bwhite\b|\bblanco\b|\bblanca\b/],
+    ["classic", /\bclassic\b|\bclasico\b|\bclasica\b|\bconnoisseur\b/],
+    ["premium", /\bpremium\b/],
+    ["artesano", /\bartesano\b/],
+    ["super-king", /\bsupernatural\b|\bsuper\s+king\b|\blargos\b/],
   ];
 
   const detected = variantPatterns.find(([, pattern]) => pattern.test(text))?.[0] ?? null;
@@ -2424,6 +2533,7 @@ function getPaperVariant(offer: OfferRow) {
 }
 
 function getPaperSizeSlug(modelKey: string) {
+  if (/rolls/.test(modelKey)) return "rolls";
   if (/1-1-4/.test(modelKey)) return null;
   if (/30cm/.test(modelKey)) return "30cm";
   if (/king-size-slim/.test(modelKey)) return "king-size-slim";
@@ -2432,7 +2542,7 @@ function getPaperSizeSlug(modelKey: string) {
 }
 
 function hasPaperTips(offer: OfferRow) {
-  return /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?)\b/i.test(offer.title);
+  return /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?|kit|deluxe)\b/i.test(offer.title);
 }
 
 function tipsSegment(hasTips: boolean) {

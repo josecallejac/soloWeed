@@ -1568,7 +1568,9 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
   }
 
   // Estuches y Bolsos Ozeta específicos (por encima de moledores genéricos)
-  if (hasAny(titleOnly, ["chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "estuche antiolor", "bolso antiolor", "anti-olor ozeta", "tubo case", "porta joint"])) {
+  if (hasAny(titleOnly, ["chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "estuche antiolor", "bolso antiolor", "anti-olor ozeta", "tubo case", "porta joint"]) ||
+      (hasAny(titleOnly, ["porta papelillo", "porta papelillos"]) && !hasAny(titleOnly, ["filtro", "filtros", "tip", "tips", "boquilla", "boquillas"])) ||
+      (hasAny(titleOnly, ["caja metalica", "cajita metalica"]) && !hasAny(titleOnly, ["filtro", "filtros", "tip", "tips", "boquilla", "boquillas", "papelillo", "papelillos"]))) {
     return "Contenedores y estuches";
   }
 
@@ -1588,12 +1590,12 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return "Vaporizadores electronicos";
   }
 
-  if (isHerbalVaporizer(titleOnly, text)) {
-    return "Vaporizadores herbales";
-  }
-
   if (isVaporizerAccessory(titleOnly, text)) {
     return VAPORIZER_REPLACEMENT_CATEGORY;
+  }
+
+  if (isHerbalVaporizer(titleOnly, text)) {
+    return "Vaporizadores herbales";
   }
 
   if (/\biso\s*[- ]?plex\b|\bisoplex\b/.test(text)) {
@@ -1622,7 +1624,7 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return "Bongs";
   }
 
-  if (/\bpipas?\b|\bpipe\b|\bhitter\b|\bchillum\b/.test(titleOnly)) {
+  if (/\bpipas?\b|\bpipe\b|\bhitter\b|\bchillum\b/.test(titleOnly) || titleOnly.includes("heavy gear")) {
     return "Pipas";
   }
 
@@ -1637,6 +1639,8 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
       "papel fumar",
       "papel de liar",
       "papel liar",
+      "rolling kit",
+      "deluxe kit",
     ]) ||
     hasAny(text, ["/papelillos/"])
   ) {
@@ -1679,7 +1683,10 @@ function isVaporizerAccessory(titleOnly: string, text: string) {
     return false;
   }
 
-  if (/\bstarter\s*set\b/.test(titleOnly) && hasAny(text, ["dynavap", "storz", "bickel", "davinci", "pax", "arizer", "volcano", "mighty", "crafty", "venty"])) {
+  if (/\bstarter\s*set\b/.test(titleOnly) && hasAny(text, ["storz", "bickel", "volcano", "mighty", "crafty", "venty"])) {
+    return true;
+  }
+  if (/\bstarter\s*set\b/.test(titleOnly) && hasAny(text, ["dynavap", "davinci", "pax", "arizer"])) {
     return false;
   }
 

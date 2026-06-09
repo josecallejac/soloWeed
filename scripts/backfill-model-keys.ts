@@ -184,7 +184,7 @@ function extractUrlTokens(url: string) {
 
 function getModelKey(category: string, brandKey: string | null, brand: string | null, title: string, url: string, sourceCategory: string) {
   const cleanUrl = extractUrlTokens(url);
-  const text = normalizeText(`${brandKey ?? ""} ${brand ?? ""} ${title} ${cleanUrl} ${sourceCategory}`);
+  const text = normalizeText(`${brandKey ?? ""} ${brand ?? ""} ${title} ${cleanUrl} ${sourceCategory}`, category);
   const tokens = new Set(tokenize(text));
   const known = getKnownModel(text);
   const sizes = getSizeTokens(text, tokens);
@@ -212,8 +212,9 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
   }
 
   if (category === "Papelillos") {
-    const line = firstToken(tokens, ["bamboo", "black", "classic", "organic", "premium", "rice", "ultimate", "unbleached", "virgin", "x-pert", "xpert"]);
-    const hasTips = hasAny(tokens, ["tips", "boquilla", "boquillas", "connoisseur"]);
+    let line = firstToken(tokens, ["bamboo", "black", "classic", "organic", "premium", "rice", "ultimate", "unbleached", "virgin", "x-pert", "xpert", "connoisseur"]);
+    const hasTips = hasAny(tokens, ["tips", "boquilla", "boquillas", "connoisseur", "kit", "deluxe"]);
+    if (line === "connoisseur") line = "classic";
     return line && sizes.length > 0 ? compactKey([line, ...sizes, hasTips ? "tips" : null]) : null;
   }
 
@@ -442,7 +443,7 @@ function getType(category: string, tokens: Set<string>) {
 function getSizeTokens(text: string, tokens: Set<string>) {
   const sizes = new Set<string>();
 
-  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114)\b/.test(text)) sizes.add("1-1/4");
+  if (/\b(?:1-1\/4|1\s*1\/4|1-14|114|1[-_.\s\/]1[-_.\s\/]4|1[.,]25|78\s*mm)\b/.test(text)) sizes.add("1-1/4");
   if (/\bking\s*size\b|\bking-size\b/.test(text)) sizes.add("king-size");
 
   for (const token of tokens) {
@@ -498,17 +499,31 @@ function slugify(value: string) {
   return normalizeText(value).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-function normalizeText(value: string) {
-  return value
+function normalizeText(value: string, category?: string) {
+  let text = value
     .replace(/½/g, "1/2")
     .replace(/¼/g, "1/4")
     .replace(/¾/g, "3/4")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/&amp;/g, "&")
-    .toLowerCase()
-    .replace(/\b(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, " $1$3 $2$3 ")
-    .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|cc|oz|gr|g|mah)\b/g, " $1$2 ")
+    .toLowerCase();
+
+  if (category === "Moledores" || /\b(?:moledor|grinder|moledores)\b/.test(text)) {
+    text = text.replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, (_, amount, unit) => {
+      const num = Number(amount.replace(",", "."));
+      const mm = unit === "cm" ? num * 10 : num;
+      let finalMm = Math.round(mm);
+      if (finalMm === 70) finalMm = 73;
+      if (finalMm === 60) finalMm = 63;
+      return ` ${finalMm}mm `;
+    });
+  } else {
+    text = text.replace(/\b(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, " $1$3 $2$3 ")
+      .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|cc|oz|gr|g|mah)\b/g, " $1$2 ");
+  }
+
+  return text
     .replace(/\b(\d+)\s*(?:u|uds|un|und|unidades)\b/g, " $1u ")
     .replace(/\b(\d+)[-\s]*(partes?|piezas?|pcs|pieces)\b/g, " $1-partes ")
     .replace(/\bking\s*size\b/g, " king-size ")

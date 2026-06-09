@@ -343,7 +343,7 @@ async function main() {
   // a. OCB Premium 1 1/4 + Tips (Promocionar a 4 Tiendas)
   const ocbTipsOfferIds = [823, 1252, 292, 311];
   let ocbTipsProduct = await prisma.product.findFirst({
-    where: { brandKey: 'ocb', modelSlug: 'premium-1-1-4-with-tips' }
+    where: { brandKey: 'ocb', modelSlug: 'premium-con-tips' }
   });
 
   if (!ocbTipsProduct) {
@@ -353,8 +353,8 @@ async function main() {
         normalizedName: 'ocb premium 1 1/4 + tips',
         brand: 'OCB',
         brandKey: 'ocb',
-        modelKey: 'premium-1-1-4-with-tips',
-        modelSlug: 'premium-1-1-4-with-tips',
+        modelKey: 'premium-con-tips',
+        modelSlug: 'premium-con-tips',
         category: 'Papelillos',
         imageUrl: 'https://www.growbaratochile.cl/6364-large_default/ocb-premium-114-tips.jpg'
       }
@@ -411,7 +411,7 @@ async function main() {
   // c. OCB X-Pert Slim King Size (Promocionar/Consolidar a 3 Tiendas)
   const ocbXpertOfferIds = [2033, 701, 396];
   let ocbXpertProduct = await prisma.product.findFirst({
-    where: { brandKey: 'ocb', modelSlug: 'xpert-king-size-slim' }
+    where: { brandKey: 'ocb', modelSlug: 'x-pert-king-size-slim' }
   });
 
   if (!ocbXpertProduct) {
@@ -421,8 +421,8 @@ async function main() {
         normalizedName: 'ocb x-pert slim king size',
         brand: 'OCB',
         brandKey: 'ocb',
-        modelKey: 'xpert-king-size-slim',
-        modelSlug: 'xpert-king-size-slim',
+        modelKey: 'x-pert-king-size-slim',
+        modelSlug: 'x-pert-king-size-slim',
         category: 'Papelillos',
         imageUrl: 'https://media.piranha.cl/10325-thickbox_default/papelillo-ocb-organico-1-14.jpg' // fallback img
       }
@@ -532,6 +532,29 @@ async function main() {
     console.log('   ⚠️ Error: No se encontró la oferta ID 543 o el producto Estuche Pequeño.');
   }
 
+  // --- 10. RAW Classic Connoisseur 1 1/4 + Tips (Promover a 4 Tiendas) ---
+  console.log('\n--- 10. RAW Classic Connoisseur 1 1/4 + Tips ---');
+  const connoisseurProduct = await prisma.product.findFirst({
+    where: { brandKey: 'raw', modelSlug: 'classic-con-tips' }
+  });
+
+  if (connoisseurProduct) {
+    const connoisseurOfferIds = [793, 211, 2434, 558, 2292];
+    for (const id of connoisseurOfferIds) {
+      const off = await prisma.offer.findUnique({ where: { id }, include: { store: true } });
+      if (off) {
+        await prisma.offer.update({
+          where: { id },
+          data: { productId: connoisseurProduct.id, category: connoisseurProduct.category }
+        });
+        console.log(`   🚨 Vinculada oferta ID ${id} ("${off.title}" de ${off.store.name}) al Producto #${connoisseurProduct.id}.`);
+      }
+    }
+    console.log(`   ➡️ RAW Classic Connoisseur 1 1/4 + Tips promovido a 4 TIENDAS.`);
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto RAW Classic Connoisseur 1 1/4 + Tips.');
+  }
+
   // --- 11. RAW Classic King Size Slim (Promover a 4 Tiendas) ---
   console.log('\n--- 11. RAW Classic King Size Slim → 4 Tiendas ---');
   // Producto #5418 ya tiene GrowBarato [2235] + Piranha [499]
@@ -572,8 +595,328 @@ async function main() {
   );
   console.log(`   ➡️ RAW Classic KSS ahora en ${rawClassicKssStores.length} TIENDAS: ${rawClassicKssStores.map(r => r.storeName).join(', ')}`);
 
+  // --- 12. Blazy Susan Deluxe Rolling Kits ---
+  console.log('\n--- 12. Blazy Susan Deluxe Rolling Kits ---');
+  
+  const bsDeluxeKits = [
+    {
+      name: 'Blazy Susan Deluxe Rolling Kit Pink King Size',
+      modelKey: 'king-size-slim',
+      modelSlug: 'pink-king-size-slim-con-tips',
+      imageUrl: 'https://cdnx.jumpseller.com/astrogrowshop/image/70146692/imagen_1_20572.webp?1764101203',
+      offerIds: [728, 2257, 2467]
+    },
+    {
+      name: 'Blazy Susan Deluxe Rolling Kit Purple King Size',
+      modelKey: 'king-size-slim',
+      modelSlug: 'purple-king-size-slim-con-tips',
+      imageUrl: 'https://www.growbaratochile.cl/10781-large_default/blazy-susan-papelillos-king-size-slim-purple.jpg',
+      offerIds: [2258, 2468, 2686]
+    },
+    {
+      name: 'Blazy Susan Deluxe Rolling Kit Purple 1 1/4',
+      modelKey: '1-1-4',
+      modelSlug: 'purple-con-tips',
+      imageUrl: 'https://cdnx.jumpseller.com/astrogrowshop/image/70146538/imagen_1_20570.webp?1764100869',
+      offerIds: [822, 2425]
+    },
+    {
+      name: 'Blazy Susan Deluxe Rolling Kit Pink 1 1/4',
+      modelKey: '1-1-4',
+      modelSlug: 'pink-con-tips',
+      imageUrl: 'https://cdnx.jumpseller.com/fumetas-store/image/50654920/Blazy-Susan-Deluxe-Rolling-Kit-1-1-4-2-1-min.jpg?1774462685',
+      offerIds: [194]
+    }
+  ];
+
+  for (const kit of bsDeluxeKits) {
+    let product = await prisma.product.findFirst({
+      where: { brandKey: 'blazy-susan', modelSlug: kit.modelSlug }
+    });
+
+    if (!product) {
+      product = await prisma.product.create({
+        data: {
+          name: kit.name,
+          normalizedName: kit.name.toLowerCase(),
+          brand: 'Blazy Susan',
+          brandKey: 'blazy-susan',
+          modelKey: kit.modelKey,
+          modelSlug: kit.modelSlug,
+          category: 'Papelillos',
+          imageUrl: kit.imageUrl
+        }
+      });
+      console.log(`   ✅ Creado Producto #${product.id} para "${kit.name}".`);
+    }
+
+    for (const id of kit.offerIds) {
+      const off = await prisma.offer.findUnique({ where: { id }, include: { store: true } });
+      if (off) {
+        await prisma.offer.update({
+          where: { id },
+          data: { productId: product.id, category: product.category }
+        });
+        console.log(`   🚨 Vinculada oferta ID ${id} ("${off.title}" de ${off.store.name}) al Producto #${product.id}.`);
+      }
+    }
+    const storeCount = await prisma.offer.findMany({
+      where: { productId: product.id },
+      select: { storeId: true },
+      distinct: ['storeId']
+    });
+    console.log(`   ➡️ "${kit.name}" promovido a ${storeCount.length} TIENDAS.`);
+  }
+
+  // --- 13. Bonglab Classic Ice 26cm ---
+  console.log('\n--- 13. Bonglab Classic Ice 26cm ---');
+  const classicIceProduct = await prisma.product.findUnique({ where: { id: 5773 } });
+  if (classicIceProduct) {
+    const classicIceOffer = await prisma.offer.findUnique({ where: { id: 2317 }, include: { store: true } });
+    if (classicIceOffer) {
+      await prisma.offer.update({
+        where: { id: 2317 },
+        data: { productId: classicIceProduct.id, category: classicIceProduct.category }
+      });
+      console.log(`   🚨 Vinculada oferta ID 2317 ("${classicIceOffer.title}" de ${classicIceOffer.store.name}) al Producto #${classicIceProduct.id}.`);
+    }
+    const storeCount = await prisma.offer.findMany({
+      where: { productId: classicIceProduct.id },
+      select: { storeId: true },
+      distinct: ['storeId']
+    });
+    console.log(`   ➡️ Bonglab Classic Ice 26cm promovido a ${storeCount.length} TIENDAS.`);
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto Classic Ice 26cm.');
+  }
+
+  // 14. Moledor OCB Eco Hemp 55mm (Promocionar a 3 Tiendas)
+  console.log('\n--- 14. Moledor OCB Eco Hemp 55mm ---');
+  const ecoGrinderProduct = await prisma.product.findFirst({
+    where: { brandKey: 'ocb', modelSlug: 'eco' }
+  });
+  if (ecoGrinderProduct) {
+    const piranhaEcoOffer = await prisma.offer.findUnique({
+      where: { id: 1053 },
+      include: { store: true }
+    });
+    if (piranhaEcoOffer) {
+      await prisma.offer.update({
+        where: { id: 1053 },
+        data: {
+          productId: ecoGrinderProduct.id,
+          category: ecoGrinderProduct.category
+        }
+      });
+      console.log(`   🚨 Vinculada oferta ID 1053 ("${piranhaEcoOffer.title}" de ${piranhaEcoOffer.store.name}) al Producto #${ecoGrinderProduct.id}.`);
+      console.log(`   ➡️ Moledor OCB Eco Hemp 55mm promovido a 3 TIENDAS.`);
+    } else {
+      console.log('   ⚠️ Error: No se encontró la oferta ID 1053.');
+    }
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto OCB Eco Hemp.');
+  }
+
+  // 15. OCB Ultimate King Size Slim (Promocionar a 3 Tiendas)
+  console.log('\n--- 15. OCB Ultimate King Size Slim ---');
+  const ultimateKssProduct = await prisma.product.findFirst({
+    where: { brandKey: 'ocb', modelSlug: 'ultimate-king-size-slim' }
+  });
+  if (ultimateKssProduct) {
+    const gbUltimateOffer = await prisma.offer.findUnique({
+      where: { id: 317 },
+      include: { store: true }
+    });
+    if (gbUltimateOffer) {
+      await prisma.offer.update({
+        where: { id: 317 },
+        data: {
+          productId: ultimateKssProduct.id,
+          category: ultimateKssProduct.category
+        }
+      });
+      console.log(`   🚨 Vinculada oferta ID 317 ("${gbUltimateOffer.title}" de ${gbUltimateOffer.store.name}) al Producto #${ultimateKssProduct.id}.`);
+      console.log(`   ➡️ OCB Ultimate King Size Slim promovido a 3 TIENDAS.`);
+    } else {
+      console.log('   ⚠️ Error: No se encontró la oferta ID 317.');
+    }
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto OCB Ultimate King Size Slim.');
+  }
+
+  // 16. Zengaz Jet Flame ZL-12 (Promocionar a 3 Tiendas)
+  console.log('\n--- 16. Zengaz Jet Flame ZL-12 ---');
+  const zengazProduct = await prisma.product.findFirst({
+    where: { brandKey: 'zengaz', modelSlug: 'torch-lighter-zl-12' }
+  });
+  if (zengazProduct) {
+    const gbZengazOffer = await prisma.offer.findUnique({
+      where: { id: 146 },
+      include: { store: true }
+    });
+    if (gbZengazOffer) {
+      await prisma.offer.update({
+        where: { id: 146 },
+        data: {
+          productId: zengazProduct.id,
+          category: zengazProduct.category
+        }
+      });
+      console.log(`   🚨 Vinculada oferta ID 146 ("${gbZengazOffer.title}" de ${gbZengazOffer.store.name}) al Producto #${zengazProduct.id}.`);
+      console.log(`   ➡️ Zengaz Jet Flame ZL-12 promovido a 3 TIENDAS.`);
+    } else {
+      console.log('   ⚠️ Error: No se encontró la oferta ID 146.');
+    }
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto Zengaz ZL-12.');
+  }
+
+  // 17. Galaxy Mars Grinder 55mm (Promocionar a 3 Tiendas)
+  console.log('\n--- 17. Galaxy Mars Grinder 55mm ---');
+  const marsGrinderProduct = await prisma.product.findFirst({
+    where: { brandKey: 'galaxy', modelSlug: 'mars-55mm' }
+  });
+  if (marsGrinderProduct) {
+    const piranhaMarsOffer = await prisma.offer.findUnique({
+      where: { id: 4930 },
+      include: { store: true }
+    });
+    if (piranhaMarsOffer) {
+      await prisma.offer.update({
+        where: { id: 4930 },
+        data: {
+          productId: marsGrinderProduct.id,
+          category: marsGrinderProduct.category
+        }
+      });
+      console.log(`   🚨 Vinculada oferta ID 4930 ("${piranhaMarsOffer.title}" de ${piranhaMarsOffer.store.name}) al Producto #${marsGrinderProduct.id}.`);
+      console.log(`   ➡️ Galaxy Mars Grinder 55mm promovido a 3 TIENDAS.`);
+    } else {
+      console.log('   ⚠️ Error: No se encontró la oferta ID 4930.');
+    }
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto Galaxy Mars.');
+  }
+
+  // 18. RAW Supernatural 30cm (Promocionar a 3 Tiendas)
+  console.log('\n--- 18. RAW Supernatural 30cm ---');
+  const supernaturalProduct = await prisma.product.findFirst({
+    where: { brandKey: 'raw', modelSlug: 'super-king-30cm' }
+  });
+  if (supernaturalProduct) {
+    const fumetasSupernaturalOffer = await prisma.offer.findUnique({
+      where: { id: 215 },
+      include: { store: true }
+    });
+    if (fumetasSupernaturalOffer) {
+      await prisma.offer.update({
+        where: { id: 215 },
+        data: {
+          productId: supernaturalProduct.id,
+          category: supernaturalProduct.category
+        }
+      });
+      console.log(`   🚨 Vinculada oferta ID 215 ("${fumetasSupernaturalOffer.title}" de ${fumetasSupernaturalOffer.store.name}) al Producto #${supernaturalProduct.id}.`);
+      console.log(`   ➡️ RAW Supernatural 30cm promovido a 3 TIENDAS.`);
+    } else {
+      console.log('   ⚠️ Error: No se encontró la oferta ID 215.');
+    }
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto RAW Supernatural.');
+  }
+
+  // 19. Blazy Susan Cones 1 1/4 Pink (Promocionar a 3 Tiendas)
+  console.log('\n--- 19. Blazy Susan Cones 1 1/4 Pink ---');
+  const blazyConesProduct = await prisma.product.findFirst({
+    where: { brandKey: 'blazy-susan', modelSlug: 'pre-roll-pink-1-1-4-6u' }
+  });
+  if (blazyConesProduct) {
+    const astroConesOffer1 = await prisma.offer.findUnique({ where: { id: 768 }, include: { store: true } });
+    const astroConesOffer2 = await prisma.offer.findUnique({ where: { id: 810 }, include: { store: true } });
+    
+    if (astroConesOffer1) {
+      await prisma.offer.update({
+        where: { id: 768 },
+        data: { productId: blazyConesProduct.id, category: blazyConesProduct.category }
+      });
+      console.log(`   🚨 Vinculada oferta ID 768 ("${astroConesOffer1.title}" de ${astroConesOffer1.store.name}) al Producto #${blazyConesProduct.id}.`);
+    }
+    if (astroConesOffer2) {
+      await prisma.offer.update({
+        where: { id: 810 },
+        data: { productId: blazyConesProduct.id, category: blazyConesProduct.category }
+      });
+      console.log(`   🚨 Vinculada oferta ID 810 ("${astroConesOffer2.title}" de ${astroConesOffer2.store.name}) al Producto #${blazyConesProduct.id}.`);
+    }
+    console.log(`   ➡️ Blazy Susan Cones 1 1/4 Pink promovido a 3 TIENDAS.`);
+  } else {
+    console.log('   ⚠️ Error: No se encontró el producto Blazy Susan Cones 1 1/4 Pink.');
+  }
+
+  // 20. RAW King Size Cones (Promocionar a 2 Tiendas y Vincular)
+  console.log('\n--- 20. RAW King Size Cones ---');
+  let rawKssConesProduct = await prisma.product.findFirst({
+    where: { brandKey: 'raw', modelSlug: 'pre-roll-king-size-with-tips' }
+  });
+  if (!rawKssConesProduct) {
+    rawKssConesProduct = await prisma.product.create({
+      data: {
+        name: 'RAW Conos Pre-enrolados King Size + Tips',
+        normalizedName: 'raw conos pre-enrolados king size + tips',
+        brand: 'RAW',
+        brandKey: 'raw',
+        modelKey: 'pre-roll-king-size-with-tips',
+        modelSlug: 'pre-roll-king-size-with-tips',
+        category: 'Conos y blunts',
+      }
+    });
+    console.log(`   ✅ Creado Producto #${rawKssConesProduct.id} para RAW Conos Pre-enrolados King Size + Tips.`);
+  }
+
+  const fumetasRawConesOffer = await prisma.offer.findUnique({ where: { id: 222 }, include: { store: true } });
+  if (fumetasRawConesOffer) {
+    await prisma.offer.update({
+      where: { id: 222 },
+      data: { productId: rawKssConesProduct.id, category: rawKssConesProduct.category }
+    });
+    console.log(`   🚨 Vinculada oferta ID 222 ("${fumetasRawConesOffer.title}" de ${fumetasRawConesOffer.store.name}) al Producto #${rawKssConesProduct.id}.`);
+  }
+
+  const gbRawConesOffer = await prisma.offer.findUnique({ where: { id: 3189 }, include: { store: true } });
+  if (gbRawConesOffer) {
+    await prisma.offer.update({
+      where: { id: 3189 },
+      data: { productId: rawKssConesProduct.id, category: rawKssConesProduct.category }
+    });
+    console.log(`   🚨 Vinculada oferta ID 3189 ("${gbRawConesOffer.title}" de ${gbRawConesOffer.store.name}) al Producto #${rawKssConesProduct.id}.`);
+    console.log(`   ➡️ RAW King Size Cones ahora en 2 TIENDAS.`);
+  }
+
+  // 21. Saneamiento Volcano Classic Standard
+  console.log('\n--- 21. Saneamiento Volcano Classic ---');
+  const volcanoClassicProduct = await prisma.product.findFirst({
+    where: { brandKey: 'storz-bickel', modelSlug: 'volcano-classic' }
+  });
+  if (volcanoClassicProduct) {
+    const gbVolcanoClassicOffer = await prisma.offer.findUnique({
+      where: { id: 2261 },
+      include: { store: true }
+    });
+    if (gbVolcanoClassicOffer) {
+      await prisma.offer.update({
+        where: { id: 2261 },
+        data: {
+          productId: volcanoClassicProduct.id,
+          category: volcanoClassicProduct.category
+        }
+      });
+      console.log(`   🚨 Reubicada oferta ID 2261 ("${gbVolcanoClassicOffer.title}" de ${gbVolcanoClassicOffer.store.name}) al Producto #${volcanoClassicProduct.id}.`);
+      console.log(`   ➡️ Saneamiento de Volcano Classic completado.`);
+    }
+  }
+
   // Clean up empty products
-  console.log('\n--- 12. Limpieza de Productos Vacíos ---');
+  console.log('\n--- 22. Limpieza de Productos Vacíos ---');
   const deleteCount = await prisma.$executeRaw`
     DELETE FROM "Product" 
     WHERE "id" NOT IN (SELECT DISTINCT "productId" FROM "Offer" WHERE "productId" IS NOT NULL)

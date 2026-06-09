@@ -353,7 +353,9 @@ export function getPaperVariant(tokens: Set<string>) {
   if (tokens.has("prepare") && tokens.has("flight")) return "prepare-flight";
   if (tokens.has("emerald")) return "emerald";
   if (tokens.has("girl")) return "girl";
-  if (tokens.has("classic") || tokens.has("clasica") || tokens.has("clasico")) return "classic";
+  if ((tokens.has("classic") || tokens.has("clasica") || tokens.has("clasico") || tokens.has("connoisseur")) &&
+      !tokens.has("black") && !tokens.has("negro") && !tokens.has("negra") &&
+      !tokens.has("organic") && !tokens.has("organico") && !tokens.has("organica")) return "classic";
   if (tokens.has("ocb") && (tokens.has("black") || tokens.has("negro") || tokens.has("negra") || tokens.has("premium"))) {
     return "premium";
   }
@@ -603,7 +605,7 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
     phraseModels,
     rawModel: brand === "raw" ? getPaperVariant(tokens) : null,
     paperVariant: ["Papelillos", "papelillos"].includes(offer.category) ? getPaperVariant(tokens) : null,
-    hasTips: /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?)\b/i.test(offer.title),
+    hasTips: /\b(?:boquilla|boquillas|filtro|filtros|tips?|connoisseur|pre[- ]?enrolados?|kit|deluxe)\b/i.test(offer.title),
     sizes,
     quantities: extractQuantities(tokens),
     hasPack: hasPackIndicator(text),
