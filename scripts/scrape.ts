@@ -1336,7 +1336,10 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
   const availability = cleanOptional(
     asText(offer?.availability) ?? meta($, "property", "product:availability"),
   );
-  const imageUrl = normalizeUrl(getJsonLdImage(product?.["image"]) ?? meta($, "property", "og:image"), sourceUrl);
+  let imageUrl = normalizeUrl(getJsonLdImage(product?.["image"]) ?? meta($, "property", "og:image"), sourceUrl);
+  if (imageUrl && imageUrl.includes("media.piranha.cl")) {
+    imageUrl = imageUrl.replace("media.piranha.cl", "piranha.cl");
+  }
   const description = cleanOptional(
     asText(product?.["description"]) ?? meta($, "name", "description") ?? meta($, "property", "og:description"),
   );

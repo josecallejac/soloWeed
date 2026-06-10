@@ -53,7 +53,7 @@ async function main() {
   const offers = await prisma.$queryRaw<OfferRow[]>`
     SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url", "description"
     FROM "Offer"
-    WHERE "brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores electronicos', 'Vaporizadores herbales')
+    WHERE "productId" IS NULL AND ("brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores electronicos', 'Vaporizadores herbales'))
     ORDER BY "category", "brandKey", "modelKey", "price"
   `;
   const groups = buildGroups(offers);
@@ -84,7 +84,6 @@ async function main() {
   }
 
   await prisma.$transaction(async (tx) => {
-    await tx.offer.updateMany({ data: { productId: null } });
 
     for (const group of candidates) {
       const representative = pickRepresentative(group.offers);
@@ -130,8 +129,6 @@ async function main() {
         },
       });
     }
-
-    await tx.$executeRaw`DELETE FROM "Product" WHERE "id" NOT IN (SELECT DISTINCT "productId" FROM "Offer" WHERE "productId" IS NOT NULL)`;
   });
 
   console.log("Curated comparable products applied.");

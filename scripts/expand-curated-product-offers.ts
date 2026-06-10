@@ -31,18 +31,22 @@ type Candidate = {
 };
 
 const APPLY = process.argv.includes("--apply");
-const MIN_SCORE = Number(process.env.EXPAND_MIN_SCORE ?? 0.86);
+const MIN_SCORE = Number(process.env.EXPAND_MIN_SCORE ?? 0.80);
 
 const GENERIC_TOKENS = new Set([
   "accesorio",
   "accesorios",
   "anti",
+  "astrogrowshop",
   "banger",
   "bandeja",
   "bandejas",
   "bong",
   "boquilla",
   "boquillas",
+  "brand",
+  "chile",
+  "comprar",
   "container",
   "contenedor",
   "de",
@@ -51,17 +55,25 @@ const GENERIC_TOKENS = new Set([
   "en",
   "estuche",
   "filter",
+  "fumetas",
+  "gb",
+  "green",
   "grinder",
+  "growbarato",
   "http",
   "https",
   "la",
   "las",
   "limpieza",
   "los",
+  "mejor",
   "metal",
+  "oferta",
   "otros",
   "paper",
   "para",
+  "piranha",
+  "precio",
   "product",
   "the",
   "tray",
@@ -131,12 +143,82 @@ function pickBestCandidates(products: ProductRow[], offers: OfferRow[]) {
   return candidates.sort((first, second) => first.product.id - second.product.id || second.score - first.score);
 }
 
+function getUnitPack(text: string) {
+  const match = text.match(/\b(\d+)\s*(?:u|ud|uds|und|unidad|unidades|pack)\b/);
+  return match ? Number(match[1]) : 1;
+}
+
+function getAngle(text: string) {
+  const match = text.match(/\b(45|90)\s*(?:°||grados|grado)\b/);
+  return match ? match[1] : null;
+}
+
+function getGrinderParts(text: string) {
+  const match = text.match(/\b(\d+)\s*partes\b/);
+  return match ? Number(match[1]) : null;
+}
+
+function isPaperRoll(text: string) {
+  return /\b(?:rolls|rollo|rollos|4m|5m|metros)\b/.test(text);
+}
+
+function isDeluxeKit(text: string) {
+  return /\b(?:deluxe\s+kit|connoisseur|kit)\b/.test(text);
+}
+
+function getVaporizerVariant(text: string) {
+  const variants = [];
+  if (/\bonyx\b/.test(text)) variants.push("onyx");
+  if (/\bgold\b/.test(text)) variants.push("gold");
+  if (/\bclassic\b/.test(text)) variants.push("classic");
+  if (/\bplus\b/.test(text)) variants.push("plus");
+  if (/\bxl\b/.test(text)) variants.push("xl");
+  return variants.sort().join("-");
+}
+
+function passesHardValidationConstraints(product: ProductRow, offer: OfferRow) {
+  // Use raw un-normalized text for regex extractions like '°', 'u', etc.
+  const rawProductText = `${product.name} ${product.modelKey ?? ""} ${product.modelSlug ?? ""}`.toLowerCase();
+  const rawOfferText = `${offer.title} ${offer.modelKey ?? ""} ${offer.url}`.toLowerCase();
+
+  const productText = normalize(rawProductText);
+  const offerText = normalize(rawOfferText);
+
+  if (getUnitPack(rawProductText) !== getUnitPack(rawOfferText)) return false;
+
+  const bundleRegex = /\b(?:pack|kit|set|case|pro)\b/;
+  if (bundleRegex.test(rawProductText) !== bundleRegex.test(rawOfferText)) return false;
+
+  if (product.category === "Moledores") {
+    const prodParts = getGrinderParts(rawProductText);
+    const offerParts = getGrinderParts(rawOfferText);
+    if (prodParts && offerParts && prodParts !== offerParts) return false;
+  }
+
+  const prodAngle = getAngle(rawProductText);
+  const offerAngle = getAngle(rawOfferText);
+  if (prodAngle && offerAngle && prodAngle !== offerAngle) return false;
+
+  if (product.category === "Vaporizadores herbales") {
+    const prodVar = getVaporizerVariant(rawProductText);
+    const offerVar = getVaporizerVariant(rawOfferText);
+    if (prodVar && offerVar && prodVar !== offerVar) return false;
+  }
+
+  if (product.category === "Papelillos") {
+    if (isPaperRoll(rawProductText) !== isPaperRoll(rawOfferText)) return false;
+    if (isDeluxeKit(rawProductText) !== isDeluxeKit(rawOfferText)) return false;
+  }
+
+  if (!hasCompatibleSizes(product.modelKey ?? "", offerText)) return false;
+
+  return true;
+}
+
 function scoreCandidate(product: ProductRow, offer: OfferRow): Candidate | null {
   if (!product.modelKey) return null;
 
-  if (product.category === "Papelillos" && !hasMatchingPaperVariant(product, offer)) {
-    return null;
-  }
+  if (!passesHardValidationConstraints(product, offer)) return null;
 
   if (offer.modelKey === product.modelKey) {
     return { offer, product, reason: "exact modelKey", score: 1 };
@@ -146,19 +228,27 @@ function scoreCandidate(product: ProductRow, offer: OfferRow): Candidate | null 
   if (productTokens.length === 0) return null;
 
   const offerText = normalize(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
-  const offerTokens = new Set(tokenize(offerText));
-  const matchingTokens = productTokens.filter((token) => offerTokens.has(token));
+  const offerTokens = Array.from(new Set(tokenize(offerText)));
+  
+  const matchingTokens = productTokens.filter((token) => offerTokens.includes(token));
   const coverage = matchingTokens.length / productTokens.length;
-  const sizeCompatible = hasCompatibleSizes(product.modelKey, `${offer.title} ${offer.modelKey ?? ""}`);
+  
+  const unionLength = new Set([...productTokens, ...offerTokens]).size;
+  const jaccard = matchingTokens.length / unionLength;
 
-  if (!sizeCompatible) return null;
+  const score = (coverage * 0.8) + (jaccard * 0.2);
 
-  if (product.category === "Papelillos" && hasMatchingPaperTips(product, offer)) {
-    return { offer, product, reason: "same paper variant + compatible size", score: 0.9 };
+  if (product.category === "Papelillos") {
+    if (hasMatchingPaperVariant(product, offer) && hasMatchingPaperTips(product, offer)) {
+      const boostedScore = Math.max(0.9, score);
+      if (boostedScore >= 0.80) {
+        return { offer, product, reason: `paper matched variant: ${matchingTokens.join(",")}`, score: boostedScore };
+      }
+    }
   }
 
-  if (coverage === 1 && productTokens.length >= 2) {
-    return { offer, product, reason: `all model tokens: ${matchingTokens.join(",")}`, score: 0.94 };
+  if (score >= 0.80) {
+    return { offer, product, reason: `fractional token score: ${score.toFixed(3)}`, score };
   }
 
   return null;
@@ -225,7 +315,7 @@ function isEligibleExpansionOffer(offer: OfferRow) {
 function distinctiveModelTokens(modelKey: string, brandKey: string | null) {
   const brandTokens = new Set(tokenize(brandKey ?? ""));
 
-  return tokenize(modelKey).filter((token) => token.length > 2 && !GENERIC_TOKENS.has(token) && !brandTokens.has(token));
+  return tokenize(modelKey).filter((token) => (token.length > 2 || /^\d+$/.test(token)) && !GENERIC_TOKENS.has(token) && !brandTokens.has(token));
 }
 
 function hasCompatibleSizes(productModelKey: string, offerValue: string) {
