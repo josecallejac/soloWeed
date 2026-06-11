@@ -458,6 +458,13 @@ const CANDIDATE_LOW_VALUE_VAPE_TERMS = [
 const EXCLUDED_PRODUCT_TERMS = [
   "semilla",
   "seed",
+  // Bancos de semillas y formato de venta de geneticas (Auto X1/X3): los
+  // titulos de semillas no siempre dicen "semilla" (ej. "Original Ak Auto
+  // -Fast Buds (X3/X1)").
+  "fast buds",
+  "dutch passion",
+  "auto x1",
+  "auto x3",
   "fertiliz",
   "sustrato",
   "maceta",
@@ -1276,6 +1283,11 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
   let imageUrl = normalizeUrl(getJsonLdImage(product?.["image"]) ?? meta($, "property", "og:image"), sourceUrl);
   if (imageUrl && imageUrl.includes("media.piranha.cl")) {
     imageUrl = imageUrl.replace("media.piranha.cl", "piranha.cl");
+  }
+  // newpiranha.cl es NXDOMAIN (el dominio ya no existe); piranha.cl sirve el
+  // mismo path, asi que se normaliza para no persistir imagenes rotas.
+  if (imageUrl && imageUrl.includes("newpiranha.cl")) {
+    imageUrl = imageUrl.replace("newpiranha.cl", "piranha.cl");
   }
   const description = cleanOptional(
     asText(product?.["description"]) ?? meta($, "name", "description") ?? meta($, "property", "og:description"),

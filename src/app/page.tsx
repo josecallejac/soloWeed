@@ -263,7 +263,10 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
         ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
-        LIMIT 2000
+        -- Techo de seguridad: debe superar siempre el total de ofertas. Si el
+        -- catalogo lo alcanza, el home descuenta tiendas en silencio (las
+        -- ofertas cortadas dejan de contar para el badge 4/4).
+        LIMIT 10000
       `),
       getComparableCategoryCounts(normalizedQuery, queryWhere),
       prisma.offer.count(),

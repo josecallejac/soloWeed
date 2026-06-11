@@ -61,10 +61,13 @@ export const KNOWN_BRAND_PHRASES = [
   "smokers choice",
   "storz bickel",
   "strabe glass",
+  "syfy",
   "the bulldog",
   "top smoke",
   "vibes",
   "waxmaid",
+  // OJO: no crear alias fenix->weecke; Bonglab tambien vende bongs "Fire Fenix".
+  "weecke",
   "xvape",
   "yocan",
   "zengaz",
@@ -142,7 +145,9 @@ export const KNOWN_BRANDS = [
   "honeypuff",
   "kema",
   "special blue",
+  "syfy",
   "waxmaid",
+  "weecke",
   "yocan",
 ];
 
