@@ -682,6 +682,21 @@
     ]
   },
   {
+    "id": 10146,
+    "name": "Papelillo Slim Ultimate King Size- Ocb",
+    "brandKey": "ocb",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "ultimate-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      317,
+      2040,
+      2566,
+      15819
+    ]
+  },
+  {
     "id": 10167,
     "name": "Bong Mercurial",
     "brandKey": "bonglab",
@@ -694,6 +709,21 @@
       1377,
       11028,
       13280
+    ]
+  },
+  {
+    "id": 10172,
+    "name": "Blazy Susan Papelillo en Rollo Purple + 50 Boquillas – Papeles Personalizables",
+    "brandKey": "blazy-susan",
+    "modelKey": null,
+    "modelSlug": "purple-rolls-con-tips",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      195,
+      3162,
+      12445,
+      15772
     ]
   },
   {
@@ -769,6 +799,21 @@
       11434,
       12276,
       14030
+    ]
+  },
+  {
+    "id": 10274,
+    "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "alfalfa",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      2323,
+      12322,
+      13416,
+      15811
     ]
   },
   {
@@ -1793,7 +1838,8 @@
     "offerIds": [
       452,
       681,
-      2601
+      2601,
+      16220
     ]
   },
   {
@@ -1896,17 +1942,17 @@
     ]
   },
   {
-    "id": 10146,
-    "name": "Papelillo Slim Ultimate King Size- Ocb",
-    "brandKey": "ocb",
-    "modelKey": "paper-king-size-king-size-slim",
-    "modelSlug": "ultimate-king-size-slim",
-    "category": "Papelillos",
+    "id": 10160,
+    "name": "Chiller Unit Red 18Mm-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": null,
+    "modelSlug": "chiller-unit-red-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
     "offerIds": [
-      317,
-      2040,
-      2566
+      2019,
+      2541,
+      11224
     ]
   },
   {
@@ -1963,20 +2009,6 @@
       29,
       2276,
       13463
-    ]
-  },
-  {
-    "id": 10172,
-    "name": "Blazy Susan Papelillo en Rollo Purple + 50 Boquillas – Papeles Personalizables",
-    "brandKey": "blazy-susan",
-    "modelKey": null,
-    "modelSlug": "purple-rolls-con-tips",
-    "category": "Papelillos",
-    "storeCount": 3,
-    "offerIds": [
-      195,
-      3162,
-      12445
     ]
   },
   {
@@ -2218,17 +2250,17 @@
     ]
   },
   {
-    "id": 10274,
-    "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
-    "brandKey": "lion-rolling-circus",
-    "modelKey": "paper-1-1-4-1-1-4",
-    "modelSlug": "alfalfa",
-    "category": "Papelillos",
+    "id": 10265,
+    "name": "Storz &amp; Bickel Set de Boquillas Venty - 4 Unidades",
+    "brandKey": "storz-bickel",
+    "modelKey": "filter-venty",
+    "modelSlug": "mouthpiece-venty-4u",
+    "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
     "offerIds": [
-      2323,
-      12322,
-      15811
+      1263,
+      12179,
+      16058
     ]
   },
   {
