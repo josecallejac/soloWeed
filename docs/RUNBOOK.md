@@ -113,6 +113,18 @@ $env:AUTO_MATCH_MIN_STORES="2"; $env:AUTO_MATCH_CATEGORIES="Bongs,Pipas"; npm ru
 $env:EXPAND_MIN_SCORE="0.86"; npm run catalog:expand
 ```
 
+## Matching Por Imagen (Diagnostico)
+
+Encuentra pares de ofertas de tiendas distintas con la misma foto de fabricante (dHash 512 bits con recorte de margenes). Solo imprime candidatos, nunca escribe en la BD:
+
+```powershell
+npm run match:image                                          # todas las categorias
+$env:MATCH_IMG_CATEGORIES="Bongs,Pipas"; npm run match:image # categorias concretas
+$env:MATCH_IMG_MAX_DIST="60"; npm run match:image            # solo alta certeza
+```
+
+Distancia <= 60 es casi siempre el mismo arte de fabricante; la banda 60-140 exige mirar las fotos. **La imagen propone, el texto decide**: las tiendas reusan la misma foto para medidas distintas (14 vs 18mm), displays 24U/50U y variantes de color, asi que cada par se confirma contra titulo/precio/medidas y se aplica con un script dirigido (patron `scripts/apply-image-matching-r*.ts`, con guardia que nunca mueve ofertas ya vinculadas). Las imagenes se cachean por offerId en `MATCH_IMG_CACHE` (default `scratch/img/cache`).
+
 ## Proteccion De Productos Multi-Tienda
 
 Despues de curar y linkear, verifica que los productos protegidos conserven sus ofertas; restaura si algo se rompio:

@@ -278,6 +278,40 @@
     ]
   },
   {
+    "id": 5725,
+    "name": "Encendedor Clipper Racoons",
+    "brandKey": "clipper",
+    "modelKey": "lighter-encendedor-racoons",
+    "modelSlug": "lighter-classic",
+    "category": "Encendedores y sopletes",
+    "storeCount": 4,
+    "offerIds": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      89,
+      90,
+      91,
+      92,
+      93,
+      102,
+      103,
+      493,
+      1214,
+      1384,
+      1406,
+      1443,
+      1555,
+      1566,
+      2072,
+      11967,
+      11968
+    ]
+  },
+  {
     "id": 5737,
     "name": "Vaporizador Mecánico Dynavap M7",
     "brandKey": "dynavap",
@@ -1068,38 +1102,6 @@
     ]
   },
   {
-    "id": 5725,
-    "name": "Encendedor Clipper Racoons",
-    "brandKey": "clipper",
-    "modelKey": "lighter-encendedor-racoons",
-    "modelSlug": "lighter-classic",
-    "category": "Encendedores y sopletes",
-    "storeCount": 3,
-    "offerIds": [
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      89,
-      90,
-      91,
-      92,
-      93,
-      102,
-      103,
-      493,
-      1214,
-      1384,
-      1406,
-      1443,
-      1555,
-      1566,
-      2072
-    ]
-  },
-  {
     "id": 5726,
     "name": "Encendedor Clipper Metálico | PIRANHA",
     "brandKey": "clipper",
@@ -1320,6 +1322,20 @@
     ]
   },
   {
+    "id": 5777,
+    "name": "Little Buchner-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-little-buchner",
+    "modelSlug": "little-buchner",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      74,
+      551,
+      844
+    ]
+  },
+  {
     "id": 5778,
     "name": "Tiny Bell -Bonglab",
     "brandKey": "bonglab",
@@ -1345,6 +1361,20 @@
       861,
       2583,
       12985
+    ]
+  },
+  {
+    "id": 5782,
+    "name": "Muslera c/clave",
+    "brandKey": "ozeta",
+    "modelKey": "container-muslera",
+    "modelSlug": "bag-legbag",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      860,
+      1441,
+      12541
     ]
   },
   {
@@ -1446,6 +1476,21 @@
     ]
   },
   {
+    "id": 6560,
+    "name": "Unikorn Bong Celeste PieceMaker",
+    "brandKey": "piecemaker",
+    "modelKey": "bong-unikorn-celeste",
+    "modelSlug": "unikorn",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      255,
+      2307,
+      2325,
+      13521
+    ]
+  },
+  {
     "id": 6574,
     "name": "Papelillos RAW Artesano 1 1/4",
     "brandKey": "raw",
@@ -1500,6 +1545,21 @@
       682,
       734,
       2060
+    ]
+  },
+  {
+    "id": 9246,
+    "name": "Vaporizador Volcano Classi",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-vaporizador-volcano-classi",
+    "modelSlug": "volcano-classic",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      496,
+      1442,
+      2261,
+      12587
     ]
   },
   {
@@ -1744,6 +1804,20 @@
     ]
   },
   {
+    "id": 10172,
+    "name": "Blazy Susan Papelillo en Rollo Purple + 50 Boquillas – Papeles Personalizables",
+    "brandKey": "blazy-susan",
+    "modelKey": null,
+    "modelSlug": "purple-rolls-con-tips",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      195,
+      3162,
+      12445
+    ]
+  },
+  {
     "id": 10179,
     "name": "Lonchera con Clave Anti-Olor Ozeta",
     "brandKey": "ozeta",
@@ -1783,6 +1857,20 @@
       1057,
       2299,
       13197
+    ]
+  },
+  {
+    "id": 10193,
+    "name": "Bong Space Opera Waterpipe 30cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-space-opera-30cm",
+    "modelSlug": "space-opera-waterpipe",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      917,
+      11532,
+      13302
     ]
   },
   {
@@ -1881,6 +1969,49 @@
       1032,
       1277,
       11486
+    ]
+  },
+  {
+    "id": 10289,
+    "name": "Calvo Glass Bong Monster 42cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-monster-42cm",
+    "modelSlug": "monster",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      916,
+      2296,
+      13303
+    ]
+  },
+  {
+    "id": 10290,
+    "name": "Calvo Glass Bong Abejas 35cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-abejas-35cm",
+    "modelSlug": "abejas-35cm",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1059,
+      3180,
+      13301
+    ]
+  },
+  {
+    "id": 10291,
+    "name": "BongLab Bong K165 Heavy Bowl 50cm",
+    "brandKey": "bonglab",
+    "modelKey": "bong-k165-heavy-bowl",
+    "modelSlug": "k165-heavy-bowl",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      67,
+      2306,
+      11407,
+      12817
     ]
   }
 ]

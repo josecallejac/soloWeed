@@ -10,6 +10,7 @@
     "test": "tsx --test tests/password.test.ts tests/export-catalog-audit.test.ts tests/matching.test.ts tests/catalog.test.ts",
     "scrape": "tsx scripts/scrape.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
+    "match:image": "tsx scripts/match-by-image.ts",
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
@@ -36,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "prisma": "^6.19.3",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

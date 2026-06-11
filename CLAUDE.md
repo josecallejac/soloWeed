@@ -41,6 +41,10 @@ $env:AUTO_MATCH_MIN_STORES="2"; $env:AUTO_MATCH_CATEGORIES="Bongs,Pipas"; npm ru
 # Expand curated product offers (fuzzy threshold)
 $env:EXPAND_MIN_SCORE="0.86"; npm run catalog:expand
 
+# Image-fingerprint matching (diagnostic only, never writes to the DB; review
+# each pair against title/price/measures, apply via a targeted script)
+$env:MATCH_IMG_CATEGORIES="Bongs,Pipas"; npm run match:image
+
 npm run catalog:audit:export   # export catalog audit
 npm run brand:backfill         # backfill brandKey
 npm run model:backfill         # backfill modelKey/modelSlug
