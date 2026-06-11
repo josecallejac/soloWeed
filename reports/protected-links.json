@@ -885,7 +885,6 @@
     "storeCount": 3,
     "offerIds": [
       842,
-      2551,
       2606,
       11374
     ]
@@ -1004,6 +1003,20 @@
       470,
       606,
       1413
+    ]
+  },
+  {
+    "id": 5720,
+    "name": "Filtro de cartón OCB Virgin sin contaminantes",
+    "brandKey": "ocb",
+    "modelKey": "filter-ocb-virgin",
+    "modelSlug": "paper-filter-virgin",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      318,
+      501,
+      12633
     ]
   },
   {
@@ -1745,6 +1758,20 @@
     ]
   },
   {
+    "id": 10185,
+    "name": "RAW Conos Pre-enrolados King Size + Tips",
+    "brandKey": "raw",
+    "modelKey": "filter-conos-pre-enrolados-king-size",
+    "modelSlug": "pre-roll-king-size-with-tips",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      222,
+      3189,
+      11042
+    ]
+  },
+  {
     "id": 10192,
     "name": "Bong Calvo Big Bee´s Recycler 26cm",
     "brandKey": "calvo",
@@ -1801,6 +1828,20 @@
     ]
   },
   {
+    "id": 10224,
+    "name": "Calvo Glass Bong Big Eye Recycler Rig 24cm",
+    "brandKey": "calvo",
+    "modelKey": "big-eye-24cm",
+    "modelSlug": "big-eye-24cm",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1058,
+      1400,
+      13198
+    ]
+  },
+  {
     "id": 10263,
     "name": "Volcano Hybrid Cámara con Reductor para Cápsulas| PIRANHA",
     "brandKey": "storz-bickel",
@@ -1826,6 +1867,20 @@
       2259,
       11067,
       12446
+    ]
+  },
+  {
+    "id": 10284,
+    "name": "Calvo Glass Bong Tree Perc Dragon Ball 43cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-tree-perc-dragon-ball",
+    "modelSlug": "tree-perc-dragon-ball",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1032,
+      1277,
+      11486
     ]
   }
 ]
