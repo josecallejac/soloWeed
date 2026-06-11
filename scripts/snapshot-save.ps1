@@ -28,9 +28,18 @@ if (-not $Name) {
 # Ensure backups directory
 New-Item -ItemType Directory -Path backups -Force | Out-Null
 
+# Resolve the active DB file from .env DATABASE_URL (file:./X is relative to prisma/)
+$dbPath = "prisma\dev.db"
+if (Test-Path ".env") {
+    $envLine = Select-String -Path ".env" -Pattern '^\s*DATABASE_URL\s*=\s*"?file:\./([^"\s]+)"?' | Select-Object -First 1
+    if ($envLine) {
+        $dbPath = "prisma\" + $envLine.Matches[0].Groups[1].Value
+    }
+}
+
 # Check DB exists
-if (-not (Test-Path "prisma\dev.db")) {
-    Write-Error "prisma\dev.db not found. Run scraping first?"
+if (-not (Test-Path $dbPath)) {
+    Write-Error "$dbPath not found. Run scraping first?"
     exit 1
 }
 
@@ -39,8 +48,8 @@ $commit = git rev-parse --short HEAD
 if (-not $?) { Write-Error "Failed to get git commit"; exit 1 }
 
 # Copy database
-Write-Host "Backing up prisma\dev.db -> backups\$Name.db" -ForegroundColor Cyan
-Copy-Item -LiteralPath "prisma\dev.db" -Destination "backups\$Name.db" -Force
+Write-Host "Backing up $dbPath -> backups\$Name.db" -ForegroundColor Cyan
+Copy-Item -LiteralPath $dbPath -Destination "backups\$Name.db" -Force
 $dbSize = (Get-Item "backups\$Name.db").Length
 
 # Query metrics via Prisma (write temp script, run it, clean up)

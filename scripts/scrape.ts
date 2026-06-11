@@ -1,4 +1,5 @@
 import { load } from "cheerio";
+import { BRAND_ALIASES, KNOWN_BRAND_PHRASES } from "../src/lib/matching-constants";
 import { prisma } from "../src/lib/prisma";
 
 type StoreConfig = {
@@ -116,7 +117,6 @@ const STORES: StoreConfig[] = [
       "https://fumetas.cl/vaporizacion/accesorios",
       "https://fumetas.cl/marcas/storz-bickel",
       "https://fumetas.cl/marcas/bonglab",
-      "https://fumetas.cl/marcas/calvo",
       "https://fumetas.cl/marcas/pax",
       "https://fumetas.cl/marcas/dynavap",
     ],
@@ -160,14 +160,11 @@ const STORES: StoreConfig[] = [
       "https://piranha.cl/brand/194-thievery-industrial-solution",
       "https://piranha.cl/brand/118-clean-me-detox",
       "https://piranha.cl/brand/93-can-detox",
-      "https://piranha.cl/brand/139-storz-bickel",
-      "https://piranha.cl/brand/175-bonglab",
-      "https://piranha.cl/brand/166-pax",
-      "https://piranha.cl/brand/178-calvo",
+      // Piranha renumero sus paginas /brand/: los IDs antiguos de
+      // storz-bickel/bonglab/pax/calvo redirigen a otras marcas o a 404.
+      // Sus productos se cubren via sitemap y categorias numeradas.
       "https://piranha.cl/205-parafernalia",
       "https://piranha.cl/1293-tabaqueria",
-      "https://piranha.cl/325-papelillos?resultsPerPage=9999999",
-      "https://piranha.cl/326-boquillas-y-pre-enrolados?resultsPerPage=9999999",
       "https://piranha.cl/327-encendedores?resultsPerPage=9999999",
       "https://piranha.cl/328-bandejas-ceniceros?resultsPerPage=9999999",
       "https://piranha.cl/206-vaporx?resultsPerPage=9999999",
@@ -194,27 +191,33 @@ const STORES: StoreConfig[] = [
     categoryUrls: [
       "https://www.growbaratochile.cl/ocb/",
       "https://www.growbaratochile.cl/papelillos/",
+      "https://www.growbaratochile.cl/papel-de-celulosa/",
       "https://www.growbaratochile.cl/raw/",
       "https://www.growbaratochile.cl/articulos-para-el-fumador/",
       "https://www.growbaratochile.cl/moledores/",
       "https://www.growbaratochile.cl/pipas-bongs-y-cachimbas/",
       "https://www.growbaratochile.cl/pipas/",
+      "https://www.growbaratochile.cl/pipas-de-agua/",
+      "https://www.growbaratochile.cl/bongs-de-pyrex/",
+      "https://www.growbaratochile.cl/bongs-de-silicona/",
+      "https://www.growbaratochile.cl/quemadores-para-bong/",
       "https://www.growbaratochile.cl/cabo/",
       "https://www.growbaratochile.cl/parafernalia/",
+      "https://www.growbaratochile.cl/bho-extracciones/",
       "https://www.growbaratochile.cl/vaporizadores/",
+      "https://www.growbaratochile.cl/vaporizadores-volcano/",
+      "https://www.growbaratochile.cl/vaporizadores-da-vinci/",
       "https://www.growbaratochile.cl/encendedores/",
+      "https://www.growbaratochile.cl/encendedores-clipper/",
+      "https://www.growbaratochile.cl/encendedores-ronson/",
       "https://www.growbaratochile.cl/ceniceros/",
+      "https://www.growbaratochile.cl/bandejas/",
+      "https://www.growbaratochile.cl/blunts/",
+      "https://www.growbaratochile.cl/filtros-de-carbon/",
       "https://www.growbaratochile.cl/ocultacion/",
       "https://www.growbaratochile.cl/despues-de-la-cosecha/",
       "https://www.growbaratochile.cl/bonglab/",
-      "https://www.growbaratochile.cl/storz-bickel/",
-      "https://www.growbaratochile.cl/calvo/",
-      "https://www.growbaratochile.cl/pax/",
-      "https://www.growbaratochile.cl/dynavap/",
       "https://www.growbaratochile.cl/ozeta/",
-      "https://www.growbaratochile.cl/raw/",
-      "https://www.growbaratochile.cl/ocb/",
-      "https://www.growbaratochile.cl/gizeh/",
       "https://www.growbaratochile.cl/blazy-susan/",
       "https://www.growbaratochile.cl/galaxy/",
     ],
@@ -327,65 +330,9 @@ const CANDIDATE_KEYWORDS = [
   "ozeta",
 ];
 
-const CANDIDATE_BRAND_PHRASES = [
-  "airis",
-  "american helix",
-  "actitube",
-  "arizer",
-  "blazy susan",
-  "blazer",
-  "bonglab",
-  "bulldog",
-  "cabo",
-  "calvo",
-  "clipper",
-  "dynavap",
-  "elements",
-  "dream high",
-  "eyce",
-  "formula secreta",
-  "futurola",
-  "galaxy",
-  "gizeh",
-  "grav",
-  "g-rollz",
-  "hemper",
-  "hightrip",
-  "ignite",
-  "lion rolling circus",
-  "mj arsenal",
-  "ocb",
-  "ozeta",
-  "pax",
-  "piecemaker",
-  "pmg",
-  "puffco",
-  "pulsar",
-  "raw",
-  "ronson",
-  "santa cruz shredder",
-  "santa cruz",
-  "slx",
-  "soulblime",
-  "smokers choice",
-  "storz bickel",
-  "strabe glass",
-  "the bulldog",
-  "top smoke",
-  "vibes",
-  "xvape",
-  "yocan",
-  "zengaz",
-  "zippo",
-  "davinci",
-  "da vinci",
-  "marley natural",
-  "focus v",
-  "higher standards",
-  "blunt wrap",
-  "kush hemp",
-  "ryot",
-];
+// Fuente unica en src/lib/matching-constants.ts; "pmg" se agrega aqui porque
+// solo aparece en URLs/titulos scrapeados y se resuelve a piecemaker via alias.
+const CANDIDATE_BRAND_PHRASES = [...KNOWN_BRAND_PHRASES, "pmg"];
 
 const CANDIDATE_SIGNATURE_STOP_WORDS = new Set([
   "a",
@@ -1143,17 +1090,7 @@ function getBrandKey(value: string) {
     return "gizeh";
   }
 
-  const aliases = new Map([
-    ["the bulldog amsterdam", "the-bulldog"],
-    ["the bulldog", "the-bulldog"],
-    ["bulldog", "the-bulldog"],
-    ["calvo glass", "calvo"],
-    ["bong lab", "bonglab"],
-    ["piece maker", "piecemaker"],
-    ["pmg", "piecemaker"],
-  ]);
-
-  for (const [alias, key] of aliases) {
+  for (const [alias, key] of BRAND_ALIASES) {
     const parts = tokenizeCandidatePath(alias);
 
     if (parts.length > 0 && parts.every((part) => tokens.includes(part))) {

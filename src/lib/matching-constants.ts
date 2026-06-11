@@ -14,16 +14,21 @@ export const STRONG_MODEL_CATEGORIES = new Set([
 
 export const KNOWN_BRAND_PHRASES = [
   "airis",
+  "aku",
   "american helix",
   "actitube",
   "arizer",
   "blazy susan",
   "blazer",
   "bonglab",
+  "bukket",
   "bulldog",
+  "c-thru",
   "cabo",
   "calvo",
+  "cookies",
   "clipper",
+  "dark horse",
   "dynavap",
   "elements",
   "dream high",
@@ -36,7 +41,9 @@ export const KNOWN_BRAND_PHRASES = [
   "g-rollz",
   "hemper",
   "hightrip",
+  "honeypuff",
   "ignite",
+  "kema",
   "lion rolling circus",
   "mj arsenal",
   "ocb",
@@ -46,6 +53,7 @@ export const KNOWN_BRAND_PHRASES = [
   "pulsar",
   "raw",
   "ronson",
+  "special blue",
   "santa cruz shredder",
   "santa cruz",
   "slx",
@@ -56,7 +64,9 @@ export const KNOWN_BRAND_PHRASES = [
   "the bulldog",
   "top smoke",
   "vibes",
+  "waxmaid",
   "xvape",
+  "yocan",
   "zengaz",
   "zippo",
   "puffco",
@@ -69,6 +79,26 @@ export const KNOWN_BRAND_PHRASES = [
   "kush hemp",
   "ryot",
 ];
+
+// Fuente unica de aliases de marca (frase -> brandKey). La comparten el
+// scraper, el backfill y el matching; el alias gb-the-green-brand se maneja
+// aparte en cada script porque es un fallback de ultima prioridad.
+export const BRAND_ALIASES = new Map<string, string>([
+  ["the bulldog amsterdam", "the-bulldog"],
+  ["the bulldog", "the-bulldog"],
+  ["bulldog", "the-bulldog"],
+  ["calvo glass", "calvo"],
+  ["bong lab", "bonglab"],
+  ["piece maker", "piecemaker"],
+  ["pmg", "piecemaker"],
+  ["easy valve", "storz-bickel"],
+  ["solid valve", "storz-bickel"],
+  ["volcano", "storz-bickel"],
+  ["mighty", "storz-bickel"],
+  ["crafty", "storz-bickel"],
+  ["lightning grinder", "galaxy"],
+  ["papelillo celulosa transparente", "c-thru"],
+]);
 
 export const KNOWN_BRANDS = [
   "raw",
@@ -104,6 +134,16 @@ export const KNOWN_BRANDS = [
   "mr pipe cleaner",
   "vibes",
   "kush",
+  "aku",
+  "bukket",
+  "c-thru",
+  "cookies",
+  "dark horse",
+  "honeypuff",
+  "kema",
+  "special blue",
+  "waxmaid",
+  "yocan",
 ];
 
 export const MATERIAL_TOKENS = new Set([

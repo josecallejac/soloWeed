@@ -1,0 +1,1819 @@
+[
+  {
+    "id": 5339,
+    "name": "Bong Bubbler Kush",
+    "brandKey": "bonglab",
+    "modelKey": "bong-bubbler-kush",
+    "modelSlug": "bubbler-kush",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      190,
+      856,
+      2255,
+      6342
+    ]
+  },
+  {
+    "id": 5340,
+    "name": "Fat Candy Bong de Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-fat-candy",
+    "modelSlug": "fat-candy",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      23,
+      185,
+      845,
+      2983
+    ]
+  },
+  {
+    "id": 5341,
+    "name": "Bong Jelly Drop Bonglab | Bong de Vidrio Compacto y Resistente",
+    "brandKey": "bonglab",
+    "modelKey": "bong-jelly-drop",
+    "modelSlug": "jelly-drop",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      184,
+      843,
+      1583,
+      2248
+    ]
+  },
+  {
+    "id": 5356,
+    "name": "Moledor Galaxy Aluminio 7cm 4 Partes | PIRANHA",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-metal-73mm",
+    "modelSlug": "metal-73mm",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      139,
+      474,
+      829,
+      4424
+    ]
+  },
+  {
+    "id": 5458,
+    "name": "RAW Classic 1.1/4 producto de la marca RAW",
+    "brandKey": "raw",
+    "modelKey": "classic-1-1-4",
+    "modelSlug": "classic",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      209,
+      483,
+      780,
+      2230,
+      2688
+    ]
+  },
+  {
+    "id": 5462,
+    "name": "Papelillos OCB Bamboo 1 1/4",
+    "brandKey": "ocb",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "bamboo",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      205,
+      301,
+      319,
+      2528
+    ]
+  },
+  {
+    "id": 5463,
+    "name": "Papel de fumar de cáñamo orgánico 1 1/4 OCB",
+    "brandKey": "ocb",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "organic",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      208,
+      294,
+      314,
+      791
+    ]
+  },
+  {
+    "id": 5464,
+    "name": "Papelillo RAW Classic Black 1 1/4 | PIRANHA",
+    "brandKey": "raw",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "black",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      214,
+      515,
+      779,
+      1427
+    ]
+  },
+  {
+    "id": 5479,
+    "name": "Papelillos OCB X-Pert 1 1/4",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-x-pert-1-1-4",
+    "modelSlug": "x-pert",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      217,
+      295,
+      316,
+      787
+    ]
+  },
+  {
+    "id": 5499,
+    "name": "Grinder Galaxy Aluminio 63mm",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-metal-63mm",
+    "modelSlug": "metal-63mm",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      27,
+      69,
+      73,
+      852,
+      1552,
+      3158,
+      4625,
+      5140
+    ]
+  },
+  {
+    "id": 5502,
+    "name": "Moledor Galaxy New Pro Model 6cm 4 Partes | PIRANHA",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-new-pro-model-63mm",
+    "modelSlug": "new-pro-model",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      140,
+      685,
+      1139,
+      1563,
+      2596
+    ]
+  },
+  {
+    "id": 5519,
+    "name": "Bong Big Blow",
+    "brandKey": "bonglab",
+    "modelKey": "bong-big-blow",
+    "modelSlug": "big-blow",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      859,
+      1233,
+      2262,
+      2549
+    ]
+  },
+  {
+    "id": 5520,
+    "name": "Bongbastic K276 Bonglab Doble Percolador | Bong Grande Borosilicato",
+    "brandKey": "bonglab",
+    "modelKey": "bong-bongbastic-grande",
+    "modelSlug": "bongbastic",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      189,
+      824,
+      2030,
+      2319
+    ]
+  },
+  {
+    "id": 5522,
+    "name": "Bong Mad Professor de Bonglab - GB The Green Brand",
+    "brandKey": "bonglab",
+    "modelKey": "bong-mad-professor",
+    "modelSlug": "mad-professor",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      68,
+      836,
+      1967,
+      2318
+    ]
+  },
+  {
+    "id": 5528,
+    "name": "Pocket Bell -Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-pocket-bell",
+    "modelSlug": "pocket-bell",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      847,
+      1244,
+      2614,
+      11383
+    ]
+  },
+  {
+    "id": 5529,
+    "name": "R3 Mini-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-r3-mini-mini",
+    "modelSlug": "r3-mini",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      66,
+      840,
+      2016,
+      2226,
+      3153
+    ]
+  },
+  {
+    "id": 5530,
+    "name": "The Sheikh 42Cm -Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-sheikh-42cm-42cm",
+    "modelSlug": "sheikh",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      837,
+      2331,
+      2615,
+      13285
+    ]
+  },
+  {
+    "id": 5535,
+    "name": "Bong Color Cube Bonglab Azul y Verde | Bong Compacto",
+    "brandKey": "bonglab",
+    "modelKey": "color-cube",
+    "modelSlug": "color-cube",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      841,
+      2605,
+      3209,
+      11356,
+      13170
+    ]
+  },
+  {
+    "id": 5737,
+    "name": "Vaporizador Mecánico Dynavap M7",
+    "brandKey": "dynavap",
+    "modelKey": "vaporizadores-m7",
+    "modelSlug": "m7",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      1304,
+      1382,
+      2035,
+      2553
+    ]
+  },
+  {
+    "id": 5746,
+    "name": "Quemador Honeycomb Macho 14Mm",
+    "brandKey": "bonglab",
+    "modelKey": "banger-quemador-honeycomb-14mm",
+    "modelSlug": "bowl-honeycomb-14mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      462,
+      849,
+      1414,
+      2020,
+      2546,
+      2580
+    ]
+  },
+  {
+    "id": 5747,
+    "name": "Quemador Honeycomb Macho 18Mm",
+    "brandKey": "bonglab",
+    "modelKey": "banger-quemador-honeycomb-18mm",
+    "modelSlug": "bowl-honeycomb-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      2021,
+      2240,
+      2547,
+      2581,
+      3492
+    ]
+  },
+  {
+    "id": 5748,
+    "name": "Quemador Perla 18mm Calvo Glass - GB The Green Brand",
+    "brandKey": "calvo",
+    "modelKey": "banger-quemador-18mm",
+    "modelSlug": "bowl-perlas-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      1369,
+      2548,
+      3522,
+      13209
+    ]
+  },
+  {
+    "id": 5768,
+    "name": "BongLab Banger Cuarzo Macho 14 mm – Nail Quartz para Extracciones | GrowBaratoChile",
+    "brandKey": "bonglab",
+    "modelKey": "banger-simple-macho-14mm",
+    "modelSlug": "banger-simple-macho-45-14mm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 4,
+    "offerIds": [
+      741,
+      1389,
+      2003,
+      3366
+    ]
+  },
+  {
+    "id": 5773,
+    "name": "Classic Ice 26Cm-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-classic-ice-26cm",
+    "modelSlug": "classic-ice",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      80,
+      489,
+      2317,
+      13168
+    ]
+  },
+  {
+    "id": 5800,
+    "name": "Mecha Zippo Original – Repuesto mecha para encendedor | Grow Barato Chile",
+    "brandKey": "zippo",
+    "modelKey": "lighter-mecha-zippo",
+    "modelSlug": "wick",
+    "category": "Encendedores y sopletes",
+    "storeCount": 4,
+    "offerIds": [
+      1156,
+      2081,
+      3221,
+      3511
+    ]
+  },
+  {
+    "id": 5816,
+    "name": "Papelillos OCB Virgin 1 1/4",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-virgin-1-1-4",
+    "modelSlug": "virgin",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      218,
+      315,
+      703,
+      786
+    ]
+  },
+  {
+    "id": 5817,
+    "name": "Papel ultrafino OCB Ultimate 1.1/4 - GB The Green Brand",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-ultimate-1-1-4",
+    "modelSlug": "ultimate",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      216,
+      297,
+      310,
+      785
+    ]
+  },
+  {
+    "id": 5965,
+    "name": "RAW Porta Papeles de 1.1/4 caja metálica",
+    "brandKey": "raw",
+    "modelKey": null,
+    "modelSlug": "case-1-1-4",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      797,
+      825,
+      1062,
+      1207,
+      2141,
+      2646,
+      3149,
+      3739
+    ]
+  },
+  {
+    "id": 5999,
+    "name": "Moledor Cerámico v 2.5 5cm SLX | PIRANHA",
+    "brandKey": "slx",
+    "modelKey": "grinder-ceramic-50mm",
+    "modelSlug": "ceramic-50mm",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      755,
+      4386,
+      4645,
+      10612
+    ]
+  },
+  {
+    "id": 6008,
+    "name": "Papelillos OCB Premium 1 1/4",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-premium-1-1-4",
+    "modelSlug": "premium",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      31,
+      191,
+      293,
+      299,
+      309
+    ]
+  },
+  {
+    "id": 6576,
+    "name": "Papelillo Vibes Cáñamo 1 1/4",
+    "brandKey": "vibes",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "organic",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      376,
+      788,
+      2139,
+      2291,
+      13130
+    ]
+  },
+  {
+    "id": 6772,
+    "name": "Pipa De Mano Heavy Gear",
+    "brandKey": "cabo",
+    "modelKey": "pipe-pipa-mano-heavy-gear",
+    "modelSlug": "gear-heavy",
+    "category": "Pipas",
+    "storeCount": 4,
+    "offerIds": [
+      1278,
+      1401,
+      8959,
+      9006
+    ]
+  },
+  {
+    "id": 8651,
+    "name": "Vaporizador DaVinci MIQRO-C | PIRANHA",
+    "brandKey": "davinci",
+    "modelKey": "vaporizadores-miqro-c",
+    "modelSlug": "miqro-c",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      607,
+      2083,
+      10941,
+      11370
+    ]
+  },
+  {
+    "id": 9245,
+    "name": "Mighty +",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-mighty",
+    "modelSlug": "mighty-plus",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      495,
+      1433,
+      12585,
+      12967
+    ]
+  },
+  {
+    "id": 10066,
+    "name": "Blazy Susan papelillos king size purple – Papeles de enrolar ultra finos",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-king-size-king-size",
+    "modelSlug": "purple-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      1436,
+      2037,
+      2557,
+      3532
+    ]
+  },
+  {
+    "id": 10082,
+    "name": "Moledor Galaxy Ceramics 60mm - GB The Green Brand",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-ceramics-ceramic-63mm",
+    "modelSlug": "ceramic-60mm",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      550,
+      851,
+      4626,
+      4712
+    ]
+  },
+  {
+    "id": 10083,
+    "name": "OCB Premium 1.1/4 + Tips",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-premium-1-1-4",
+    "modelSlug": "premium-con-tips",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      292,
+      311,
+      823,
+      1252
+    ]
+  },
+  {
+    "id": 10099,
+    "name": "Volcano Hybrid Storz & Bickel - GB The Green Brand",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-volcano-hybrid",
+    "modelSlug": "volcano-hybrid",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      2602,
+      2880,
+      3215,
+      11062
+    ]
+  },
+  {
+    "id": 10140,
+    "name": "OCB Premium Slim King Size 32 hojas",
+    "brandKey": "ocb",
+    "modelKey": "paper-ocb-premium-king-size-slim",
+    "modelSlug": "premium-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      296,
+      307,
+      784,
+      13596
+    ]
+  },
+  {
+    "id": 10167,
+    "name": "Bong Mercurial",
+    "brandKey": "bonglab",
+    "modelKey": "mercurial",
+    "modelSlug": "mercurial",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      182,
+      1377,
+      11028,
+      13280
+    ]
+  },
+  {
+    "id": 5418,
+    "name": "Papelillos RAW Classic King Size Slim - Sabanas",
+    "brandKey": "raw",
+    "modelKey": "paper-classic-king-size-slim-king-size-slim",
+    "modelSlug": "classic-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      213,
+      499,
+      2235
+    ]
+  },
+  {
+    "id": 5460,
+    "name": "Blazy Susan Papelillos Purple 1 1/4",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "purple",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      201,
+      777,
+      1046
+    ]
+  },
+  {
+    "id": 5465,
+    "name": "Papelillos RAW Black Organic Hemp 1 1/4",
+    "brandKey": "raw",
+    "modelKey": "paper-black-organic-hemp-1-1-4",
+    "modelSlug": "black-organic-hemp",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      774,
+      1043,
+      1546
+    ]
+  },
+  {
+    "id": 5471,
+    "name": "Papelillos OCB Cañamo Orgánico 1 1/4 + Tips",
+    "brandKey": "ocb",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "organic-con-tips",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      291,
+      1524,
+      12320
+    ]
+  },
+  {
+    "id": 5478,
+    "name": "Papelillos Gizeh Pink 1 1/4 Extra Fine",
+    "brandKey": "gizeh",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "pink",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      210,
+      624,
+      1229,
+      1251,
+      1273,
+      1399,
+      2136,
+      2137,
+      2138,
+      5169
+    ]
+  },
+  {
+    "id": 5489,
+    "name": "Pipa Top Smoke Pocket Travel | PIRANHA",
+    "brandKey": "top-smoke",
+    "modelKey": "pipe-pipa-pocket-travel",
+    "modelSlug": "pocket-travel",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      506,
+      2075,
+      9051
+    ]
+  },
+  {
+    "id": 5491,
+    "name": "PMG Pipa Karma 9 cm",
+    "brandKey": "piecemaker",
+    "modelKey": "pipe-pipa-karma-9cm-9cm",
+    "modelSlug": "karma",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      1072,
+      3195,
+      5580
+    ]
+  },
+  {
+    "id": 5494,
+    "name": "PMG Pipa Kazili 12cm",
+    "brandKey": "piecemaker",
+    "modelKey": "pipe-pipa-kazili-12cm-12cm",
+    "modelSlug": "kazili",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      3211,
+      5474,
+      5581
+    ]
+  },
+  {
+    "id": 5503,
+    "name": "Moledor Galaxy Quartz Aluminio Aeroespacial | PIRANHA",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-quartz-metal",
+    "modelSlug": "quartz",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      1235,
+      3331,
+      4711
+    ]
+  },
+  {
+    "id": 5504,
+    "name": "Moledor Calvo Lite Aluminio 63mm",
+    "brandKey": "calvo",
+    "modelKey": "grinder-calvo-lite-63mm",
+    "modelSlug": "lite-metal-63mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      1185,
+      1530,
+      3129
+    ]
+  },
+  {
+    "id": 5510,
+    "name": "Blazy Susan Moledor Contenedor Mini Herb Saver Lila",
+    "brandKey": "blazy-susan",
+    "modelKey": "grinder-herb-saver-mini",
+    "modelSlug": "herb-saver-mini",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      487,
+      727,
+      2042,
+      2046,
+      2563
+    ]
+  },
+  {
+    "id": 5515,
+    "name": "Moledor Metálico Lion Rolling Circus - 2 Partes",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "grinder-metal",
+    "modelSlug": "metal-2-partes",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      519,
+      5051,
+      13589
+    ]
+  },
+  {
+    "id": 5521,
+    "name": "Bong Glycerin Thicc",
+    "brandKey": "bonglab",
+    "modelKey": "bong-glycerin-thicc",
+    "modelSlug": "glycerin-thicc",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      839,
+      2005,
+      2245
+    ]
+  },
+  {
+    "id": 5523,
+    "name": "Bong Pyrex 14cm White Bonglab | Rig Compacto de Vidrio Resistente",
+    "brandKey": "bonglab",
+    "modelKey": "bong-pyrex-14cm-white-rig-14cm",
+    "modelSlug": "nevis-rig",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1561,
+      2336,
+      2595
+    ]
+  },
+  {
+    "id": 5525,
+    "name": "Dream Rig-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-dream-rig",
+    "modelSlug": "dream-rig",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      842,
+      2551,
+      2606,
+      11374
+    ]
+  },
+  {
+    "id": 5532,
+    "name": "Tiny Bell Extended -Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-tiny-bell",
+    "modelSlug": "tiny-bell-extended",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      186,
+      2984,
+      3498
+    ]
+  },
+  {
+    "id": 5533,
+    "name": "Bong Water Splash K598 de Bonglab- GB The Green Brand",
+    "brandKey": "bonglab",
+    "modelKey": "bong-water-splash-k598",
+    "modelSlug": "water-splash",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      188,
+      744,
+      2241,
+      13165
+    ]
+  },
+  {
+    "id": 5705,
+    "name": "Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan",
+    "brandKey": "blazy-susan",
+    "modelKey": "cone-1-1-4-1-1-4",
+    "modelSlug": "pre-roll-pink-1-1-4-6u",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      768,
+      810,
+      826,
+      1973,
+      12229
+    ]
+  },
+  {
+    "id": 5707,
+    "name": "Conos Pre-Enrolados Blazy Susan 1 1/4 6u Purple | PIRANHA",
+    "brandKey": "blazy-susan",
+    "modelKey": "cone-conos-pre-enrolados-1-1-4",
+    "modelSlug": "pre-roll-purple-1-1-4-6u",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      626,
+      3327,
+      3328,
+      12232
+    ]
+  },
+  {
+    "id": 5709,
+    "name": "Blazy Susan 2X Tea Wraps Unidad",
+    "brandKey": "blazy-susan",
+    "modelKey": "cone-tea",
+    "modelSlug": "wrap-tea-leaf-2u",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      795,
+      1357,
+      2106
+    ]
+  },
+  {
+    "id": 5715,
+    "name": "Filtros Tips Gummed-Raw",
+    "brandKey": "raw",
+    "modelKey": "filter-gummed",
+    "modelSlug": "gummed-tip-gummed",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      602,
+      1403,
+      2045
+    ]
+  },
+  {
+    "id": 5716,
+    "name": "Tips Original De Carton 1 Ud-Raw",
+    "brandKey": "raw",
+    "modelKey": null,
+    "modelSlug": "paper-tip-classic",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      224,
+      709,
+      794
+    ]
+  },
+  {
+    "id": 5717,
+    "name": "Tips Perforated Wide-Raw",
+    "brandKey": "raw",
+    "modelKey": "filter-wide-wide",
+    "modelSlug": "paper-tip-wide-wide",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      470,
+      606,
+      1413
+    ]
+  },
+  {
+    "id": 5721,
+    "name": "Cajita Metálica RAW con 100u Filtros Pre-Enrolados 6mm | PIRANHA",
+    "brandKey": "raw",
+    "modelKey": null,
+    "modelSlug": "pre-rolled-tip-metal-case-6mm-100u",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      524,
+      1044,
+      1547
+    ]
+  },
+  {
+    "id": 5724,
+    "name": "Encendedor Jet Flame Jet Hippie World Clipper",
+    "brandKey": "clipper",
+    "modelKey": "lighter-encendedor-jet-flame-jet",
+    "modelSlug": "torch-lighter-jet-flame",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      752,
+      1226,
+      2006,
+      2007,
+      2044,
+      2047,
+      2048,
+      2049,
+      2050,
+      2051,
+      2052,
+      2053,
+      2054,
+      2055,
+      2067,
+      2068,
+      2069,
+      2070,
+      2260,
+      2562,
+      2571,
+      2572,
+      2573
+    ]
+  },
+  {
+    "id": 5725,
+    "name": "Encendedor Clipper Racoons",
+    "brandKey": "clipper",
+    "modelKey": "lighter-encendedor-racoons",
+    "modelSlug": "lighter-classic",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      89,
+      90,
+      91,
+      92,
+      93,
+      102,
+      103,
+      493,
+      1214,
+      1384,
+      1406,
+      1443,
+      1555,
+      1566,
+      2072
+    ]
+  },
+  {
+    "id": 5726,
+    "name": "Encendedor Clipper Metálico | PIRANHA",
+    "brandKey": "clipper",
+    "modelKey": "lighter-encendedor-metalico",
+    "modelSlug": "metal-lighter-metal",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      2,
+      101,
+      1300,
+      1324,
+      1336,
+      1348,
+      1360,
+      2071,
+      2078,
+      2543,
+      11191,
+      12486,
+      12555,
+      12556,
+      12557,
+      12683,
+      12908,
+      12929,
+      12931,
+      13640
+    ]
+  },
+  {
+    "id": 5727,
+    "name": "Encendedor Zengaz Jet Flame recargable",
+    "brandKey": "zengaz",
+    "modelKey": "lighter-encendedor-jet-flame-recargable",
+    "modelSlug": "torch-lighter-zl-12",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      94,
+      95,
+      146,
+      872,
+      1249
+    ]
+  },
+  {
+    "id": 5731,
+    "name": "Blazy Susan Cenicero Deluxe",
+    "brandKey": "blazy-susan",
+    "modelKey": "tray-cenicero-deluxe",
+    "modelSlug": "ashtray-deluxe",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      1294,
+      2076,
+      12481
+    ]
+  },
+  {
+    "id": 5735,
+    "name": "Bandeja RAW metálica Girl - Mediana",
+    "brandKey": "raw",
+    "modelKey": "tray-metalica-girl-mediana-mediana",
+    "modelSlug": "girl-metal-medium",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      77,
+      494,
+      2065
+    ]
+  },
+  {
+    "id": 5741,
+    "name": "Vaporizador Crafty+ Plus",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-crafty-plus",
+    "modelSlug": "crafty-plus",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      451,
+      1425,
+      12636
+    ]
+  },
+  {
+    "id": 5749,
+    "name": "Quemador Bowl Chico Hembra 14Mm - Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "banger-quemador-bowl-14mm",
+    "modelSlug": "bowl-bowl-14mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      773,
+      3369,
+      3596,
+      12876
+    ]
+  },
+  {
+    "id": 5751,
+    "name": "Calvo Glass Quemador Pyrex - Macho 14mm",
+    "brandKey": "calvo",
+    "modelKey": "banger-quemador-macho-14mm",
+    "modelSlug": "bowl-14mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      834,
+      1381,
+      2949,
+      13311
+    ]
+  },
+  {
+    "id": 5760,
+    "name": "CONTENEDOR EXTRACTOS AL VACIO REDONDO NEGRO 4ML-BONGLAB",
+    "brandKey": "bonglab",
+    "modelKey": "container-contenedor-4ml",
+    "modelSlug": "extract-container-extracts-4ml",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      655,
+      750,
+      873,
+      11168,
+      12181,
+      13172
+    ]
+  },
+  {
+    "id": 5761,
+    "name": "Estuche Anti Olor OZeta Grande (Color a elección)",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche-grande",
+    "modelSlug": "case-antiolor-large",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      532,
+      1259,
+      3417
+    ]
+  },
+  {
+    "id": 5763,
+    "name": "Ozeta Chestbag Circular 4x4 Con Clave - Anti Olor",
+    "brandKey": "ozeta",
+    "modelKey": "container-chestbag",
+    "modelSlug": "bag-chestbag-circular",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      630,
+      738,
+      1327
+    ]
+  },
+  {
+    "id": 5765,
+    "name": "Estuche Anti Olor OZeta Pequeño (Color a elección)",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "case-antiolor-small",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      543,
+      833,
+      1281
+    ]
+  },
+  {
+    "id": 5771,
+    "name": "Hemper Isoplex Estación de Dab y Limpieza | PIRANHA",
+    "brandKey": "hemper",
+    "modelKey": "station-iso-plex",
+    "modelSlug": "station-iso-plex",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      1,
+      1193,
+      1307
+    ]
+  },
+  {
+    "id": 5772,
+    "name": "Classic Ice Pro-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-classic-ice-pro",
+    "modelSlug": "classic-ice-pro",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      25,
+      838,
+      13173
+    ]
+  },
+  {
+    "id": 5774,
+    "name": "Bong Heavy Trash",
+    "brandKey": "bonglab",
+    "modelKey": "bong-heavy-trash",
+    "modelSlug": "heavy-trash",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      857,
+      2608,
+      13164
+    ]
+  },
+  {
+    "id": 5778,
+    "name": "Tiny Bell -Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-tiny-bell",
+    "modelSlug": "tiny-bell",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      26,
+      846,
+      13167
+    ]
+  },
+  {
+    "id": 5781,
+    "name": "Muslera XL c/clave",
+    "brandKey": "ozeta",
+    "modelKey": "container-muslera-xl",
+    "modelSlug": "bag-legbag-xl",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      861,
+      2583,
+      12985
+    ]
+  },
+  {
+    "id": 5795,
+    "name": "PMG Pipa Konjurer 32cm",
+    "brandKey": "piecemaker",
+    "modelKey": "pipe-pipa-konjurer-32cm-32cm",
+    "modelSlug": "konjurer",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      3172,
+      5472,
+      9108
+    ]
+  },
+  {
+    "id": 5797,
+    "name": "Enroladora Acrílica 1 1/4 1U-Ocb",
+    "brandKey": "ocb",
+    "modelKey": "rolling-machine-acrilica-1-1-4",
+    "modelSlug": "rolling-machine-acrilica-1-1-4",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      782,
+      1063,
+      1526
+    ]
+  },
+  {
+    "id": 5799,
+    "name": "Máquina enroladora RAW 1 1/4 ecoplastic",
+    "brandKey": "raw",
+    "modelKey": "rolling-machine-ecoplastic-1-1-4",
+    "modelSlug": "rolling-machine-ecoplastic-1-1-4",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      871,
+      1231,
+      2613
+    ]
+  },
+  {
+    "id": 6001,
+    "name": "Moledor OCB Eco Hemp 55mm",
+    "brandKey": "ocb",
+    "modelKey": "grinder-55mm",
+    "modelSlug": "eco",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      1053,
+      4634,
+      4710
+    ]
+  },
+  {
+    "id": 6002,
+    "name": "Moledor SLX 90mm",
+    "brandKey": "slx",
+    "modelKey": "grinder-90mm",
+    "modelSlug": "ceramic-90mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      2311,
+      4425,
+      6194
+    ]
+  },
+  {
+    "id": 6003,
+    "name": "Moledor Tarjeta Soulblime portátil",
+    "brandKey": "soulblime",
+    "modelKey": null,
+    "modelSlug": "tarjeta",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      3223,
+      4661,
+      10791
+    ]
+  },
+  {
+    "id": 6010,
+    "name": "Pipa Hitter 12mm Calvo | One Hitter color rosa y negro Chile",
+    "brandKey": "calvo",
+    "modelKey": "pipe-pipa-hitter-12mm-one-12mm",
+    "modelSlug": "hitter",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      3166,
+      8124,
+      9052
+    ]
+  },
+  {
+    "id": 6574,
+    "name": "Papelillos RAW Artesano 1 1/4",
+    "brandKey": "raw",
+    "modelKey": "paper-raw-artesano-1-1-4",
+    "modelSlug": "artesano",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      220,
+      3376,
+      11340
+    ]
+  },
+  {
+    "id": 6774,
+    "name": "Calvo Glass Pipa Hammer WigWag 13cm",
+    "brandKey": "calvo",
+    "modelKey": "pipe-pipa-hammer-wigwag-13cm-13cm",
+    "modelSlug": "hammer-wag-wig",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      1366,
+      2603,
+      2620,
+      8116
+    ]
+  },
+  {
+    "id": 8647,
+    "name": "Repuesto Saber Replacement Tip Focus V | PIRANHA",
+    "brandKey": "focus-v",
+    "modelKey": "repuestos-saber",
+    "modelSlug": "tip-saber-tip-1u",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      762,
+      3392,
+      12960
+    ]
+  },
+  {
+    "id": 9244,
+    "name": "Vaporizador Da Vinci Iq3 (Onyx/Blue/Purple/Grey)",
+    "brandKey": "davinci",
+    "modelKey": "vaporizadores-iq3",
+    "modelSlug": "iq3",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      682,
+      734,
+      2060
+    ]
+  },
+  {
+    "id": 9852,
+    "name": "Moledor SLX 60mm┃Moledor de cerámica antiadherente",
+    "brandKey": "slx",
+    "modelKey": "grinder-ceramic-63mm",
+    "modelSlug": "ceramic-60mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      538,
+      4423,
+      4646
+    ]
+  },
+  {
+    "id": 10053,
+    "name": "RAW Connoisseur 1.1/4+ Tips de RAW para armar",
+    "brandKey": "raw",
+    "modelKey": "classic-1-1-4-tips",
+    "modelSlug": "classic-con-tips",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      211,
+      558,
+      1041,
+      1042,
+      2434
+    ]
+  },
+  {
+    "id": 10067,
+    "name": "Papelillo Pink 1 1/4 1Und-Blazy Susan",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-1-1-4-1-1-4",
+    "modelSlug": "pink",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      775,
+      1048,
+      1557
+    ]
+  },
+  {
+    "id": 10068,
+    "name": "Papelillo Pink King Size Slim- Blazy Susan",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "pink-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      699,
+      2036,
+      2556
+    ]
+  },
+  {
+    "id": 10096,
+    "name": "Moledor Plástico Bulldog 3 Partes 60mm | Grinder The Bulldog",
+    "brandKey": "the-bulldog",
+    "modelKey": "grinder-plastic-63mm",
+    "modelSlug": "plastic-3-partes-63mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      24,
+      2024,
+      9444
+    ]
+  },
+  {
+    "id": 10100,
+    "name": "Veazy Storz & Bickel | PIRANHA",
+    "brandKey": "storz-bickel",
+    "modelKey": null,
+    "modelSlug": "venty",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      452,
+      681,
+      2601
+    ]
+  },
+  {
+    "id": 10107,
+    "name": "Banger Regular Full Weld 14 mm Calvo Glass",
+    "brandKey": "calvo",
+    "modelKey": "banger-full-weld-regular-14mm-regular",
+    "modelSlug": "banger-simple-macho-90-14mm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      1432,
+      2993,
+      12342
+    ]
+  },
+  {
+    "id": 10110,
+    "name": "Moledor Cerámico Galaxy Square 5cm 2 Partes | PIRANHA",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-square-ceramic-50mm",
+    "modelSlug": "square-ceramic",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      458,
+      1054,
+      2585
+    ]
+  },
+  {
+    "id": 10119,
+    "name": "Banger Cuarzo Simple 90 Grados -Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "banger-simple-90",
+    "modelSlug": "banger-simple-macho-90-14mm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      2004,
+      2014,
+      2532,
+      3365
+    ]
+  },
+  {
+    "id": 10126,
+    "name": "Moledor Galaxy de 4 partes y con tamizador",
+    "brandKey": "galaxy",
+    "modelKey": null,
+    "modelSlug": "mars-55mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      75,
+      3159,
+      4930
+    ]
+  },
+  {
+    "id": 10127,
+    "name": "Storz &amp; Bickel Moledor acrilico 59mm",
+    "brandKey": "storz-bickel",
+    "modelKey": "grinder-59mm",
+    "modelSlug": "plastic-59mm",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      1335,
+      3838,
+      4715
+    ]
+  },
+  {
+    "id": 10130,
+    "name": "Papelillos RAW Supernatural Super King Size 30cm | PIRANHA",
+    "brandKey": "raw",
+    "modelKey": "paper-king-size-30cm-king-size",
+    "modelSlug": "super-king-30cm",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      215,
+      828,
+      1364
+    ]
+  },
+  {
+    "id": 10141,
+    "name": "OCB Papelillos X-pert Slim King Size",
+    "brandKey": "ocb",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "x-pert-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      396,
+      701,
+      2033
+    ]
+  },
+  {
+    "id": 10145,
+    "name": "Raw Enrolador King Size - GB The Green Brand",
+    "brandKey": "raw",
+    "modelKey": "rolling-machine-king-size",
+    "modelSlug": "rolling-machine-ecoplastic-king-size",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      151,
+      2032,
+      11033
+    ]
+  },
+  {
+    "id": 10146,
+    "name": "Papelillo Slim Ultimate King Size- Ocb",
+    "brandKey": "ocb",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "ultimate-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      317,
+      2040,
+      2566
+    ]
+  },
+  {
+    "id": 10164,
+    "name": "Headshot Black-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "bong-headshot-black",
+    "modelSlug": "headshot",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      183,
+      2254,
+      13456
+    ]
+  },
+  {
+    "id": 10166,
+    "name": "Bong Bonglab K47 Medusa 30 cm | 7 Percoladores Alta Filtración",
+    "brandKey": "bonglab",
+    "modelKey": "bong-k47-medusa-30cm-percoladores-30cm",
+    "modelSlug": "medusa",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      29,
+      2276,
+      13463
+    ]
+  },
+  {
+    "id": 10179,
+    "name": "Lonchera con Clave Anti-Olor Ozeta",
+    "brandKey": "ozeta",
+    "modelKey": null,
+    "modelSlug": "lonchera-con-clave",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      1373,
+      2058,
+      11919
+    ]
+  },
+  {
+    "id": 10181,
+    "name": "Blazy Susan Deluxe Rolling Kit Pink King Size",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-king-size-king-size",
+    "modelSlug": "pink-king-size-slim-con-tips",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      728,
+      2257,
+      2467
+    ]
+  },
+  {
+    "id": 10182,
+    "name": "Blazy Susan Deluxe Rolling Kit Purple King Size",
+    "brandKey": "blazy-susan",
+    "modelKey": "paper-king-size-king-size",
+    "modelSlug": "purple-king-size-slim-con-tips",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      2258,
+      2468,
+      2686
+    ]
+  },
+  {
+    "id": 10190,
+    "name": "Bandeja RAW Metálica Classic Mediana",
+    "brandKey": "raw",
+    "modelKey": "tray-metalica-classic-mediana-mediana",
+    "modelSlug": "classic-mediana",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      152,
+      510,
+      2062
+    ]
+  },
+  {
+    "id": 10192,
+    "name": "Bong Calvo Big Bee´s Recycler 26cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-big-bee-recycler-26cm-26cm",
+    "modelSlug": "bee-recycler",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1057,
+      2299,
+      13197
+    ]
+  },
+  {
+    "id": 10197,
+    "name": "Estuche De Tela Blando Ozeta hermético antiolor",
+    "brandKey": "ozeta",
+    "modelKey": "container-antiolor",
+    "modelSlug": "case-antiolor",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      11046,
+      11446,
+      12984
+    ]
+  },
+  {
+    "id": 10203,
+    "name": "Quemador Abeja Calvo Glass Macho 14mm | Bowl de Borosilicato para Bong",
+    "brandKey": "calvo",
+    "modelKey": "bong-bowl-macho-14mm",
+    "modelSlug": "bowl-abeja-14mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      1570,
+      11434,
+      12276
+    ]
+  },
+  {
+    "id": 10207,
+    "name": "Puffco Vaporizador Plus",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-plus",
+    "modelSlug": "vaporizer-plus",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      421,
+      11610,
+      12999
+    ]
+  },
+  {
+    "id": 10222,
+    "name": "Bong Heavy Beaker 28Cm- Cabo",
+    "brandKey": "cabo",
+    "modelKey": "heavy-beaker",
+    "modelSlug": "heavy-beaker",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      11485,
+      11859,
+      12878
+    ]
+  },
+  {
+    "id": 10263,
+    "name": "Volcano Hybrid Cámara con Reductor para Cápsulas| PIRANHA",
+    "brandKey": "storz-bickel",
+    "modelKey": "dosing-capsules-volcano-camara",
+    "modelSlug": "dosing-capsules-volcano-camara",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      11072,
+      12417,
+      12903
+    ]
+  }
+]

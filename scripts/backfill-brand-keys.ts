@@ -1,72 +1,14 @@
+import { BRAND_ALIASES as SHARED_BRAND_ALIASES, KNOWN_BRAND_PHRASES } from "../src/lib/matching-constants";
 import { prisma } from "../src/lib/prisma";
 
-const BRAND_PHRASES = [
-  "airis",
-  "american helix",
-  "actitube",
-  "arizer",
-  "blazy susan",
-  "blazer",
-  "bonglab",
-  "bulldog",
-  "cabo",
-  "calvo",
-  "clipper",
-  "dynavap",
-  "elements",
-  "dream high",
-  "eyce",
-  "formula secreta",
-  "futurola",
-  "galaxy",
-  "gizeh",
-  "grav",
-  "g-rollz",
-  "hemper",
-  "hightrip",
-  "ignite",
-  "lion rolling circus",
-  "mj arsenal",
-  "ocb",
-  "ozeta",
-  "pax",
-  "piecemaker",
-  "pulsar",
-  "raw",
-  "ronson",
-  "santa cruz shredder",
-  "santa cruz",
-  "slx",
-  "soulblime",
-  "smokers choice",
-  "storz bickel",
-  "strabe glass",
-  "the bulldog",
-  "top smoke",
-  "vibes",
-  "xvape",
-  "zengaz",
-  "zippo",
-  "puffco",
-  "davinci",
-  "da vinci",
-  "marley natural",
-  "focus v",
-  "higher standards",
-  "blunt wrap",
-  "kush hemp",
-  "ryot",
-];
+// Fuente unica en src/lib/matching-constants.ts. El alias gb-the-green-brand
+// es local porque actua como fallback de ultima prioridad (ver getBrandKey).
+const BRAND_PHRASES = KNOWN_BRAND_PHRASES;
 
 const BRAND_ALIASES = new Map([
   ["gb the green brand", "gb-the-green-brand"],
   ["green brand", "gb-the-green-brand"],
-  ["the bulldog amsterdam", "the-bulldog"],
-  ["the bulldog", "the-bulldog"],
-  ["bulldog", "the-bulldog"],
-  ["calvo glass", "calvo"],
-  ["bong lab", "bonglab"],
-  ["piece maker", "piecemaker"],
+  ...SHARED_BRAND_ALIASES,
 ]);
 
 async function main() {
@@ -76,6 +18,7 @@ async function main() {
   const offers = await prisma.offer.findMany({
     select: {
       brand: true,
+      brandKey: true,
       description: true,
       id: true,
       sourceCategory: true,
@@ -90,20 +33,29 @@ async function main() {
       brandKey = getBrandKey(offer.description);
     }
 
-    await prisma.$executeRaw`
-      UPDATE "Offer"
-      SET "brandKey" = ${brandKey}
-      WHERE "id" = ${offer.id}
-    `;
-
-    if (brandKey) {
-      offersWithBrandKey += 1;
+    // Nunca pisar un brandKey existente con null: hay marcas asignadas por
+    // scripts puntuales (c-thru, re-stash, squadafum...) que no son inferibles
+    // desde las frases conocidas.
+    if (!brandKey) {
+      if (offer.brandKey) offersWithBrandKey += 1;
+      continue;
     }
+
+    if (brandKey !== offer.brandKey) {
+      await prisma.$executeRaw`
+        UPDATE "Offer"
+        SET "brandKey" = ${brandKey}
+        WHERE "id" = ${offer.id}
+      `;
+    }
+
+    offersWithBrandKey += 1;
   }
 
   const products = await prisma.product.findMany({
     select: {
       brand: true,
+      brandKey: true,
       category: true,
       id: true,
       name: true,
@@ -113,15 +65,20 @@ async function main() {
   for (const product of products) {
     const brandKey = getBrandKey([product.brand, product.name, product.category].filter(Boolean).join(" "));
 
+    // Product.brandKey es parte de la URL publica: jamas anularlo ni
+    // cambiarlo desde el backfill si ya existe.
+    if (!brandKey || product.brandKey) {
+      if (product.brandKey) productsWithBrandKey += 1;
+      continue;
+    }
+
     await prisma.$executeRaw`
       UPDATE "Product"
       SET "brandKey" = ${brandKey}
       WHERE "id" = ${product.id}
     `;
 
-    if (brandKey) {
-      productsWithBrandKey += 1;
-    }
+    productsWithBrandKey += 1;
   }
 
   console.log({ offersWithBrandKey, productsWithBrandKey });

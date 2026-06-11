@@ -537,6 +537,16 @@ function getBongModelKey(offer: OfferRow) {
   // Early text-based detection for models whose tokens would be filtered
   if (/\bpurple\s+rig\b/.test(text)) return "purple-rig";
   if (/\bhandy\s*rig\b/.test(text) || /\bhandy\b/.test(text)) return "handy-rig";
+  // "rig" y "waterpipe" son tokens genericos filtrados, pero distinguen los
+  // dos formatos del Calvo Space Opera; Astro no publica tamano, asi que la
+  // clave no puede depender del cm. GrowBarato tampoco dice "waterpipe" pero
+  // su formato grande (30cm) es el waterpipe; el rig mide 22cm.
+  if (/\bspace\s+opera\b/.test(text)) {
+    if (/\bwaterpipe\b/.test(text)) return "space-opera-waterpipe";
+    const sizeMatch = text.match(/\b(\d+)cm\b/);
+    if (sizeMatch && Number(sizeMatch[1]) >= 28) return "space-opera-waterpipe";
+    return "space-opera";
+  }
 
   const rawTokens = tokenizeSlug(text).filter(
     (token) => !brandTokens.has(token) && !BONG_GENERIC_TOKENS.has(token) && !BONG_COLOR_TOKENS.has(token) && !/^\d+$/.test(token),
@@ -1230,6 +1240,7 @@ function cleanContainerText(value: string) {
   return normalizeText(value)
     .replace(/&quot;/g, " ")
     .replace(/\banti\s*[- ]?olor\b/g, " antiolor ")
+    .replace(/\bywiwi\b/g, " ywiwis ")
     .replace(/\bchessbag\b/g, " chestbag ")
     .replace(/\blegbag\b/g, " muslera ")
     .replace(/\bkontainer\b/g, " container ")
@@ -1270,7 +1281,16 @@ function getContainerLine(text: string, tokens: string[], brandKey: string | nul
   if (tokenSet.has("miron")) return tokenSet.has("integraboost") ? "miron-integraboost" : "miron";
   if (tokenSet.has("restash")) return "restash";
   if (tokenSet.has("mason")) return "mason";
-  if (tokenSet.has("ywiwis") || tokenSet.has("gollo")) return "ywiwis";
+  if (tokenSet.has("ywiwis") || tokenSet.has("gollo")) {
+    // Cada diseno Ywiwis es un producto distinto (como los colores Zippo):
+    // no mezclar Perrito con Pizza solo por compartir linea.
+    const design = YWIWIS_DESIGN_TOKENS.find((token) => tokenSet.has(token));
+    return design ? `ywiwis-${design}` : "ywiwis";
+  }
+  // Bolsos Ozeta antiolor: cada formato es un producto distinto.
+  if (tokenSet.has("gatito")) return "gatito";
+  if (tokenSet.has("soft")) return "soft-bag";
+  if (tokenSet.has("cilindro")) return "cilindro-xxl";
   if (tokenSet.has("chestbag") && tokenSet.has("circular")) return "chestbag-circular";
   if (tokenSet.has("chestbag")) return "chestbag-4x4";
   if (tokenSet.has("crossbag") || /\b5x5\b/.test(text)) return "crossbag-5x5";
@@ -1305,7 +1325,7 @@ function getContainerMaterial(tokens: string[], family: string | null, line: str
 function getContainerSize(text: string, tokens: string[], family: string | null, line: string | null) {
   const tokenSet = new Set(tokens);
 
-  if (line === "chestbag-circular" || line === "crossbag-5x5" || line === "bag-4x4" || line === "banano" || line === "ywiwis") return null;
+  if (line === "chestbag-circular" || line === "crossbag-5x5" || line === "bag-4x4" || line === "banano" || line?.startsWith("ywiwis")) return null;
   if (tokenSet.has("xl")) return "xl";
   if (tokenSet.has("grande")) return "large";
   if (tokenSet.has("mediano") || tokenSet.has("mediana")) return "medium";
@@ -1353,6 +1373,12 @@ function getLighterBrandKey(offer: OfferRow) {
 function getLighterModelKey(offer: OfferRow) {
   const text = cleanLighterText(`${offer.title} ${offer.modelKey ?? ""} ${offer.url}`);
   const tokens = tokenizeSlug(text);
+
+  // Los Clipper metalicos ya tienen un producto curado que agrupa sus
+  // disenos; crear otro via curacion lo duplicaria. Se adjuntan via expand.
+  if (/\bclipper\b/.test(text) && /\bmetalic[oa]\b/.test(text)) {
+    return null;
+  }
   const family = getLighterFamily(text, tokens);
   const line = getLighterLine(text, tokens);
   const size = getLighterSize(tokens);
@@ -1408,6 +1434,15 @@ function getLighterLine(text: string, tokens: string[]) {
   if (tokenSet.has("metalico") || tokenSet.has("metalica")) return "metal";
   if (tokenSet.has("mecha")) return "zippo-wick";
   if (/\bhigh-polish\b/.test(text) || (tokenSet.has("high") && tokenSet.has("polish"))) return getZippoHighPolishLine(tokens);
+  if (tokenSet.has("classic") && /\bzippo\b/.test(text)) {
+    // Cada diseno del Zippo Classic es un producto distinto (misma regla que
+    // High Polish); orden alfabetico para que coincida entre tiendas.
+    const design = ["black", "brick", "crackle", "flat", "matte", "red", "sand"]
+      .filter((token) => tokenSet.has(token))
+      .sort()
+      .join("-");
+    return design ? `classic-${design}` : "classic";
+  }
   if (tokenSet.has("classic")) return "classic";
   if (tokenSet.has("clipper")) return "classic";
   if (tokenSet.has("electrolite")) return "electrolite";
@@ -1527,6 +1562,10 @@ function getTrayLine(text: string, tokens: string[]) {
   if (tokenSet.has("pets") && tokenSet.has("rap")) return "pets-rap";
   if (tokenSet.has("100") && tokenSet.has("years")) return "100-years";
   if (tokenSet.has("420") && tokenSet.has("edicion")) return "420-edition";
+  // Disenos RAW: Fly High, Prepare for Flight y Zombie son artes distintas.
+  if (tokenSet.has("fly") && tokenSet.has("high")) return "fly-high";
+  if (tokenSet.has("prepare") || tokenSet.has("flight")) return "prepare-flight";
+  if (tokenSet.has("zombie")) return "zombie";
   if (tokenSet.has("metal") || tokenSet.has("metalica")) return "metal";
 
   const rawNumbered = text.match(/\braw\s+(\d+)\b/);
@@ -1630,7 +1669,12 @@ function getVaporizerModel(text: string, tokens: string[]) {
   if (tokenSet.has("volcano") && tokenSet.has("classic") && tokenSet.has("onyx")) return "volcano-classic-onyx";
   if (tokenSet.has("volcano") && tokenSet.has("classic") && tokenSet.has("gold")) return "volcano-classic-gold";
   if (tokenSet.has("volcano") && tokenSet.has("classic")) return "volcano-classic";
-  if (tokenSet.has("dynavap") && tokenSet.has("m7") && tokenSet.has("xl")) return "m7-xl";
+  if (tokenSet.has("dynavap") && tokenSet.has("m7") && tokenSet.has("xl")) {
+    // Starter Kit y la edicion Obsidium no se mezclan con la unidad base.
+    if (tokenSet.has("kit") || tokenSet.has("starter")) return "m7-xl-starter-kit";
+    if (tokenSet.has("obsidium")) return "m7-xl-obsidium";
+    return "m7-xl";
+  }
   if ((tokenSet.has("dynavap") || /\bdynavap\b/.test(text)) && tokenSet.has("m7")) return "m7";
   if ((tokenSet.has("dynavap") || /\bdynavap\b/.test(text)) && tokenSet.has("b2")) return "b2";
   if ((tokenSet.has("dynavap") || /\bdynavap\b/.test(text)) && tokenSet.has("woodwynd")) return "woodwynd";
@@ -1700,15 +1744,22 @@ function getElectronicVaporizerModelKey(offer: OfferRow) {
   const tokenSet = new Set(tokens);
 
   if (tokenSet.has("neo") && tokenSet.has("p8000")) {
-    const flavor = ["black-ice", "strawberry-cream"].find((item) => item.split("-").every((token) => tokenSet.has(token)));
+    // Cada sabor es un producto distinto; clave alfabetica estable para que
+    // "Strawberry Watermelon" y "Watermelon Strawberry" coincidan.
+    const flavorTokens = tokens.filter((token) => DISPOSABLE_FLAVOR_TOKENS.has(token));
+    const flavor = [...new Set(flavorTokens)].sort().join("-") || undefined;
 
     return ["disposable", "neo-p8000", flavor].filter(Boolean).join("-");
   }
 
   if (tokenSet.has("oxbar")) {
-    const model = firstExtractionToken(tokens, ["p25000", "p28000"]);
+    // Cada modelo Oxbar (Mini 2200, G8000, G8000 Zero, Liso 28000,
+    // Trifusion 45K...) es un producto distinto.
+    const model = ["mini", "2200", "g8000", "zero", "liso", "28000", "trifusion", "45k", "p25000", "p28000"]
+      .filter((token) => tokenSet.has(token))
+      .join("-");
 
-    return ["disposable", "oxbar", model].filter(Boolean).join("-");
+    return ["disposable", "oxbar", model || null].filter(Boolean).join("-");
   }
 
   return null;
@@ -1736,8 +1787,8 @@ function getCleaningModelKey(offer: OfferRow) {
           : tokenSet.has("resina")
             ? "resin"
             : null;
-  const line = firstExtractionToken(tokens, ["420", "710", "bifasico", "super", "pipe"]);
-  const size = firstExtractionToken(tokens, ["250ml", "500ml", "1l"]);
+  const line = firstExtractionToken(tokens, ["420", "710", "bifasico", "super", "pipe", "manzana", "cherry", "ghosts"]);
+  const size = firstExtractionToken(tokens, ["100ml", "250ml", "500ml", "1l"]);
   const pieces = [family, target, line, size].filter(Boolean) as string[];
 
   return pieces.length >= 2 ? pieces.join("-") : null;
@@ -1852,15 +1903,26 @@ function getExtractionModelKey(offer: OfferRow) {
   }
 
   if (family === "nectar-collector") {
-    const line = firstExtractionToken(tokens, ["obelisk", "deco", "rosewood", "silicona", "straw"]);
-    const size = getExtractionSize(tokens, null);
+    const line = firstExtractionToken(tokens, ["obelisk", "deco", "rosewood", "silicona", "straw", "drop", "tank", "mini", "torp", "slim"]);
+    // Los nectar collectors se miden en cm; el default 14mm de los bangers
+    // pondria una medida falsa en el slug publico.
+    const size = tokens.find((token) => /^\d+(?:\.\d+)?cm$/.test(token)) ?? null;
     return [family, line, size].filter(Boolean).join("-") || null;
   }
 
   if (family === "vaporizer") {
-    const model = firstExtractionToken(tokens, ["peak", "proxy", "plus", "carta"]);
-    const version = tokens.includes("pro") ? "pro" : null;
-    return [family, model, version].filter(Boolean).join("-") || null;
+    const model = firstExtractionToken(tokens, ["peak", "proxy", "carta", "plus", "hit", "vane", "pocket", "orbit"]);
+    const version = tokens.includes("pro") ? "pro" : tokens.includes("2") ? "2" : null;
+    // Las ediciones limitadas (Onyx/Pearl/Guardian/3DXL) son productos
+    // distintos del modelo base, igual que en Vaporizadores herbales.
+    const edition = firstExtractionToken(tokens, ["onyx", "pearl", "guardian", "3dxl"]);
+    return [family, model, version, edition].filter(Boolean).join("-") || null;
+  }
+
+  // Listados multi-medida ("45/90, 10mm/14mm a eleccion") no son comparables
+  // con un banger de medida especifica.
+  if (tokens.includes("45") && tokens.includes("90")) {
+    return null;
   }
 
   const line = getBangerLine(text, tokens);
@@ -1898,6 +1960,7 @@ function getExtractionFamily(text: string, tokens: string[]) {
   if ((tokenSet.has("mallas") || tokenSet.has("malla")) && /\brosin\b/.test(text)) return "rosin-bag";
   if (tokenSet.has("papel") && /\brosin\b/.test(text)) return "rosin-paper";
   if (tokenSet.has("iso-plex") || tokenSet.has("isoplex") || tokenSet.has("estacion")) return "station";
+  if (tokenSet.has("resistencia") || tokenSet.has("coil") || tokenSet.has("coils")) return null;
   if (tokenSet.has("nectar") || tokenSet.has("collector") || tokenSet.has("straw")) return "nectar-collector";
   if (tokenSet.has("dabber") || tokenSet.has("dabbers")) return "dabber";
   if (tokenSet.has("banger") || tokenSet.has("bucket") || tokenSet.has("slurper") || tokenSet.has("insert")) return "banger";
@@ -1908,21 +1971,31 @@ function getExtractionFamily(text: string, tokens: string[]) {
 
 function getBangerLine(text: string, tokens: string[]) {
   const tokenSet = new Set(tokens);
+  // Los kits (banger + carb cap, etc.) no son comparables con el banger solo.
+  const kitSuffix = tokenSet.has("kit") || tokenSet.has("set") ? "-kit" : "";
 
+  if (tokenSet.has("marble")) return "marble-set";
   if (tokenSet.has("insert")) return "insert";
+  if (tokenSet.has("hourglass")) return `hourglass${kitSuffix}`;
+  if (tokenSet.has("tower")) return `tower${kitSuffix}`;
+  if (tokenSet.has("evan")) return "evan-shore";
+  if (tokenSet.has("domo")) return "domo";
+  if (tokenSet.has("core")) return "core-reactor";
+  if (tokenSet.has("solid") && tokenSet.has("base")) return "solid-base";
   if (tokenSet.has("slurper")) {
     const scale = firstExtractionToken(tokens, ["big", "thin"]);
-    return scale ? `${scale}-slurper` : "terp-slurper";
+    return `${scale ? `${scale}-slurper` : "terp-slurper"}${kitSuffix}`;
   }
   if (tokenSet.has("diseno") || tokenSet.has("bs")) return "diseno";
   if (tokenSet.has("flat-bucket") || tokenSet.has("bucket")) return "flat-bucket";
   if (tokenSet.has("full-weld")) {
     const scale = firstExtractionToken(tokens, ["regular", "big", "thin"]);
-    return scale ? `full-weld-${scale}` : "full-weld";
+    return scale ? `full-weld-${scale}${kitSuffix}` : `full-weld${kitSuffix}`;
   }
   if (tokenSet.has("pro")) return /\bbase\s+plana\b/.test(text) ? "pro-base-plana" : tokenSet.has("redondo") ? "pro-redondo" : "pro";
+  if (tokenSet.has("alto")) return "alto";
 
-  return "simple";
+  return `simple${kitSuffix}`;
 }
 
 function getExtractionSize(tokens: string[], line: string | null) {
@@ -1948,6 +2021,14 @@ function getReplacementModelKey(offer: OfferRow) {
   const tokens = tokenizeSlug(text);
   const family = getReplacementFamily(text, tokens);
   const line = getReplacementLine(text, tokens);
+
+  // Quemadores sin linea distintiva (macho/hembra genericos) se solapan con
+  // productos bowl existentes: dejarlos para expand en vez de crear
+  // duplicados desde la curacion.
+  if (family === "bowl" && !line) {
+    return null;
+  }
+
   const size = getReplacementSize(text, tokens, line);
   const count = getReplacementCount(text, tokens, line);
   const pieces = [family, line, size, count].filter(Boolean) as string[];
@@ -2025,6 +2106,7 @@ function getReplacementLine(text: string, tokens: string[]) {
   if (tokenSet.has("abeja") || tokenSet.has("abejas")) return "abeja";
   if (tokenSet.has("perlas") || tokenSet.has("perla")) return "perlas";
   if (tokenSet.has("simple")) return "simple";
+  if (tokenSet.has("pro")) return "pro";
   if (tokenSet.has("bowl")) return "bowl";
   if (tokenSet.has("cuerno")) return "cuerno";
   if (tokenSet.has("saber") || tokenSet.has("saber-tip") || tokenSet.has("replacement-tip")) return "saber-tip";
@@ -2044,7 +2126,13 @@ function getReplacementLine(text: string, tokens: string[]) {
   if (tokenSet.has("easy") && tokenSet.has("valve")) return "easy-valve";
   if (tokenSet.has("solid") && tokenSet.has("valve")) return "solid-valve";
   if (tokenSet.has("volcano") && tokenSet.has("aire")) return "volcano-air-filter";
+  // El deposito (magazine), la camara con reductor, el contenedor y el
+  // empujador de capsulas monodosis son accesorios distintos entre si.
+  if (tokenSet.has("deposito")) return "volcano-magazine";
+  if (tokenSet.has("camara") || tokenSet.has("reductor")) return "volcano-camara";
   if (tokenSet.has("volcano")) return "volcano";
+  if (tokenSet.has("empujador")) return "empujador";
+  if (tokenSet.has("contenedor")) return "contenedor";
   if (tokenSet.has("monodosis") || tokenSet.has("dosing-capsules")) return "monodosis";
   if (tokenSet.has("slits")) return "slits";
   if (tokenSet.has("triple")) return "triple";
@@ -2098,7 +2186,7 @@ function getReplacementCount(text: string, tokens: string[], line: string | null
 
   if (line === "monodosis") return counts.includes("40u") ? "40u" : counts[0];
   if (line === "flat-mouthpiece") return counts.includes("2u") ? "2u" : counts[0];
-  if (line === "crafty") return counts.includes("3u") ? "3u" : "1u";
+  if (line === "crafty") return counts.includes("3u") ? "3u" : counts[0];
   if (line === "volcano-hybrid-tubes") return counts.includes("3u") ? "3u" : counts[0];
 
   return counts[0] === "1u" ? null : counts[0];
@@ -2286,8 +2374,38 @@ const BONG_COLOR_TOKENS = new Set([
   "yellow",
 ]);
 
+const YWIWIS_DESIGN_TOKENS = [
+  "carboncin",
+  "completo",
+  "empanada",
+  "gatito",
+  "ina",
+  "lola",
+  "perrito",
+  "pizza",
+  "papas",
+];
+
+const DISPOSABLE_FLAVOR_TOKENS = new Set([
+  "banana",
+  "black",
+  "blueberry",
+  "cream",
+  "grape",
+  "ice",
+  "kiwi",
+  "mango",
+  "menta",
+  "menthol",
+  "mint",
+  "sandia",
+  "strawberry",
+  "watermelon",
+]);
+
 const BONG_MODEL_PATTERNS: Array<[string, string[]]> = [
   ["beaker-tree-perc", ["beaker", "tree"]],
+  ["bee-recycler", ["bee", "recycler"]],
   ["big-blow", ["big", "blow"]],
   ["big-eye", ["big", "eye"]],
   ["bongbastic", ["bongbastic"]],
@@ -2336,7 +2454,6 @@ const BONG_MODEL_PATTERNS: Array<[string, string[]]> = [
 const BONG_SIZE_DISTINCT_MODELS = new Set([
   "big-eye",
   "rick-sanchez",
-  "space-opera",
   "straight-tube",
 ]);
 

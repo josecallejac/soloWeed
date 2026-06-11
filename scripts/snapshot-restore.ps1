@@ -26,6 +26,15 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot\..
 
+# Resolve the active DB file from .env DATABASE_URL (file:./X is relative to prisma/)
+$dbPath = "prisma\dev.db"
+if (Test-Path ".env") {
+    $envLine = Select-String -Path ".env" -Pattern '^\s*DATABASE_URL\s*=\s*"?file:\./([^"\s]+)"?' | Select-Object -First 1
+    if ($envLine) {
+        $dbPath = "prisma\" + $envLine.Matches[0].Groups[1].Value
+    }
+}
+
 # Check backup exists
 if (-not (Test-Path "backups\$Name.db")) {
     Write-Error "Backup 'backups\$Name.db' not found. Available checkpoints:"
@@ -37,7 +46,7 @@ if (-not (Test-Path "backups\$Name.db")) {
 $tagExists = git tag -l $Name
 if (-not $tagExists) {
     Write-Error "Git tag '$Name' not found. The backup file exists but the git tag is missing."
-    Write-Host "You can still restore the DB manually: Copy-Item backups\$Name.db prisma\dev.db" -ForegroundColor Yellow
+    Write-Host "You can still restore the DB manually: Copy-Item backups\$Name.db $dbPath" -ForegroundColor Yellow
     exit 1
 }
 
@@ -72,8 +81,8 @@ git checkout $Name
 if (-not $?) { Write-Error "Git checkout failed"; exit 1 }
 
 # Restore database
-Write-Host "Restoring database from backups\$Name.db..." -ForegroundColor Cyan
-Copy-Item -LiteralPath "backups\$Name.db" -Destination "prisma\dev.db" -Force
+Write-Host "Restoring database from backups\$Name.db -> $dbPath..." -ForegroundColor Cyan
+Copy-Item -LiteralPath "backups\$Name.db" -Destination $dbPath -Force
 
 # Run Prisma generate to sync client
 Write-Host "Regenerating Prisma client..." -ForegroundColor Cyan

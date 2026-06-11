@@ -31,7 +31,19 @@ npm run lint
 npm run build
 ```
 
-No existe script de tests en `package.json`.
+## Tests
+
+```powershell
+npm run test
+```
+
+Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
+
+Para correr un solo archivo:
+
+```powershell
+npx tsx --test tests/matching.test.ts
+```
 
 ## Scraping
 
@@ -61,6 +73,12 @@ Variables utiles:
 - `SCRAPE_STORES`: filtra tiendas por slug/configuracion.
 
 ## Curacion De Catalogo
+
+Antes de curar, respalda los vinculos de los productos multi-tienda (los de 4 tiendas no deben cambiar jamas):
+
+```powershell
+npx tsx scripts/protect-multistore-links.ts --save
+```
 
 Dry-run con reglas normales:
 
@@ -95,12 +113,25 @@ $env:AUTO_MATCH_MIN_STORES="2"; $env:AUTO_MATCH_CATEGORIES="Bongs,Pipas"; npm ru
 $env:EXPAND_MIN_SCORE="0.86"; npm run catalog:expand
 ```
 
+## Proteccion De Productos Multi-Tienda
+
+Despues de curar y linkear, verifica que los productos protegidos conserven sus ofertas; restaura si algo se rompio:
+
+```powershell
+npx tsx scripts/protect-multistore-links.ts --verify
+npx tsx scripts/protect-multistore-links.ts --restore
+```
+
+Variables: `PROTECT_MIN_STORES` (default 3) controla que productos se respaldan.
+
 ## Backfills
 
 ```powershell
 npm run brand:backfill
 npm run model:backfill
 ```
+
+`brand:backfill` es no destructivo: no pisa `brandKey` existentes con null ni cambia `Product.brandKey` (parte de la URL publica). Las listas de marcas/aliases viven en `src/lib/matching-constants.ts`.
 
 Si cambias slugs o keys, verifica que `brandKey`, `modelKey` y `modelSlug` sigan sincronizados.
 

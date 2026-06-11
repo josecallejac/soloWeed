@@ -4,6 +4,7 @@ import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
 import { formatDateTime, formatPriceRange } from "@/lib/format";
+import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
 import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
@@ -372,64 +373,6 @@ function getBestMatchScore(seedOffers: MatchableOffer[], candidateOffer: Matchab
 }
 
 const MATCH_THRESHOLD = 0.72;
-
-const KNOWN_BRAND_PHRASES = [
-  "airis",
-  "american helix",
-  "actitube",
-  "arizer",
-  "blazy susan",
-  "blazer",
-  "bonglab",
-  "bulldog",
-  "cabo",
-  "calvo",
-  "clipper",
-  "dynavap",
-  "elements",
-  "dream high",
-  "eyce",
-  "formula secreta",
-  "futurola",
-  "galaxy",
-  "gizeh",
-  "grav",
-  "g-rollz",
-  "hemper",
-  "hightrip",
-  "ignite",
-  "lion rolling circus",
-  "mj arsenal",
-  "ocb",
-  "ozeta",
-  "pax",
-  "piecemaker",
-  "pulsar",
-  "raw",
-  "ronson",
-  "santa cruz shredder",
-  "santa cruz",
-  "slx",
-  "soulblime",
-  "smokers choice",
-  "storz bickel",
-  "strabe glass",
-  "the bulldog",
-  "top smoke",
-  "vibes",
-  "xvape",
-  "zengaz",
-  "zippo",
-  "puffco",
-  "davinci",
-  "da vinci",
-  "marley natural",
-  "focus v",
-  "higher standards",
-  "blunt wrap",
-  "kush hemp",
-  "ryot",
-];
 
 const GENERIC_MATCH_TOKENS = new Set([
   "accesorio",
