@@ -2371,5 +2371,19 @@
       13000,
       14387
     ]
+  },
+  {
+    "id": 10325,
+    "name": "Vidrio de Repuesto Vaporizador Focus V Carta Sport | PIRANHA",
+    "brandKey": "focus-v",
+    "modelKey": "glass-carta-sport",
+    "modelSlug": "vidrio-carta-sport",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12286,
+      13227,
+      15560
+    ]
   }
 ]

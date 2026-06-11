@@ -7,11 +7,53 @@ import { formatDateTime, formatPriceRange } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
 import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
+import { SITE_URL, productPath } from "@/lib/site";
 import type { Prisma } from "@prisma/client";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PriceHistoryChart } from "./price-history-chart";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: ProductDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  if (slug.length < 2) {
+    return {};
+  }
+  const [brandKey, ...modelParts] = slug;
+  const product = await prisma.product.findFirst({
+    where: { brandKey, modelSlug: modelParts.join("/") },
+    include: {
+      offers: {
+        select: { price: true, storeId: true, imageUrl: true, inStock: true },
+      },
+    },
+  });
+  if (!product) {
+    return {};
+  }
+  const prices = product.offers.filter((offer) => offer.inStock).map((offer) => offer.price);
+  const storeCount = new Set(product.offers.map((offer) => offer.storeId)).size;
+  const minPrice = prices.length > 0 ? Math.min(...prices) : undefined;
+  const priceText = minPrice !== undefined ? ` desde $${minPrice.toLocaleString("es-CL")}` : "";
+  const storeText = storeCount > 1 ? ` en ${storeCount} tiendas` : "";
+  const title = `${product.name}: precio${storeText}`;
+  const description = `Compara el precio de ${product.name}${priceText}${storeText} de Chile. Historial de precios y stock actualizado.`;
+  const canonical = productPath(brandKey, modelParts.join("/"));
+  const image = product.imageUrl ?? product.offers.find((offer) => offer.imageUrl)?.imageUrl;
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonical,
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
+  };
+}
 
 type ProductDetailProps = {
   params: Promise<{
@@ -68,8 +110,35 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
     product.offers.find((offer) => offer.description)?.description;
   const coverage = stores.length > 0 ? Math.round((storesWithPrice.length / stores.length) * 100) : 0;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
+    category: product.category,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    ...(description ? { description } : {}),
+    ...(product.brandKey && product.modelSlug
+      ? { url: `${SITE_URL}${productPath(product.brandKey, product.modelSlug)}` }
+      : {}),
+    ...(minPrice !== undefined && maxPrice !== undefined
+      ? {
+          offers: {
+            "@type": "AggregateOffer",
+            priceCurrency: "CLP",
+            lowPrice: minPrice,
+            highPrice: maxPrice,
+            offerCount: storesWithPrice.length,
+            availability:
+              storesInStock.length > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          },
+        }
+      : {}),
+  };
+
   return (
     <main className="min-h-screen bg-[#f4f1e8] text-[#17150f]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative overflow-hidden border-b border-black/10 bg-[#17150f] text-[#f8f4df]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,#bddf57_0,transparent_30%),radial-gradient(circle_at_78%_18%,#7f5af0_0,transparent_24%)] opacity-35" />
         <div className="relative mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:px-10">

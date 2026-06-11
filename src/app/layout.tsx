@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SoloWeed | Comparador de parafernalia en Chile",
-  description:
-    "Compara precios de bongs, moledores, papelillos y vaporizadores herbales en growshops de Chile.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "SoloWeed | Comparador de parafernalia en Chile",
+    template: "%s | SoloWeed",
+  },
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "SoloWeed",
+    locale: "es_CL",
+    title: "SoloWeed | Comparador de parafernalia en Chile",
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
