@@ -15,6 +15,8 @@ type StoreConfig = {
 type ScrapedOffer = {
   url: string;
   sourceId?: string;
+  sku?: string;
+  ean?: string;
   title: string;
   normalizedTitle: string;
   brand?: string;
@@ -1295,6 +1297,7 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
   const sourceId = cleanOptional(
     asText(product?.["sku"]) ?? asText(product?.["productID"]) ?? meta($, "property", "og:id"),
   );
+  const { sku, ean } = extractIdentifiers(html, product);
   const brand =
     cleanOptional(asText(productBrand?.["name"]) ?? asText(product?.["brand"]) ?? meta($, "property", "og:brand")) ??
     inferKnownBrand(`${title} ${canonicalUrl} ${sourceCategory ?? ""} ${description ?? ""}`);
@@ -1317,6 +1320,8 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
   return {
     url: canonicalUrl,
     sourceId,
+    sku,
+    ean,
     title,
     normalizedTitle: normalizeForSearch(title),
     brand,
@@ -1332,6 +1337,46 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
     inStock: isInStock(availability),
     availability,
   };
+}
+
+// Identificadores por plataforma: Jumpseller (Astro, Fumetas) expone sku/barcode
+// en el JSON de variantes; PrestaShop (Piranha) expone reference/ean13 en el
+// dataLayer. Los EAN se validan con digito verificador GTIN porque Piranha usa
+// correlativos internos que parecen codigos de barra pero no lo son.
+function isValidGtin(value: string) {
+  // Solo GTIN-8/12/13 (retail): el largo 14 es nivel empaque y los correlativos
+  // de 14 digitos de Piranha pasan el digito verificador por azar ~10% de las veces.
+  if (!/^\d{8}$|^\d{12,13}$/.test(value)) {
+    return false;
+  }
+  const digits = value.split("").map(Number);
+  const check = digits.pop()!;
+  let sum = 0;
+  digits.reverse().forEach((digit, index) => {
+    sum += digit * (index % 2 === 0 ? 3 : 1);
+  });
+  return (10 - (sum % 10)) % 10 === check;
+}
+
+function extractIdentifiers(html: string, product: Record<string, unknown> | null) {
+  const skuCandidates = [
+    cleanOptional(asText(product?.["sku"])),
+    ...[...html.matchAll(/"(?:sku|reference)":\s*"([^"]+)"/g)].map((match) => match[1].trim()),
+  ];
+  const sku = skuCandidates.find((value) => value && value !== "SKU");
+
+  const eanCandidates = [
+    cleanOptional(asText(product?.["gtin13"])),
+    cleanOptional(asText(product?.["gtin12"])),
+    cleanOptional(asText(product?.["gtin"])),
+    cleanOptional(asText(product?.["productID"])),
+    ...[...html.matchAll(/"(?:barcode|ean13)":\s*"([^"]+)"/g)].map((match) => match[1].trim()),
+    // Algunas references de Piranha son EAN reales; isValidGtin descarta las internas.
+    ...skuCandidates,
+  ];
+  const ean = eanCandidates.find((value) => value && isValidGtin(value));
+
+  return { sku: sku || undefined, ean: ean || undefined };
 }
 
 async function saveOffer(storeId: number, offer: ScrapedOffer) {
@@ -1354,6 +1399,8 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
     update: {
       storeId,
       sourceId: offer.sourceId,
+      sku: offer.sku,
+      ean: offer.ean,
       title: offer.title,
       normalizedTitle: offer.normalizedTitle,
       brand: offer.brand,
@@ -1373,6 +1420,8 @@ async function saveOffer(storeId: number, offer: ScrapedOffer) {
       productId: null,
       url: offer.url,
       sourceId: offer.sourceId,
+      sku: offer.sku,
+      ean: offer.ean,
       title: offer.title,
       normalizedTitle: offer.normalizedTitle,
       brand: offer.brand,

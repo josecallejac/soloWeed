@@ -52,6 +52,8 @@ model Offer {
   productId       Int?
   url             String   @unique
   sourceId        String?
+  sku             String?
+  ean             String?
   title           String
   normalizedTitle String
   brand           String?
@@ -81,6 +83,7 @@ model Offer {
   @@index([brand])
   @@index([brandKey])
   @@index([modelKey])
+  @@index([ean])
 }
 
 model PriceHistory {
