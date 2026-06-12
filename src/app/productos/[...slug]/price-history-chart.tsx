@@ -13,8 +13,8 @@ type PriceHistoryChartProps = {
 const COLORS = ["#7f5af0", "#bddf57", "#f97316", "#06b6d4"];
 
 export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: PriceHistoryChartProps) {
-  // Only show for 4-tienda products if flag is set
-  if (onlyOnFullCoverage && totalStores < 4) return null;
+  // Only show for comparable products (2+ tiendas) if flag is set
+  if (onlyOnFullCoverage && totalStores < 2) return null;
 
   // Show all stores with histories, even if just 1 point (single-point = flat dot)
   const lines = stores.filter((s) => s.histories.length >= 1);
