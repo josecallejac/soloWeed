@@ -817,6 +817,21 @@
     ]
   },
   {
+    "id": 10312,
+    "name": "Puffco Hot Knife - Dabber eléctronico",
+    "brandKey": "puffco",
+    "modelKey": "dabber-hot-knife",
+    "modelSlug": "hot-knife",
+    "category": "Accesorios de extraccion",
+    "storeCount": 4,
+    "offerIds": [
+      11584,
+      11948,
+      13000,
+      14387
+    ]
+  },
+  {
     "id": 5418,
     "name": "Papelillos RAW Classic King Size Slim - Sabanas",
     "brandKey": "raw",
@@ -2082,6 +2097,20 @@
     ]
   },
   {
+    "id": 10202,
+    "name": "Pipa Top Smoke Pocket | PIRANHA",
+    "brandKey": "top-smoke",
+    "modelKey": "pipe-pipa-pocket",
+    "modelSlug": "pocket",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      8123,
+      10989,
+      12515
+    ]
+  },
+  {
     "id": 10207,
     "name": "Puffco Vaporizador Plus",
     "brandKey": "puffco",
@@ -2180,6 +2209,20 @@
     ]
   },
   {
+    "id": 10227,
+    "name": "Calvo Glass Bong Rick &amp; Morty 24cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-rick-morty-24cm-24cm",
+    "modelSlug": "rick-morty",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      801,
+      1365,
+      13196
+    ]
+  },
+  {
     "id": 10239,
     "name": "Gas Butano Ronson 300 ML",
     "brandKey": "ronson",
@@ -2222,6 +2265,20 @@
     ]
   },
   {
+    "id": 10260,
+    "name": "Difusor Bonglab 14mm-14cm | PIRANHA",
+    "brandKey": "bonglab",
+    "modelKey": "repuestos-difusor-14cm-14mm",
+    "modelSlug": "diffuser-14mm-14cm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      11258,
+      11870,
+      12854
+    ]
+  },
+  {
     "id": 10262,
     "name": "Unidad De Enfriamiento Venty-Storz &amp; Bickel",
     "brandKey": "storz-bickel",
@@ -2261,6 +2318,20 @@
       1263,
       12179,
       16058
+    ]
+  },
+  {
+    "id": 10272,
+    "name": "Papelillos RAW Black King Size Slim - Sabanas",
+    "brandKey": "raw",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "black-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      432,
+      13597,
+      15766
     ]
   },
   {
@@ -2391,20 +2462,6 @@
     ]
   },
   {
-    "id": 10312,
-    "name": "Puffco Hot Knife - Dabber eléctronico",
-    "brandKey": "puffco",
-    "modelKey": "dabber-hot-knife",
-    "modelSlug": "hot-knife",
-    "category": "Accesorios de extraccion",
-    "storeCount": 3,
-    "offerIds": [
-      11948,
-      13000,
-      14387
-    ]
-  },
-  {
     "id": 10325,
     "name": "Vidrio de Repuesto Vaporizador Focus V Carta Sport | PIRANHA",
     "brandKey": "focus-v",
@@ -2416,6 +2473,76 @@
       12286,
       13227,
       15560
+    ]
+  },
+  {
+    "id": 10331,
+    "name": "Bencina 125mL Zippo",
+    "brandKey": "zippo",
+    "modelKey": "bencina-125ml",
+    "modelSlug": "bencina-125ml",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      1372,
+      12345,
+      15838
+    ]
+  },
+  {
+    "id": 10343,
+    "name": "Soporte Celular Soulblime | PIRANHA",
+    "brandKey": "soulblime",
+    "modelKey": "soporte-celular",
+    "modelSlug": "soporte-celular",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      12384,
+      12996,
+      14395
+    ]
+  },
+  {
+    "id": 10362,
+    "name": "Zippo Piedras Encendedor 6U",
+    "brandKey": "zippo",
+    "modelKey": "piedras-encendedor-6u",
+    "modelSlug": "piedras-encendedor-6u",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      3204,
+      12502,
+      15956
+    ]
+  },
+  {
+    "id": 10399,
+    "name": "Difusor Bonglab Logo Magenta 14mm 12cm",
+    "brandKey": "bonglab",
+    "modelKey": "difusor-magenta-14mm-12cm",
+    "modelSlug": "difusor-magenta-14mm-12cm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      772,
+      2305,
+      15558
+    ]
+  },
+  {
+    "id": 10405,
+    "name": "Ispire The Wand + Adaptador DynaVap",
+    "brandKey": "ispire",
+    "modelKey": "the-wand-adaptador-dynavap",
+    "modelSlug": "the-wand-adaptador-dynavap",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      12562,
+      13507,
+      14320
     ]
   }
 ]
