@@ -37,6 +37,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
   const discount = hasDiscount
     ? Math.round(((offer.originalPrice! - offer.minPrice) / offer.originalPrice!) * 100)
     : 0;
+  const storeSavings = offer.storeCount > 1 && offer.minPrice > 0 ? offer.maxPrice - offer.minPrice : 0;
 
   return (
     <article className="grid min-w-0 gap-4 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[160px_minmax(0,1fr)]">
@@ -93,6 +94,11 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
               </span>
               {offer.maxPrice > offer.minPrice && offer.minPrice > 0 ? (
                 <span className="text-sm font-bold text-black/45">hasta {formatPrice(offer.maxPrice)}</span>
+              ) : null}
+              {storeSavings > 0 ? (
+                <span className="rounded-full bg-[#17150f] px-2 py-1 text-xs font-black text-[#bddf57]">
+                  Ahorra {formatPrice(storeSavings)}
+                </span>
               ) : null}
               {discount > 0 ? (
                 <span className="rounded-full bg-[#7f5af0] px-2 py-1 text-xs font-black text-white">-{discount}%</span>

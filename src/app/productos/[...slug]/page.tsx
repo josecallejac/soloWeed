@@ -3,13 +3,14 @@ import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
-import { formatDateTime, formatPriceRange } from "@/lib/format";
+import { formatDateTime, formatPrice, formatPriceRange } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
 import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, productPath } from "@/lib/site";
 import type { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PriceHistoryChart } from "./price-history-chart";
 
@@ -94,7 +95,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
     notFound();
   }
 
-  const { product, stores, matchedOffers } = data;
+  const { product, stores, matchedOffers, relatedProducts } = data;
   const hasVisibleOffers = matchedOffers.length > 0;
   const visibleOffers = matchedOffers;
   const storePrices = buildStorePrices(stores, visibleOffers, product.offers);
@@ -255,6 +256,45 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           </div>
         </section>
       </section>
+
+      {relatedProducts.length > 0 ? (
+        <section className="mx-auto w-full max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
+          <div className="mb-5">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-black/45">Sigue comparando</p>
+            <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl">
+              Otras comparaciones de {product.category.toLowerCase()}
+            </h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {relatedProducts.map((related) => (
+              <Link
+                className="group flex flex-col gap-3 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                href={productPath(related.brandKey, related.modelSlug)}
+                key={related.id}
+              >
+                <div className="grid h-40 place-items-center overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
+                  {related.imageUrl ? (
+                    <img alt={related.name} className="max-h-36 w-full object-contain p-3" src={related.imageUrl} />
+                  ) : (
+                    <div className="grid size-full place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-3xl font-black">
+                      SW
+                    </div>
+                  )}
+                </div>
+                <span className="self-start rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
+                  {related.storeCount} tiendas
+                </span>
+                <h3 className="text-base font-black leading-tight tracking-[-0.02em] group-hover:underline">
+                  {related.name}
+                </h3>
+                <p className="mt-auto text-lg font-black tracking-[-0.03em]">
+                  {related.minPrice > 0 ? `Desde ${formatPrice(related.minPrice)}` : "Sin stock detectado"}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
@@ -298,7 +338,44 @@ async function getProductData(slug: string[]) {
     isAllowedProductDetailOffer(product.offers, offer),
   );
 
-  return { product, stores, matchedOffers };
+  const relatedProducts = await getRelatedProducts(product.category, product.id);
+
+  return { product, stores, matchedOffers, relatedProducts };
+}
+
+async function getRelatedProducts(category: string, excludeId: number) {
+  const candidates = await prisma.product.findMany({
+    where: {
+      category,
+      id: { not: excludeId },
+      brandKey: { not: null },
+      modelSlug: { not: null },
+    },
+    include: {
+      offers: {
+        select: { price: true, inStock: true, storeId: true, imageUrl: true },
+      },
+    },
+  });
+
+  return candidates
+    .map((candidate) => {
+      const storeCount = new Set(candidate.offers.map((offer) => offer.storeId)).size;
+      const prices = candidate.offers.filter((offer) => offer.inStock && offer.price > 0).map((offer) => offer.price);
+
+      return {
+        brandKey: candidate.brandKey!,
+        id: candidate.id,
+        imageUrl: candidate.imageUrl ?? candidate.offers.find((offer) => offer.imageUrl)?.imageUrl ?? null,
+        minPrice: prices.length > 0 ? Math.min(...prices) : 0,
+        modelSlug: candidate.modelSlug!,
+        name: candidate.name,
+        storeCount,
+      };
+    })
+    .filter((candidate) => candidate.storeCount >= 2)
+    .sort((first, second) => second.storeCount - first.storeCount || first.minPrice - second.minPrice)
+    .slice(0, 4);
 }
 
 function getExpandedMatchedOffers(seedOffers: OfferOption[], candidateOffers: OfferOption[], productId: number) {
