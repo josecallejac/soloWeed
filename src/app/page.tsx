@@ -184,7 +184,7 @@ export default async function Home({ searchParams }: HomeProps) {
               </h2>
             </div>
             <p className="max-w-md text-sm leading-6 text-black/55">
-              Mostramos productos aunque exista una sola tienda asociada. Confirma stock y despacho en la tienda original.
+              Solo mostramos productos disponibles en 2 o más tiendas. Confirma stock y despacho en la tienda original.
             </p>
           </div>
 
@@ -770,14 +770,14 @@ function hasCatalogComparison(item: CatalogItem) {
 function hasCatalogVisibility(item: CatalogItem, selectedCategory: string, storeFilterActive = false) {
   const cat = item.category.toLowerCase();
   if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
-  if (storeFilterActive) return true;
-  return hasCatalogComparison(item) || Boolean(selectedCategory && item.product);
+  if (storeFilterActive) return hasCatalogComparison(item);
+  return hasCatalogComparison(item);
 }
 
 function hasCatalogCategoryVisibility(item: CatalogItem) {
   const cat = item.category.toLowerCase();
   if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
-  return hasCatalogComparison(item) || Boolean(item.product);
+  return hasCatalogComparison(item);
 }
 
 function compareCatalogOffers(first: CatalogOffer, second: CatalogOffer) {
