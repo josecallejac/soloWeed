@@ -62,3 +62,4 @@ next-env.d.ts
 /reports/catalog-audit/runs/
 /scratch/
 
+reports/upgrades-run.txt
