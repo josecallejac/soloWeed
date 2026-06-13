@@ -1,0 +1,809 @@
+{
+  "generatedAt": "2026-06-13T04:29:20.160Z",
+  "minSim": 0.82,
+  "groups": [
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5421,
+          "name": "Papelillo Unbleached King Size Slim Blazy Susan",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "unbleached-king-size-slim",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10068,
+          "name": "Papelillo Pink King Size Slim- Blazy Susan",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "pink-king-size-slim",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10282,
+          "name": "Papelillo King Size Slim Blazy Susan Deluxe Kit Unbleached | PIRANHA",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "unbleached-king-size-slim-con-tips",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5460,
+          "name": "Blazy Susan Papelillos Purple 1 1/4",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "purple",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 5467,
+          "name": "Papelillo Unbleached 1 1/4 1Und-Blazy Susan",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "unbleached",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10067,
+          "name": "Papelillo Pink 1 1/4 1Und-Blazy Susan",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "pink",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10183,
+          "name": "Blazy Susan Deluxe Rolling Kit Purple 1 1/4",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "purple-con-tips",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10184,
+          "name": "Blazy Susan Deluxe Rolling Kit Pink 1 1/4",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "pink-con-tips",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10283,
+          "name": "Blazy Susan Deluxe Rolling Kit Unbleached 1 1/4",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "unbleached-1-1-4-con-tips",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5462,
+          "name": "Papelillos OCB Bamboo 1 1/4",
+          "brandKey": "ocb",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "bamboo",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 5463,
+          "name": "Papel de fumar de cáñamo orgánico 1 1/4 OCB",
+          "brandKey": "ocb",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "organic",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 5471,
+          "name": "Papelillos OCB Cañamo Orgánico 1 1/4 + Tips",
+          "brandKey": "ocb",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "organic-con-tips",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5464,
+          "name": "Papelillo RAW Classic Black 1 1/4 | PIRANHA",
+          "brandKey": "raw",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "black",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10186,
+          "name": "RAW Black Connoisseur 1 1/4 + Tips",
+          "brandKey": "raw",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "black-con-tips",
+          "stores": 1,
+          "offers": 1
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5532,
+          "name": "Tiny Bell Extended -Bonglab",
+          "brandKey": "bonglab",
+          "modelKey": "bong-tiny-bell",
+          "modelSlug": "tiny-bell-extended",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 5778,
+          "name": "Tiny Bell -Bonglab",
+          "brandKey": "bonglab",
+          "modelKey": "bong-tiny-bell",
+          "modelSlug": "tiny-bell",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5706,
+          "name": "Conos Pre-Enrolados Blazy Susan King Size 3u Pink | PIRANHA",
+          "brandKey": "blazy-susan",
+          "modelKey": "cone-conos-pre-enrolados-king-size",
+          "modelSlug": "pre-roll-pink-king-size-3u",
+          "stores": 2,
+          "offers": 3
+        },
+        {
+          "id": 10152,
+          "name": "Blazy Susan Conos Pre-enrolados King Size 50 uds.",
+          "brandKey": "blazy-susan",
+          "modelKey": "cone-conos-pre-enrolados-king-size",
+          "modelSlug": "pre-roll-pink-king-size-50u",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5707,
+          "name": "Conos Pre-Enrolados Blazy Susan 1 1/4 6u Purple | PIRANHA",
+          "brandKey": "blazy-susan",
+          "modelKey": "cone-conos-pre-enrolados-1-1-4",
+          "modelSlug": "pre-roll-purple-1-1-4-6u",
+          "stores": 3,
+          "offers": 4
+        },
+        {
+          "id": 10233,
+          "name": "Blazy Susan Conos Pre-enrolados Purple 1 1/4 50 uds.",
+          "brandKey": "blazy-susan",
+          "modelKey": "cone-conos-pre-enrolados-1-1-4",
+          "modelSlug": "pre-roll-purple-1-1-4-50u",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5745,
+          "name": "Volcano Hybrid Onyx Edition-Storz &amp; Bickel",
+          "brandKey": "storz-bickel",
+          "modelKey": "vaporizadores-volcano-hybrid",
+          "modelSlug": "volcano-hybrid-onyx",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10099,
+          "name": "Volcano Hybrid Storz & Bickel - GB The Green Brand",
+          "brandKey": "storz-bickel",
+          "modelKey": "vaporizadores-volcano-hybrid",
+          "modelSlug": "volcano-hybrid",
+          "stores": 4,
+          "offers": 4
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5758,
+          "name": "Juego De Mallas Pequeño Mighty-Storz &amp; Bickel",
+          "brandKey": "storz-bickel",
+          "modelKey": "repuestos-mighty",
+          "modelSlug": "screen-set-small",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10275,
+          "name": "Juego De Piezas Desgaste Mighty-Storz &amp; Bickel",
+          "brandKey": "storz-bickel",
+          "modelKey": "repuestos-mighty",
+          "modelSlug": "piezas-desgaste-mighty",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10280,
+          "name": "Storz &amp; Bickel Juego De Anillos de Sellado Mighty",
+          "brandKey": "storz-bickel",
+          "modelKey": "repuestos-mighty",
+          "modelSlug": "anillos-sellado-mighty",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5763,
+          "name": "Ozeta Chestbag Circular 4x4 Con Clave - Anti Olor",
+          "brandKey": "ozeta",
+          "modelKey": "container-chestbag",
+          "modelSlug": "bag-chestbag-circular",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 5780,
+          "name": "Ozeta Chestbag 4x4 con clave - Anti-olor",
+          "brandKey": "ozeta",
+          "modelKey": "container-chestbag",
+          "modelSlug": "bag-chestbag-4x4-4x4",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5765,
+          "name": "Estuche Anti Olor OZeta Pequeño (Color a elección)",
+          "brandKey": "ozeta",
+          "modelKey": "container-estuche",
+          "modelSlug": "case-antiolor-small",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 7885,
+          "name": "Estuche Ywiwis Gollo - OZeta | PIRANHA",
+          "brandKey": "ozeta",
+          "modelKey": "container-estuche",
+          "modelSlug": "case-ywiwis",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10198,
+          "name": "Estuche Ywiwis Carboncin - OZeta | PIRANHA",
+          "brandKey": "ozeta",
+          "modelKey": "container-estuche",
+          "modelSlug": "case-ywiwis-carboncin",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10199,
+          "name": "Estuche Ywiwis Perrito - OZeta | PIRANHA",
+          "brandKey": "ozeta",
+          "modelKey": "container-estuche",
+          "modelSlug": "case-ywiwis-perrito",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5779,
+          "name": "OZETA BOLSO ANTI OLOR CROSSBAG 5X5 - CAJA ROTA",
+          "brandKey": "ozeta",
+          "modelKey": "container-bolso",
+          "modelSlug": "bag-crossbag-5x5",
+          "stores": 3,
+          "offers": 4
+        },
+        {
+          "id": 10235,
+          "name": "Bolso Bandolera Circular-Ozeta",
+          "brandKey": "ozeta",
+          "modelKey": "container-bolso",
+          "modelSlug": "bag-bandolera-circular",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5812,
+          "name": "Vaper Airis Neo P8000 - Strawberry Cream | PIRANHA",
+          "brandKey": "airis",
+          "modelKey": "disposable-neo-p8000-strawberry-cream",
+          "modelSlug": "disposable-neo-p8000-strawberry-cream",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10204,
+          "name": "Vaporizador Airis Neo P8000 Strawberry Banana-Airistech",
+          "brandKey": "airis",
+          "modelKey": "disposable-neo-p8000-strawberry-cream",
+          "modelSlug": "disposable-neo-p8000-banana-cream-strawberry",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10205,
+          "name": "Vaper Airis Neo P8000 - Kiwi Strawberry | PIRANHA",
+          "brandKey": "airis",
+          "modelKey": "disposable-neo-p8000-strawberry-cream",
+          "modelSlug": "disposable-neo-p8000-cream-kiwi-strawberry",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10206,
+          "name": "Vaper Airis Neo P8000 - Strawberry Watermelon | PIRANHA",
+          "brandKey": "airis",
+          "modelKey": "disposable-neo-p8000-strawberry-cream",
+          "modelSlug": "disposable-neo-p8000-cream-strawberry-watermelon",
+          "stores": 1,
+          "offers": 1
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 5816,
+          "name": "Papelillos OCB Virgin 1 1/4",
+          "brandKey": "ocb",
+          "modelKey": "paper-ocb-virgin-1-1-4",
+          "modelSlug": "virgin",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 6571,
+          "name": "Papelillos OCB Virgin 1 1/4 + Tips",
+          "brandKey": "ocb",
+          "modelKey": "paper-ocb-virgin-1-1-4",
+          "modelSlug": "virgin-con-tips",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 6008,
+          "name": "Papelillos OCB Premium 1 1/4",
+          "brandKey": "ocb",
+          "modelKey": "paper-ocb-premium-1-1-4",
+          "modelSlug": "premium",
+          "stores": 4,
+          "offers": 5
+        },
+        {
+          "id": 10083,
+          "name": "OCB Premium 1.1/4 + Tips",
+          "brandKey": "ocb",
+          "modelKey": "paper-ocb-premium-1-1-4",
+          "modelSlug": "premium-con-tips",
+          "stores": 4,
+          "offers": 4
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 6020,
+          "name": "Quemador De 14Mm -Bonglab",
+          "brandKey": "bonglab",
+          "modelKey": "banger-quemador-14mm",
+          "modelSlug": "bowl-14mm",
+          "stores": 3,
+          "offers": 6
+        },
+        {
+          "id": 10258,
+          "name": "Quemador Pro 14 Mm-Bonglab",
+          "brandKey": "bonglab",
+          "modelKey": "banger-quemador-14mm",
+          "modelSlug": "bowl-pro-14mm",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 9245,
+          "name": "Mighty +",
+          "brandKey": "storz-bickel",
+          "modelKey": "vaporizadores-mighty",
+          "modelSlug": "mighty-plus",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10287,
+          "name": "Vaporizador Mighty Negro-Storz &amp; Bickel",
+          "brandKey": "storz-bickel",
+          "modelKey": "vaporizadores-mighty",
+          "modelSlug": "mighty",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 10066,
+          "name": "Blazy Susan papelillos king size purple – Papeles de enrolar ultra finos",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size",
+          "modelSlug": "purple-king-size-slim",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10181,
+          "name": "Blazy Susan Deluxe Rolling Kit Pink King Size",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size",
+          "modelSlug": "pink-king-size-slim-con-tips",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10182,
+          "name": "Blazy Susan Deluxe Rolling Kit Purple King Size",
+          "brandKey": "blazy-susan",
+          "modelKey": "paper-king-size-king-size",
+          "modelSlug": "purple-king-size-slim-con-tips",
+          "stores": 4,
+          "offers": 4
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 10141,
+          "name": "OCB Papelillos X-pert Slim King Size",
+          "brandKey": "ocb",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "x-pert-king-size-slim",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10146,
+          "name": "Papelillo Slim Ultimate King Size- Ocb",
+          "brandKey": "ocb",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "ultimate-king-size-slim",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10298,
+          "name": "OCB Papelillos Rice Sin Blanquear King Size Slim + Tips",
+          "brandKey": "ocb",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "rice-king-size-slim-con-tips",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 10234,
+          "name": "Lion Rolling Circus Porta Papelillos 1 1/4",
+          "brandKey": "lion-rolling-circus",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "case-1-1-4",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10274,
+          "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
+          "brandKey": "lion-rolling-circus",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "alfalfa",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10299,
+          "name": "LRC Papelillos Unbleached 1 1/4",
+          "brandKey": "lion-rolling-circus",
+          "modelKey": "paper-1-1-4-1-1-4",
+          "modelSlug": "unbleached-1-1-4",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 10267,
+          "name": "VAPORIZADOR G8000 ZERO -OXBAR",
+          "brandKey": "oxbar",
+          "modelKey": "disposable-oxbar",
+          "modelSlug": "disposable-oxbar-g8000-zero",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10268,
+          "name": "Vaporizador G8000 - Oxbar",
+          "brandKey": "oxbar",
+          "modelKey": "disposable-oxbar",
+          "modelSlug": "disposable-oxbar-g8000",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10269,
+          "name": "Vaporizador Liso 28000-Oxbar",
+          "brandKey": "oxbar",
+          "modelKey": "disposable-oxbar",
+          "modelSlug": "disposable-oxbar-liso-28000",
+          "stores": 1,
+          "offers": 1
+        },
+        {
+          "id": 10270,
+          "name": "Vaporizador Mini 2200 -Oxbar",
+          "brandKey": "oxbar",
+          "modelKey": "disposable-oxbar",
+          "modelSlug": "disposable-oxbar-mini-2200",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10271,
+          "name": "VAPORIZADOR TRIFUSION 45K -OXBAR",
+          "brandKey": "oxbar",
+          "modelKey": "disposable-oxbar",
+          "modelSlug": "disposable-oxbar-trifusion-45k",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "modelKey identico",
+      "members": [
+        {
+          "id": 10272,
+          "name": "Papelillos RAW Black King Size Slim - Sabanas",
+          "brandKey": "raw",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "black-king-size-slim",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10273,
+          "name": "Papelillos Raw Artesanos King Size Slim",
+          "brandKey": "raw",
+          "modelKey": "paper-king-size-king-size-slim",
+          "modelSlug": "artesano-king-size-slim",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 1,
+      "members": [
+        {
+          "id": 10309,
+          "name": "BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm",
+          "brandKey": "bonglab",
+          "modelKey": "ash-catcher-triple-honeycomb-14mm",
+          "modelSlug": "atrapa-cenizas-triple-honeycomb-14mm",
+          "stores": 4,
+          "offers": 4
+        },
+        {
+          "id": 10316,
+          "name": "BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm",
+          "brandKey": "bonglab",
+          "modelKey": "ash-catcher-triple-honeycomb-18mm",
+          "modelSlug": "atrapa-cenizas-triple-honeycomb-18mm",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 1,
+      "members": [
+        {
+          "id": 10304,
+          "name": "Encendedor Clipper Super Pocket 1",
+          "brandKey": "clipper",
+          "modelKey": "lighter-super-pocket-1",
+          "modelSlug": "super-pocket-1",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10305,
+          "name": "Encendedor Clipper Super Pocket 2",
+          "brandKey": "clipper",
+          "modelKey": "lighter-super-pocket-2",
+          "modelSlug": "super-pocket-2",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 1,
+      "members": [
+        {
+          "id": 10308,
+          "name": "Encendedor Zippo Cannabis Design",
+          "brandKey": "zippo",
+          "modelKey": "lighter-cannabis-design-3",
+          "modelSlug": "cannabis-design-3",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10332,
+          "name": "Encendedor Zippo Cannabis Design",
+          "brandKey": "zippo",
+          "modelKey": "lighter-cannabis-design-iridiscente",
+          "modelSlug": "cannabis-design-iridiscente",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 0.9,
+      "members": [
+        {
+          "id": 10329,
+          "name": "Atomizador Intelli-Core para Extractos con Bubbler Cap | PIRANHA",
+          "brandKey": "focus-v",
+          "modelKey": "atomizer-intelli-core",
+          "modelSlug": "intelli-core",
+          "stores": 2,
+          "offers": 2
+        },
+        {
+          "id": 10330,
+          "name": "Atomizador Intelli-Core Max para Extractos con Bubbler Cap | PIRANHA",
+          "brandKey": "focus-v",
+          "modelKey": "atomizer-intelli-core-max",
+          "modelSlug": "intelli-core-max",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 0.833,
+      "members": [
+        {
+          "id": 5489,
+          "name": "Pipa Top Smoke Pocket Travel | PIRANHA",
+          "brandKey": "top-smoke",
+          "modelKey": "pipe-pipa-pocket-travel",
+          "modelSlug": "pocket-travel",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10202,
+          "name": "Pipa Top Smoke Pocket | PIRANHA",
+          "brandKey": "top-smoke",
+          "modelKey": "pipe-pipa-pocket",
+          "modelSlug": "pocket",
+          "stores": 3,
+          "offers": 3
+        }
+      ]
+    },
+    {
+      "reason": "titulo casi identico",
+      "sim": 0.833,
+      "members": [
+        {
+          "id": 10453,
+          "name": "Calvo Glass Batería Cartridge 510",
+          "brandKey": "calvo",
+          "modelKey": "bateria-cartridge-510",
+          "modelSlug": "bateria-cartridge-510",
+          "stores": 3,
+          "offers": 3
+        },
+        {
+          "id": 10531,
+          "name": "Calvo Glass Batería LED Cartridge 510",
+          "brandKey": "calvo",
+          "modelKey": "bateria-led-cartridge-510",
+          "modelSlug": "bateria-led-cartridge-510",
+          "stores": 2,
+          "offers": 2
+        }
+      ]
+    }
+  ]
+}

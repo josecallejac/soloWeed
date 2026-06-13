@@ -1,0 +1,34 @@
+﻿Productos objetivo (2-3 tiendas): 567 | huerfanas en stock: 1562 | umbral 0.58
+
+=== 147 candidatos sobre 95 productos ===
+Por destino:  hacia 4 tiendas: 13 | hacia 3 tiendas: 124 | hacia 2 tiendas: 10
+Por confianza: alta (>=0.75): 20 | media (0.66-0.75): 56 | baja (<0.66): 71
+
+Top 25:
+  1.24 | ->3t astrogrowshop | Accesorios de extraccion | seed: Calvo Glass Banger Full Weld Thin Slurper - Macho 14mm ($19990) <- offer 12343: Banger Slurper Full Weld 14 Mm ($20990)
+  1.24 | ->3t astrogrowshop | Accesorios de extraccion | seed: Calvo Glass Banger Full Weld Big Slurper - Macho 14mm ($19990) <- offer 12343: Banger Slurper Full Weld 14 Mm ($20990)
+  0.98 | ->2t piranha | Limpieza | seed: Limpiador De Resina 250Ml Formula Secreta 710 ($5990) <- offer 15645: Kit limpiador de bongs Fórmula Secreta 420 250mL ($4990)
+  0.95 | ->2t fumetas | Vaporizadores electronicos | seed: Vaporizador Mini 2200 -Oxbar ($9990) <- offer 20109: Oxbar Mini Vaporizadores desechable 2200 Puffs ($8990)
+  0.89 | ->2t piranha | Limpieza | seed: LIMPIADOR DE VAPO 250ML FORMULA SECRETA ($4890) <- offer 15645: Kit limpiador de bongs Fórmula Secreta 420 250mL ($4990)
+  0.89 | ->2t piranha | Limpieza | seed: Limpiador Bong Manzana 100Ml Formula Secreta 420 ($5490) <- offer 15645: Kit limpiador de bongs Fórmula Secreta 420 250mL ($4990)
+  0.89 | ->3t growbarato | Papelillos | seed: Papelillo Alfalfa King Size Lion Rolling Circus | PIRANHA ($1390) <- offer 11587: Lion Silver King Size de Lion Rolling Circus ($1300)
+  0.89 | ->3t growbarato | Papelillos | seed: Papelillo Alfalfa King Size Lion Rolling Circus | PIRANHA ($1390) <- offer 11588: Unbleach King Size de Lion Rolling Circus ($1300)
+  0.86 | ->2t piranha | Limpieza | seed: Bonglab Limpiador Glass Cleaner 250 ml ($7590) <- offer 15800: Glass Cleaner (30mL/250mL/500mL/1L) ($6990)
+  0.84 | ->3t astrogrowshop | Repuestos para bongs y vaporizadores | seed: Calvo Glass Quemador Perlas - Macho 14mm ($6490) <- offer 12380: Quemador Pyrex Abeja Macho 14Mm ($8490)
+  0.83 | ->3t piranha | Vaporizadores herbales | seed: Storz &amp; Bickel Vaporizador Volcano Classic Gold 24K ($499990) <- offer 11119: Vaporizador Volcano Classic Evergreen Edition | PIRANHA ($348292)
+  0.82 | ->3t piranha | Accesorios de extraccion | seed: Flat Bucket Banger 90° 14mm | Calvo Glass de Cuarzo Durabili ($9700) <- offer 15802: Bucket Banger 14mm ($13990)
+  0.81 | ->3t piranha | Repuestos para bongs y vaporizadores | seed: Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) ($3790) <- offer 15788: Difusor Bonglab 14mm/14cm | PIRANHA ($4990)
+  0.8 | ->2t piranha | Limpieza | seed: Bonglab Limpiador Glass Cleaner 500 ml ($10990) <- offer 15800: Glass Cleaner (30mL/250mL/500mL/1L) ($6990)
+  0.79 | ->3t fumetas | Bongs | seed: Prisma Clear-Bonglab ($16990) <- offer 19862: Bonglab Polera Prisma ($21990)
+  0.79 | ->3t piranha | Repuestos para bongs y vaporizadores | seed: Storz &amp; Bickel Boquillas de Mighty/Crafty - 4 unidades ($13990) <- offer 16026: Mighty Juego de Boquillas ($13900)
+  0.79 | ->3t piranha | Repuestos para bongs y vaporizadores | seed: Storz &amp; Bickel Boquillas de Mighty/Crafty - 4 unidades ($13990) <- offer 16028: Crafty Juego de Boquillas ($13900)
+  0.79 | ->3t astrogrowshop | Filtros y boquillas | seed: Sploofy Pro Filtro De Aire Personal ($27900) <- offer 18024: Filtro Personal Pro II -Sploofy ($34990)
+  0.78 | ->3t fumetas | Conos y blunts | seed: Blunt Hemp Wrap Terpenes Rolling Stones Berry Gelato- Lion R ($1390) <- offer 20229: LRC Blunt Hemp Wraps Terpenes x2 - Sabores ($1490)
+  0.76 | ->3t fumetas | Bongs | seed: Space Opera Rig Ambar-Calvo Glass ($56990) <- offer 13213: Calvo G l a s s Bong Space Horn Rig 21cm ($39990)
+  0.74 | ->4t astrogrowshop | Bongs | seed: Bong Recto Percolador Árbol 42cm de Calvo Glass ($70000) <- offer 12521: Rig Con Percolador De Arbol -Calvo Glass ($69990)
+  0.72 | ->3t piranha | Accesorios de extraccion | seed: Flat Bucket Banger 90° 14mm | Calvo Glass de Cuarzo Durabili ($9700) <- offer 15642: Banger Premium Base Plana 14mm ($13990)
+  0.72 | ->3t fumetas | Repuestos para bongs y vaporizadores | seed: Juego De Mallas Normales Solid Valve-Storz &amp; Bickel ($11990) <- offer 20226: Storz &amp; Bickel Juego de Mallas Finas Solid Valve ($6990)
+  0.7 | ->3t piranha | Repuestos para bongs y vaporizadores | seed: Storz &amp; Bickel Estuche Case Crafty (+) - Anti-olor ($19990) <- offer 16028: Crafty Juego de Boquillas ($13900)
+  0.7 | ->3t piranha | Repuestos para bongs y vaporizadores | seed: Storz &amp; Bickel Estuche Case Crafty (+) - Anti-olor ($19990) <- offer 16175: Crafty Kit de Repuestos ($29742)
+
+Reportes: reports/store-upgrades.json + .csv

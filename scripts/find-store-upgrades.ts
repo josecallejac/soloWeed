@@ -21,6 +21,13 @@ import { scoreSuggestion, type ReviewOfferInput } from "../src/lib/matching";
 const MIN_SCORE = Number(process.env.UPGRADE_MIN_SCORE ?? "0.62");
 const PRICE_BAND = Number(process.env.UPGRADE_PRICE_BAND ?? "0.5"); // +-50% del precio del seed
 const TOP_PER_PRODUCT = Number(process.env.UPGRADE_TOP ?? "3");
+// Niveles de producto a incluir como objetivo (los de 4 estan congelados).
+const LEVELS = new Set(
+  (process.env.UPGRADE_LEVELS ?? "2,3")
+    .split(",")
+    .map((n) => Number(n.trim()))
+    .filter((n) => n >= 1 && n <= 3),
+);
 const CATEGORY_FILTER = new Set(
   (process.env.UPGRADE_CATEGORIES ?? "")
     .split(",")
@@ -81,7 +88,7 @@ async function main() {
   const targets = products.filter((p) => {
     if (CATEGORY_FILTER.size && !CATEGORY_FILTER.has(p.category)) return false;
     const n = new Set(p.offers.map((o) => o.storeId)).size;
-    return n === 2 || n === 3;
+    return LEVELS.has(n);
   });
 
   // Indice de huerfanas por tienda+categoria para acotar la busqueda.
@@ -157,13 +164,14 @@ async function main() {
   // Resumen por nivel destino y banda de score.
   const to4 = candidates.filter((c) => c.wouldBe === 4).length;
   const to3 = candidates.filter((c) => c.wouldBe === 3).length;
+  const to2 = candidates.filter((c) => c.wouldBe === 2).length;
   const high = candidates.filter((c) => c.score >= 0.75).length;
   const mid = candidates.filter((c) => c.score >= 0.66 && c.score < 0.75).length;
   const low = candidates.filter((c) => c.score < 0.66).length;
   const uniqueProducts = new Set(candidates.map((c) => c.productId)).size;
 
   console.log(`\n=== ${candidates.length} candidatos sobre ${uniqueProducts} productos ===`);
-  console.log(`Por destino:  hacia 4 tiendas: ${to4} | hacia 3 tiendas: ${to3}`);
+  console.log(`Por destino:  hacia 4 tiendas: ${to4} | hacia 3 tiendas: ${to3} | hacia 2 tiendas: ${to2}`);
   console.log(`Por confianza: alta (>=0.75): ${high} | media (0.66-0.75): ${mid} | baja (<0.66): ${low}`);
   console.log(`\nTop 25:`);
   for (const c of candidates.slice(0, 25)) {
