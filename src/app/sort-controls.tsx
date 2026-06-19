@@ -47,9 +47,9 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-black uppercase tracking-[0.14em] text-black/45">Ordenar</span>
+        <span className="text-xs font-black uppercase tracking-[0.14em] text-zinc-500 dark:text-white/40 font-mono">Ordenar</span>
         <select
-          className="rounded-2xl border border-black/10 px-3 py-2 text-sm font-bold"
+          className="rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] px-3 py-2 text-sm font-bold text-zinc-900 dark:text-white focus:border-[#C0FF00] focus:ring-1 focus:ring-[#C0FF00] font-mono transition-colors"
           onChange={(e) => handleSortChange(e.target.value)}
           value={sort}
         >
@@ -61,11 +61,11 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
         </select>
       </div>
       <form className="flex flex-wrap items-center gap-2" onSubmit={handlePriceSubmit}>
-        <span className="text-xs font-black uppercase tracking-[0.14em] text-black/45">Precio</span>
-        <input className="w-28 rounded-2xl border border-black/10 px-3 py-2 text-sm font-bold" defaultValue={minPrice} name="minPrice" placeholder="Min $" type="number" min="0" />
-        <span className="text-sm text-black/30">—</span>
-        <input className="w-28 rounded-2xl border border-black/10 px-3 py-2 text-sm font-bold" defaultValue={maxPrice} name="maxPrice" placeholder="Max $" type="number" min="0" />
-        <button className="rounded-2xl bg-[#bddf57] px-4 py-2 text-xs font-black uppercase tracking-[0.12em]" type="submit">
+        <span className="text-xs font-black uppercase tracking-[0.14em] text-zinc-500 dark:text-white/40 font-mono">Precio</span>
+        <input className="w-28 rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] px-3 py-2 text-sm font-bold text-zinc-900 dark:text-white focus:border-[#C0FF00] focus:ring-1 focus:ring-[#C0FF00] font-mono placeholder:text-zinc-400 dark:placeholder:text-white/30 transition-colors" defaultValue={minPrice} name="minPrice" placeholder="Min $" type="number" min="0" />
+        <span className="text-sm text-zinc-400 dark:text-white/30">—</span>
+        <input className="w-28 rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] px-3 py-2 text-sm font-bold text-zinc-900 dark:text-white focus:border-[#C0FF00] focus:ring-1 focus:ring-[#C0FF00] font-mono placeholder:text-zinc-400 dark:placeholder:text-white/30 transition-colors" defaultValue={maxPrice} name="maxPrice" placeholder="Max $" type="number" min="0" />
+        <button className="rounded-lg bg-[#C0FF00] px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-black hover:bg-[#d4ff33] transition-colors font-mono" type="submit">
           Aplicar
         </button>
       </form>

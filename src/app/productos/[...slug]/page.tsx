@@ -138,20 +138,20 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
   };
 
   return (
-    <main className="min-h-screen bg-[#f4f1e8] text-[#17150f]">
+    <main className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="relative overflow-hidden border-b border-black/10 bg-[#17150f] text-[#f8f4df]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,#bddf57_0,transparent_30%),radial-gradient(circle_at_78%_18%,#7f5af0_0,transparent_24%)] opacity-35" />
+      <section className="relative overflow-hidden border-b border-black/10 dark:border-white/10 bg-white dark:bg-[#09090b] text-zinc-900 dark:text-white transition-colors duration-300">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,#C0FF00_0,transparent_20%),radial-gradient(circle_at_78%_18%,#39FF14_0,transparent_20%)] opacity-20 pointer-events-none" />
         <div className="relative mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:px-10">
           <SiteHeader subtitle="Comparador" trailing={<BackLink />} />
 
           <div className="grid gap-8 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div className="rounded-[2.5rem] border border-[#f8f4df]/15 bg-[#f8f4df] p-4 text-[#17150f] shadow-[14px_14px_0_#000]">
-              <div className="grid min-h-80 place-items-center overflow-hidden rounded-[2rem] bg-[#eee6d0]">
+            <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 text-zinc-900 dark:text-white shadow-xl dark:shadow-[0_0_30px_rgba(192,255,0,0.1)] transition-colors duration-300">
+              <div className="grid min-h-80 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 relative group transition-colors">
                 {imageUrl ? (
                   <img alt={product.name} className="max-h-[420px] w-full object-contain p-6" src={imageUrl} />
                 ) : (
-                  <div className="grid size-full min-h-80 place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-6xl font-black">
+                  <div className="grid size-full min-h-80 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-6xl font-black text-white dark:text-black opacity-50 font-mono">
                     SW
                   </div>
                 )}
@@ -160,11 +160,11 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
 
             <div>
               <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-[#bddf57] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#17150f]">
+                <span className="rounded bg-[#C0FF00] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-black font-mono transition-colors">
                   {product.category}
                 </span>
                 {product.brand ? (
-                  <span className="rounded-full border border-[#f8f4df]/20 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#f8f4df]/80">
+                  <span className="rounded border border-black/20 dark:border-white/20 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-zinc-600 dark:text-white/80 font-mono transition-colors">
                     {product.brand}
                   </span>
                 ) : null}
@@ -175,7 +175,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
               </h1>
 
               {description ? (
-                <p className="mt-5 max-w-2xl text-base leading-7 text-[#f8f4df]/70 sm:text-lg">
+                <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-600 dark:text-white/70 sm:text-lg transition-colors">
                   {description}
                 </p>
               ) : null}
@@ -192,8 +192,8 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
 
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[320px_1fr] lg:px-10">
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
-          <div className="rounded-[2rem] border border-black/10 bg-white p-5 shadow-[8px_8px_0_#17150f]">
-            <h2 className="text-xl font-black">Cobertura por growshop</h2>
+          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 shadow-xl dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300">
+            <h2 className="text-xl font-black font-mono text-zinc-900 dark:text-white/90 uppercase tracking-widest transition-colors">Cobertura por growshop</h2>
             <div className="mt-5 space-y-3">
               {storePrices.map((row) => (
                 <StoreStatusRow key={row.store.id} row={row} />
@@ -201,8 +201,8 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-black/10 bg-[#d8c8ff] p-5">
-            <h2 className="text-lg font-black">Datos del catalogo</h2>
+          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 transition-colors duration-300">
+            <h2 className="text-lg font-black font-mono text-zinc-900 dark:text-white/90 uppercase tracking-widest transition-colors">Datos del catalogo</h2>
             <dl className="mt-4 space-y-3 text-sm">
               <SummaryCard label="Producto" value={`#${product.id}`} variant="light" />
               <SummaryCard label="Actualizado" value={formatDateTime(product.updatedAt)} variant="light" />
@@ -216,14 +216,14 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
         <section>
           <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-black/45">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono transition-colors">
                 Todos los growshops incorporados
               </p>
-              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl">
+              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
                 Visual de precios por tienda
               </h2>
             </div>
-              <p className="max-w-md text-sm leading-6 text-black/55">
+              <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-white/50 transition-colors">
               Mostramos solo growshops con una oferta asociada. La cobertura completa queda resumida en el panel lateral.
             </p>
           </div>
@@ -260,34 +260,34 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       {relatedProducts.length > 0 ? (
         <section className="mx-auto w-full max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
           <div className="mb-5">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-black/45">Sigue comparando</p>
-            <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono transition-colors">Sigue comparando</p>
+            <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
               Otras comparaciones de {product.category.toLowerCase()}
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {relatedProducts.map((related) => (
               <Link
-                className="group flex flex-col gap-3 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group flex flex-col gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 transition hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_0_15px_rgba(192,255,0,0.15)] hover:border-[#C0FF00]/50 duration-300"
                 href={productPath(related.brandKey, related.modelSlug)}
                 key={related.id}
               >
-                <div className="grid h-40 place-items-center overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
+                <div className="grid h-40 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 transition-colors group-hover:bg-black/10 dark:hover:bg-white/10">
                   {related.imageUrl ? (
                     <img alt={related.name} className="max-h-36 w-full object-contain p-3" src={related.imageUrl} />
                   ) : (
-                    <div className="grid size-full place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-3xl font-black">
+                    <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-white dark:text-black opacity-50 font-mono">
                       SW
                     </div>
                   )}
                 </div>
-                <span className="self-start rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
+                <span className="self-start rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-bold text-zinc-600 dark:text-white/60 font-mono transition-colors">
                   {related.storeCount} tiendas
                 </span>
-                <h3 className="text-base font-black leading-tight tracking-[-0.02em] group-hover:underline">
+                <h3 className="text-base font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white group-hover:text-[#C0FF00] transition-colors">
                   {related.name}
                 </h3>
-                <p className="mt-auto text-lg font-black tracking-[-0.03em]">
+                <p className="mt-auto text-lg font-black tracking-[-0.03em] text-[#C0FF00] transition-colors">
                   {related.minPrice > 0 ? `Desde ${formatPrice(related.minPrice)}` : "Sin stock detectado"}
                 </p>
               </Link>

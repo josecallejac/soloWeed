@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CoverageBadge } from "./coverage-badge";
-import { formatDate, formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 
 export type OfferCardItem = {
   brand: string | null;
@@ -40,93 +40,102 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
   const storeSavings = offer.storeCount > 1 && offer.minPrice > 0 ? offer.maxPrice - offer.minPrice : 0;
 
   return (
-    <article className="grid min-w-0 gap-4 rounded-[2rem] border border-black/10 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:grid-cols-[160px_minmax(0,1fr)]">
-      <div className="relative min-h-44 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
+    <article className="group grid min-w-0 gap-5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#121214] p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:border-[#C0FF00]/40 hover:bg-zinc-50 dark:hover:bg-[#18181b] hover:shadow-[0_8px_30px_rgba(192,255,0,0.12)] sm:grid-cols-[180px_minmax(0,1fr)]">
+      {/* Image container */}
+      <div className="relative min-h-48 overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/[0.02] transition-colors duration-300 group-hover:bg-zinc-50 dark:group-hover:bg-white/[0.04]">
         {offer.imageUrl ? (
           <Image
             alt={offer.title}
-            className="h-full w-full object-contain p-3"
+            className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
             src={offer.imageUrl}
             unoptimized
             fill
           />
         ) : (
-          <div className="grid h-full place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-4xl font-black">
+          <div className="grid h-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_70%)] text-4xl font-black text-black opacity-20 transition-opacity duration-300 group-hover:opacity-40">
             SW
           </div>
         )}
-        <span className="absolute left-3 top-3 rounded-full bg-[#17150f] px-3 py-1 text-xs font-black text-[#f8f4df]">
+        <span className="absolute left-3 top-3 rounded-md bg-white/90 dark:bg-[#09090b]/90 px-2.5 py-1 text-[10px] font-black tracking-widest text-zinc-500 dark:text-white/70 font-mono border border-black/10 dark:border-white/10 backdrop-blur-md">
           #{rank}
         </span>
       </div>
 
-      <div className="flex min-w-0 flex-col gap-3">
-        <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-[#bddf57] px-3 py-1 text-xs font-black uppercase tracking-[0.12em]">
-            {offer.category}
-          </span>
+      <div className="flex min-w-0 flex-col py-1">
+        {/* Meta / Tags Row */}
+        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] font-bold uppercase tracking-widest font-mono text-zinc-500 dark:text-white/50">
+          <span className="text-[#C0FF00]">{offer.category}</span>
+          {offer.brand && (
+            <>
+              <span className="h-1 w-1 rounded-full bg-black/20 dark:bg-white/20" />
+              <span>{offer.brand}</span>
+            </>
+          )}
           {offer.product ? (
-            <CoverageBadge storeCount={offer.storeCount} totalStores={offer.totalStores} />
-          ) : null}
-          {offer.offerCount > 1 ? (
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/60">
-              {offer.offerCount} opciones
-            </span>
-          ) : null}
-          {!offer.inStock ? (
-            <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-black text-red-700">
-              Sin stock detectado
-            </span>
+            <div className="ml-auto flex items-center">
+              <CoverageBadge storeCount={offer.storeCount} totalStores={offer.totalStores} />
+            </div>
           ) : null}
         </div>
 
-        <h3 className="text-xl font-black leading-tight tracking-[-0.02em]">{offer.title}</h3>
-        <p className="text-sm text-black/55">
-          {offer.brand ? `${offer.brand} · ` : ""}
-          Actualizado {formatDate(offer.lastSeenAt)}
-        </p>
+        {/* Title */}
+        <h3 className="mb-4 text-xl font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white/90 transition-colors duration-300 group-hover:text-black dark:group-hover:text-white line-clamp-2">
+          {offer.title}
+        </h3>
+        
+        {!offer.inStock ? (
+          <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-md border border-orange-500/30 bg-orange-500/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-orange-600 dark:text-[#FF9900] font-mono">
+            <span className="h-1.5 w-1.5 rounded-full bg-orange-500 dark:bg-[#FF9900] animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]" />
+            Sin stock detectado
+          </div>
+        ) : null}
 
-        <div className="mt-auto flex min-w-0 flex-col gap-3">
-          <div className="min-w-0">
-            <div className="flex min-w-0 flex-wrap items-center gap-2">
-              <span className="text-3xl font-black tracking-[-0.05em]">
+        {/* Pricing & Actions */}
+        <div className="mt-auto flex min-w-0 flex-col gap-4">
+          <div className="flex flex-col min-w-0 gap-1">
+            <div className="flex flex-wrap items-baseline gap-3">
+              <span className="text-3xl font-black tracking-tighter text-zinc-900 dark:text-white">
                 {offer.minPrice > 0 ? formatPrice(offer.minPrice) : "Sin precio"}
               </span>
               {offer.maxPrice > offer.minPrice && offer.minPrice > 0 ? (
-                <span className="text-sm font-bold text-black/45">hasta {formatPrice(offer.maxPrice)}</span>
+                <span className="text-sm font-medium text-zinc-500 dark:text-white/40">hasta {formatPrice(offer.maxPrice)}</span>
               ) : null}
-              {storeSavings > 0 ? (
-                <span className="rounded-full bg-[#17150f] px-2 py-1 text-xs font-black text-[#bddf57]">
-                  Ahorra {formatPrice(storeSavings)}
-                </span>
-              ) : null}
-              {discount > 0 ? (
-                <span className="rounded-full bg-[#7f5af0] px-2 py-1 text-xs font-black text-white">-{discount}%</span>
-              ) : null}
+              <div className="flex gap-2 ml-auto">
+                  {discount > 0 ? (
+                    <span className="rounded-md bg-purple-100 dark:bg-[#7f5af0]/20 border border-purple-200 dark:border-[#7f5af0]/30 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-purple-700 dark:text-[#7f5af0] font-mono">-{discount}%</span>
+                  ) : null}
+                  {storeSavings > 0 ? (
+                    <span className="rounded-md bg-[#C0FF00]/20 border border-[#C0FF00]/30 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-black dark:text-[#C0FF00] font-mono">
+                      Ahorra {formatPrice(storeSavings)}
+                    </span>
+                  ) : null}
+              </div>
             </div>
             {hasDiscount ? (
-              <span className="text-sm font-semibold text-black/40 line-through">
+              <span className="text-sm font-semibold text-zinc-400 dark:text-white/30 line-through decoration-black/20 dark:decoration-white/20 decoration-2">
                 {formatPrice(offer.originalPrice!)}
               </span>
             ) : null}
           </div>
-          <div className={`grid w-full min-w-0 gap-2 ${offer.product ? "grid-cols-2" : "grid-cols-1"}`}>
-            {offer.product?.brandKey && offer.product.modelSlug ? (
+
+          <div className="grid w-full min-w-0 gap-2 grid-cols-1">
+            {offer.product?.brandKey && offer.product.modelSlug && offer.storeCount > 1 ? (
               <Link
-                className="min-w-0 rounded-2xl bg-[#bddf57] px-4 py-3 text-center text-sm font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]"
+                className="flex items-center justify-center min-w-0 rounded-lg bg-[#C0FF00] px-2 py-3 text-center text-sm font-black text-[#09090b] transition-all hover:-translate-y-0.5 hover:bg-[#d4ff33] hover:shadow-[0_0_20px_rgba(192,255,0,0.4)] uppercase tracking-[0.1em] font-mono"
                 href={`/productos/${offer.product.brandKey}/${offer.product.modelSlug}`}
               >
-                Comparar
+                Comparar {offer.storeCount} opciones
               </Link>
-            ) : null}
-            <a
-              className="min-w-0 rounded-2xl bg-[#17150f] px-4 py-3 text-center text-sm font-black text-[#f8f4df] transition hover:bg-black"
-              href={offer.url}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Ir a tienda
-            </a>
+            ) : (
+              <a
+                className="flex items-center justify-center min-w-0 rounded-lg px-2 py-3 text-center text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-white/80 hover:-translate-y-0.5 hover:border-[#C0FF00]/50 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-[#C0FF00]"
+                href={offer.url}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Ir a tienda
+              </a>
+            )}
           </div>
         </div>
       </div>

@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,9 +41,12 @@ export default function RootLayout({
     <html
       lang="es-CL"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col">
-        {children}
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-white dark:bg-[#09090b]">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #f4f1e8;
-  --foreground: #17150f;
+  --background: #ffffff;
+  --foreground: #09090b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b;
+    --foreground: #fafafa;
+  }
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
 }
 
 @theme inline {
@@ -10,6 +24,34 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 15px rgba(192, 255, 0, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 25px rgba(192, 255, 0, 0.4);
+    }
+  }
+}
+
+.light {
+  --background: #ffffff;
+  --foreground: #09090b;
 }
 
 body {
@@ -19,6 +61,6 @@ body {
 }
 
 ::selection {
-  background: #bddf57;
-  color: #17150f;
+  background: #C0FF00;
+  color: #000000;
 }

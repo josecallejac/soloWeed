@@ -11,6 +11,7 @@
     "scrape": "tsx scripts/scrape.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
     "match:image": "tsx scripts/match-by-image.ts",
+    "match:embedding": "tsx scripts/match-by-embedding.ts",
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
@@ -24,8 +25,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "@xenova/transformers": "^2.17.2",
     "cheerio": "^1.0.0",
     "next": "16.2.6",
+    "next-themes": "^0.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },

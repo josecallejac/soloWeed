@@ -1,0 +1,34 @@
+[
+  {
+    "category": "Repuestos para bongs y vaporizadores",
+    "orphanId": 12916,
+    "targetProductId": 6020,
+    "sim": 0.9891,
+    "titleO": "Quemador Transparente - Macho 14mm/18mm",
+    "titleP": "QUEMADOR BONG MACHO 14MM- Bonglab"
+  },
+  {
+    "category": "Papelillos",
+    "orphanId": 12268,
+    "targetProductId": 10066,
+    "sim": 0.9831,
+    "titleO": "Papelillo Purple King Size Slim 50U-Blazy Susan",
+    "titleP": "Blazy Susan Papelillos King Size Purple"
+  },
+  {
+    "category": "Encendedores y sopletes",
+    "orphanId": 2523,
+    "targetProductId": 5724,
+    "sim": 0.9805,
+    "titleO": "Encendedor Jet Flame Jet Horror Zoo 24U- Clipper",
+    "titleP": "Encendedor Clipper Jet Flame Horror Zoo"
+  },
+  {
+    "category": "Encendedores y sopletes",
+    "orphanId": 812,
+    "targetProductId": 5724,
+    "sim": 0.9759,
+    "titleO": "Encendedor Jet Flame Jet Cozy Skull 24U- Clipper",
+    "titleP": "Encendedor Clipper Jet Flame CozySkulls"
+  }
+]

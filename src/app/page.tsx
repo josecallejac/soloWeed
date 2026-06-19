@@ -4,7 +4,6 @@ import { StoreFilters } from "./store-filters";
 import { OfferCard } from "@/components/offer-card";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { StatsPanel } from "@/components/stats-panel";
 import { EmptyState } from "@/components/empty-state";
 import {
   BRAND_MODEL_MATCH_CATEGORIES,
@@ -102,40 +101,52 @@ export default async function Home({ searchParams }: HomeProps) {
   const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page });
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#f4f1e8] text-[#17150f]">
-      <section className="relative border-b border-black/10 bg-[#17150f] text-[#f8f4df]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#bddf57_0,transparent_34%),radial-gradient(circle_at_80%_20%,#7f5af0_0,transparent_26%)] opacity-35" />
+    <main className="min-h-screen overflow-hidden bg-white dark:bg-[#09090b] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300">
+      <section className="relative border-b border-black/10 dark:border-white/10 bg-white dark:bg-[#09090b] text-zinc-900 dark:text-white transition-colors duration-300">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#C0FF00_0,transparent_20%),radial-gradient(circle_at_80%_20%,#39FF14_0,transparent_20%)] opacity-20 pointer-events-none" />
         <div className="relative mx-auto flex min-h-[520px] w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
           <SiteHeader subtitle="Compara parafernalia" />
 
-          <div className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p className="mb-5 inline-flex rounded-full bg-[#bddf57] px-4 py-2 text-sm font-black uppercase tracking-[0.18em] text-[#17150f]">
-                Catalogo variado de ofertas
-              </p>
-              <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.06em] sm:text-7xl lg:text-8xl">
-                Compara parafernalia y encuentra mejores ofertas.
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#f8f4df]/75 sm:text-xl">
-                Reunimos bongs, pipas, moledores, papelillos, contenedores,
-                y vaporizadores herbales para ayudarte a elegir entre opciones del mercado chileno.
-              </p>
-
-              <form className="mt-8 grid gap-3 rounded-[2rem] border border-[#f8f4df]/15 bg-[#f8f4df]/10 p-3 shadow-2xl backdrop-blur md:grid-cols-[1fr_auto]">
+          <div className="flex flex-col items-center justify-center py-24 w-full max-w-4xl mx-auto text-center gap-16">
+            <div className="w-full animate-fade-in-up" style={{ animationDelay: "0ms", opacity: 0 }}>
+              <form className="grid gap-3 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-[#18181b]/60 p-4 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20 focus-within:border-[#C0FF00]/50 focus-within:shadow-[0_0_40px_rgba(192,255,0,0.15)] md:grid-cols-[1fr_auto]">
                 <input
-                  className="min-h-14 rounded-[1.4rem] border border-transparent bg-[#f8f4df] px-5 text-base font-semibold text-[#17150f] outline-none placeholder:text-[#17150f]/45 focus:border-[#bddf57]"
+                  className="min-h-[72px] rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 text-lg sm:text-xl font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-[#C0FF00] focus:ring-2 focus:ring-[#C0FF00]/20 font-mono transition-all"
                   name="q"
-                  placeholder="Busca RAW, Bonglab, moledor, vaporizador..."
+                  placeholder="Busca bongs, moledores, RAW, vaporizadores..."
                   defaultValue={query}
                 />
                 {selectedCategory ? <input name="category" type="hidden" value={selectedCategory} /> : null}
-                <button className="min-h-14 rounded-[1.4rem] bg-[#bddf57] px-7 text-base font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]">
+                <button className="min-h-[72px] rounded-2xl bg-[#C0FF00] px-10 text-lg font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-[#d4ff33] hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
                   Buscar ofertas
                 </button>
               </form>
             </div>
 
-            <StatsPanel data={data} />
+            <div className="w-full animate-fade-in-up" style={{ animationDelay: "150ms", opacity: 0 }}>
+              {data.dbReady && (data.coverage.full > 0 || data.coverage.high > 0 || data.coverage.mid > 0) ? (
+                <div className="grid grid-cols-3 divide-x divide-black/10 dark:divide-white/10 border-y border-black/10 dark:border-white/10 py-10">
+                  <div className="flex flex-col items-center justify-center px-2 sm:px-6 transition-transform hover:scale-105">
+                    <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
+                      {data.coverage.full > 0 ? data.coverage.full : "—"}
+                    </span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">Cobertura<br className="sm:hidden" /> Total</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center px-2 sm:px-6 transition-transform hover:scale-105">
+                    <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
+                      {data.coverage.high > 0 ? data.coverage.high : "—"}
+                    </span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">En 3<br className="sm:hidden" /> Tiendas</span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center px-2 sm:px-6 transition-transform hover:scale-105">
+                    <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
+                      {data.coverage.mid > 0 ? data.coverage.mid : "—"}
+                    </span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">En 2<br className="sm:hidden" /> Tiendas</span>
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </section>
@@ -154,19 +165,19 @@ export default async function Home({ searchParams }: HomeProps) {
             maxPrice={params.maxPrice ?? ""}
           />
 
-          <div className="rounded-[2rem] border border-black/10 bg-[#d8c8ff] p-5">
-            <h2 className="text-lg font-black">Visitar tiendas</h2>
+          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
+            <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Visitar tiendas</h2>
             <div className="mt-4 space-y-3">
               {data.stores.map((store) => (
                 <a
-                  className="block rounded-2xl bg-white/70 px-4 py-3 text-sm font-bold transition hover:bg-white"
+                  className="block rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 text-sm font-bold text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-[#C0FF00]/50 border border-transparent"
                   href={store.baseUrl}
                   key={store.slug}
                   rel="noreferrer"
                   target="_blank"
                 >
                   {store.name}
-                  <span className="block text-xs font-medium text-black/55">{store.platform}</span>
+                  <span className="block text-xs font-medium text-zinc-500 dark:text-white/40 font-mono uppercase tracking-wider mt-1">{store.platform}</span>
                 </a>
               ))}
             </div>
@@ -176,19 +187,19 @@ export default async function Home({ searchParams }: HomeProps) {
         <section>
           <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-black/45">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono">
                 {data.dbReady ? "Catalogo actualizado" : "Base de datos pendiente"}
               </p>
-              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl">
+              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white">
                 Comparaciones encontradas
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-6 text-black/55">
+            <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-white/50">
               Solo mostramos productos disponibles en 2 o más tiendas. Confirma stock y despacho en la tienda original.
             </p>
           </div>
 
-          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-[2rem] border border-black/10 bg-white p-3">
+          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-3 shadow-sm dark:shadow-none transition-colors duration-300">
             <SortControls
               sort={sort}
               minPrice={params.minPrice ?? ""}
@@ -208,32 +219,32 @@ export default async function Home({ searchParams }: HomeProps) {
               </div>
 
               {data.totalPages > 1 ? (
-                <div className="mt-8 flex items-center justify-between rounded-[2rem] border border-black/10 bg-white p-4">
+                <div className="mt-8 flex items-center justify-between rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-4 shadow-sm dark:shadow-none transition-colors duration-300">
                   <div>
                     {data.page > 1 ? (
                       <a
-                        className="rounded-2xl bg-[#17150f] px-5 py-3 text-sm font-black text-[#f8f4df] transition hover:bg-black"
+                        className="rounded-lg bg-black/5 dark:bg-white/10 px-5 py-3 text-sm font-black text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/20 hover:text-[#C0FF00] font-mono"
                         href={buildPageUrl(data.page - 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         ← Anterior
                       </a>
                     ) : (
-                      <span className="rounded-2xl bg-black/5 px-5 py-3 text-sm font-bold text-black/25">← Anterior</span>
+                      <span className="rounded-lg bg-black/5 dark:bg-white/5 px-5 py-3 text-sm font-bold text-zinc-400 dark:text-white/20 font-mono">← Anterior</span>
                     )}
                   </div>
-                  <span className="text-sm font-bold text-black/45">
+                  <span className="text-sm font-bold text-zinc-500 dark:text-white/40 font-mono uppercase">
                     Pagina {data.page} de {data.totalPages}
                   </span>
                   <div>
                     {data.page < data.totalPages ? (
                       <a
-                        className="rounded-2xl bg-[#17150f] px-5 py-3 text-sm font-black text-[#f8f4df] transition hover:bg-black"
+                        className="rounded-lg bg-black/5 dark:bg-white/10 px-5 py-3 text-sm font-black text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/20 hover:text-[#C0FF00] font-mono"
                         href={buildPageUrl(data.page + 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         Siguiente →
                       </a>
                     ) : (
-                      <span className="rounded-2xl bg-black/5 px-5 py-3 text-sm font-bold text-black/25">Siguiente →</span>
+                      <span className="rounded-lg bg-black/5 dark:bg-white/5 px-5 py-3 text-sm font-bold text-zinc-400 dark:text-white/20 font-mono">Siguiente →</span>
                     )}
                   </div>
                 </div>

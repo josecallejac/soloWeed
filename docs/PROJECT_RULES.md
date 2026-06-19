@@ -33,6 +33,7 @@ SoloWeed es un comparador de precios de parafernalia en Chile. La app no vende p
 - El detalle de producto puede mostrar una sola oferta si esa oferta pertenece a un `Product` curado.
 - `Product` debe representar identidad clara de producto: misma marca/modelo/variante/tamano.
 - `PriceHistory` solo se agrega cuando cambia precio, precio original o stock.
+- **REGLA ESTRICTA**: Los productos que han alcanzado 4 tiendas son **ESTRICTAMENTE INTOCABLES**. Ya están verificados. No modificar sus ofertas, ni URLs ni slugs. Todo esfuerzo y algoritmo debe enfocarse exclusivamente en mejorar o agrupar productos de 1, 2 y 3 tiendas.
 
 ## No Cambiar Sin Permiso Explicito
 

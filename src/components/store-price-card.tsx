@@ -44,27 +44,27 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
 
   if (!offer) {
     return (
-      <article className="flex min-h-72 flex-col justify-between rounded-[2rem] border border-dashed border-black/20 bg-white/65 p-5">
+      <article className="flex min-h-72 flex-col justify-between rounded-xl border border-dashed border-black/20 dark:border-white/20 bg-zinc-50 dark:bg-[#18181b] p-5 transition-colors duration-300">
         <div>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-2xl font-black tracking-[-0.04em]">{store.name}</p>
-              <p className="mt-1 text-sm font-bold text-black/45">{store.platform}</p>
+              <p className="text-2xl font-black tracking-[-0.04em] text-zinc-900 dark:text-white">{store.name}</p>
+              <p className="mt-1 text-sm font-bold text-zinc-500 dark:text-white/50">{store.platform}</p>
             </div>
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-black text-black/45">No detectado</span>
+            <span className="rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-black text-zinc-500 dark:text-white/45 font-mono">No detectado</span>
           </div>
 
-          <div className="mt-8 rounded-[1.5rem] bg-[#eee6d0] p-5">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-black/40">Precio</p>
-            <p className="mt-2 text-4xl font-black tracking-[-0.06em] text-black/35">Sin dato</p>
-            <p className="mt-3 text-sm leading-6 text-black/55">
+          <div className="mt-8 rounded-lg bg-black/5 dark:bg-white/5 p-5">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-zinc-500 dark:text-white/40 font-mono">Precio</p>
+            <p className="mt-2 text-4xl font-black tracking-[-0.06em] text-zinc-400 dark:text-white/30">Sin dato</p>
+            <p className="mt-3 text-sm leading-6 text-zinc-500 dark:text-white/50">
               Todavia no hay una opcion asociada a este producto en este growshop.
             </p>
           </div>
         </div>
 
         <a
-          className="mt-5 rounded-2xl border border-black/10 px-5 py-3 text-center text-sm font-black text-[#17150f] transition hover:bg-white"
+          className="mt-5 rounded-lg border border-black/10 dark:border-white/10 px-5 py-3 text-center text-sm font-black text-zinc-900 dark:text-white transition hover:bg-black/5 dark:hover:bg-white/10 font-mono"
           href={store.baseUrl}
           rel="noreferrer"
           target="_blank"
@@ -83,15 +83,15 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
   const isSuggestedMatch = offer.productId !== productId;
 
   return (
-    <article className="rounded-[2rem] border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl">
+    <article className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 shadow-xl dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition hover:-translate-y-0.5 hover:shadow-2xl dark:hover:shadow-[0_0_20px_rgba(192,255,0,0.15)] hover:border-[#C0FF00]/50 duration-300">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-2xl font-black tracking-[-0.04em]">{store.name}</p>
-          <p className="mt-1 text-sm font-bold text-black/45">{store.platform}</p>
+          <p className="text-2xl font-black tracking-[-0.04em] text-zinc-900 dark:text-white">{store.name}</p>
+          <p className="mt-1 text-sm font-bold text-zinc-500 dark:text-white/50">{store.platform}</p>
         </div>
         <span
-          className={`rounded-full px-3 py-1 text-xs font-black ${
-            offer.inStock ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+          className={`rounded px-3 py-1 text-xs font-black font-mono transition-colors ${
+            offer.inStock ? "bg-[#C0FF00]/20 text-black dark:text-[#C0FF00] border border-[#C0FF00]/30" : "bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20 dark:border-red-500/30"
           }`}
         >
           {offer.inStock ? "Con stock" : "Sin stock"}
@@ -99,7 +99,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
       </div>
 
       <div className="mt-5 grid gap-4 sm:grid-cols-[120px_1fr]">
-        <div className="relative min-h-32 overflow-hidden rounded-[1.5rem] bg-[#eee6d0]">
+        <div className="relative min-h-32 overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 transition-colors">
           {offer.imageUrl ? (
             <Image
               alt={offer.title}
@@ -109,7 +109,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
               fill
             />
           ) : (
-            <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#bddf57,transparent_62%)] text-3xl font-black">
+            <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-white dark:text-black opacity-50 font-mono transition-colors">
               SW
             </div>
           )}
@@ -118,21 +118,21 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
         <div className="min-w-0">
           <div className="flex flex-wrap gap-2">
             {isLowest ? (
-              <span className="rounded-full bg-[#7f5af0] px-3 py-1 text-xs font-black text-white">Precio menor</span>
+              <span className="rounded bg-[#C0FF00]/20 px-3 py-1 text-xs font-black text-black dark:text-[#C0FF00] border border-[#C0FF00]/30 font-mono transition-colors">Precio menor</span>
             ) : null}
             {isSuggestedMatch ? (
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-800">Match sugerido</span>
+              <span className="rounded bg-amber-500/10 dark:bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-600 dark:text-amber-400 border border-amber-500/20 dark:border-amber-500/30 font-mono transition-colors">Match sugerido</span>
             ) : null}
             {offers.length > 1 ? (
-              <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-black text-black/55">{offers.length} opciones</span>
+              <span className="rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-black text-zinc-600 dark:text-white/55 font-mono transition-colors">{offers.length} opciones</span>
             ) : null}
             {discount > 0 ? (
-              <span className="rounded-full bg-[#bddf57] px-3 py-1 text-xs font-black text-[#17150f]">-{discount}%</span>
+              <span className="rounded bg-[#C0FF00] px-3 py-1 text-xs font-black text-black font-mono transition-colors">-{discount}%</span>
             ) : null}
           </div>
 
-          <h3 className="mt-3 text-lg font-black leading-tight tracking-[-0.02em]">{offer.title}</h3>
-          <p className="mt-2 text-sm leading-6 text-black/55">
+          <h3 className="mt-3 text-lg font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white transition-colors">{offer.title}</h3>
+          <p className="mt-2 text-sm leading-6 text-zinc-500 dark:text-white/50 transition-colors">
             {offer.sourceCategory ? `${offer.sourceCategory} · ` : ""}
             Actualizado {formatDateTime(offer.lastSeenAt)}
             {offer.availability ? ` · ${offer.availability}` : ""}
@@ -140,12 +140,12 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
         </div>
       </div>
 
-      <div className="mt-5 rounded-[1.5rem] bg-[#17150f] p-5 text-[#f8f4df]">
-        <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f8f4df]/50">Precio detectado</p>
+      <div className="mt-5 rounded-lg bg-black/5 dark:bg-black p-5 text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 transition-colors">
+        <p className="text-xs font-black uppercase tracking-[0.18em] text-zinc-500 dark:text-white/50 font-mono transition-colors">Precio detectado</p>
         <div className="mt-2 flex flex-wrap items-end gap-3">
-          <span className="text-4xl font-black tracking-[-0.06em]">{formatPrice(offer.price)}</span>
+          <span className="text-4xl font-black tracking-[-0.06em] text-[#C0FF00] transition-colors">{formatPrice(offer.price)}</span>
           {hasDiscount ? (
-            <span className="pb-1 text-sm font-semibold text-[#f8f4df]/40 line-through">{formatPrice(offer.originalPrice!)}</span>
+            <span className="pb-1 text-sm font-semibold text-zinc-400 dark:text-white/40 line-through transition-colors">{formatPrice(offer.originalPrice!)}</span>
           ) : null}
         </div>
       </div>
@@ -153,7 +153,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
       {showHistoryAsList && offer.histories.length > 1 ? (
         <div className="mt-4 flex flex-wrap gap-2">
           {offer.histories.map((history) => (
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-bold text-black/50" key={history.id}>
+            <span className="rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-bold text-zinc-500 dark:text-white/50 font-mono transition-colors" key={history.id}>
               {formatShortDate(history.recordedAt)}: {formatPrice(history.price)}
             </span>
           ))}
@@ -161,7 +161,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
       ) : null}
 
       <a
-        className="mt-5 block rounded-2xl bg-[#bddf57] px-5 py-3 text-center text-sm font-black text-[#17150f] transition hover:-translate-y-0.5 hover:bg-[#d4f36c]"
+        className="mt-5 block rounded-lg bg-[#C0FF00] px-5 py-3 text-center text-sm font-black text-black transition hover:-translate-y-0.5 hover:bg-[#d4ff33] hover:shadow-[0_0_15px_rgba(192,255,0,0.4)] font-mono"
         href={offer.url}
         rel="noreferrer"
         target="_blank"
@@ -181,14 +181,14 @@ type StoreStatusRowProps = {
 
 export function StoreStatusRow({ row }: StoreStatusRowProps) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-black/5 px-4 py-3">
+    <div className="flex items-center justify-between gap-3 rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 border border-transparent hover:border-black/10 dark:hover:border-white/10 transition-colors">
       <div className="min-w-0">
-        <p className="truncate text-sm font-black">{row.store.name}</p>
-        <p className="text-xs font-bold text-black/45">{row.store.platform}</p>
+        <p className="truncate text-sm font-black text-zinc-900 dark:text-white transition-colors">{row.store.name}</p>
+        <p className="text-xs font-bold text-zinc-500 dark:text-white/50 transition-colors">{row.store.platform}</p>
       </div>
       <span
-        className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${
-          row.offer ? "bg-[#bddf57] text-[#17150f]" : "bg-white text-black/45"
+        className={`shrink-0 rounded px-3 py-1 text-xs font-black font-mono transition-colors ${
+          row.offer ? "bg-[#C0FF00] text-black" : "bg-black/10 dark:bg-white/10 text-zinc-500 dark:text-white/40"
         }`}
       >
         {row.offer ? formatPrice(row.offer.price) : "Sin dato"}

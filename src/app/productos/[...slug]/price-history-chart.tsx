@@ -10,7 +10,7 @@ type PriceHistoryChartProps = {
   onlyOnFullCoverage?: boolean;
 };
 
-const COLORS = ["#7f5af0", "#bddf57", "#f97316", "#06b6d4"];
+const COLORS = ["#C0FF00", "#39FF14", "#FF00FF", "#00FFFF", "#FF3366"];
 
 export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: PriceHistoryChartProps) {
   // Only show for comparable products (2+ tiendas) if flag is set
@@ -71,8 +71,8 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
   }
 
   return (
-    <div className="rounded-[2rem] border border-black/10 bg-white p-6">
-      <h3 className="text-lg font-black">Evolucion de precios</h3>
+    <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-6 shadow-xl dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300">
+      <h3 className="text-lg font-black font-mono uppercase tracking-widest text-zinc-900 dark:text-white/90 transition-colors">Evolucion de precios</h3>
       <div className="mt-4 overflow-x-auto">
         <svg
           aria-label="Grafico de evolucion de precios"
@@ -83,21 +83,21 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
           {yTicks.map((tick) => (
             <g key={`y-${tick}`}>
               <line
-                stroke="#e5e7eb"
+                className="stroke-zinc-300 dark:stroke-zinc-700 transition-colors duration-300"
                 strokeDasharray="4,4"
                 x1={pad.left}
                 x2={width - pad.right}
                 y1={py(tick)}
                 y2={py(tick)}
               />
-              <text fill="#78716c" fontSize="10" textAnchor="end" x={pad.left - 6} y={py(tick) + 3}>
+              <text className="fill-zinc-500 dark:fill-zinc-400 transition-colors duration-300" fontSize="10" textAnchor="end" x={pad.left - 6} y={py(tick) + 3} fontFamily="monospace">
                 {fmtPrice(tick)}
               </text>
             </g>
           ))}
 
           {xTicks.map((t) => (
-            <text fill="#78716c" fontSize="10" key={`x-${t}`} textAnchor="middle" x={tx(t)} y={height - 6}>
+            <text className="fill-zinc-500 dark:fill-zinc-400 transition-colors duration-300" fontSize="10" key={`x-${t}`} textAnchor="middle" x={tx(t)} y={height - 6} fontFamily="monospace">
               {fmtDate(t)}
             </text>
           ))}
@@ -138,6 +138,7 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
                   fill={color}
                   fontSize="11"
                   fontWeight="bold"
+                  fontFamily="monospace"
                   x={tx(new Date(last.recordedAt).getTime()) + 8}
                   y={py(last.price) + 4}
                 >
@@ -147,14 +148,14 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
             );
           })}
 
-          <line stroke="#d6d3d1" x1={pad.left} x2={pad.left} y1={pad.top} y2={pad.top + plotH} />
-          <line stroke="#d6d3d1" x1={pad.left} x2={pad.left + plotW} y1={pad.top + plotH} y2={pad.top + plotH} />
+          <line className="stroke-zinc-400 dark:stroke-zinc-600 transition-colors duration-300" x1={pad.left} x2={pad.left} y1={pad.top} y2={pad.top + plotH} />
+          <line className="stroke-zinc-400 dark:stroke-zinc-600 transition-colors duration-300" x1={pad.left} x2={pad.left + plotW} y1={pad.top + plotH} y2={pad.top + plotH} />
         </svg>
       </div>
 
       <div className="mt-4 flex flex-wrap gap-4">
         {padded.map((line, i) => (
-          <div className="flex items-center gap-2 text-sm font-bold" key={line.storeName}>
+          <div className="flex items-center gap-2 text-sm font-bold text-zinc-600 dark:text-white/80 font-mono transition-colors" key={line.storeName}>
             <span
               className="inline-block size-3 rounded-full"
               style={{ backgroundColor: COLORS[i % COLORS.length] }}
