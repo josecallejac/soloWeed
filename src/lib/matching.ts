@@ -1,3 +1,5 @@
+import { hasIntersection } from "./matching-utils";
+
 export const SUGGESTION_LIMIT = 120;
 export const MATCH_REVIEW_THRESHOLD = 0.58;
 
@@ -300,15 +302,7 @@ export function getKnownBrand(tokens: Set<string>) {
   return "";
 }
 
-export function hasIntersection(first: Set<string>, second: Set<string>) {
-  for (const value of first) {
-    if (second.has(value)) {
-      return true;
-    }
-  }
 
-  return false;
-}
 
 export function countIntersection(first: Set<string>, second: Set<string>) {
   let count = 0;

@@ -1,0 +1,66 @@
+*d= 17 | 1161 t1 prod 10106 $24990 | BANGER REGULAR FULL WELD 10MM- Calvo glass
+| 19980 t2 huerfana $7990 | Calvo Glass Banger Regular 14mm
+*d= 56 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+| 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+*d= 56 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+| 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+*d= 17 | 12539 t1 prod 10285 $8990 | Bandeja Metálica Fly High Grande-Raw
+| 13693 t2 huerfana $7690 | Bandeja RAW metálica Prepare for Flight - Mediana
+*d= 28 | 1564 t2 huerfana $26290 | Futurola x Mike Tyson Bandeja Metálica Grande
+| 15960 t3 huerfana $14951 | Bandeja Tyson x Futurola Metal Rolling Tray Medium | PI
+*d= 41 | 15877 t3 prod 10622 $6990 | Bandeja Metálica RAW Camo | PIRANHA
+| 19556 t2 huerfana $10990 | Bandeja RAW Camo - Grande
+*d= 42 | 16005 t3 prod 10389 $4990 | Bandeja Metálica RAW Mix | PIRANHA
+| 18489 t2 huerfana $5990 | Bandeja RAW metálica Mix - Mini
+*d= 53 | 15985 t3 huerfana $1386 | Blunt Wrap - Lion Rolling Circus Terpenes - Gelato
+| 20229 t2 huerfana $1490 | LRC Blunt Hemp Wraps Terpenes x2 - Sabores
+*d= 55 | 12003 t1 huerfana $990 | Platinium X2 Mojito 1U- Blunt Wrap
+| 15931 t3 prod 10402 $890 | Blunt Wrap Double!! Platinum (2u) | PIRANHA
+*d= 14 | 11191 t3 prod 5726 $5452 | Encendedor Clipper Metálico | PIRANHA
+| 19296 t2 huerfana $6990 | Encendedor Clipper Metálico Matt Black
+*d= 17 | 2049 t2 prod 5724 $1592 | Encendedor Clipper Jet Flame Horror Zoo
+| 2523 t1 huerfana $36990 | Encendedor Jet Flame Jet Horror Zoo 24U- Clipper
+*d= 19 | 812 t1 huerfana $36990 | Encendedor Jet Flame Jet Cozy Skull 24U- Clipper
+| 2067 t2 prod 5724 $1590 | Encendedor Clipper Jet Flame CozySkulls
+*d= 24 | 872 t3 prod 5727 $4990 | Encendedor Zengaz Jet Flame ZL-12
+| 13547 t2 huerfana $4490 | Zengaz Encendedor Soplete Space 2
+*d= 25 | 3529 t3 prod 10237 $4990 | Encendedor Zengaz Jet Flame ZL-3
+| 19856 t2 huerfana $4490 | Zengaz Encendedor Soplete Unique Faces
+*d= 33 | 1336 t3 prod 5726 $5452 | Encendedor Clipper Metálico | PIRANHA
+| 19907 t2 huerfana $6990 | Encendedor Clipper Metálico Volcano
+*d= 53 | 12583 t1 huerfana $14990 | Soplete Rubber Mod Orange-Calvo Glass
+| 19426 t2 huerfana $14990 | Special Blue Soplete Portatil Mod Rubber
+*d= 55 | 815 t1 huerfana $3490 | Gas Butano Ultra Refinado X5 Premium-Calvo Glass
+| 13057 t2 prod 10311 $3990 | Gas Butano Special Blue Ultra Refinado 9X 300ml
+*d= 28 | 517 t3 prod 5722 $890 | Filtro Premium OCB
+| 18004 t1 huerfana $690 | Tips Ocb-Ocb
+*d= 37 | 1050 t3 prod 10346 $4671 | Filtro de Vidrio Hemper Glass Tips 7mm | PIRANHA
+| 13121 t2 huerfana $5990 | Hemper Boquillas de Vidrio 6mm
+*d= 23 | 24127 t1 huerfana $59990 | Wall Mount -Stundenglass
+| 26061 t2 huerfana $73980 | Cookies X Stündenglass - Wall Mount
+*d=  2 | 492 t3 huerfana $1891 | Papelillo Blueberry Moon King Size Lion Rolling Circus
+| 20261 t2 huerfana $2390 | LRC Papelillos Flavour Big Smoke - Sabores
+*d=  4 | 3533 t3 prod 5421 $990 | Papelillo King Size Slim Blazy Susan Unbleached | PIRAN
+| 12270 t1 huerfana $39990 | Papelillo Unbleached King Size Slim 50U-Blazy Susan
+*d=  8 | 2037 t2 prod 10066 $890 | Blazy Susan Papelillos King Size Purple
+| 12268 t1 huerfana $39990 | Papelillo Purple King Size Slim 50U-Blazy Susan
+*d= 12 | 695 t3 prod 5467 $790 | Papelillo 1 1/4 Blazy Susan Unbleached | PIRANHA
+| 12321 t1 huerfana $29990 | Papelillo Unbleached 1 1/4 50U-Blazy Susan
+*d= 15 | 12202 t1 huerfana $9990 | Papelillos 100 Usd 20Ud King Size Slim
+| 20231 t2 huerfana $7490 | Empire Rolling Papers Papelillos King Size
+*d= 23 | 293 t3 prod 6008 $990 | Papelillo OCB Negro Premium 1 ¼
+| 12444 t1 huerfana $21990 | Papelillo Negro 7Cm 50U-Ocb
+*d= 49 | 1046 t3 prod 5460 $790 | Papelillo 1 1/4 Blazy Susan Purple | PIRANHA
+| 12318 t1 huerfana $25990 | Papelillo Purple 1 1/4 50U-Blazy Susan
+*d= 58 | 3532 t3 prod 10066 $990 | Papelillo King Size Slim Blazy Susan Purple | PIRANHA
+| 12268 t1 huerfana $39990 | Papelillo Purple King Size Slim 50U-Blazy Susan
+*d= 26 | 8122 t2 huerfana $4390 | Hemper Quick Hitter Multiuso x2
+| 11074 t3 huerfana $3469 | Hemper Quick Hitter Arándano | PIRANHA
+*d= 50 | 8122 t2 huerfana $4390 | Hemper Quick Hitter Multiuso x2
+| 11073 t3 huerfana $3469 | Hemper Quick Hitter Uva | PIRANHA
+*d= 37 | 2565 t1 prod 10372 $11990 | Juego De Mallas Normales Solid Valve-Storz &amp; Bickel
+| 20226 t2 huerfana $6990 | Storz &amp; Bickel Juego de Mallas Finas Solid Valve
+*d= 51 | 2553 t1 prod 5737 $88990 | Vaporizador The New M7-Dynavap
+| 13433 t2 huerfana $129990 | Vaporizador DynaVap M7 XL Starter Kit
+*d= 57 | 18091 t1 huerfana $69990 | SABER DAB TOOL-FOCUS V
+| 18547 t2 prod 10406 $159990 | Dynavap Vaporizador Unidyn

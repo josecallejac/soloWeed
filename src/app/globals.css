@@ -5,18 +5,27 @@
 :root {
   --background: #ffffff;
   --foreground: #09090b;
+  --accent: #C0FF00;
+  --accent-text: #4d7c0f;
+  --accent-hover: #d4ff33;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #09090b;
     --foreground: #fafafa;
+    --accent: #C0FF00;
+    --accent-text: #a3e635;
+    --accent-hover: #d4ff33;
   }
 }
 
 .dark {
   --background: #09090b;
   --foreground: #fafafa;
+  --accent: #C0FF00;
+  --accent-text: #a3e635;
+  --accent-hover: #d4ff33;
 }
 
 @theme inline {
@@ -24,14 +33,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-hover: var(--accent-hover);
 
-  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in-up: fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -52,6 +64,9 @@
 .light {
   --background: #ffffff;
   --foreground: #09090b;
+  --accent: #C0FF00;
+  --accent-text: #4d7c0f;
+  --accent-hover: #d4ff33;
 }
 
 body {

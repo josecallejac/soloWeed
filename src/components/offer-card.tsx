@@ -40,7 +40,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
   const storeSavings = offer.storeCount > 1 && offer.minPrice > 0 ? offer.maxPrice - offer.minPrice : 0;
 
   return (
-    <article className="group grid min-w-0 gap-5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#121214] p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-none transition-all duration-300 hover:-translate-y-1 hover:border-[#C0FF00]/40 hover:bg-zinc-50 dark:hover:bg-[#18181b] hover:shadow-[0_8px_30px_rgba(192,255,0,0.12)] sm:grid-cols-[180px_minmax(0,1fr)]">
+    <article className="group grid min-w-0 gap-5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#121214] p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-none transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:bg-zinc-50/80 dark:hover:bg-[#18181b] hover:shadow-[0_12px_40px_rgba(0,0,0,0.1),0_4px_15px_rgba(192,255,0,0.15)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3),0_4px_15px_rgba(192,255,0,0.15)] sm:grid-cols-[180px_minmax(0,1fr)]">
       {/* Image container */}
       <div className="relative min-h-48 overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/[0.02] transition-colors duration-300 group-hover:bg-zinc-50 dark:group-hover:bg-white/[0.04]">
         {offer.imageUrl ? (
@@ -64,7 +64,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
       <div className="flex min-w-0 flex-col py-1">
         {/* Meta / Tags Row */}
         <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-[10px] font-bold uppercase tracking-widest font-mono text-zinc-500 dark:text-white/50">
-          <span className="text-[#C0FF00]">{offer.category}</span>
+          <span className="text-accent-text">{offer.category}</span>
           {offer.brand && (
             <>
               <span className="h-1 w-1 rounded-full bg-black/20 dark:bg-white/20" />
@@ -105,7 +105,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
                     <span className="rounded-md bg-purple-100 dark:bg-[#7f5af0]/20 border border-purple-200 dark:border-[#7f5af0]/30 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-purple-700 dark:text-[#7f5af0] font-mono">-{discount}%</span>
                   ) : null}
                   {storeSavings > 0 ? (
-                    <span className="rounded-md bg-[#C0FF00]/20 border border-[#C0FF00]/30 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-black dark:text-[#C0FF00] font-mono">
+                    <span className="rounded-md bg-accent/20 border border-accent/30 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-black dark:text-accent-text font-mono">
                       Ahorra {formatPrice(storeSavings)}
                     </span>
                   ) : null}
@@ -121,14 +121,14 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
           <div className="grid w-full min-w-0 gap-2 grid-cols-1">
             {offer.product?.brandKey && offer.product.modelSlug && offer.storeCount > 1 ? (
               <Link
-                className="flex items-center justify-center min-w-0 rounded-lg bg-[#C0FF00] px-2 py-3 text-center text-sm font-black text-[#09090b] transition-all hover:-translate-y-0.5 hover:bg-[#d4ff33] hover:shadow-[0_0_20px_rgba(192,255,0,0.4)] uppercase tracking-[0.1em] font-mono"
+                className="flex items-center justify-center min-w-0 rounded-lg bg-accent px-2 py-3 text-center text-sm font-black text-[#09090b] transition-all hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_0_20px_rgba(192,255,0,0.4)] uppercase tracking-[0.1em] font-mono"
                 href={`/productos/${offer.product.brandKey}/${offer.product.modelSlug}`}
               >
-                Comparar {offer.storeCount} opciones
+                Comparar
               </Link>
             ) : (
               <a
-                className="flex items-center justify-center min-w-0 rounded-lg px-2 py-3 text-center text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-white/80 hover:-translate-y-0.5 hover:border-[#C0FF00]/50 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-[#C0FF00]"
+                className="flex items-center justify-center min-w-0 rounded-lg px-2 py-3 text-center text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-white/80 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-accent-text"
                 href={offer.url}
                 rel="noreferrer"
                 target="_blank"

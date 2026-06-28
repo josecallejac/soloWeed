@@ -16,7 +16,7 @@ export function SummaryCard({ label, value, variant = "dark" }: SummaryCardProps
 
   return (
     <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 shadow-xl dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300">
-      <span className="block text-xs font-black uppercase tracking-[0.18em] text-[#C0FF00] font-mono">{label}</span>
+      <span className="block text-xs font-black uppercase tracking-[0.18em] text-accent-text font-mono">{label}</span>
       <span className="mt-2 block text-2xl font-black tracking-[-0.04em] text-zinc-900 dark:text-white">{value}</span>
     </div>
   );

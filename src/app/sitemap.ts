@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, productPath } from "@/lib/site";
 
-// El catalogo cambia con cada ronda de curacion: el sitemap se sirve siempre
-// fresco en vez de congelarse en el build.
-export const dynamic = "force-dynamic";
+// El catalogo cambia con cada ronda de curacion: usamos ISR de 24 horas
+// para no castigar al crawler y mantener rendimiento.
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await prisma.product.findMany({

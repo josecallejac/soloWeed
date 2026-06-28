@@ -1,20 +1,30 @@
-/* eslint-disable @next/next/no-img-element */
 import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
 import { formatDateTime, formatPrice, formatPriceRange } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
-import { countIntersection, hasAnyToken, hasIntersection } from "@/lib/matching-utils";
+import {
+  countIntersection,
+  getRawTrayModel,
+  getAccessoryKind,
+  hasAnyToken,
+  hasIntersection,
+  hasCompatibleSize,
+  hasHardModelConflict,
+  hasAccessoryKindConflict,
+  hasRawTrayModelConflict
+} from "@/lib/matching-utils";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, productPath } from "@/lib/site";
 import type { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { PriceHistoryChart } from "./price-history-chart";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: ProductDetailProps): Promise<Metadata> {
   const { slug } = await params;
@@ -132,6 +142,17 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
             offerCount: storesWithPrice.length,
             availability:
               storesInStock.length > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            offers: storesWithPrice.map(row => ({
+              "@type": "Offer",
+              price: row.offer!.price,
+              priceCurrency: "CLP",
+              availability: row.offer!.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              seller: {
+                "@type": "Organization",
+                name: row.store.name,
+              },
+              url: row.offer!.url,
+            })),
           },
         }
       : {}),
@@ -149,7 +170,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
             <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 text-zinc-900 dark:text-white shadow-xl dark:shadow-[0_0_30px_rgba(192,255,0,0.1)] transition-colors duration-300">
               <div className="grid min-h-80 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 relative group transition-colors">
                 {imageUrl ? (
-                  <img alt={product.name} className="max-h-[420px] w-full object-contain p-6" src={imageUrl} />
+                  <Image alt={product.name} className="object-contain p-6" src={imageUrl} fill sizes="(max-width: 1024px) 100vw, 50vw" priority />
                 ) : (
                   <div className="grid size-full min-h-80 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-6xl font-black text-white dark:text-black opacity-50 font-mono">
                     SW
@@ -160,7 +181,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
 
             <div>
               <div className="flex flex-wrap gap-2">
-                <span className="rounded bg-[#C0FF00] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-black font-mono transition-colors">
+                <span className="rounded bg-accent px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-black font-mono transition-colors">
                   {product.category}
                 </span>
                 {product.brand ? (
@@ -216,7 +237,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
         <section>
           <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono transition-colors">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-text font-mono transition-colors">
                 Todos los growshops incorporados
               </p>
               <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
@@ -260,7 +281,7 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
       {relatedProducts.length > 0 ? (
         <section className="mx-auto w-full max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
           <div className="mb-5">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono transition-colors">Sigue comparando</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-text font-mono transition-colors">Sigue comparando</p>
             <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
               Otras comparaciones de {product.category.toLowerCase()}
             </h2>
@@ -268,13 +289,13 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {relatedProducts.map((related) => (
               <Link
-                className="group flex flex-col gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 transition hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-[0_0_15px_rgba(192,255,0,0.15)] hover:border-[#C0FF00]/50 duration-300"
+                className="group flex flex-col gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1),0_4px_15px_rgba(192,255,0,0.15)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3),0_4px_15px_rgba(192,255,0,0.15)]"
                 href={productPath(related.brandKey, related.modelSlug)}
                 key={related.id}
               >
-                <div className="grid h-40 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 transition-colors group-hover:bg-black/10 dark:hover:bg-white/10">
+                <div className="relative grid h-40 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 transition-all duration-300 group-hover:bg-accent/5 dark:group-hover:bg-white/[0.06]">
                   {related.imageUrl ? (
-                    <img alt={related.name} className="max-h-36 w-full object-contain p-3" src={related.imageUrl} />
+                    <Image alt={related.name} className="object-contain p-3" src={related.imageUrl} fill sizes="(max-width: 768px) 50vw, 25vw" />
                   ) : (
                     <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-white dark:text-black opacity-50 font-mono">
                       SW
@@ -284,10 +305,10 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
                 <span className="self-start rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-bold text-zinc-600 dark:text-white/60 font-mono transition-colors">
                   {related.storeCount} tiendas
                 </span>
-                <h3 className="text-base font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white group-hover:text-[#C0FF00] transition-colors">
+                <h3 className="text-base font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white group-hover:text-accent-text transition-colors">
                   {related.name}
                 </h3>
-                <p className="mt-auto text-lg font-black tracking-[-0.03em] text-[#C0FF00] transition-colors">
+                <p className="mt-auto text-lg font-black tracking-[-0.03em] text-accent-text transition-colors">
                   {related.minPrice > 0 ? `Desde ${formatPrice(related.minPrice)}` : "Sin stock detectado"}
                 </p>
               </Link>
@@ -344,38 +365,36 @@ async function getProductData(slug: string[]) {
 }
 
 async function getRelatedProducts(category: string, excludeId: number) {
-  const candidates = await prisma.product.findMany({
-    where: {
-      category,
-      id: { not: excludeId },
-      brandKey: { not: null },
-      modelSlug: { not: null },
-    },
-    include: {
-      offers: {
-        select: { price: true, inStock: true, storeId: true, imageUrl: true },
-      },
-    },
-  });
+  const result = await prisma.$queryRaw<Array<{ id: number; name: string; brandKey: string; modelSlug: string; imageUrl: string | null; storeCount: number; minPrice: number }>>`
+    SELECT 
+      p."id", 
+      p."name", 
+      p."brandKey", 
+      p."modelSlug", 
+      COALESCE(p."imageUrl", MAX(o."imageUrl")) as "imageUrl", 
+      COUNT(DISTINCT o."storeId") as "storeCount",
+      MIN(CASE WHEN o."inStock" = 1 AND o."price" > 0 THEN o."price" ELSE NULL END) as "minPrice"
+    FROM "Product" p
+    LEFT JOIN "Offer" o ON o."productId" = p."id"
+    WHERE p."category" = ${category}
+      AND p."id" != ${excludeId}
+      AND p."brandKey" IS NOT NULL
+      AND p."modelSlug" IS NOT NULL
+    GROUP BY p."id"
+    HAVING COUNT(DISTINCT o."storeId") >= 2
+    ORDER BY "storeCount" DESC, "minPrice" ASC
+    LIMIT 4
+  `;
 
-  return candidates
-    .map((candidate) => {
-      const storeCount = new Set(candidate.offers.map((offer) => offer.storeId)).size;
-      const prices = candidate.offers.filter((offer) => offer.inStock && offer.price > 0).map((offer) => offer.price);
-
-      return {
-        brandKey: candidate.brandKey!,
-        id: candidate.id,
-        imageUrl: candidate.imageUrl ?? candidate.offers.find((offer) => offer.imageUrl)?.imageUrl ?? null,
-        minPrice: prices.length > 0 ? Math.min(...prices) : 0,
-        modelSlug: candidate.modelSlug!,
-        name: candidate.name,
-        storeCount,
-      };
-    })
-    .filter((candidate) => candidate.storeCount >= 2)
-    .sort((first, second) => second.storeCount - first.storeCount || first.minPrice - second.minPrice)
-    .slice(0, 4);
+  return result.map(row => ({
+    brandKey: row.brandKey,
+    id: row.id,
+    imageUrl: row.imageUrl,
+    minPrice: Number(row.minPrice) || 0,
+    modelSlug: row.modelSlug,
+    name: row.name,
+    storeCount: Number(row.storeCount),
+  }));
 }
 
 function getExpandedMatchedOffers(seedOffers: OfferOption[], candidateOffers: OfferOption[], productId: number) {
@@ -426,8 +445,8 @@ function hasCompatibleProductDetailModel(seedOffer: MatchableOffer, candidateOff
     return true;
   }
 
-  const seedModel = getRawTrayModel(seed);
-  const candidateModel = getRawTrayModel(candidate);
+  const seedModel = getRawTrayModel(seed.tokens);
+  const candidateModel = getRawTrayModel(candidate.tokens);
 
   const seedSpecificModel = seedModel && seedModel !== "classic" ? seedModel : null;
   const candidateSpecificModel = candidateModel && candidateModel !== "classic" ? candidateModel : null;
@@ -448,7 +467,7 @@ function isGenericRawTray(profile: ComparableProfile) {
     profile.category === "bandejas y ceniceros" &&
     profile.brandTokens.has("raw") &&
     profile.accessoryKind === "tray" &&
-    !getRawTrayModel(profile) &&
+    !getRawTrayModel(profile.tokens) &&
     hasAnyToken(profile.tokens, ["liar", "gb", "green", "brand"])
   );
 }
@@ -861,11 +880,11 @@ function getMatchScore(seedOffer: MatchableOffer, candidateOffer: MatchableOffer
     return 0;
   }
 
-  if (hasAccessoryKindConflict(seed, candidate)) {
+  if (hasAccessoryKindConflictLocal(seed, candidate)) {
     return 0;
   }
 
-  if (hasRawTrayModelConflict(seed, candidate)) {
+  if (hasRawTrayModelConflictLocal(seed, candidate)) {
     return 0;
   }
 
@@ -1148,29 +1167,7 @@ function isMatchSizeResidue(token: string, sizes: Set<string>) {
   return false;
 }
 
-function hasCompatibleSize(first: Set<string>, second: Set<string>) {
-  if (hasIntersection(first, second)) {
-    return true;
-  }
 
-  for (const firstSize of first) {
-    const firstMillimeters = getMillimeters(firstSize);
-
-    if (firstMillimeters === undefined) {
-      continue;
-    }
-
-    for (const secondSize of second) {
-      const secondMillimeters = getMillimeters(secondSize);
-
-      if (secondMillimeters !== undefined && Math.abs(firstMillimeters - secondMillimeters) <= 4) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
 
 function canMatchWithoutCandidateSize(seed: ComparableProfile, candidate: ComparableProfile) {
   if (seed.category === candidate.category && seed.category !== "otros parafernalia") {
@@ -1345,8 +1342,8 @@ function canMatchRawTray(
     return false;
   }
 
-  const seedModel = getRawTrayModel(seed);
-  const candidateModel = getRawTrayModel(candidate);
+  const seedModel = getRawTrayModel(seed.tokens);
+  const candidateModel = getRawTrayModel(candidate.tokens);
 
   if (seedModel && candidateModel) {
     return seedModel === candidateModel;
@@ -1359,74 +1356,10 @@ function canMatchRawTray(
   return overlap > 0;
 }
 
-function hasAccessoryKindConflict(seed: ComparableProfile, candidate: ComparableProfile) {
-  if (seed.category !== "bandejas y ceniceros" || candidate.category !== "bandejas y ceniceros") {
-    return false;
-  }
+function hasAccessoryKindConflictLocal(seed: ComparableProfile, candidate: ComparableProfile) { return hasAccessoryKindConflict(seed.category, seed.accessoryKind, candidate.category, candidate.accessoryKind); }
+function hasRawTrayModelConflictLocal(seed: ComparableProfile, candidate: ComparableProfile) { return hasRawTrayModelConflict(seed.category, seed.brandTokens, seed.tokens, candidate.category, candidate.brandTokens, candidate.tokens); }
 
-  return Boolean(seed.accessoryKind && candidate.accessoryKind && seed.accessoryKind !== candidate.accessoryKind);
-}
 
-function getAccessoryKind(tokens: Set<string>) {
-  if (hasAnyToken(tokens, ["tapa", "magnetica", "magnetico", "cover", "lid"])) {
-    return "cover";
-  }
-
-  if (hasAnyToken(tokens, ["cenicero", "ceniceros", "ashtray"])) {
-    return "ashtray";
-  }
-
-  if (hasAnyToken(tokens, ["bandeja", "bandejas", "tray", "rolling"])) {
-    return "tray";
-  }
-
-  return null;
-}
-
-function hasRawTrayModelConflict(seed: ComparableProfile, candidate: ComparableProfile) {
-  if (seed.category !== "bandejas y ceniceros" || candidate.category !== "bandejas y ceniceros") {
-    return false;
-  }
-
-  if (!seed.brandTokens.has("raw") || !candidate.brandTokens.has("raw")) {
-    return false;
-  }
-
-  const seedModel = getRawTrayModel(seed);
-  const candidateModel = getRawTrayModel(candidate);
-
-  if (seedModel && candidateModel) {
-    return seedModel !== candidateModel;
-  }
-
-  const model = seedModel ?? candidateModel;
-
-  return Boolean(model && model !== "classic");
-}
-
-function getRawTrayModel(profile: ComparableProfile) {
-  if (profile.tokens.has("brazilian")) {
-    return "brazilian-girl";
-  }
-
-  if (profile.tokens.has("prepare") && profile.tokens.has("flight")) {
-    return "prepare-flight";
-  }
-
-  if (profile.tokens.has("emerald")) {
-    return "emerald";
-  }
-
-  if (profile.tokens.has("girl")) {
-    return "girl";
-  }
-
-  if (profile.tokens.has("classic") || profile.tokens.has("clasica") || profile.tokens.has("clasico")) {
-    return "classic";
-  }
-
-  return null;
-}
 
 function canMatchByStructuredSignals(
   seed: ComparableProfile,
@@ -1484,24 +1417,9 @@ function getMaterialVariants(variants: Set<string>) {
   return materials;
 }
 
-function hasHardModelConflict(first: Set<string>, second: Set<string>) {
-  const firstModel = getHardModelTokens(first);
-  const secondModel = getHardModelTokens(second);
 
-  return (firstModel.size > 0 || secondModel.size > 0) && !hasIntersection(firstModel, secondModel);
-}
 
-function getHardModelTokens(tokens: Set<string>) {
-  const hardTokens = new Set<string>();
 
-  for (const token of tokens) {
-    if (HARD_MODEL_TOKENS.has(token)) {
-      hardTokens.add(token);
-    }
-  }
-
-  return hardTokens;
-}
 
 function getDescriptorBonus(seed: ComparableProfile, candidate: ComparableProfile) {
   if (seed.descriptors.size > 0 && hasIntersection(seed.descriptors, candidate.descriptors)) {

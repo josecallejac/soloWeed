@@ -1,8 +1,20 @@
 "use client";
 
+import { useTheme } from "next-themes";
+import { useMemo, useState, useSyncExternalStore } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+
 type HistoryPoint = { price: number; recordedAt: Date };
 type StoreLine = { storeName: string; histories: HistoryPoint[]; currentPrice: number };
-type PaddedLine = StoreLine & { _isSingle?: boolean };
 
 type PriceHistoryChartProps = {
   stores: StoreLine[];
@@ -12,158 +24,136 @@ type PriceHistoryChartProps = {
 
 const COLORS = ["#C0FF00", "#39FF14", "#FF00FF", "#00FFFF", "#FF3366"];
 
+function fmtPrice(p: number) {
+  return new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(p);
+}
+
+function fmtDate(t: number) {
+  return new Date(t).toLocaleDateString("es-CL", { day: "numeric", month: "short" });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#18181b]/80 p-4 shadow-xl backdrop-blur-md">
+        <p className="mb-3 text-sm font-bold text-zinc-900 dark:text-white font-mono">{fmtDate(label)}</p>
+        <div className="space-y-2">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center justify-between gap-4 text-sm font-medium">
+              <div className="flex items-center gap-2">
+                <span className="h-3 w-3 rounded-full" style={{ backgroundColor: entry.color }}></span>
+                <span className="text-zinc-700 dark:text-zinc-300">{entry.name}</span>
+              </div>
+              <span className="font-bold text-zinc-900 dark:text-white">{fmtPrice(entry.value)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
+
+const subscribe = () => () => {};
+
 export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: PriceHistoryChartProps) {
-  // Only show for comparable products (2+ tiendas) if flag is set
-  if (onlyOnFullCoverage && totalStores < 2) return null;
+  const { theme, systemTheme } = useTheme();
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const [now] = useState(() => Date.now());
 
-  // Show all stores with histories, even if just 1 point (single-point = flat dot)
-  const lines = stores.filter((s) => s.histories.length >= 1);
-  if (lines.length === 0) return null;
+  const currentTheme = theme === "system" ? systemTheme : theme;
+  const isDark = currentTheme === "dark" || (typeof document !== "undefined" && document.documentElement.classList.contains("dark"));
 
-  // Pad single-point stores with a duplicate point 1ms later so they have a visible dot
-  const padded: PaddedLine[] = lines.map((l) => {
-    if (l.histories.length >= 2) return l;
-    const h = l.histories[0];
-    return {
-      ...l,
-      histories: [h, { price: h.price, recordedAt: new Date(new Date(h.recordedAt).getTime() + 1) }],
-      _isSingle: true as boolean | undefined,
-    };
-  });
+  const chartData = useMemo(() => {
+    if (onlyOnFullCoverage && totalStores < 2) return [];
 
-  // Collect all data points
-  const allPoints = padded.flatMap((l) =>
-    l.histories.map((h) => ({ ...h, storeName: l.storeName, _isSingle: (l as PaddedLine)._isSingle })),
-  );
+    const lines = stores.filter((s) => s.histories.length >= 1);
+    if (lines.length === 0) return [];
 
-  const allPrices = allPoints.map((p) => p.price);
-  const allTimes = allPoints.map((p) => new Date(p.recordedAt).getTime());
-  const minPrice = Math.min(...allPrices);
-  const maxPrice = Math.max(...allPrices);
-  const minTime = Math.min(...allTimes);
-  const maxTime = Math.max(...allTimes);
-  const timeRange = maxTime - minTime || 1;
-  const priceRange = maxPrice - minPrice || 1;
+    const allTimes = new Set<number>();
+    lines.forEach((line) => {
+      line.histories.forEach((h) => allTimes.add(new Date(h.recordedAt).getTime()));
+    });
 
-  const width = 700;
-  const height = 200;
-  const pad = { top: 10, right: 20, bottom: 30, left: 70 };
-  const plotW = width - pad.left - pad.right;
-  const plotH = height - pad.top - pad.bottom;
+    allTimes.add(now);
 
-  function tx(t: number) {
-    return pad.left + ((t - minTime) / timeRange) * plotW;
-  }
-  function py(p: number) {
-    return pad.top + plotH - ((p - minPrice) / priceRange) * plotH;
-  }
+    const sortedTimes = Array.from(allTimes).sort((a, b) => a - b);
 
-  const yTicks = [...new Set([minPrice, Math.round((minPrice + maxPrice) / 2), maxPrice])].filter(
-    (v, i, a) => a.indexOf(v) === i,
-  );
-  const xTicks = padded[0]?.histories.map((h) => new Date(h.recordedAt).getTime()).sort() ?? [];
+    const lastKnownPrice: Record<string, number | null> = {};
+    lines.forEach((l) => (lastKnownPrice[l.storeName] = null));
 
-  function fmtPrice(p: number) {
-    return new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(p);
-  }
-  function fmtDate(t: number) {
-    return new Date(t).toLocaleDateString("es-CL", { day: "numeric", month: "short" });
-  }
+    const data = sortedTimes.map((time) => {
+      const dataPoint: Record<string, number | null> = { time };
+
+      lines.forEach((line) => {
+        const exactMatch = line.histories.find((h) => new Date(h.recordedAt).getTime() === time);
+        if (exactMatch) {
+          lastKnownPrice[line.storeName] = exactMatch.price;
+        }
+
+        dataPoint[line.storeName] = lastKnownPrice[line.storeName];
+      });
+      return dataPoint;
+    });
+
+    return data;
+  }, [stores, totalStores, onlyOnFullCoverage, now]);
+
+  if (!mounted || chartData.length === 0) return null;
 
   return (
-    <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-6 shadow-xl dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300">
-      <h3 className="text-lg font-black font-mono uppercase tracking-widest text-zinc-900 dark:text-white/90 transition-colors">Evolucion de precios</h3>
-      <div className="mt-4 overflow-x-auto">
-        <svg
-          aria-label="Grafico de evolucion de precios"
-          className="w-full"
-          role="img"
-          viewBox={`0 0 ${width} ${height}`}
-        >
-          {yTicks.map((tick) => (
-            <g key={`y-${tick}`}>
-              <line
-                className="stroke-zinc-300 dark:stroke-zinc-700 transition-colors duration-300"
-                strokeDasharray="4,4"
-                x1={pad.left}
-                x2={width - pad.right}
-                y1={py(tick)}
-                y2={py(tick)}
-              />
-              <text className="fill-zinc-500 dark:fill-zinc-400 transition-colors duration-300" fontSize="10" textAnchor="end" x={pad.left - 6} y={py(tick) + 3} fontFamily="monospace">
-                {fmtPrice(tick)}
-              </text>
-            </g>
-          ))}
-
-          {xTicks.map((t) => (
-            <text className="fill-zinc-500 dark:fill-zinc-400 transition-colors duration-300" fontSize="10" key={`x-${t}`} textAnchor="middle" x={tx(t)} y={height - 6} fontFamily="monospace">
-              {fmtDate(t)}
-            </text>
-          ))}
-
-          {padded.map((line, i) => {
-            const sorted = [...line.histories].sort(
-              (a, b) => new Date(a.recordedAt).getTime() - new Date(b.recordedAt).getTime(),
-            );
-            const points = sorted
-              .map((p) => `${tx(new Date(p.recordedAt).getTime())},${py(p.price)}`)
-              .join(" ");
-            const last = sorted[sorted.length - 1];
-            const color = COLORS[i % COLORS.length];
-
-            return (
-              <g key={line.storeName}>
-                {sorted.length > 1 ? (
-                  <polyline
-                    fill="none"
-                    points={points}
-                    stroke={color}
-                    strokeDasharray={line._isSingle ? "4,3" : undefined}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.5"
-                  />
-                ) : null}
-                {sorted.map((p, j) => (
-                  <circle
-                    cx={tx(new Date(p.recordedAt).getTime())}
-                    cy={py(p.price)}
-                    fill={color}
-                    key={j}
-                    r={line._isSingle && j === 1 ? 0 : 3}
-                  />
-                ))}
-                <text
-                  fill={color}
-                  fontSize="11"
-                  fontWeight="bold"
-                  fontFamily="monospace"
-                  x={tx(new Date(last.recordedAt).getTime()) + 8}
-                  y={py(last.price) + 4}
-                >
-                  {line.storeName}: {fmtPrice(last.price)}
-                </text>
-              </g>
-            );
-          })}
-
-          <line className="stroke-zinc-400 dark:stroke-zinc-600 transition-colors duration-300" x1={pad.left} x2={pad.left} y1={pad.top} y2={pad.top + plotH} />
-          <line className="stroke-zinc-400 dark:stroke-zinc-600 transition-colors duration-300" x1={pad.left} x2={pad.left + plotW} y1={pad.top + plotH} y2={pad.top + plotH} />
-        </svg>
-      </div>
-
-      <div className="mt-4 flex flex-wrap gap-4">
-        {padded.map((line, i) => (
-          <div className="flex items-center gap-2 text-sm font-bold text-zinc-600 dark:text-white/80 font-mono transition-colors" key={line.storeName}>
-            <span
-              className="inline-block size-3 rounded-full"
-              style={{ backgroundColor: COLORS[i % COLORS.length] }}
+    <div className="relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-zinc-50/50 dark:bg-[#18181b]/50 p-6 shadow-2xl backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(192,255,0,0.05),transparent_50%)] pointer-events-none" />
+      <h3 className="mb-6 text-xl font-black uppercase tracking-widest text-zinc-900 dark:text-white font-mono">
+        Evolución de precios
+      </h3>
+      
+      <div className="h-[300px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"} vertical={false} />
+            <XAxis 
+              dataKey="time" 
+              tickFormatter={fmtDate} 
+              stroke={isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)"}
+              tick={{ fill: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)", fontSize: 12, fontFamily: "monospace" }}
+              tickLine={false}
+              axisLine={false}
+              minTickGap={30}
             />
-            {line.storeName}
-            {line._isSingle ? " (sin cambios)" : ""}
-          </div>
-        ))}
+            <YAxis 
+              tickFormatter={fmtPrice}
+              stroke={isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)"}
+              tick={{ fill: isDark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.6)", fontSize: 12, fontFamily: "monospace" }}
+              tickLine={false}
+              axisLine={false}
+              width={80}
+              domain={['auto', 'auto']}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend 
+              wrapperStyle={{ paddingTop: '20px', fontFamily: 'monospace', fontSize: '12px' }}
+              iconType="circle"
+            />
+            {stores.map((line, i) => {
+              if (line.histories.length === 0) return null;
+              return (
+                <Line
+                  key={line.storeName}
+                  type="stepAfter"
+                  dataKey={line.storeName}
+                  stroke={COLORS[i % COLORS.length]}
+                  strokeWidth={3}
+                  dot={{ r: 4, strokeWidth: 2, fill: isDark ? "#18181b" : "#ffffff" }}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
+                  connectNulls
+                />
+              );
+            })}
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

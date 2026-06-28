@@ -30,7 +30,7 @@ export function CategoryFilters({ categories, query, selectedCategory }: Categor
           return (
             <FilterLink active={selectedCategory === cat.category} href={href} key={cat.category}>
               {cat.category}
-              <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-mono font-bold ${selectedCategory === cat.category ? "bg-white/20 text-white dark:bg-black/20 dark:text-black" : "bg-black/10 dark:bg-white/10 text-zinc-600 dark:text-white/60"}`}>{cat.count}</span>
+              <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-mono font-bold transition-all duration-300 ${selectedCategory === cat.category ? "bg-white/20 text-white dark:bg-black/20 dark:text-black" : "bg-black/10 dark:bg-white/10 text-zinc-600 dark:text-white/60 group-hover:bg-accent/20 group-hover:text-accent-text"}`}>{cat.count}</span>
             </FilterLink>
           );
         })}
@@ -42,8 +42,10 @@ export function CategoryFilters({ categories, query, selectedCategory }: Categor
 function FilterLink({ active, children, href }: { active: boolean; children: React.ReactNode; href: string }) {
   return (
     <Link
-      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition border border-transparent ${
-        active ? "bg-[#C0FF00] text-black border-[#C0FF00] shadow-[0_0_10px_rgba(192,255,0,0.2)]" : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-[#C0FF00]/50"
+      className={`group flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition-all duration-300 border border-transparent ${
+        active 
+          ? "bg-accent text-black border-accent shadow-[0_0_15px_rgba(192,255,0,0.3)]" 
+          : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/50 hover:shadow-lg dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
       }`}
       href={href}
       scroll={false}

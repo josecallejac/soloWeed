@@ -5,27 +5,24 @@ import { OfferCard } from "@/components/offer-card";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { EmptyState } from "@/components/empty-state";
-import {
-  BRAND_MODEL_MATCH_CATEGORIES,
-  BRAND_SIZE_MATCH_CATEGORIES,
-  COLOR_KEYS,
-  GENERIC_TOKENS,
-  HARD_MODEL_TOKENS,
-  KNOWN_BRAND_PHRASES,
-  MATERIAL_KEYS,
-  MATERIAL_TOKENS,
-  SCALE_KEYS,
-} from "@/lib/matching-constants";
-import {
-  countIntersection,
-  getMillimeters,
-  hasIntersection,
-} from "@/lib/matching-utils";
 import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "SoloWeed | El mejor comparador de precios de parafernalia en Chile",
+    description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile. Encuentra el mejor precio siempre.",
+    openGraph: {
+      title: "SoloWeed | El mejor comparador de precios de parafernalia",
+      description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile.",
+      type: "website",
+    },
+  };
+}
 
 type HomeProps = {
   searchParams?: Promise<{
@@ -47,7 +44,6 @@ type CatalogOffer = Prisma.OfferGetPayload<{
 type CatalogItem = {
   brand: string | null;
   category: string;
-  groupKey: string;
   id: number;
   imageUrl: string | null;
   inStock: boolean;
@@ -100,8 +96,21 @@ export default async function Home({ searchParams }: HomeProps) {
   const page = Math.max(1, typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1);
   const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page });
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SoloWeed",
+    "url": "https://soloweed.cl/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://soloweed.cl/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <main className="min-h-screen overflow-hidden bg-white dark:bg-[#09090b] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative border-b border-black/10 dark:border-white/10 bg-white dark:bg-[#09090b] text-zinc-900 dark:text-white transition-colors duration-300">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#C0FF00_0,transparent_20%),radial-gradient(circle_at_80%_20%,#39FF14_0,transparent_20%)] opacity-20 pointer-events-none" />
         <div className="relative mx-auto flex min-h-[520px] w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
@@ -109,15 +118,15 @@ export default async function Home({ searchParams }: HomeProps) {
 
           <div className="flex flex-col items-center justify-center py-24 w-full max-w-4xl mx-auto text-center gap-16">
             <div className="w-full animate-fade-in-up" style={{ animationDelay: "0ms", opacity: 0 }}>
-              <form className="grid gap-3 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-[#18181b]/60 p-4 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20 focus-within:border-[#C0FF00]/50 focus-within:shadow-[0_0_40px_rgba(192,255,0,0.15)] md:grid-cols-[1fr_auto]">
+              <form className="grid gap-3 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-[#18181b]/60 p-4 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20 focus-within:border-accent/50 focus-within:shadow-[0_0_40px_rgba(192,255,0,0.15)] md:grid-cols-[1fr_auto]">
                 <input
-                  className="min-h-[72px] rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 text-lg sm:text-xl font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-[#C0FF00] focus:ring-2 focus:ring-[#C0FF00]/20 font-mono transition-all"
+                  className="min-h-[72px] rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 text-lg sm:text-xl font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20 font-mono transition-all"
                   name="q"
                   placeholder="Busca bongs, moledores, RAW, vaporizadores..."
                   defaultValue={query}
                 />
                 {selectedCategory ? <input name="category" type="hidden" value={selectedCategory} /> : null}
-                <button className="min-h-[72px] rounded-2xl bg-[#C0FF00] px-10 text-lg font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-[#d4ff33] hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
+                <button className="min-h-[72px] rounded-2xl bg-accent px-10 text-lg font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
                   Buscar ofertas
                 </button>
               </form>
@@ -130,19 +139,19 @@ export default async function Home({ searchParams }: HomeProps) {
                     <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
                       {data.coverage.full > 0 ? data.coverage.full : "—"}
                     </span>
-                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">Cobertura<br className="sm:hidden" /> Total</span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-accent-text font-mono text-center leading-relaxed">Cobertura<br className="sm:hidden" /> Total</span>
                   </div>
                   <div className="flex flex-col items-center justify-center px-2 sm:px-6 transition-transform hover:scale-105">
                     <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
                       {data.coverage.high > 0 ? data.coverage.high : "—"}
                     </span>
-                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">En 3<br className="sm:hidden" /> Tiendas</span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-accent-text font-mono text-center leading-relaxed">En 3<br className="sm:hidden" /> Tiendas</span>
                   </div>
                   <div className="flex flex-col items-center justify-center px-2 sm:px-6 transition-transform hover:scale-105">
                     <span className="text-4xl sm:text-6xl font-black text-zinc-900 dark:text-white tracking-tighter">
                       {data.coverage.mid > 0 ? data.coverage.mid : "—"}
                     </span>
-                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#C0FF00] font-mono text-center leading-relaxed">En 2<br className="sm:hidden" /> Tiendas</span>
+                    <span className="mt-3 text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-accent-text font-mono text-center leading-relaxed">En 2<br className="sm:hidden" /> Tiendas</span>
                   </div>
                 </div>
               ) : null}
@@ -170,7 +179,7 @@ export default async function Home({ searchParams }: HomeProps) {
             <div className="mt-4 space-y-3">
               {data.stores.map((store) => (
                 <a
-                  className="block rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 text-sm font-bold text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-[#C0FF00]/50 border border-transparent"
+                  className="block rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 text-sm font-bold text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-accent/50 border border-transparent"
                   href={store.baseUrl}
                   key={store.slug}
                   rel="noreferrer"
@@ -187,7 +196,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <section>
           <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#C0FF00] font-mono">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-text font-mono">
                 {data.dbReady ? "Catalogo actualizado" : "Base de datos pendiente"}
               </p>
               <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white">
@@ -219,32 +228,32 @@ export default async function Home({ searchParams }: HomeProps) {
               </div>
 
               {data.totalPages > 1 ? (
-                <div className="mt-8 flex items-center justify-between rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-4 shadow-sm dark:shadow-none transition-colors duration-300">
+                <div className="mt-8 flex items-center justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-4 shadow-sm dark:shadow-none transition-colors duration-300">
                   <div>
                     {data.page > 1 ? (
                       <a
-                        className="rounded-lg bg-black/5 dark:bg-white/10 px-5 py-3 text-sm font-black text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/20 hover:text-[#C0FF00] font-mono"
+                        className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
                         href={buildPageUrl(data.page - 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
-                        ← Anterior
+                        <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span> Anterior
                       </a>
                     ) : (
-                      <span className="rounded-lg bg-black/5 dark:bg-white/5 px-5 py-3 text-sm font-bold text-zinc-400 dark:text-white/20 font-mono">← Anterior</span>
+                      <span className="flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 px-6 py-3 text-sm font-bold text-zinc-300 dark:text-white/15 font-mono cursor-not-allowed">← Anterior</span>
                     )}
                   </div>
-                  <span className="text-sm font-bold text-zinc-500 dark:text-white/40 font-mono uppercase">
-                    Pagina {data.page} de {data.totalPages}
+                  <span className="text-xs font-black text-zinc-400 dark:text-white/30 font-mono uppercase tracking-[0.2em]">
+                    {data.page} / {data.totalPages}
                   </span>
                   <div>
                     {data.page < data.totalPages ? (
                       <a
-                        className="rounded-lg bg-black/5 dark:bg-white/10 px-5 py-3 text-sm font-black text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/20 hover:text-[#C0FF00] font-mono"
+                        className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
                         href={buildPageUrl(data.page + 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
-                        Siguiente →
+                        Siguiente <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                       </a>
                     ) : (
-                      <span className="rounded-lg bg-black/5 dark:bg-white/5 px-5 py-3 text-sm font-bold text-zinc-400 dark:text-white/20 font-mono">Siguiente →</span>
+                      <span className="flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 px-6 py-3 text-sm font-bold text-zinc-300 dark:text-white/15 font-mono cursor-not-allowed">Siguiente →</span>
                     )}
                   </div>
                 </div>
@@ -261,11 +270,47 @@ export default async function Home({ searchParams }: HomeProps) {
   );
 }
 
+
+import type { Store } from "@prisma/client";
+interface PageCacheEntry {
+  stores: Store[];
+  categories: { category: string; count: number }[];
+  catalogItems: CatalogItem[];
+  coverage: { full: number; high: number; mid: number };
+  stats: { offerCount: number; productCount: number; historyCount: number; storeCount: number };
+  expiresAt: number;
+}
+const PAGE_CACHE = new Map<string, PageCacheEntry>();
+const PAGE_CACHE_TTL_MS = 60 * 1000 * 5; // 5 mins
+
 async function getCatalogData(query: string, selectedCategory: string, options?: { maxPrice?: number; minPrice?: number; sort?: string; storeFilter?: string[]; page?: number }) {
   try {
+    
     const normalizedQuery = normalizeForSearch(query);
     const queryWhere = buildSearchWhere(normalizedQuery);
     const page = options?.page ?? 1;
+
+    const cacheKey = `${normalizedQuery}|${selectedCategory}|${options?.storeFilter?.join(",")}|${options?.minPrice}|${options?.maxPrice}|${options?.sort}`;
+    const cached = PAGE_CACHE.get(cacheKey);
+    if (cached && cached.expiresAt > Date.now()) {
+      const { items: pageItems, totalItems } = selectCatalogPageItems(cached.catalogItems, selectedCategory, options?.sort, page);
+      const totalPages = Math.max(1, Math.ceil(totalItems / CATALOG_PAGE_LIMIT));
+
+      return {
+        dbReady: true,
+        stores: cached.stores,
+        offers: pageItems,
+        categories: cached.categories,
+        page,
+        totalPages,
+        coverage: cached.coverage,
+        stats: cached.stats,
+      };
+    }
+
+    const categoryFilterSql = selectedCategory ? `AND "Offer"."category" = '${selectedCategory.replace(/'/g, "''")}'` : '';
+    const storeSlugs = options?.storeFilter?.map((s) => `'${s.replace(/'/g, "''")}'`).join(', ');
+    const storeFilterSql = storeSlugs ? `AND "Store"."slug" IN (${storeSlugs})` : '';
 
     const [stores, offersRaw, categories, offerCount, productCount, historyCount, covRows] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
@@ -273,6 +318,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
         SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
+        WHERE 1=1 ${categoryFilterSql} ${storeFilterSql}
         ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
         -- Techo de seguridad: debe superar siempre el total de ofertas. Si el
         -- catalogo lo alcanza, el home descuenta tiendas en silencio (las
@@ -356,13 +402,14 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
 
     // Expand result: if a product is matched, include all of its offers (respecting category/store filters)
     const matchedProductIds = new Set(initialMatched.map((o) => o.productId).filter(Boolean));
+    const initialMatchedIds = new Set(initialMatched.map((o) => o.id));
     const expandedOffers = offersWithStore.filter((o) => {
       if (o.productId && matchedProductIds.has(o.productId)) {
         if (selectedCategory && o.category !== selectedCategory) return false;
         if (options?.storeFilter?.length && !options.storeFilter.includes(o.store.slug)) return false;
         return true;
       }
-      return initialMatched.some((init) => init.id === o.id);
+      return initialMatchedIds.has(o.id);
     });
 
     const filteredOffers = expandedOffers;
@@ -411,6 +458,21 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       else if (row.cnt >= 3) coverage.high++;
       else if (row.cnt >= 2) coverage.mid++;
     }
+
+    
+    PAGE_CACHE.set(cacheKey, {
+      stores,
+      categories,
+      catalogItems,
+      coverage,
+      stats: {
+        offerCount,
+        productCount,
+        historyCount,
+        storeCount: stores.length,
+      },
+      expiresAt: Date.now() + PAGE_CACHE_TTL_MS,
+    });
 
     const { items: pageItems, totalItems } = selectCatalogPageItems(catalogItems, selectedCategory, options?.sort, page);
     const totalPages = Math.max(1, Math.ceil(totalItems / CATALOG_PAGE_LIMIT));
@@ -529,76 +591,13 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
     return cached.categories;
   }
 
-  const offersRaw = await prisma.$queryRawUnsafe(`
-    SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
-    FROM "Offer"
-    LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
-    ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
-  `) as Array<Record<string, unknown>>;
+  const rawOffers = await prisma.offer.findMany({
+    where,
+    include: { store: true },
+    orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
+  });
 
-  const stores = await prisma.store.findMany({ orderBy: { name: "asc" } });
-  const storeMap = new Map<string, { id: number; slug: string; name: string; baseUrl: string; platform: string; enabled: boolean; createdAt: Date; updatedAt: Date }>();
-  for (const s of stores) storeMap.set(s.slug, s);
-
-  const terms = normalizedQuery.split(" ").filter(Boolean);
-  const categoryFilter = (where as Record<string, unknown>).category as string | undefined;
-  const storeFilter = ((where as Record<string, unknown>).store as Record<string, unknown> | undefined)?.slug as { in?: string[] } | undefined;
-  const storeSlugs = storeFilter?.in;
-
-  const baseOffers = offersRaw
-    .map((row) => {
-      const store = {
-        id: row.store_slug ? (storeMap.get(row.store_slug as string)?.id ?? 0) : 0,
-        slug: (row.store_slug as string) ?? "",
-        name: (row.store_name as string) ?? "",
-        baseUrl: (row.store_baseUrl as string) ?? "",
-        platform: (row.store_platform as string) ?? "",
-        enabled: Boolean(row.store_enabled),
-        createdAt: row.store_createdAt as Date,
-        updatedAt: row.store_updatedAt as Date,
-      };
-      return {
-        id: row.id as number,
-        storeId: row.storeId as number,
-        productId: (row.productId === "null" || row.productId === "" || row.productId === null) ? null : Number(row.productId),
-        url: row.url as string,
-        sourceId: row.sourceId as string | null,
-        sku: row.sku as string | null,
-        ean: row.ean as string | null,
-        title: row.title as string,
-        normalizedTitle: row.normalizedTitle as string,
-        brand: row.brand as string | null,
-        brandKey: row.brandKey as string | null,
-        modelKey: row.modelKey as string | null,
-        category: row.category as string,
-        sourceCategory: row.sourceCategory as string | null,
-        description: row.description as string | null,
-        imageUrl: row.imageUrl as string | null,
-        price: row.price as number,
-        originalPrice: row.originalPrice as number | null,
-        currency: row.currency as string,
-        inStock: Boolean(row.inStock),
-        availability: row.availability as string | null,
-        enabled: row.enabled as number,
-        lastSeenAt: row.lastSeenAt as Date,
-        createdAt: row.createdAt as Date,
-        updatedAt: row.updatedAt as Date,
-        store,
-      };
-    })
-    .filter((o) => {
-      if (terms.length > 0) {
-        const matchTerm = terms.some((term) =>
-          o.normalizedTitle.toLowerCase().includes(term) ||
-          (o.brand?.toLowerCase().includes(term) ?? false) ||
-          o.category.toLowerCase().includes(term)
-        );
-        if (!matchTerm) return false;
-      }
-      if (categoryFilter && o.category !== categoryFilter) return false;
-      if (storeSlugs?.length && !storeSlugs.includes(o.store.slug)) return false;
-      return true;
-    });
+  const baseOffers = rawOffers;
 
   // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
   const productIds = [...new Set(baseOffers.map((o) => o.productId).filter(Boolean))] as number[];
@@ -635,31 +634,6 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
   return categoryCounts;
 }
 
-const CATALOG_GENERIC_TOKENS = GENERIC_TOKENS;
-
-const CATALOG_MATERIAL_TOKENS = MATERIAL_TOKENS;
-const CATALOG_MATERIAL_KEYS = MATERIAL_KEYS;
-const CATALOG_COLOR_KEYS = COLOR_KEYS;
-const CATALOG_SCALE_KEYS = SCALE_KEYS;
-const CATALOG_HARD_MODEL_TOKENS = HARD_MODEL_TOKENS;
-const CATALOG_BRAND_SIZE_MATCH_CATEGORIES = BRAND_SIZE_MATCH_CATEGORIES;
-const CATALOG_BRAND_MODEL_MATCH_CATEGORIES = BRAND_MODEL_MATCH_CATEGORIES;
-
-type CatalogProfile = {
-  accessoryKind: string | null;
-  brandTokens: Set<string>;
-  category: string;
-  colorKeys: Set<string>;
-  coreTokens: Set<string>;
-  hasColorWildcard: boolean;
-  identifiers: Set<string>;
-  materials: Set<string>;
-  partCounts: Set<string>;
-  sizes: Set<string>;
-  tokens: Set<string>;
-};
-
-const catalogProfileCache = new WeakMap<CatalogOffer, CatalogProfile>();
 
 function buildCatalogItems(offers: CatalogOffer[]) {
   const offersByCategory = new Map<string, CatalogOffer[]>();
@@ -715,14 +689,10 @@ function buildCatalogCategoryItems(offers: CatalogOffer[]) {
   // Start with one group per productId
   const groups: CatalogOffer[][] = [...byProduct.values()];
 
-  // Phase 2: try to merge no-product offers into existing groups via fuzzy matching
+  // Uncurated offers are always singletons in the frontend.
+  // Fuzzy matching is now strictly delegated to the backend curation scripts.
   for (const offer of noProductOffers) {
-    const group = groups.find((items) => items.every((item) => areCatalogEquivalent(item, offer)));
-    if (group) {
-      group.push(offer);
-    } else {
-      groups.push([offer]);
-    }
+    groups.push([offer]);
   }
 
   return groups.map(buildCatalogItem);
@@ -760,7 +730,6 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
   return {
     brand: getCatalogBrand(offers),
     category: representative.category,
-    groupKey: getCatalogGroupKey(representative),
     id: representative.id,
     imageUrl: representative.imageUrl ?? productOffer.product?.imageUrl ?? offers.find((offer) => offer.imageUrl)?.imageUrl ?? null,
     inStock: offers.some((offer) => offer.inStock),
@@ -837,675 +806,4 @@ function getCatalogBrand(offers: CatalogOffer[]) {
 
   return brands.sort((first, second) => first.length - second.length || first.localeCompare(second))[0];
 }
-
-function areCatalogEquivalent(first: CatalogOffer, second: CatalogOffer) {
-  if (first.id === second.id) {
-    return true;
-  }
-
-  if (first.productId && first.productId === second.productId) {
-    return true;
-  }
-
-  const firstProfile = buildCatalogProfile(first);
-  const secondProfile = buildCatalogProfile(second);
-
-  if (firstProfile.category !== secondProfile.category) {
-    return false;
-  }
-
-  if (
-    firstProfile.category === "accesorios de extraccion" ||
-    firstProfile.category === "bandejas y ceniceros" ||
-    firstProfile.category === "contenedores y estuches" ||
-    firstProfile.category === "encendedores y sopletes" ||
-    firstProfile.category === "filtros y boquillas" ||
-    firstProfile.category === "limpieza" ||
-    firstProfile.category === "otros parafernalia" ||
-    firstProfile.category === "repuestos para bongs y vaporizadores" ||
-    firstProfile.category === "vaporizadores electronicos" ||
-    firstProfile.category === "vaporizadores herbales"
-  ) {
-    return false;
-  }
-
-  if (hasCatalogAccessoryKindConflict(firstProfile, secondProfile)) {
-    return false;
-  }
-
-  if (hasCatalogRawTrayModelConflict(firstProfile, secondProfile)) {
-    return false;
-  }
-
-  if (hasCatalogTopSmokeGenericPipeConflict(firstProfile, secondProfile)) {
-    return false;
-  }
-
-  if (firstProfile.brandTokens.size > 0 && secondProfile.brandTokens.size > 0 && !hasCatalogIntersection(firstProfile.brandTokens, secondProfile.brandTokens)) {
-    return false;
-  }
-
-  if (
-    firstProfile.materials.size > 0 &&
-    secondProfile.materials.size > 0 &&
-    !hasCatalogIntersection(firstProfile.materials, secondProfile.materials) &&
-    !canIgnoreFilterMaterialMismatch(firstProfile, secondProfile)
-  ) {
-    return false;
-  }
-
-  if (firstProfile.partCounts.size > 0 && secondProfile.partCounts.size > 0 && !hasCatalogIntersection(firstProfile.partCounts, secondProfile.partCounts)) {
-    return false;
-  }
-
-  if (firstProfile.sizes.size > 0 && secondProfile.sizes.size > 0 && !hasCatalogCompatibleSize(firstProfile.sizes, secondProfile.sizes)) {
-    return false;
-  }
-
-  if (firstProfile.identifiers.size > 0 && secondProfile.identifiers.size > 0 && !hasCatalogIntersection(firstProfile.identifiers, secondProfile.identifiers)) {
-    return false;
-  }
-
-  if (
-    firstProfile.colorKeys.size > 0 &&
-    secondProfile.colorKeys.size > 0 &&
-    !firstProfile.hasColorWildcard &&
-    !secondProfile.hasColorWildcard &&
-    !hasCatalogIntersection(firstProfile.colorKeys, secondProfile.colorKeys) &&
-    !canIgnoreFilterColorMismatch(firstProfile, secondProfile)
-  ) {
-    return false;
-  }
-
-  if (hasCatalogScaleConflict(firstProfile.coreTokens, secondProfile.coreTokens)) {
-    return false;
-  }
-
-  const brandMatches = hasCatalogIntersection(firstProfile.brandTokens, secondProfile.brandTokens);
-  const materialMatches = hasCatalogIntersection(firstProfile.materials, secondProfile.materials);
-  const partMatches = hasCatalogIntersection(firstProfile.partCounts, secondProfile.partCounts);
-  const sizeMatches = hasCatalogCompatibleSize(firstProfile.sizes, secondProfile.sizes);
-  const colorMatches = hasCatalogIntersection(firstProfile.colorKeys, secondProfile.colorKeys);
-  const identifierMatches = hasCatalogIntersection(firstProfile.identifiers, secondProfile.identifiers);
-  const coreOverlap = countIntersection(firstProfile.coreTokens, secondProfile.coreTokens);
-
-  if (
-    hasCatalogDistinctiveConflict(firstProfile.coreTokens, secondProfile.coreTokens) &&
-    !canIgnoreCatalogCoreConflict(firstProfile, secondProfile, brandMatches, materialMatches, partMatches, sizeMatches, identifierMatches)
-  ) {
-    return false;
-  }
-
-  const firstCoverage = coreOverlap / Math.max(firstProfile.coreTokens.size, 1);
-  const secondCoverage = coreOverlap / Math.max(secondProfile.coreTokens.size, 1);
-  const score =
-    (brandMatches ? 0.3 : 0) +
-    (materialMatches ? 0.22 : 0) +
-    (partMatches ? 0.22 : 0) +
-    (sizeMatches ? 0.12 : 0) +
-    (identifierMatches ? 0.18 : 0) +
-    firstCoverage * 0.08 +
-    secondCoverage * 0.08;
-
-  if (firstProfile.category === "moledores" && brandMatches && materialMatches && partMatches && (sizeMatches || identifierMatches || coreOverlap >= 2)) {
-    return true;
-  }
-
-  if (firstProfile.category === "moledores" && brandMatches && sizeMatches && coreOverlap >= 2) {
-    return true;
-  }
-
-  if (firstProfile.category === "moledores" && brandMatches && identifierMatches && coreOverlap >= 2) {
-    return true;
-  }
-
-  if (firstProfile.category === "moledores" && brandMatches && coreOverlap >= 3) {
-    return true;
-  }
-
-  if (firstProfile.category === "bongs" && brandMatches && coreOverlap >= 3 && (materialMatches || sizeMatches)) {
-    return true;
-  }
-
-  if (canCatalogMatchRawTray(firstProfile, secondProfile, brandMatches, materialMatches, coreOverlap)) {
-    return true;
-  }
-
-  if (canCatalogMatchBySharedModel(firstProfile, brandMatches, coreOverlap, materialMatches, partMatches, sizeMatches, identifierMatches)) {
-    return true;
-  }
-
-  if (canCatalogMatchByStructuredSignals(firstProfile, brandMatches, materialMatches, partMatches, sizeMatches, colorMatches, identifierMatches)) {
-    return true;
-  }
-
-  if (firstProfile.category === "papelillos" && brandMatches && (coreOverlap >= 2 || (sizeMatches && colorMatches))) {
-    if (firstProfile.coreTokens.size === 0 && secondProfile.coreTokens.size === 0) {
-      if (!colorMatches || firstProfile.colorKeys.size === 0 || secondProfile.colorKeys.size === 0) return false;
-      if (firstProfile.sizes.size > 0 && secondProfile.sizes.size > 0 && !sizeMatches) return false;
-      return true;
-    }
-    return coreOverlap >= 2 || (coreOverlap > 0 && (colorMatches || sizeMatches || identifierMatches));
-  }
-
-  if (canCatalogMatchFilterTips(firstProfile, brandMatches, materialMatches, sizeMatches, identifierMatches, coreOverlap)) {
-    return true;
-  }
-
-  return score >= 0.70;
-}
-
-function buildCatalogProfile(offer: CatalogOffer): CatalogProfile {
-  const cached = catalogProfileCache.get(offer);
-
-  if (cached) {
-    return cached;
-  }
-
-  const category = normalizeCatalogText(offer.category);
-  const text = normalizeCatalogText(
-    category === "papelillos"
-      ? `${offer.brand ?? ""} ${cleanCatalogTitle(offer.title)}`
-      : `${offer.brand ?? ""} ${cleanCatalogTitle(offer.title)} ${getCatalogUrlPath(offer.url)}`,
-  );
-  const tokens = tokenizeCatalogText(text);
-  const brandTokens = extractCatalogBrandTokens(text, offer.brand);
-  const colorKeys = new Set([...tokens].map((token) => CATALOG_COLOR_KEYS.get(token)).filter(Boolean) as string[]);
-  const materials = new Set([...tokens].filter((token) => CATALOG_MATERIAL_TOKENS.has(token)).map(getCatalogMaterialKey));
-  const partCounts = new Set([...tokens].filter((token) => /^\d+-partes$/.test(token)));
-  const sizes = extractCatalogSizeTokens(text, tokens);
-  const identifiers = new Set([...tokens].filter((token) => isCatalogIdentifier(token) && !sizes.has(token) && !partCounts.has(token) && !isCatalogSizeResidue(token, sizes)));
-  const coreTokens = new Set(
-    [...tokens].filter(
-      (token) =>
-        !CATALOG_GENERIC_TOKENS.has(token) &&
-        !brandTokens.has(token) &&
-        !CATALOG_MATERIAL_TOKENS.has(token) &&
-        !CATALOG_COLOR_KEYS.has(token) &&
-        !partCounts.has(token) &&
-        !sizes.has(token) &&
-        !isCatalogSizeResidue(token, sizes) &&
-        !identifiers.has(token) &&
-        token.length > 1,
-    ),
-  );
-
-  const profile = {
-    accessoryKind: getCatalogAccessoryKind(tokens),
-    brandTokens,
-    category,
-    colorKeys,
-    coreTokens,
-    hasColorWildcard: hasAnyCatalogToken(tokens, ["aleatorio", "aleatoria", "color", "colores", "eleccion", "variado", "variados", "variedad", "variedades"]),
-    identifiers,
-    materials,
-    partCounts,
-    sizes,
-    tokens,
-  };
-
-  catalogProfileCache.set(offer, profile);
-
-  return profile;
-}
-
-function getCatalogUrlPath(value: string) {
-  try {
-    const segments = new URL(value).pathname.split("/").filter(Boolean);
-    return (segments[segments.length - 1] ?? "").replace(/\.(?:html?|php|aspx?)$/i, " ");
-  } catch {
-    return value;
-  }
-}
-
-function extractCatalogSizeTokens(text: string, tokens: Set<string>) {
-  const sizes = new Set(
-    [...tokens]
-      .filter((token) => /^\d+(?:\.\d+)?(cm|mm|ml|cc|oz|g|gr|l|m)$/.test(token) || /^\d+-\d+\/\d+$/.test(token))
-      .map(getCatalogSizeKey),
-  );
-
-  if (/\b(?:1-1\/4|1-14|114)\b/.test(text)) {
-    sizes.add("1-1/4");
-  }
-
-  if (/\b(?:king size slim|slim king size)\b/.test(text)) {
-    sizes.add("king-size");
-    sizes.add("king-size-slim");
-  } else if (/\bking size\b/.test(text)) {
-    sizes.add("king-size");
-  }
-
-  if (/\b(?:roll|rolls|rollo|rollos)\b/.test(text)) {
-    sizes.add("roll");
-  }
-
-  return sizes;
-}
-
-function getCatalogSizeKey(token: string) {
-  const dimension = token.match(/^(\d+(?:\.\d+)?)(cm|mm)$/);
-
-  if (dimension) {
-    const amount = Number(dimension[1]);
-    const millimeters = dimension[2] === "cm" ? amount * 10 : amount;
-
-    return `${Math.round(millimeters)}mm`;
-  }
-
-  const volume = token.match(/^(\d+(?:\.\d+)?)(cc|ml)$/);
-
-  if (volume) {
-    return `${Math.round(Number(volume[1]))}ml`;
-  }
-
-  return token;
-}
-
-function getCatalogMaterialKey(token: string) {
-  return CATALOG_MATERIAL_KEYS.get(token) ?? token;
-}
-
-function extractCatalogBrandTokens(text: string, brand: string | null) {
-  const tokens = tokenizeCatalogText(text);
-  const brandTokens = new Set<string>();
-
-  for (const token of tokenizeCatalogText(normalizeCatalogText(brand ?? ""))) {
-    if (!CATALOG_GENERIC_TOKENS.has(token)) {
-      brandTokens.add(token);
-    }
-  }
-
-  for (const brandPhrase of KNOWN_BRAND_PHRASES) {
-    const parts = [...tokenizeCatalogText(normalizeCatalogText(brandPhrase))];
-
-    if (parts.length > 0 && parts.every((part) => tokens.has(part))) {
-      for (const part of parts) {
-        if (!CATALOG_GENERIC_TOKENS.has(part)) {
-          brandTokens.add(part);
-        }
-      }
-    }
-  }
-
-  return brandTokens;
-}
-
-function getCatalogGroupKey(offer: CatalogOffer) {
-  const profile = buildCatalogProfile(offer);
-
-  return [
-    profile.category,
-    [...profile.brandTokens].sort().join("-"),
-    [...profile.materials].sort().join("-"),
-    [...profile.partCounts].sort().join("-"),
-    [...profile.coreTokens].sort().slice(0, 3).join("-"),
-  ].join(":");
-}
-
-function normalizeCatalogText(value: string) {
-  return value
-    .replace(/½/g, "1/2")
-    .replace(/¼/g, "1/4")
-    .replace(/¾/g, "3/4")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/&amp;/g, "&")
-    .toLowerCase()
-    .replace(/\bx\s*-\s*pert\b/g, "xpert")
-    .replace(/\b(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*(cm|mm)\b/g, (_, width: string, height: string, unit: string) => {
-      return ` ${width.replace(",", ".")}${unit} ${height.replace(",", ".")}${unit} `;
-    })
-    .replace(/\b1\s*(?:[.-]\s*)?1\s*\/\s*4\b/g, " 1-1/4 ")
-    .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|cc|oz|gr|g|lts?|litros?|mts?|metros?)\b/g, (_, amount: string, unit: string) => {
-      const normalizedUnit = unit.replace(/^litros?$/, "l").replace(/^lts?$/, "l").replace(/^metros?$/, "m").replace(/^mts?$/, "m");
-      return ` ${amount.replace(",", ".")}${normalizedUnit} `;
-    })
-    .replace(/\b(\d+)[-\s]*(partes?|pisos?|piezas?|pcs|pieces)\b/g, " $1-partes ")
-    .replace(/\bpre\s*-?\s*rolled\b/g, " pre-rolled ")
-    .replace(/\bpre\s*-?\s*enrolad[oa]s?\b/g, " pre-rolled ")
-    .replace(/\bpre\s*-?\s*picad[oa]s?\b/g, " pre-picada ")
-    .replace(/\bcarbon\s+activ(?:o|ado)\b/g, " carbon ")
-    .replace(/\bcarbons?\b/g, " carbon ")
-    .replace(/[^a-z0-9\s/.-]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function tokenizeCatalogText(text: string) {
-  const tokens = new Set(text.split(/[\s/-]+/).filter(Boolean));
-
-  for (const compound of ["pre-rolled", "pre-picada"]) {
-    if (text.includes(compound)) {
-      tokens.add(compound);
-    }
-  }
-
-  for (const match of text.matchAll(/\b\d+-partes\b/g)) {
-    tokens.add(match[0]);
-  }
-
-  return tokens;
-}
-
-function isCatalogIdentifier(token: string) {
-  return /^[a-z]+\d+[a-z0-9-]*$/.test(token) || /^\d+[a-z]+[a-z0-9-]*$/.test(token) || /^\d+u$/.test(token) || /^\d{2,}$/.test(token);
-}
-
-function isCatalogSizeResidue(token: string, sizes: Set<string>) {
-  if (sizes.has("1-1/4") && (token === "14" || token === "114")) {
-    return true;
-  }
-
-  if (/^\d+(?:\.\d+)?(?:cm|mm|cc|ml)$/.test(token) && sizes.has(getCatalogSizeKey(token))) {
-    return true;
-  }
-
-  if (/^\d+$/.test(token) && (sizes.has(`${token}mm`) || sizes.has(`${Number(token) * 10}mm`))) {
-    return true;
-  }
-
-  return false;
-}
-
-function hasAnyCatalogToken(tokens: Set<string>, values: string[]) {
-  return values.some((value) => tokens.has(value));
-}
-
-function hasCatalogIntersection(first: Set<string>, second: Set<string>) {
-  for (const value of first) {
-    if (second.has(value)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function hasCatalogCompatibleSize(first: Set<string>, second: Set<string>) {
-  if (hasCatalogIntersection(first, second)) {
-    return true;
-  }
-
-  for (const firstSize of first) {
-    const firstMillimeters = getMillimeters(firstSize);
-
-    if (firstMillimeters === undefined) {
-      continue;
-    }
-
-    for (const secondSize of second) {
-      const secondMillimeters = getMillimeters(secondSize);
-
-      if (secondMillimeters !== undefined && Math.abs(firstMillimeters - secondMillimeters) <= 4) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-function hasCatalogScaleConflict(first: Set<string>, second: Set<string>) {
-  const firstScale = getCatalogScaleKeys(first);
-  const secondScale = getCatalogScaleKeys(second);
-
-  return firstScale.size > 0 && secondScale.size > 0 && !hasCatalogIntersection(firstScale, secondScale);
-}
-
-function canIgnoreCatalogCoreConflict(
-  first: CatalogProfile,
-  second: CatalogProfile,
-  brandMatches: boolean,
-  materialMatches: boolean,
-  partMatches: boolean,
-  sizeMatches: boolean,
-  identifierMatches: boolean,
-) {
-  if (!brandMatches || first.category !== second.category || hasCatalogHardModelConflict(first.coreTokens, second.coreTokens)) {
-    return false;
-  }
-
-  if (first.category === "moledores" && materialMatches && (partMatches || sizeMatches)) {
-    return true;
-  }
-
-  if (CATALOG_BRAND_SIZE_MATCH_CATEGORIES.has(first.category) && (sizeMatches || identifierMatches)) {
-    return true;
-  }
-
-  if (first.category === "filtros y boquillas" && (materialMatches || sizeMatches || identifierMatches)) {
-    return true;
-  }
-
-  return identifierMatches || (materialMatches && sizeMatches) || (materialMatches && partMatches) || (partMatches && sizeMatches);
-}
-
-function canCatalogMatchBySharedModel(
-  profile: CatalogProfile,
-  brandMatches: boolean,
-  coreOverlap: number,
-  materialMatches: boolean,
-  partMatches: boolean,
-  sizeMatches: boolean,
-  identifierMatches: boolean,
-) {
-  return (
-    CATALOG_BRAND_MODEL_MATCH_CATEGORIES.has(profile.category) &&
-    brandMatches &&
-    coreOverlap > 0 &&
-    (coreOverlap >= 2 || materialMatches || partMatches || sizeMatches || identifierMatches)
-  );
-}
-
-function canCatalogMatchRawTray(
-  first: CatalogProfile,
-  second: CatalogProfile,
-  brandMatches: boolean,
-  materialMatches: boolean,
-  coreOverlap: number,
-) {
-  if (first.category !== "bandejas y ceniceros" || second.category !== "bandejas y ceniceros" || !brandMatches || !materialMatches) {
-    return false;
-  }
-
-  if (!first.brandTokens.has("raw") || !second.brandTokens.has("raw")) {
-    return false;
-  }
-
-  const firstModel = getCatalogRawTrayModel(first);
-  const secondModel = getCatalogRawTrayModel(second);
-
-  if (firstModel && secondModel) {
-    return firstModel === secondModel;
-  }
-
-  if (firstModel || secondModel) {
-    return firstModel === "classic" || secondModel === "classic";
-  }
-
-  return coreOverlap > 0;
-}
-
-function hasCatalogAccessoryKindConflict(first: CatalogProfile, second: CatalogProfile) {
-  if (first.category !== "bandejas y ceniceros" || second.category !== "bandejas y ceniceros") {
-    return false;
-  }
-
-  return Boolean(first.accessoryKind && second.accessoryKind && first.accessoryKind !== second.accessoryKind);
-}
-
-function getCatalogAccessoryKind(tokens: Set<string>) {
-  if (hasAnyCatalogToken(tokens, ["tapa", "magnetica", "magnetico", "cover", "lid"])) {
-    return "cover";
-  }
-
-  if (hasAnyCatalogToken(tokens, ["cenicero", "ceniceros", "ashtray"])) {
-    return "ashtray";
-  }
-
-  if (hasAnyCatalogToken(tokens, ["bandeja", "bandejas", "tray", "rolling"])) {
-    return "tray";
-  }
-
-  return null;
-}
-
-function hasCatalogRawTrayModelConflict(first: CatalogProfile, second: CatalogProfile) {
-  if (first.category !== "bandejas y ceniceros" || second.category !== "bandejas y ceniceros") {
-    return false;
-  }
-
-  if (!first.brandTokens.has("raw") || !second.brandTokens.has("raw")) {
-    return false;
-  }
-
-  const firstModel = getCatalogRawTrayModel(first);
-  const secondModel = getCatalogRawTrayModel(second);
-
-  if (firstModel && secondModel) {
-    return firstModel !== secondModel;
-  }
-
-  const model = firstModel ?? secondModel;
-
-  return Boolean(model && model !== "classic");
-}
-
-function hasCatalogTopSmokeGenericPipeConflict(first: CatalogProfile, second: CatalogProfile) {
-  if (first.category !== "pipas" || second.category !== "pipas") {
-    return false;
-  }
-
-  if (!first.brandTokens.has("top") || !first.brandTokens.has("smoke") || !second.brandTokens.has("top") || !second.brandTokens.has("smoke")) {
-    return false;
-  }
-
-  return isGenericTopSmokePyrexPipe(first) !== isGenericTopSmokePyrexPipe(second);
-}
-
-function isGenericTopSmokePyrexPipe(profile: CatalogProfile) {
-  if (!profile.materials.has("glass")) {
-    return false;
-  }
-
-  const modelTokens = [...profile.coreTokens].filter((token) => token !== "premium");
-
-  return modelTokens.length === 0;
-}
-
-function getCatalogRawTrayModel(profile: CatalogProfile) {
-  if (profile.tokens.has("brazilian")) {
-    return "brazilian-girl";
-  }
-
-  if (profile.tokens.has("prepare") && profile.tokens.has("flight")) {
-    return "prepare-flight";
-  }
-
-  if (profile.tokens.has("emerald")) {
-    return "emerald";
-  }
-
-  if (profile.tokens.has("girl")) {
-    return "girl";
-  }
-
-  if (profile.tokens.has("classic") || profile.tokens.has("clasica") || profile.tokens.has("clasico")) {
-    return "classic";
-  }
-
-  return null;
-}
-
-function canCatalogMatchByStructuredSignals(
-  profile: CatalogProfile,
-  brandMatches: boolean,
-  materialMatches: boolean,
-  partMatches: boolean,
-  sizeMatches: boolean,
-  colorMatches: boolean,
-  identifierMatches: boolean,
-) {
-  if (!brandMatches) {
-    return false;
-  }
-
-  if (CATALOG_BRAND_SIZE_MATCH_CATEGORIES.has(profile.category) && (sizeMatches || identifierMatches) && (colorMatches || profile.coreTokens.size === 0)) {
-    return true;
-  }
-
-  return identifierMatches || (materialMatches && sizeMatches) || (materialMatches && partMatches) || (partMatches && sizeMatches);
-}
-
-function canCatalogMatchFilterTips(
-  profile: CatalogProfile,
-  brandMatches: boolean,
-  materialMatches: boolean,
-  sizeMatches: boolean,
-  identifierMatches: boolean,
-  coreOverlap: number,
-) {
-  return (
-    profile.category === "filtros y boquillas" &&
-    brandMatches &&
-    (materialMatches || sizeMatches || identifierMatches || coreOverlap > 0)
-  );
-}
-
-function canIgnoreFilterColorMismatch(first: CatalogProfile, second: CatalogProfile) {
-  return (
-    first.category === "filtros y boquillas" &&
-    second.category === "filtros y boquillas" &&
-    hasCatalogIntersection(first.brandTokens, second.brandTokens) &&
-    hasCatalogIntersection(first.materials, second.materials) &&
-    hasCatalogCompatibleSize(first.sizes, second.sizes)
-  );
-}
-
-function canIgnoreFilterMaterialMismatch(first: CatalogProfile, second: CatalogProfile) {
-  return first.category === "filtros y boquillas" && second.category === "filtros y boquillas" && hasCatalogIntersection(first.coreTokens, second.coreTokens);
-}
-
-function hasCatalogHardModelConflict(first: Set<string>, second: Set<string>) {
-  const firstModel = getCatalogHardModelTokens(first);
-  const secondModel = getCatalogHardModelTokens(second);
-
-  return (firstModel.size > 0 || secondModel.size > 0) && !hasCatalogIntersection(firstModel, secondModel);
-}
-
-function getCatalogHardModelTokens(tokens: Set<string>) {
-  const hardTokens = new Set<string>();
-
-  for (const token of tokens) {
-    if (CATALOG_HARD_MODEL_TOKENS.has(token)) {
-      hardTokens.add(token);
-    }
-  }
-
-  return hardTokens;
-}
-
-function getCatalogScaleKeys(tokens: Set<string>) {
-  const keys = new Set<string>();
-
-  for (const token of tokens) {
-    const key = CATALOG_SCALE_KEYS.get(token);
-
-    if (key) {
-      keys.add(key);
-    }
-  }
-
-  return keys;
-}
-
-function hasCatalogDistinctiveConflict(first: Set<string>, second: Set<string>) {
-  if (first.size === 0 && second.size === 0) {
-    return false;
-  }
-
-  return !hasIntersection(first, second);
-}
-
-
+

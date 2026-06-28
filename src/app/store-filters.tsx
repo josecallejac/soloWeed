@@ -48,8 +48,8 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
           return (
             <label
               key={store.slug}
-              className={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition border border-transparent ${
-                checked ? "bg-[#C0FF00] text-black border-[#C0FF00] shadow-[0_0_10px_rgba(192,255,0,0.2)]" : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-black/10 dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-[#C0FF00]/50"
+              className={`group flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition-all duration-300 border border-transparent ${
+                checked ? "bg-accent text-black border-accent shadow-[0_0_15px_rgba(192,255,0,0.3)]" : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/50 hover:shadow-lg dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
               }`}
             >
               <input
@@ -58,7 +58,7 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
                 onChange={() => toggleStore(store.slug)}
                 type="checkbox"
               />
-              <span className={`grid size-5 place-items-center rounded-md border-2 text-xs transition-colors ${checked ? "border-black bg-black text-[#C0FF00] dark:border-black dark:bg-black dark:text-[#C0FF00]" : "border-black/20 dark:border-white/20 bg-white dark:bg-[#18181b]"}`}>
+              <span className={`grid size-5 place-items-center rounded-md border-2 text-xs transition-colors ${checked ? "border-black bg-black text-accent-text dark:border-black dark:bg-black dark:text-accent-text" : "border-black/20 dark:border-white/20 bg-white dark:bg-[#18181b]"}`}>
                 {checked ? "✓" : ""}
               </span>
               {store.name}

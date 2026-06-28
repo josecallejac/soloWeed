@@ -27,7 +27,7 @@ export function StatsPanel({ data }: StatsPanelProps) {
 
   return (
     <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-4 text-zinc-900 dark:text-[#fafafa] shadow-lg dark:shadow-2xl relative overflow-hidden group transition-colors duration-300">
-      <div className="rounded-lg bg-[#C0FF00] p-6 text-black relative z-10 transition-colors duration-300">
+      <div className="rounded-lg bg-accent p-6 text-black relative z-10 transition-colors duration-300">
         <p className="text-sm font-black uppercase tracking-[0.22em] font-mono">Radar SoloWeed</p>
         <p className="mt-3 text-3xl font-black tracking-[-0.04em]">
           Catalogo en movimiento con ofertas de tiendas reales.
@@ -54,7 +54,7 @@ export function StatsPanel({ data }: StatsPanelProps) {
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3">
         {stats.map(([label, value]) => (
-          <div className="rounded-lg border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-5 relative z-10 transition-colors hover:bg-zinc-100 dark:hover:bg-white/10 hover:border-[#C0FF00]/50" key={label}>
+          <div className="rounded-lg border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-5 relative z-10 transition-colors hover:bg-zinc-100 dark:hover:bg-white/10 hover:border-accent/50" key={label}>
             <span className="block text-3xl font-black">{value}</span>
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-zinc-500 dark:text-white/50 font-mono">{label}</span>
           </div>
