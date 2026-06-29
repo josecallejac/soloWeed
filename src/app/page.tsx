@@ -9,6 +9,7 @@ import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -231,12 +232,12 @@ export default async function Home({ searchParams }: HomeProps) {
                 <div className="mt-8 flex items-center justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-4 shadow-sm dark:shadow-none transition-colors duration-300">
                   <div>
                     {data.page > 1 ? (
-                      <a
+                      <Link
                         className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
                         href={buildPageUrl(data.page - 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span> Anterior
-                      </a>
+                      </Link>
                     ) : (
                       <span className="flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 px-6 py-3 text-sm font-bold text-zinc-300 dark:text-white/15 font-mono cursor-not-allowed">← Anterior</span>
                     )}
@@ -246,12 +247,12 @@ export default async function Home({ searchParams }: HomeProps) {
                   </span>
                   <div>
                     {data.page < data.totalPages ? (
-                      <a
+                      <Link
                         className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
                         href={buildPageUrl(data.page + 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         Siguiente <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                      </a>
+                      </Link>
                     ) : (
                       <span className="flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 px-6 py-3 text-sm font-bold text-zinc-300 dark:text-white/15 font-mono cursor-not-allowed">Siguiente →</span>
                     )}
@@ -806,4 +807,4 @@ function getCatalogBrand(offers: CatalogOffer[]) {
 
   return brands.sort((first, second) => first.length - second.length || first.localeCompare(second))[0];
 }
-
+

@@ -40,13 +40,13 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
   const storeSavings = offer.storeCount > 1 && offer.minPrice > 0 ? offer.maxPrice - offer.minPrice : 0;
 
   return (
-    <article className="group grid min-w-0 gap-5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#121214] p-4 shadow-[0_1px_3px_rgba(0,0,0,0.06)] dark:shadow-none transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:bg-zinc-50/80 dark:hover:bg-[#18181b] hover:shadow-[0_12px_40px_rgba(0,0,0,0.1),0_4px_15px_rgba(192,255,0,0.15)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3),0_4px_15px_rgba(192,255,0,0.15)] sm:grid-cols-[180px_minmax(0,1fr)]">
+    <article className="relative group grid min-w-0 gap-5 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#121214] p-4 shadow-sm dark:shadow-none transition-all duration-500 ease-out hover:z-10 hover:-translate-y-2 hover:border-black/20 dark:hover:border-white/20 hover:bg-zinc-50/50 dark:hover:bg-[#1a1a1d]/80 hover:backdrop-blur-xl hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] sm:grid-cols-[180px_minmax(0,1fr)]">
       {/* Image container */}
       <div className="relative min-h-48 overflow-hidden rounded-xl bg-zinc-100 dark:bg-white/[0.02] transition-colors duration-300 group-hover:bg-zinc-50 dark:group-hover:bg-white/[0.04]">
         {offer.imageUrl ? (
           <Image
             alt={offer.title}
-            className="h-full w-full object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-110"
+            className="h-full w-full object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.15]"
             src={offer.imageUrl}
             unoptimized
             fill
