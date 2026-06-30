@@ -20,5 +20,5 @@ Este documento mantiene la memoria del estado de curación del catálogo entre s
 
 ## Tareas Pendientes
 
-- **Punto 1 (Mejoras UI/Frontend):** Navegación optimizada (rutas cliente, loading skeletons) y diseño de tarjetas mejorado (Glassmorphism). Queda pendiente añadir gráficas comparativas de historial de precios.
+- **Punto 1 (Mejoras UI/Frontend):** ✅ COMPLETADO. Navegación optimizada (rutas cliente, loading skeletons), diseño de tarjetas mejorado (Glassmorphism) y gráficas comparativas de historial de precios en detalle de productos.
 - **Scraper:** Expandir la cobertura añadiendo una quinta tienda al ecosistema (en pausa por solicitud del usuario).

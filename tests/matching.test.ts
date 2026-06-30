@@ -13,13 +13,13 @@ import {
   getPhraseModels,
   hasCategorySpecificMismatch,
   hasHardModelConflict,
-  hasIntersection,
   hasPackIndicator,
   hasQuantityMismatch,
   normalizeText,
   pickSeedAndCandidate,
   scoreSuggestion,
 } from "../src/lib/matching";
+import { hasIntersection } from "../src/lib/matching-utils";
 
 describe("normalizeText", () => {
   it("removes accents and lowercases", () => {
