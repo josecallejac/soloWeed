@@ -7,7 +7,7 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test tests/password.test.ts tests/export-catalog-audit.test.ts tests/matching.test.ts tests/catalog.test.ts",
+    "test": "node scripts/run-tests.mjs",
     "scrape": "tsx scripts/scrape.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
     "match:image": "tsx scripts/match-by-image.ts",
@@ -28,9 +28,10 @@
     "test:e2e:install": "playwright install --with-deps"
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
     "@prisma/client": "^6.19.3",
-    "@xenova/transformers": "^2.17.2",
     "cheerio": "^1.0.0",
+    "clsx": "^2.1.1",
     "next": "16.2.6",
     "next-themes": "^0.4.6",
     "react": "19.2.4",
@@ -48,7 +49,7 @@
     "prisma": "^6.19.3",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }

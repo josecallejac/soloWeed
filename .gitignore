@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+test_output.txt
+test_matching.db
 
 # next.js
 /.next/

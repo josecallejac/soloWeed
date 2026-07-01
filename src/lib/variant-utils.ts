@@ -1,24 +1,4 @@
-const FLAVOR_KEYWORDS = [
-  "banana",
-  "cherry",
-  "coconut",
-  "chocolate",
-  "blueberry",
-  "bubble gum",
-  "bubblegum",
-  "grape",
-  "minty",
-  "mint",
-  "vainilla",
-  "vanilla",
-  "strawberry",
-  "frutilla",
-  "cereza",
-  "coco",
-  "platano",
-  "uva",
-  "menta",
-];
+import { FLAVOR_KEYWORDS } from "./matching-constants";
 
 export function getVariantName(title: string, url: string): string | null {
   try {

@@ -81,6 +81,56 @@ test.describe('soloWeed Catalog and Detail E2E Tests', () => {
     await expect(firstMatch).toBeVisible();
   });
 
+  test('should filter catalog by brand from the sidebar', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // The brand sidebar renders when curated brands exist
+    await expect(page.locator('h2:has-text("Marcas")')).toBeVisible();
+
+    // Pick the first brand link (skipping the "Todas las marcas" reset entry)
+    const brandLink = page.locator('h2:has-text("Marcas") + div a').nth(1);
+    await expect(brandLink).toBeVisible();
+    const brandName = (await brandLink.locator('span').first().innerText()).trim();
+    await brandLink.click();
+
+    // URL reflects the brand filter and results still render
+    await page.waitForURL(/\?.*brand=/);
+    await expect(page.locator('a:text("Comparar")').first()).toBeVisible();
+
+    // The selected brand appears highlighted and clicking it again clears the filter
+    const selectedBrand = page.locator('h2:has-text("Marcas") + div a', { hasText: brandName }).first();
+    await selectedBrand.click();
+    await page.waitForURL((url) => !url.searchParams.has('brand'));
+  });
+
+  test('should switch variants on a product detail page when available', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    const compararLink = page.locator('a:text("Comparar")').first();
+    await expect(compararLink).toBeVisible();
+    await compararLink.click();
+    await page.waitForURL(/\/productos\//);
+    await expect(page.locator('h1')).toBeVisible({ timeout: 15000 });
+
+    // The selector only renders for products with more than one variant
+    const selector = page.locator('#variant-selector');
+    if (await selector.count() === 0) {
+      test.info().annotations.push({ type: 'note', description: 'Producto sin variantes; selector no renderizado.' });
+      return;
+    }
+
+    const options = selector.locator('option');
+    expect(await options.count()).toBeGreaterThan(1);
+    const secondValue = await options.nth(1).getAttribute('value');
+    await selector.selectOption(secondValue!);
+
+    // Selecting a variant pushes ?v= to the URL without a full reload
+    await page.waitForURL((url) => url.searchParams.get('v') === secondValue);
+    await expect(selector).toHaveValue(secondValue!);
+  });
+
   test('should navigate to product detail and verify dynamic elements', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');

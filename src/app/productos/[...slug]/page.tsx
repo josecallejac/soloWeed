@@ -20,7 +20,7 @@ import { SITE_URL, productPath } from "@/lib/site";
 import type { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
 import { PriceHistoryChart } from "./price-history-chart";
 import { VariantSelector } from "@/components/variant-selector";
@@ -103,6 +103,21 @@ type MatchableOffer = {
 export default async function ProductDetail(props: ProductDetailProps) {
   const { slug } = await props.params;
   const searchParams = await props.searchParams;
+
+  // URLs legacy de un solo segmento (/productos/<slug>): si el segmento coincide
+  // con un modelSlug curado, se redirige 308 a la URL canonica estable
+  // /productos/<brandKey>/<modelSlug> en vez de responder 404.
+  if (slug.length === 1) {
+    const legacy = await prisma.product.findFirst({
+      where: { modelSlug: slug[0], brandKey: { not: null } },
+      select: { brandKey: true, modelSlug: true },
+    });
+    if (legacy?.brandKey && legacy.modelSlug) {
+      permanentRedirect(productPath(legacy.brandKey, legacy.modelSlug));
+    }
+    notFound();
+  }
+
   const data = await getProductData(slug);
 
   if (!data) {

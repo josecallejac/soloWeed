@@ -1256,13 +1256,64 @@ function isLikelyCategoryPath(path: string) {
   ].includes(lastSegment);
 }
 
-function extractJumpsellerVariants($: ReturnType<typeof load>) {
-  const variants: string[] = [];
+type JumpsellerVariant = {
+  name: string;
+  price?: number;
+  originalPrice?: number;
+  sku?: string;
+  ean?: string;
+  imageUrl?: string;
+  inStock?: boolean;
+};
+
+// Jumpseller embebe <script class="product-json"> con las variantes completas
+// (precio, descuento, sku, barcode, stock, imagen). Los botones de opciones solo
+// traen el nombre, así que quedan como fallback si el JSON no está o no parsea.
+function extractJumpsellerVariants($: ReturnType<typeof load>): JumpsellerVariant[] {
+  const raw = $("script.product-json").first().text().trim();
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        const variants: JumpsellerVariant[] = [];
+        for (const entry of parsed) {
+          const record = getRecord(entry);
+          if (!record) continue;
+          const values = Array.isArray(record["values"]) ? record["values"] : [];
+          const name = values
+            .map((item) => cleanOptional(asText(getRecord(getRecord(item)?.["value"])?.["name"])))
+            .filter(Boolean)
+            .join(" ");
+          if (!name) continue;
+          const variantRecord = getRecord(record["variant"]);
+          const listPrice = parsePrice(asText(record["price"]) ?? asText(variantRecord?.["price"]));
+          const discount = parsePrice(asText(record["discount"])) ?? 0;
+          const status = cleanOptional(asText(record["status"]) ?? asText(variantRecord?.["status"]));
+          const stock = Number(variantRecord?.["stock"] ?? 0);
+          const stockUnlimited = variantRecord?.["stock_unlimited"] === true;
+          const sku = cleanOptional(asText(variantRecord?.["sku"]));
+          const barcode = cleanOptional(asText(variantRecord?.["barcode"]));
+          variants.push({
+            name,
+            price: listPrice !== undefined && discount > 0 ? listPrice - discount : listPrice,
+            originalPrice: listPrice !== undefined && discount > 0 ? listPrice : undefined,
+            sku,
+            ean: barcode && isValidGtin(barcode) ? barcode : undefined,
+            imageUrl: cleanOptional(asText(record["image"])),
+            inStock: status ? status === "available" && (stockUnlimited || stock > 0) : undefined,
+          });
+        }
+        if (variants.length > 0) return variants;
+      }
+    } catch {}
+  }
+
+  const fallback: JumpsellerVariant[] = [];
   $(".product-options__selector--button").each((_, label) => {
     const text = $(label).text().trim();
-    if (text) variants.push(text);
+    if (text) fallback.push({ name: text });
   });
-  return variants;
+  return fallback;
 }
 
 function extractOffer(html: string, sourceUrl: string): ScrapedOffer[] | null {
@@ -1350,15 +1401,21 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer[] | null {
 
   const variants = extractJumpsellerVariants($);
   if (variants.length > 0) {
-    return variants.map(variantName => {
-      const variantTitle = `${title} - ${variantName}`;
+    return variants.map((variant) => {
+      const variantTitle = `${title} - ${variant.name}`;
       const variantCategory = classifyProduct(variantTitle, canonicalUrl, sourceCategory) ?? category;
       return {
         ...baseOffer,
-        url: `${canonicalUrl}?variant=${encodeURIComponent(variantName)}`,
+        url: `${canonicalUrl}?variant=${encodeURIComponent(variant.name)}`,
         title: variantTitle,
         normalizedTitle: normalizeForSearch(variantTitle),
         category: variantCategory,
+        price: variant.price ?? baseOffer.price,
+        originalPrice: variant.originalPrice ?? baseOffer.originalPrice,
+        sku: variant.sku ?? baseOffer.sku,
+        ean: variant.ean ?? baseOffer.ean,
+        imageUrl: variant.imageUrl ?? baseOffer.imageUrl,
+        inStock: variant.inStock ?? baseOffer.inStock,
       };
     });
   }

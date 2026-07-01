@@ -1,4 +1,4 @@
-import { GENERIC_TOKENS } from "./matching-constants";
+import { FLAVOR_TOKENS, GENERIC_TOKENS } from "./matching-constants";
 import { hasIntersection } from "./matching-utils";
 
 export const SUGGESTION_LIMIT = 120;
@@ -121,11 +121,7 @@ export const MODEL_TOKENS = new Set([
   "bamboo",
   "virgin",
   "unbleached",
-  
-  // Flavors
-  "flavour", "flavours", "sabor", "sabores", "flavored", 
-  "banana", "cherry", "coconut", "chocolate", "blueberry", 
-  "bubble", "grape", "minty", "vainilla", "strawberry",
+  ...FLAVOR_TOKENS,
   "clasica",
   "clasico",
   "coil",
@@ -366,9 +362,7 @@ export function getPaperVariant(tokens: Set<string>) {
   if (tokens.has("emerald")) return "emerald";
   if (tokens.has("girl")) return "girl";
   
-  if (tokens.has("flavour") || tokens.has("flavours") || tokens.has("sabor") || tokens.has("sabores") || tokens.has("flavored") || 
-      tokens.has("banana") || tokens.has("cherry") || tokens.has("coconut") || tokens.has("chocolate") || tokens.has("blueberry") || 
-      tokens.has("bubble") || tokens.has("grape") || tokens.has("minty") || tokens.has("vainilla") || tokens.has("strawberry")) {
+  if ([...FLAVOR_TOKENS].some((flavor) => tokens.has(flavor))) {
     return "flavored";
   }
 
