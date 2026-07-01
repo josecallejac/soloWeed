@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createSession, getCurrentUser } from "@/lib/auth";
 import { verifyPassword } from "@/lib/password";
@@ -53,20 +54,57 @@ type LoginUserRow = {
   role: string;
 };
 
+// Throttle en memoria contra fuerza bruta: 5 intentos fallidos por IP+email
+// bloquean por 15 minutos. Por instancia (suficiente para un admin único).
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_LOCKOUT_MS = 15 * 60 * 1000;
+const loginAttempts = new Map<string, { count: number; lockedUntil: number }>();
+
+function isLoginLocked(key: string) {
+  const entry = loginAttempts.get(key);
+  if (!entry) return false;
+  if (entry.lockedUntil > 0 && entry.lockedUntil <= Date.now()) {
+    loginAttempts.delete(key);
+    return false;
+  }
+  return entry.lockedUntil > Date.now();
+}
+
+function recordLoginFailure(key: string) {
+  if (loginAttempts.size > 1000) loginAttempts.clear();
+  const entry = loginAttempts.get(key) ?? { count: 0, lockedUntil: 0 };
+  entry.count += 1;
+  if (entry.count >= LOGIN_MAX_ATTEMPTS) {
+    entry.lockedUntil = Date.now() + LOGIN_LOCKOUT_MS;
+    entry.count = 0;
+  }
+  loginAttempts.set(key, entry);
+}
+
 async function login(formData: FormData) {
   "use server";
 
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
+
+  const headerStore = await headers();
+  const ip = headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const throttleKey = `${ip}|${email}`;
+  if (isLoginLocked(throttleKey)) {
+    redirect("/interno/login?error=1");
+  }
+
   const users = await prisma.$queryRaw<LoginUserRow[]>`
     SELECT "id", "passwordHash", "role" FROM "User" WHERE "email" = ${email} LIMIT 1
   `;
   const user = users[0];
 
   if (!user || user.role !== "ADMIN" || !(await verifyPassword(password, user.passwordHash))) {
+    recordLoginFailure(throttleKey);
     redirect("/interno/login?error=1");
   }
 
+  loginAttempts.delete(throttleKey);
   await createSession(user.id);
   redirect("/interno/reportes");
 }

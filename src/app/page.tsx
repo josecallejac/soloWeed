@@ -8,7 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 import { EmptyState } from "@/components/empty-state";
 import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -84,6 +84,17 @@ const CATEGORY_COUNT_CACHE_TTL_MS = 30_000;
 
 const categoryCountCache = new Map<string, { categories: CategoryCount[]; expiresAt: number }>();
 const brandCountCache = new Map<string, { brands: BrandCount[]; expiresAt: number }>();
+
+// Los caches usan la búsqueda del usuario como parte de la key, así que sin un
+// tope cualquiera puede crecer la memoria sin límite spameando queries únicas.
+// Al llegar al tope se desaloja la entrada más antigua (orden de inserción del Map).
+function setBounded<V>(cache: Map<string, V>, key: string, value: V, maxEntries: number) {
+  if (!cache.has(key) && cache.size >= maxEntries) {
+    const oldest = cache.keys().next().value;
+    if (oldest !== undefined) cache.delete(oldest);
+  }
+  cache.set(key, value);
+}
 
 function buildPageUrl(page: number, query: string, category: string, brand: string, sort: string, minPrice: string, maxPrice: string, stores: string[]) {
   const params = new URLSearchParams();
@@ -340,14 +351,15 @@ async function getCatalogData(
       };
     }
 
-    const brandFilterSql = options?.brandFilter ? `AND "Offer"."brandKey" = '${options.brandFilter.replace(/'/g, "''")}'` : '';
-    const categoryFilterSql = selectedCategory ? `AND "Offer"."category" = '${selectedCategory.replace(/'/g, "''")}'` : '';
-    const storeSlugs = options?.storeFilter?.map((s) => `'${s.replace(/'/g, "''")}'`).join(', ');
-    const storeFilterSql = storeSlugs ? `AND "Store"."slug" IN (${storeSlugs})` : '';
+    const brandFilterSql = options?.brandFilter ? Prisma.sql`AND "Offer"."brandKey" = ${options.brandFilter}` : Prisma.empty;
+    const categoryFilterSql = selectedCategory ? Prisma.sql`AND "Offer"."category" = ${selectedCategory}` : Prisma.empty;
+    const storeFilterSql = options?.storeFilter?.length
+      ? Prisma.sql`AND "Store"."slug" IN (${Prisma.join(options.storeFilter)})`
+      : Prisma.empty;
 
     const [stores, offersRaw, { categories, brands }, offerCount, productCount, historyCount, covRows] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
-      prisma.$queryRawUnsafe(`
+      prisma.$queryRaw(Prisma.sql`
         SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
@@ -493,7 +505,8 @@ async function getCatalogData(
     }
 
     
-    PAGE_CACHE.set(cacheKey, {
+    // Cada entrada guarda el catálogo completo del filtro: tope bajo a propósito.
+    setBounded(PAGE_CACHE, cacheKey, {
       stores,
       categories,
       brands,
@@ -506,7 +519,7 @@ async function getCatalogData(
         storeCount: stores.length,
       },
       expiresAt: Date.now() + PAGE_CACHE_TTL_MS,
-    });
+    }, 50);
 
     const { items: pageItems, totalItems } = selectCatalogPageItems(catalogItems, selectedCategory, options?.sort, page);
     const totalPages = Math.max(1, Math.ceil(totalItems / CATALOG_PAGE_LIMIT));
@@ -677,15 +690,15 @@ async function getComparableFiltersCounts(normalizedQuery: string, where: Prisma
     .map(([brandKey, data]) => ({ brandKey, brand: data.brand, count: data.count }))
     .sort((first, second) => first.brand.localeCompare(second.brand));
 
-  categoryCountCache.set(cacheKey, {
+  setBounded(categoryCountCache, cacheKey, {
     categories: categoryCounts,
     expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
-  });
-  
-  brandCountCache.set(cacheKey, {
+  }, 500);
+
+  setBounded(brandCountCache, cacheKey, {
     brands: brandCounts,
     expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
-  });
+  }, 500);
 
   return { categories: categoryCounts, brands: brandCounts };
 }
