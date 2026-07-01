@@ -1,6 +1,6 @@
 # Estado del Catálogo
 
-Último cierre: 28 de junio de 2026, commit 7db6dce
+Último cierre: 30 de junio de 2026, commit 3c0b36a
 
 Este documento mantiene la memoria del estado de curación del catálogo entre sesiones.
 
@@ -20,5 +20,4 @@ Este documento mantiene la memoria del estado de curación del catálogo entre s
 
 ## Tareas Pendientes
 
-- **Punto 1 (Mejoras UI/Frontend):** ✅ COMPLETADO. Navegación optimizada (rutas cliente, loading skeletons), diseño de tarjetas mejorado (Glassmorphism) y gráficas comparativas de historial de precios en detalle de productos.
 - **Scraper:** Expandir la cobertura añadiendo una quinta tienda al ecosistema (en pausa por solicitud del usuario).

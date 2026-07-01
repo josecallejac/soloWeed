@@ -67,8 +67,6 @@ const KNOWN_MODELS = [
   "raw perforated wide tips",
   "raw gummed tips",
   "conos pre enrolados",
-  "king size",
-  "1 1/4",
   "m7 xl",
   "m7",
   "b2",
@@ -208,25 +206,41 @@ function getModelKey(category: string, brandKey: string | null, brand: string | 
   }
 
   if (known) {
+    if (category === "Papelillos") {
+      // Don't prepend type (paper) for clean slugs.
+      // Deduplicate sizes if known model already includes them.
+      const filteredSizes = Array.from(sizes).filter((s) => !known.includes(s));
+      const hasTips = hasAny(tokens, ["tips", "boquilla", "boquillas", "connoisseur", "kit", "deluxe"]) && !known.includes("tips");
+      const count = getCountToken(tokens);
+      const isDisplay = hasAny(tokens, ["display", "caja", "mayor"]) || (count && parseInt(count) > 10);
+      const countSuffix = isDisplay && count ? `display-${count}` : count;
+      return compactKey([known, ...filteredSizes, hasTips ? "tips" : null, countSuffix]);
+    }
     return compactKey([type, known, ...sizes]);
   }
 
   if (category === "Papelillos") {
     let line = firstToken(tokens, ["bamboo", "black", "classic", "organic", "premium", "rice", "ultimate", "unbleached", "virgin", "x-pert", "xpert", "connoisseur"]);
+    if (!line && hasAny(tokens, ["flavour", "flavours", "sabor", "sabores", "flavored", "banana", "cherry", "coconut", "chocolate", "blueberry", "bubble", "grape", "minty", "vainilla", "strawberry"])) {
+      line = "flavored";
+    }
     const hasTips = hasAny(tokens, ["tips", "boquilla", "boquillas", "connoisseur", "kit", "deluxe"]);
+    const count = getCountToken(tokens);
+    const isDisplay = hasAny(tokens, ["display", "caja", "mayor"]) || (count && parseInt(count) > 10);
+    const countSuffix = isDisplay && count ? `display-${count}` : count;
     if (line === "connoisseur") line = "classic";
-    return line && sizes.length > 0 ? compactKey([line, ...sizes, hasTips ? "tips" : null]) : null;
+    return line && sizes.length > 0 ? compactKey([line, ...Array.from(sizes), hasTips ? "tips" : null, countSuffix]) : null;
   }
 
   if (category === "Filtros y boquillas") {
     const variant = firstToken(tokens, ["carbon", "carbono", "activado", "mentolado", "premium", "slim", "regular", "wide", "gummed", "perforated", "vidrio", "glass"]);
-    return variant ? compactKey([type, variant, ...sizes]) : null;
+    return variant ? compactKey([variant, ...sizes]) : null;
   }
 
   if (category === "Conos y blunts") {
     const colorOrLine = firstToken(tokens, ["black", "blanco", "cubano", "natural", "organic", "pink", "purple", "rose", "tea", "unbleached", "virgin"]);
     const count = getCountToken(tokens);
-    return sizes.length > 0 || colorOrLine ? compactKey([type, colorOrLine, ...sizes, count]) : null;
+    return sizes.length > 0 || colorOrLine ? compactKey([colorOrLine, ...sizes, count]) : null;
   }
 
   if (category === "Moledores") {

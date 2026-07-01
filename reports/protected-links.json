@@ -343,9 +343,9 @@
   },
   {
     "id": 5737,
-    "name": "Vaporizador Mecánico Dynavap M7",
+    "name": "Vaporizador Dynavap M 7 - Regular",
     "brandKey": "dynavap",
-    "modelKey": "vaporizadores-m7",
+    "modelKey": "m7",
     "modelSlug": "m7",
     "category": "Vaporizadores herbales",
     "storeCount": 4,
@@ -353,7 +353,10 @@
       1304,
       1382,
       2035,
-      2553
+      2553,
+      12284,
+      12568,
+      19430
     ]
   },
   {
@@ -864,6 +867,21 @@
     ]
   },
   {
+    "id": 10218,
+    "name": "Bonglab Handy Rig 14 cm – Rig Compacto Borosilicato para Extracciones | GrowBaratoChile",
+    "brandKey": "bonglab",
+    "modelKey": "bong-handy-rig-14cm-rig-14cm",
+    "modelSlug": "handy-rig",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      2297,
+      13278,
+      14201,
+      17158
+    ]
+  },
+  {
     "id": 10274,
     "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
     "brandKey": "lion-rolling-circus",
@@ -936,21 +954,6 @@
       12345,
       15838,
       19981
-    ]
-  },
-  {
-    "id": 10334,
-    "name": "Encendedor Soplete Ignite Compact | PIRANHA",
-    "brandKey": "ignite",
-    "modelKey": "torch-compact",
-    "modelSlug": "compact",
-    "category": "Encendedores y sopletes",
-    "storeCount": 4,
-    "offerIds": [
-      3219,
-      15646,
-      17173,
-      18557
     ]
   },
   {
@@ -1234,6 +1237,7 @@
     "category": "Bongs",
     "storeCount": 3,
     "offerIds": [
+      2273,
       2980,
       11386,
       17933
@@ -1424,7 +1428,8 @@
       320,
       397,
       517,
-      17969
+      17969,
+      18004
     ]
   },
   {
@@ -1489,7 +1494,9 @@
       12908,
       12929,
       12931,
-      13640
+      13640,
+      19296,
+      19907
     ]
   },
   {
@@ -1505,7 +1512,8 @@
       95,
       146,
       872,
-      1249
+      1249,
+      13547
     ]
   },
   {
@@ -1562,6 +1570,20 @@
       77,
       494,
       2065
+    ]
+  },
+  {
+    "id": 5740,
+    "name": "Dynavap Vaporizador Starter Kit B2",
+    "brandKey": "dynavap",
+    "modelKey": "b2",
+    "modelSlug": "b2",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      680,
+      1538,
+      17998
     ]
   },
   {
@@ -2079,7 +2101,8 @@
       452,
       681,
       2601,
-      16220
+      16220,
+      17930
     ]
   },
   {
@@ -2421,20 +2444,6 @@
     ]
   },
   {
-    "id": 10218,
-    "name": "Bonglab Handy Rig 14 cm – Rig Compacto Borosilicato para Extracciones | GrowBaratoChile",
-    "brandKey": "bonglab",
-    "modelKey": "bong-handy-rig-14cm-rig-14cm",
-    "modelSlug": "handy-rig",
-    "category": "Bongs",
-    "storeCount": 3,
-    "offerIds": [
-      2297,
-      13278,
-      14201
-    ]
-  },
-  {
     "id": 10219,
     "name": "Bong Pyrex KM1 Prisma 10cm Clear Bonglab | Mini Bong de Vidrio",
     "brandKey": "bonglab",
@@ -2516,6 +2525,34 @@
       12308,
       12883,
       14031
+    ]
+  },
+  {
+    "id": 10246,
+    "name": "Glass Cleaner (30mL/250mL/500mL/1L)",
+    "brandKey": "bonglab",
+    "modelKey": "cleaner-250ml",
+    "modelSlug": "cleaner-250ml",
+    "category": "Limpieza",
+    "storeCount": 3,
+    "offerIds": [
+      12254,
+      13174,
+      15800
+    ]
+  },
+  {
+    "id": 10252,
+    "name": "Thievery Super Dab Cleaner 250ml",
+    "brandKey": "thievery",
+    "modelKey": "super-dab-cleaner-250ml",
+    "modelSlug": "super-dab-cleaner-250ml",
+    "category": "Limpieza",
+    "storeCount": 3,
+    "offerIds": [
+      1387,
+      11249,
+      13615
     ]
   },
   {
@@ -2617,6 +2654,20 @@
     ]
   },
   {
+    "id": 10273,
+    "name": "Papelillos Raw Artesanos King Size Slim",
+    "brandKey": "raw",
+    "modelKey": "paper-king-size-king-size-slim",
+    "modelSlug": "artesano-king-size-slim",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      2234,
+      11032,
+      13665
+    ]
+  },
+  {
     "id": 10275,
     "name": "Juego De Piezas Desgaste Mighty-Storz &amp; Bickel",
     "brandKey": "storz-bickel",
@@ -2701,6 +2752,24 @@
     ]
   },
   {
+    "id": 10287,
+    "name": "Anomaly Mighty Hitter 17mm",
+    "brandKey": "storz-bickel",
+    "modelKey": "mighty",
+    "modelSlug": "mighty",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      1265,
+      12640,
+      13690,
+      16030,
+      16186,
+      18125,
+      19929
+    ]
+  },
+  {
     "id": 10290,
     "name": "Calvo Glass Bong Abejas 35cm",
     "brandKey": "calvo",
@@ -2725,6 +2794,7 @@
     "offerIds": [
       67,
       2306,
+      3004,
       11407,
       12817
     ]
@@ -2755,6 +2825,22 @@
       765,
       13137,
       14206
+    ]
+  },
+  {
+    "id": 10314,
+    "name": "Calvo Glass Banger Full Weld Big Slurper - Macho 14mm",
+    "brandKey": "calvo",
+    "modelKey": "banger-big-slurper-full-weld-14mm",
+    "modelSlug": "banger-big-slurper-full-weld-14mm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      1219,
+      2115,
+      2118,
+      12343,
+      14170
     ]
   },
   {
@@ -2996,6 +3082,20 @@
     ]
   },
   {
+    "id": 10387,
+    "name": "RAW Bolsa 200 Tips Pre-Enrolados",
+    "brandKey": "raw",
+    "modelKey": "tips-preenrolados-bolsa-200",
+    "modelSlug": "tips-preenrolados-bolsa-200",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      1274,
+      11212,
+      12176
+    ]
+  },
+  {
     "id": 10391,
     "name": "Ozeta Case XL Anti-Olor",
     "brandKey": "ozeta",
@@ -3049,6 +3149,20 @@
       12562,
       13507,
       14320
+    ]
+  },
+  {
+    "id": 10407,
+    "name": "Bonglab Bong Glycerin Black Ice",
+    "brandKey": "bonglab",
+    "modelKey": "glycerin-black-ice",
+    "modelSlug": "glycerin-black-ice",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      527,
+      13160,
+      15991
     ]
   },
   {
@@ -3122,20 +3236,6 @@
     ]
   },
   {
-    "id": 10434,
-    "name": "Soplete Ignite X-Mini",
-    "brandKey": "ignite",
-    "modelKey": "x-mini",
-    "modelSlug": "x-mini",
-    "category": "Encendedores y sopletes",
-    "storeCount": 3,
-    "offerIds": [
-      15696,
-      17145,
-      18538
-    ]
-  },
-  {
     "id": 10435,
     "name": "Focus V Vaporizador Aeris",
     "brandKey": "focus-v",
@@ -3147,34 +3247,6 @@
       15704,
       17148,
       18536
-    ]
-  },
-  {
-    "id": 10436,
-    "name": "Soplete Ignite Flex",
-    "brandKey": "ignite",
-    "modelKey": "flex",
-    "modelSlug": "flex",
-    "category": "Encendedores y sopletes",
-    "storeCount": 3,
-    "offerIds": [
-      15654,
-      17174,
-      18548
-    ]
-  },
-  {
-    "id": 10437,
-    "name": "Soplete Ignite Phantom",
-    "brandKey": "ignite",
-    "modelKey": "phantom",
-    "modelSlug": "phantom",
-    "category": "Encendedores y sopletes",
-    "storeCount": 3,
-    "offerIds": [
-      15652,
-      17175,
-      18549
     ]
   },
   {
@@ -3356,7 +3428,10 @@
     "offerIds": [
       3210,
       18127,
-      19347
+      19346,
+      19347,
+      19423,
+      19424
     ]
   },
   {
@@ -3427,6 +3502,20 @@
       11056,
       11491,
       19779
+    ]
+  },
+  {
+    "id": 10528,
+    "name": "Sploofy Pro Filtro de Aire Personal",
+    "brandKey": "sploofy",
+    "modelKey": "pro",
+    "modelSlug": "pro",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      11477,
+      12992,
+      17912
     ]
   },
   {

@@ -1,3 +1,4 @@
+import { GENERIC_TOKENS } from "./matching-constants";
 import { hasIntersection } from "./matching-utils";
 
 export const SUGGESTION_LIMIT = 120;
@@ -109,6 +110,22 @@ export const MODEL_TOKENS = new Set([
   "brazilian",
   "bucket",
   "classic",
+  "transparente",
+  "transp",
+  "ocb",
+  "raw",
+  "connoisseur",
+  "x-pert",
+  "xpert",
+  "ultimate",
+  "bamboo",
+  "virgin",
+  "unbleached",
+  
+  // Flavors
+  "flavour", "flavours", "sabor", "sabores", "flavored", 
+  "banana", "cherry", "coconut", "chocolate", "blueberry", 
+  "bubble", "grape", "minty", "vainilla", "strawberry",
   "clasica",
   "clasico",
   "coil",
@@ -283,6 +300,7 @@ export function normalizeText(value: string) {
     .replace(/\b(\d+(?:[.,]\d+)?)\s*(cm|mm|ml|g)\b/g, " $1$2 ")
     .replace(/\bking\s*size\b/g, " king-size ")
     .replace(/\b1[.\s]*1\s*[\/\-]\s*4\b|\b1[.\s-]*14\b/g, " 1-1/4 ")
+    .replace(/\b(ultimate|premium|virgin|x[- ]?pert|bamboo|blanco|black|classic|organic)\s+1\b/g, " $1 1-1/4 ")
     .replace(/\b(\d+)\s*(?:partes?|pieces?|piezas?|pisos?)\b/g, " $1partes ")
     .replace(/\b(\d+)\s*(?:u|ud|uds|und|unidad|unidades?)\b/g, " $1u ")
     .replace(/\bx\s*(\d+)\b/g, " $1u ")
@@ -347,6 +365,13 @@ export function getPaperVariant(tokens: Set<string>) {
   if (tokens.has("prepare") && tokens.has("flight")) return "prepare-flight";
   if (tokens.has("emerald")) return "emerald";
   if (tokens.has("girl")) return "girl";
+  
+  if (tokens.has("flavour") || tokens.has("flavours") || tokens.has("sabor") || tokens.has("sabores") || tokens.has("flavored") || 
+      tokens.has("banana") || tokens.has("cherry") || tokens.has("coconut") || tokens.has("chocolate") || tokens.has("blueberry") || 
+      tokens.has("bubble") || tokens.has("grape") || tokens.has("minty") || tokens.has("vainilla") || tokens.has("strawberry")) {
+    return "flavored";
+  }
+
   if ((tokens.has("classic") || tokens.has("clasica") || tokens.has("clasico") || tokens.has("connoisseur")) &&
       !tokens.has("black") && !tokens.has("negro") && !tokens.has("negra") &&
       !tokens.has("organic") && !tokens.has("organico") && !tokens.has("organica")) return "classic";
@@ -532,45 +557,7 @@ export function buildReviewProfile(offer: ReviewOfferInput) {
   const descriptors = new Set([...tokens].filter((token) => DESCRIPTOR_TOKENS.has(token)).map(getDescriptorKey));
   const modelTokens = new Set([...tokens].filter((token) => MODEL_TOKENS.has(token)));
   const phraseModels = getPhraseModels(text);
-  const generic = new Set([
-    "accesorio",
-    "accesorios",
-    "bandeja",
-    "bandejas",
-    "basic",
-    "bong",
-    "bongs",
-    "cenicero",
-    "ceniceros",
-    "chile",
-    "cl",
-    "de",
-    "del",
-    "el",
-    "en",
-    "gb",
-    "green",
-    "growbarato",
-    "kit",
-    "la",
-    "las",
-    "liar",
-    "los",
-    "metalica",
-    "metalico",
-    "pack",
-    "para",
-    "piranha",
-    "producto",
-    "raw",
-    "set",
-    "shop",
-    "starter",
-    "the",
-    "tienda",
-    "www",
-    "y",
-  ]);
+  const generic = GENERIC_TOKENS;
   const coreTokens = new Set(
     [...tokens].filter(
       (token) =>

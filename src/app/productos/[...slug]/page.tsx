@@ -23,11 +23,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { PriceHistoryChart } from "./price-history-chart";
+import { VariantSelector } from "@/components/variant-selector";
+import { getVariantName } from "@/lib/variant-utils";
 
 export const revalidate = 3600;
 
-export async function generateMetadata({ params }: ProductDetailProps): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata(props: ProductDetailProps): Promise<Metadata> {
+  const { slug } = await props.params;
   if (slug.length < 2) {
     return {};
   }
@@ -70,6 +72,7 @@ type ProductDetailProps = {
   params: Promise<{
     slug: string[];
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 type ProductData = Awaited<ReturnType<typeof getProductData>>;
@@ -97,8 +100,9 @@ type MatchableOffer = {
   url?: string;
 };
 
-export default async function ProductDetail({ params }: ProductDetailProps) {
-  const { slug } = await params;
+export default async function ProductDetail(props: ProductDetailProps) {
+  const { slug } = await props.params;
+  const searchParams = await props.searchParams;
   const data = await getProductData(slug);
 
   if (!data) {
@@ -106,8 +110,33 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
   }
 
   const { product, stores, matchedOffers, relatedProducts } = data;
-  const hasVisibleOffers = matchedOffers.length > 0;
-  const visibleOffers = matchedOffers;
+  
+  // Extract variants
+  const variantsSet = new Set<string>();
+  matchedOffers.forEach(o => {
+    const v = getVariantName(o.title, o.url);
+    if (v) variantsSet.add(v);
+  });
+  const variants = Array.from(variantsSet).sort();
+  
+  // Selected variant logic
+  const selectedVariantQuery = searchParams?.v as string | undefined;
+  const selectedVariant = selectedVariantQuery && variants.includes(selectedVariantQuery) 
+    ? selectedVariantQuery 
+    : variants.length > 0 ? variants[0] : "";
+
+  // Filter offers by selected variant if applicable
+  let visibleOffers = matchedOffers;
+  if (variants.length > 0) {
+    visibleOffers = matchedOffers.filter(o => getVariantName(o.title, o.url) === selectedVariant);
+    
+    // Si filtrando nos quedamos sin ofertas (ej. alguien puso ?v=inexistente), hacemos fallback
+    if (visibleOffers.length === 0) {
+      visibleOffers = matchedOffers.filter(o => getVariantName(o.title, o.url) === variants[0]);
+    }
+  }
+
+  const hasVisibleOffers = visibleOffers.length > 0;
   const storePrices = buildStorePrices(stores, visibleOffers, product.offers);
   const storesWithPrice = storePrices.filter((row) => row.offer);
   const storesInStock = storePrices.filter((row) => row.offer?.inStock);
@@ -200,6 +229,10 @@ export default async function ProductDetail({ params }: ProductDetailProps) {
                   {description}
                 </p>
               ) : null}
+
+              {variants.length > 1 && (
+                <VariantSelector variants={variants} selectedVariant={selectedVariant} />
+              )}
 
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 <SummaryCard label="Growshops" value={String(stores.length)} />

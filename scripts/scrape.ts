@@ -600,20 +600,22 @@ async function main() {
 
       try {
         const html = await fetchText(url);
-        const offer = extractOffer(html, url);
+        const offers = extractOffer(html, url);
 
-        if (!offer) {
+        if (!offers || offers.length === 0) {
           skipped += 1;
           continue;
         }
 
-        if (CATEGORY_FILTER.size > 0 && !CATEGORY_FILTER.has(offer.category)) {
-          skipped += 1;
-          continue;
-        }
+        for (const offer of offers) {
+          if (CATEGORY_FILTER.size > 0 && !CATEGORY_FILTER.has(offer.category)) {
+            skipped += 1;
+            continue;
+          }
 
-        await saveOffer(store.id, offer);
-        saved += 1;
+          await saveOffer(store.id, offer);
+          saved += 1;
+        }
       } catch (error) {
         failed += 1;
         console.warn(`${storeConfig.name}: failed ${url} - ${getErrorMessage(error)}`);
@@ -1254,7 +1256,16 @@ function isLikelyCategoryPath(path: string) {
   ].includes(lastSegment);
 }
 
-function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
+function extractJumpsellerVariants($: ReturnType<typeof load>) {
+  const variants: string[] = [];
+  $(".product-options__selector--button").each((_, label) => {
+    const text = $(label).text().trim();
+    if (text) variants.push(text);
+  });
+  return variants;
+}
+
+function extractOffer(html: string, sourceUrl: string): ScrapedOffer[] | null {
   const $ = load(html);
   const product = extractJsonLdProduct($);
   const productBrand = getRecord(product?.["brand"]);
@@ -1317,7 +1328,7 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
     return null;
   }
 
-  return {
+  const baseOffer = {
     url: canonicalUrl,
     sourceId,
     sku,
@@ -1332,11 +1343,27 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer | null {
     imageUrl: imageUrl ?? undefined,
     price,
     originalPrice,
-    currency:
-      asText(offer?.priceCurrency) ?? meta($, "property", "product:price:currency") ?? "CLP",
+    currency: asText(offer?.priceCurrency) ?? meta($, "property", "product:price:currency") ?? "CLP",
     inStock: isInStock(availability),
     availability,
   };
+
+  const variants = extractJumpsellerVariants($);
+  if (variants.length > 0) {
+    return variants.map(variantName => {
+      const variantTitle = `${title} - ${variantName}`;
+      const variantCategory = classifyProduct(variantTitle, canonicalUrl, sourceCategory) ?? category;
+      return {
+        ...baseOffer,
+        url: `${canonicalUrl}?variant=${encodeURIComponent(variantName)}`,
+        title: variantTitle,
+        normalizedTitle: normalizeForSearch(variantTitle),
+        category: variantCategory,
+      };
+    });
+  }
+
+  return [baseOffer];
 }
 
 // Identificadores por plataforma: Jumpseller (Astro, Fumetas) expone sku/barcode

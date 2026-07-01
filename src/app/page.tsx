@@ -1,4 +1,5 @@
 import { CategoryFilters } from "./category-filters";
+import { BrandFilters } from "./brand-filters";
 import { SortControls } from "./sort-controls";
 import { StoreFilters } from "./store-filters";
 import { OfferCard } from "@/components/offer-card";
@@ -13,10 +14,16 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(
+  { searchParams }: HomeProps
+): Promise<Metadata> {
+  const params = (await searchParams) ?? {};
+  const isFiltered = !!params.brand || !!params.category || !!params.q || !!params.store;
+  
   return {
     title: "SoloWeed | El mejor comparador de precios de parafernalia en Chile",
     description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile. Encuentra el mejor precio siempre.",
+    robots: isFiltered ? { index: false, follow: true } : { index: true, follow: true },
     openGraph: {
       title: "SoloWeed | El mejor comparador de precios de parafernalia",
       description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile.",
@@ -27,6 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 type HomeProps = {
   searchParams?: Promise<{
+    brand?: string;
     category?: string;
     maxPrice?: string;
     minPrice?: string;
@@ -44,6 +52,7 @@ type CatalogOffer = Prisma.OfferGetPayload<{
 }> & { product?: Prisma.ProductGetPayload<object> | null };
 type CatalogItem = {
   brand: string | null;
+  brandKey: string | null;
   category: string;
   id: number;
   imageUrl: string | null;
@@ -64,17 +73,24 @@ type CategoryCount = {
   category: string;
   count: number;
 };
+type BrandCount = {
+  brand: string;
+  brandKey: string;
+  count: number;
+};
 
 const CATALOG_PAGE_LIMIT = 40;
 const CATEGORY_COUNT_CACHE_TTL_MS = 30_000;
 
 const categoryCountCache = new Map<string, { categories: CategoryCount[]; expiresAt: number }>();
+const brandCountCache = new Map<string, { brands: BrandCount[]; expiresAt: number }>();
 
-function buildPageUrl(page: number, query: string, category: string, sort: string, minPrice: string, maxPrice: string, stores: string[]) {
+function buildPageUrl(page: number, query: string, category: string, brand: string, sort: string, minPrice: string, maxPrice: string, stores: string[]) {
   const params = new URLSearchParams();
   if (page > 1) params.set("page", String(page));
   if (query) params.set("q", query);
   if (category) params.set("category", category);
+  if (brand) params.set("brand", brand);
   if (sort) params.set("sort", sort);
   if (minPrice) params.set("minPrice", minPrice);
   if (maxPrice) params.set("maxPrice", maxPrice);
@@ -87,6 +103,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const params = (await searchParams) ?? {};
   const query = typeof params.q === "string" ? params.q.trim() : "";
   const selectedCategory = typeof params.category === "string" ? params.category.trim() : "";
+  const selectedBrand = typeof params.brand === "string" ? params.brand.trim() : "";
   const minPrice = typeof params.minPrice === "string" ? Number(params.minPrice) : undefined;
   const maxPrice = typeof params.maxPrice === "string" ? Number(params.maxPrice) : undefined;
   const sort = typeof params.sort === "string" ? params.sort : "";
@@ -95,7 +112,7 @@ export default async function Home({ searchParams }: HomeProps) {
     ? (Array.isArray(storeRaw) ? storeRaw : storeRaw.split(",").map((s) => s.trim()).filter(Boolean))
     : [];
   const page = Math.max(1, typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1);
-  const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page });
+  const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page, brandFilter: selectedBrand });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -164,6 +181,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[280px_1fr] lg:px-10">
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
           <CategoryFilters categories={data.categories} query={query} selectedCategory={selectedCategory} />
+          <BrandFilters brands={data.brands} query={query} category={selectedCategory} selectedBrand={selectedBrand} sort={sort} minPrice={params.minPrice ?? ""} maxPrice={params.maxPrice ?? ""} stores={selectedStores} />
 
           <StoreFilters
             stores={data.stores.map((s) => ({ slug: s.slug, name: s.name }))}
@@ -234,7 +252,7 @@ export default async function Home({ searchParams }: HomeProps) {
                     {data.page > 1 ? (
                       <Link
                         className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
-                        href={buildPageUrl(data.page - 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
+                        href={buildPageUrl(data.page - 1, query, selectedCategory, selectedBrand, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         <span className="transition-transform duration-300 group-hover:-translate-x-1">←</span> Anterior
                       </Link>
@@ -249,7 +267,7 @@ export default async function Home({ searchParams }: HomeProps) {
                     {data.page < data.totalPages ? (
                       <Link
                         className="group flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/10 px-6 py-3 text-sm font-black text-zinc-900 dark:text-white transition-all duration-300 hover:bg-accent hover:text-black hover:shadow-[0_4px_15px_rgba(192,255,0,0.3)] hover:-translate-y-0.5 font-mono"
-                        href={buildPageUrl(data.page + 1, query, selectedCategory, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
+                        href={buildPageUrl(data.page + 1, query, selectedCategory, selectedBrand, sort, params.minPrice ?? "", params.maxPrice ?? "", selectedStores)}
                       >
                         Siguiente <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                       </Link>
@@ -276,6 +294,7 @@ import type { Store } from "@prisma/client";
 interface PageCacheEntry {
   stores: Store[];
   categories: { category: string; count: number }[];
+  brands: { brand: string; brandKey: string; count: number }[];
   catalogItems: CatalogItem[];
   coverage: { full: number; high: number; mid: number };
   stats: { offerCount: number; productCount: number; historyCount: number; storeCount: number };
@@ -284,14 +303,25 @@ interface PageCacheEntry {
 const PAGE_CACHE = new Map<string, PageCacheEntry>();
 const PAGE_CACHE_TTL_MS = 60 * 1000 * 5; // 5 mins
 
-async function getCatalogData(query: string, selectedCategory: string, options?: { maxPrice?: number; minPrice?: number; sort?: string; storeFilter?: string[]; page?: number }) {
+async function getCatalogData(
+  query: string,
+  selectedCategory: string,
+  options?: {
+    maxPrice?: number;
+    minPrice?: number;
+    sort?: string;
+    storeFilter?: string[];
+    page?: number;
+    brandFilter?: string;
+  },
+) {
   try {
     
     const normalizedQuery = normalizeForSearch(query);
     const queryWhere = buildSearchWhere(normalizedQuery);
     const page = options?.page ?? 1;
 
-    const cacheKey = `${normalizedQuery}|${selectedCategory}|${options?.storeFilter?.join(",")}|${options?.minPrice}|${options?.maxPrice}|${options?.sort}`;
+    const cacheKey = `${normalizedQuery}|${selectedCategory}|${options?.storeFilter?.join(",")}|${options?.minPrice}|${options?.maxPrice}|${options?.sort}|${options?.brandFilter}`;
     const cached = PAGE_CACHE.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
       const { items: pageItems, totalItems } = selectCatalogPageItems(cached.catalogItems, selectedCategory, options?.sort, page);
@@ -302,6 +332,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
         stores: cached.stores,
         offers: pageItems,
         categories: cached.categories,
+        brands: cached.brands,
         page,
         totalPages,
         coverage: cached.coverage,
@@ -309,24 +340,25 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       };
     }
 
+    const brandFilterSql = options?.brandFilter ? `AND "Offer"."brandKey" = '${options.brandFilter.replace(/'/g, "''")}'` : '';
     const categoryFilterSql = selectedCategory ? `AND "Offer"."category" = '${selectedCategory.replace(/'/g, "''")}'` : '';
     const storeSlugs = options?.storeFilter?.map((s) => `'${s.replace(/'/g, "''")}'`).join(', ');
     const storeFilterSql = storeSlugs ? `AND "Store"."slug" IN (${storeSlugs})` : '';
 
-    const [stores, offersRaw, categories, offerCount, productCount, historyCount, covRows] = await Promise.all([
+    const [stores, offersRaw, { categories, brands }, offerCount, productCount, historyCount, covRows] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
       prisma.$queryRawUnsafe(`
         SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
-        WHERE 1=1 ${categoryFilterSql} ${storeFilterSql}
+        WHERE 1=1 ${categoryFilterSql} ${storeFilterSql} ${brandFilterSql}
         ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
         -- Techo de seguridad: debe superar siempre el total de ofertas. Si el
         -- catalogo lo alcanza, el home descuenta tiendas en silencio (las
         -- ofertas cortadas dejan de contar para el badge 4/4).
         LIMIT 10000
       `),
-      getComparableCategoryCounts(normalizedQuery, queryWhere),
+      getComparableFiltersCounts(normalizedQuery, queryWhere),
       prisma.offer.count(),
       prisma.product.count(),
       prisma.priceHistory.count(),
@@ -464,6 +496,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
     PAGE_CACHE.set(cacheKey, {
       stores,
       categories,
+      brands,
       catalogItems,
       coverage,
       stats: {
@@ -483,6 +516,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       stores,
       offers: pageItems,
       categories,
+      brands,
       page,
       totalPages,
       coverage,
@@ -500,6 +534,7 @@ async function getCatalogData(query: string, selectedCategory: string, options?:
       stores: [],
       offers: [],
       categories: [],
+      brands: [],
       page: 1,
       totalPages: 1,
       coverage: { full: 0, high: 0, mid: 0 },
@@ -584,12 +619,13 @@ function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
   };
 }
 
-async function getComparableCategoryCounts(normalizedQuery: string, where: Prisma.OfferWhereInput) {
+async function getComparableFiltersCounts(normalizedQuery: string, where: Prisma.OfferWhereInput) {
   const cacheKey = normalizedQuery || "__all__";
   const cached = categoryCountCache.get(cacheKey);
+  const brandCached = brandCountCache.get(cacheKey);
 
-  if (cached && cached.expiresAt > Date.now()) {
-    return cached.categories;
+  if (cached && cached.expiresAt > Date.now() && brandCached && brandCached.expiresAt > Date.now()) {
+    return { categories: cached.categories, brands: brandCached.brands };
   }
 
   const rawOffers = await prisma.offer.findMany({
@@ -614,25 +650,44 @@ async function getComparableCategoryCounts(normalizedQuery: string, where: Prism
     product: o.productId ? productMap.get(o.productId) ?? null : null,
   }));
 
-  const categories = buildCatalogItems(offers)
-    .filter(hasCatalogCategoryVisibility)
-    .reduce((counts, item) => {
-      counts.set(item.category, (counts.get(item.category) ?? 0) + 1);
+  const catalogItems = buildCatalogItems(offers).filter(hasCatalogCategoryVisibility);
+  
+  const categoriesMap = new Map<string, number>();
+  const brandsMap = new Map<string, { brand: string; count: number }>();
 
-      return counts;
-    }, new Map<string, number>());
+  for (const item of catalogItems) {
+    categoriesMap.set(item.category, (categoriesMap.get(item.category) ?? 0) + 1);
+    if (item.brandKey && item.brand) {
+      const existing = brandsMap.get(item.brandKey);
+      if (existing) {
+        existing.count++;
+      } else {
+        brandsMap.set(item.brandKey, { brand: item.brand, count: 1 });
+      }
+    }
+  }
 
-  const categoryCounts = [...categories]
+  const categoryCounts = [...categoriesMap]
     .filter(([, count]) => count > 0)
     .map(([category, count]) => ({ category, count }))
     .sort((first, second) => first.category.localeCompare(second.category));
+
+  const brandCounts = [...brandsMap.entries()]
+    .filter(([, data]) => data.count > 0)
+    .map(([brandKey, data]) => ({ brandKey, brand: data.brand, count: data.count }))
+    .sort((first, second) => first.brand.localeCompare(second.brand));
 
   categoryCountCache.set(cacheKey, {
     categories: categoryCounts,
     expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
   });
+  
+  brandCountCache.set(cacheKey, {
+    brands: brandCounts,
+    expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
+  });
 
-  return categoryCounts;
+  return { categories: categoryCounts, brands: brandCounts };
 }
 
 
@@ -730,6 +785,7 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
 
   return {
     brand: getCatalogBrand(offers),
+    brandKey: getCatalogBrandKey(offers),
     category: representative.category,
     id: representative.id,
     imageUrl: representative.imageUrl ?? productOffer.product?.imageUrl ?? offers.find((offer) => offer.imageUrl)?.imageUrl ?? null,
@@ -806,5 +862,15 @@ function getCatalogBrand(offers: CatalogOffer[]) {
   }
 
   return brands.sort((first, second) => first.length - second.length || first.localeCompare(second))[0];
+}
+
+function getCatalogBrandKey(offers: CatalogOffer[]) {
+  const brandKeys = offers.map((offer) => offer.brandKey).filter(Boolean) as string[];
+
+  if (brandKeys.length === 0) {
+    return null;
+  }
+
+  return brandKeys.sort((first, second) => first.length - second.length || first.localeCompare(second))[0];
 }
 
