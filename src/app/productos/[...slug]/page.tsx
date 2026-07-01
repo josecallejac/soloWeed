@@ -140,15 +140,16 @@ export default async function ProductDetail(props: ProductDetailProps) {
     ? selectedVariantQuery 
     : variants.length > 0 ? variants[0] : "";
 
-  // Filter offers by selected variant if applicable
+  // Filtrar por variante solo cuando hay más de una (mismo umbral con el que se
+  // muestra el selector); con 0-1 variantes se comparan todas las ofertas. Las
+  // ofertas sin variante detectada se mantienen visibles en todas las variantes
+  // para no descontar tiendas de la comparación.
   let visibleOffers = matchedOffers;
-  if (variants.length > 0) {
-    visibleOffers = matchedOffers.filter(o => getVariantName(o.title, o.url) === selectedVariant);
-    
-    // Si filtrando nos quedamos sin ofertas (ej. alguien puso ?v=inexistente), hacemos fallback
-    if (visibleOffers.length === 0) {
-      visibleOffers = matchedOffers.filter(o => getVariantName(o.title, o.url) === variants[0]);
-    }
+  if (variants.length > 1) {
+    visibleOffers = matchedOffers.filter(o => {
+      const variant = getVariantName(o.title, o.url);
+      return variant === null || variant === selectedVariant;
+    });
   }
 
   const hasVisibleOffers = visibleOffers.length > 0;

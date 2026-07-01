@@ -30,6 +30,16 @@ describe("getVariantName", () => {
     assert.equal(getVariantName("Papelillo sabor frutilla", "https://a.com/frutilla"), "Frutilla");
   });
 
+  it("does not match flavor keywords inside larger words (coco vs Cocodrilos)", () => {
+    assert.equal(getVariantName("Encendedor Clipper Cocodrilos - Finger Up Animals 3", "https://fumetas.cl/x"), null);
+    assert.equal(getVariantName("Papelillo sabor a uvas", "https://a.com/uvas"), null);
+    assert.equal(getVariantName("Grinder Menta2000 Pro", "https://a.com/menta2000"), null);
+  });
+
+  it("still matches whole-word flavors surrounded by punctuation", () => {
+    assert.equal(getVariantName("Papelillo Juicy Jay (Coco)", "https://a.com/coco"), "Coco");
+  });
+
   it("returns null when no variant is detectable", () => {
     assert.equal(getVariantName("Bong Vidrio 30cm", "https://a.com/bong-vidrio"), null);
   });
