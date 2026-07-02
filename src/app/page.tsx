@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/empty-state";
 import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -45,11 +46,27 @@ type HomeProps = {
   }>;
 };
 
-type CatalogOffer = Prisma.OfferGetPayload<{
-  include: {
-    store: true;
-  };
-}> & { product?: Prisma.ProductGetPayload<object> | null };
+// Solo las columnas que el catálogo realmente consume: mantener este tipo
+// angosto es lo que permite excluir columnas pesadas (description) de las
+// queries del Home.
+type CatalogOffer = {
+  brand: string | null;
+  brandKey: string | null;
+  category: string;
+  id: number;
+  imageUrl: string | null;
+  inStock: boolean;
+  lastSeenAt: Date;
+  normalizedTitle: string;
+  originalPrice: number | null;
+  price: number;
+  product?: Prisma.ProductGetPayload<object> | null;
+  productId: number | null;
+  store: { id: number; name: string; slug: string };
+  storeId: number;
+  title: string;
+  url: string;
+};
 type CatalogItem = {
   brand: string | null;
   brandKey: string | null;
@@ -69,23 +86,9 @@ type CatalogItem = {
   totalStores: number;
   url: string;
 };
-type CategoryCount = {
-  category: string;
-  count: number;
-};
-type BrandCount = {
-  brand: string;
-  brandKey: string;
-  count: number;
-};
-
 const CATALOG_PAGE_LIMIT = 40;
-const CATEGORY_COUNT_CACHE_TTL_MS = 30_000;
 
-const categoryCountCache = new Map<string, { categories: CategoryCount[]; expiresAt: number }>();
-const brandCountCache = new Map<string, { brands: BrandCount[]; expiresAt: number }>();
-
-// Los caches usan la búsqueda del usuario como parte de la key, así que sin un
+// El cache usa la búsqueda del usuario como parte de la key, así que sin un
 // tope cualquiera puede crecer la memoria sin límite spameando queries únicas.
 // Al llegar al tope se desaloja la entrada más antigua (orden de inserción del Map).
 function setBounded<V>(cache: Map<string, V>, key: string, value: V, maxEntries: number) {
@@ -308,7 +311,6 @@ interface PageCacheEntry {
   brands: { brand: string; brandKey: string; count: number }[];
   catalogItems: CatalogItem[];
   coverage: { full: number; high: number; mid: number };
-  stats: { offerCount: number; productCount: number; historyCount: number; storeCount: number };
   expiresAt: number;
 }
 const PAGE_CACHE = new Map<string, PageCacheEntry>();
@@ -347,7 +349,6 @@ async function getCatalogData(
         page,
         totalPages,
         coverage: cached.coverage,
-        stats: cached.stats,
       };
     }
 
@@ -357,10 +358,16 @@ async function getCatalogData(
       ? Prisma.sql`AND "Store"."slug" IN (${Prisma.join(options.storeFilter)})`
       : Prisma.empty;
 
-    const [stores, offersRaw, { categories, brands }, offerCount, productCount, historyCount, covRows] = await Promise.all([
+    const [stores, offersRaw, { categories, brands }, coverage] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
       prisma.$queryRaw(Prisma.sql`
-        SELECT "Offer".*, "Store"."slug" AS "store_slug", "Store"."name" AS "store_name", "Store"."baseUrl" AS "store_baseUrl", "Store"."platform" AS "store_platform", "Store"."enabled" AS "store_enabled", "Store"."createdAt" AS "store_createdAt", "Store"."updatedAt" AS "store_updatedAt"
+        -- Solo las columnas que consume el catálogo: excluir description (texto
+        -- largo) reduce el I/O de hasta 10k filas por render.
+        SELECT "Offer"."id", "Offer"."storeId", "Offer"."productId", "Offer"."url",
+               "Offer"."title", "Offer"."normalizedTitle", "Offer"."brand",
+               "Offer"."brandKey", "Offer"."category", "Offer"."imageUrl",
+               "Offer"."price", "Offer"."originalPrice", "Offer"."inStock",
+               "Offer"."lastSeenAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
         WHERE 1=1 ${categoryFilterSql} ${storeFilterSql} ${brandFilterSql}
@@ -371,63 +378,35 @@ async function getCatalogData(
         LIMIT 10000
       `),
       getComparableFiltersCounts(normalizedQuery, queryWhere),
-      prisma.offer.count(),
-      prisma.product.count(),
-      prisma.priceHistory.count(),
-      prisma.$queryRaw<Array<{ productId: number; cnt: number }>>`
-        SELECT "productId", COUNT(DISTINCT "storeId") AS "cnt"
-        FROM "Offer"
-        WHERE "productId" IS NOT NULL
-        GROUP BY "productId"
-      `,
+      getProductCoverage(),
     ]);
 
     // Reconstruct offers from raw query results (bypasses Prisma strict type coercion)
-    const storeMap = new Map<string, { id: number; slug: string; name: string; baseUrl: string; platform: string; enabled: boolean; createdAt: Date; updatedAt: Date }>();
-    for (const s of stores) storeMap.set(s.slug, s);
+    const storeById = new Map(stores.map((s) => [s.id, s]));
 
     const rawOffers = offersRaw as Array<Record<string, unknown>>;
-    const offersWithStore = rawOffers.map((row) => {
-      const store = {
-        id: row.store_slug ? (storeMap.get(row.store_slug as string)?.id ?? 0) : 0,
-        slug: (row.store_slug as string) ?? "",
-        name: (row.store_name as string) ?? "",
-        baseUrl: (row.store_baseUrl as string) ?? "",
-        platform: (row.store_platform as string) ?? "",
-        enabled: Boolean(row.store_enabled),
-        createdAt: row.store_createdAt as Date,
-        updatedAt: row.store_updatedAt as Date,
-      };
-      const offer = {
+    const offersWithStore: CatalogOffer[] = [];
+    for (const row of rawOffers) {
+      const store = storeById.get(row.storeId as number);
+      if (!store) continue;
+      offersWithStore.push({
         id: row.id as number,
         storeId: row.storeId as number,
         productId: (row.productId === "null" || row.productId === "" || row.productId === null) ? null : Number(row.productId),
         url: row.url as string,
-        sourceId: row.sourceId as string | null,
-        sku: row.sku as string | null,
-        ean: row.ean as string | null,
         title: row.title as string,
         normalizedTitle: row.normalizedTitle as string,
         brand: row.brand as string | null,
         brandKey: row.brandKey as string | null,
-        modelKey: row.modelKey as string | null,
         category: row.category as string,
-        sourceCategory: row.sourceCategory as string | null,
-        description: row.description as string | null,
         imageUrl: row.imageUrl as string | null,
         price: row.price as number,
         originalPrice: row.originalPrice as number | null,
-        currency: row.currency as string,
         inStock: Boolean(row.inStock),
-        availability: row.availability as string | null,
-        enabled: row.enabled as number,
         lastSeenAt: row.lastSeenAt as Date,
-        createdAt: row.createdAt as Date,
-        updatedAt: row.updatedAt as Date,
-        store,
-      };
-      return offer;
-    });
+        store: { id: store.id, name: store.name, slug: store.slug },
+      });
+    }
 
     // Apply where clause filtering in JS
     const terms = normalizedQuery.split(" ").filter(Boolean);
@@ -496,15 +475,6 @@ async function getCatalogData(
       catalogItems.sort((first, second) => first.title.localeCompare(second.title, "es-CL"));
     }
 
-    // Compute coverage from DB
-    const coverage = { full: 0, high: 0, mid: 0 };
-    for (const row of covRows) {
-      if (row.cnt >= 4) coverage.full++;
-      else if (row.cnt >= 3) coverage.high++;
-      else if (row.cnt >= 2) coverage.mid++;
-    }
-
-    
     // Cada entrada guarda el catálogo completo del filtro: tope bajo a propósito.
     setBounded(PAGE_CACHE, cacheKey, {
       stores,
@@ -512,12 +482,6 @@ async function getCatalogData(
       brands,
       catalogItems,
       coverage,
-      stats: {
-        offerCount,
-        productCount,
-        historyCount,
-        storeCount: stores.length,
-      },
       expiresAt: Date.now() + PAGE_CACHE_TTL_MS,
     }, 50);
 
@@ -533,12 +497,6 @@ async function getCatalogData(
       page,
       totalPages,
       coverage,
-      stats: {
-        offerCount,
-        productCount,
-        historyCount,
-        storeCount: stores.length,
-      },
     };
   } catch (err) {
     console.error("getCatalogData failed:", err);
@@ -551,15 +509,32 @@ async function getCatalogData(
       page: 1,
       totalPages: 1,
       coverage: { full: 0, high: 0, mid: 0 },
-      stats: {
-        offerCount: 0,
-        productCount: 0,
-        historyCount: 0,
-        storeCount: 0,
-      },
     };
   }
 }
+
+// Agregado global sobre toda la tabla Offer: cambia solo con scrapes/curación,
+// así que se cachea compartido (Next data cache) en vez de recalcularse por render.
+const getProductCoverage = unstable_cache(
+  async () => {
+    const covRows = await prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
+      SELECT "productId", COUNT(DISTINCT "storeId") AS "cnt"
+      FROM "Offer"
+      WHERE "productId" IS NOT NULL
+      GROUP BY "productId"
+    `;
+    const coverage = { full: 0, high: 0, mid: 0 };
+    for (const row of covRows) {
+      const cnt = Number(row.cnt);
+      if (cnt >= 4) coverage.full++;
+      else if (cnt >= 3) coverage.high++;
+      else if (cnt >= 2) coverage.mid++;
+    }
+    return coverage;
+  },
+  ["home-product-coverage"],
+  { revalidate: 300 },
+);
 
 function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string, sort?: string, page = 1) {
   const getPageSlice = (list: CatalogItem[]) => {
@@ -632,22 +607,32 @@ function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
   };
 }
 
-async function getComparableFiltersCounts(normalizedQuery: string, where: Prisma.OfferWhereInput) {
-  const cacheKey = normalizedQuery || "__all__";
-  const cached = categoryCountCache.get(cacheKey);
-  const brandCached = brandCountCache.get(cacheKey);
-
-  if (cached && cached.expiresAt > Date.now() && brandCached && brandCached.expiresAt > Date.now()) {
-    return { categories: cached.categories, brands: brandCached.brands };
-  }
-
-  const rawOffers = await prisma.offer.findMany({
+// Los counts solo dependen de la búsqueda (no de categoría/tienda/orden), y los
+// datos cambian con scrapes/curación: cache compartido de Next (la key incluye
+// los argumentos) en vez de Maps en memoria por instancia.
+const getComparableFiltersCounts = unstable_cache(
+  async (normalizedQuery: string, where: Prisma.OfferWhereInput) => {
+  void normalizedQuery;
+  const baseOffers = await prisma.offer.findMany({
     where,
-    include: { store: true },
-    orderBy: [{ inStock: "desc" }, { price: "asc" }, { updatedAt: "desc" }],
+    select: {
+      id: true,
+      storeId: true,
+      productId: true,
+      url: true,
+      title: true,
+      normalizedTitle: true,
+      brand: true,
+      brandKey: true,
+      category: true,
+      imageUrl: true,
+      price: true,
+      originalPrice: true,
+      inStock: true,
+      lastSeenAt: true,
+      store: { select: { id: true, name: true, slug: true } },
+    },
   });
-
-  const baseOffers = rawOffers;
 
   // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
   const productIds = [...new Set(baseOffers.map((o) => o.productId).filter(Boolean))] as number[];
@@ -690,18 +675,11 @@ async function getComparableFiltersCounts(normalizedQuery: string, where: Prisma
     .map(([brandKey, data]) => ({ brandKey, brand: data.brand, count: data.count }))
     .sort((first, second) => first.brand.localeCompare(second.brand));
 
-  setBounded(categoryCountCache, cacheKey, {
-    categories: categoryCounts,
-    expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
-  }, 500);
-
-  setBounded(brandCountCache, cacheKey, {
-    brands: brandCounts,
-    expiresAt: Date.now() + CATEGORY_COUNT_CACHE_TTL_MS,
-  }, 500);
-
   return { categories: categoryCounts, brands: brandCounts };
-}
+  },
+  ["home-filter-counts"],
+  { revalidate: 300 },
+);
 
 
 function buildCatalogItems(offers: CatalogOffer[]) {

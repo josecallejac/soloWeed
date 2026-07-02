@@ -4,6 +4,10 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@prisma/client"],
   poweredByHeader: false,
   images: {
+    formats: ["image/avif", "image/webp"],
+    // El catálogo de imágenes de las tiendas es estable: 30 días de cache
+    // evita reoptimizar las mismas variantes en cada ciclo.
+    minimumCacheTTL: 2_592_000,
     // Solo los CDNs de las 4 tiendas scrapeadas: un wildcard convierte
     // /_next/image en un proxy abierto de imágenes para terceros.
     remotePatterns: [

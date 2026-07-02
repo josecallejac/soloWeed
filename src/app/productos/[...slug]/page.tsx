@@ -22,11 +22,38 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
-import { PriceHistoryChart } from "./price-history-chart";
+import nextDynamic from "next/dynamic";
+import { cache } from "react";
 import { VariantSelector } from "@/components/variant-selector";
 import { getVariantName } from "@/lib/variant-utils";
 
+// Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
+// así queda en un chunk aparte en vez del bundle de cada página de producto.
+const PriceHistoryChart = nextDynamic(() =>
+  import("./price-history-chart").then((mod) => mod.PriceHistoryChart),
+);
+
 export const revalidate = 3600;
+
+// Compartido entre generateMetadata y la página: una sola query por request.
+const findProductBySlug = cache(async (brandKey: string, modelSlug: string) =>
+  prisma.product.findFirst({
+    where: { brandKey, modelSlug },
+    include: {
+      offers: {
+        include: {
+          store: true,
+          product: true,
+          histories: {
+            orderBy: { recordedAt: "desc" },
+            take: 4,
+          },
+        },
+        orderBy: [{ inStock: "desc" }, { price: "asc" }, { lastSeenAt: "desc" }],
+      },
+    },
+  }),
+);
 
 export async function generateMetadata(props: ProductDetailProps): Promise<Metadata> {
   const { slug } = await props.params;
@@ -34,14 +61,7 @@ export async function generateMetadata(props: ProductDetailProps): Promise<Metad
     return {};
   }
   const [brandKey, ...modelParts] = slug;
-  const product = await prisma.product.findFirst({
-    where: { brandKey, modelSlug: modelParts.join("/") },
-    include: {
-      offers: {
-        select: { price: true, storeId: true, imageUrl: true, inStock: true },
-      },
-    },
-  });
+  const product = await findProductBySlug(brandKey, modelParts.join("/"));
   if (!product) {
     return {};
   }
@@ -308,22 +328,27 @@ export default async function ProductDetail(props: ProductDetailProps) {
             <NoComparableMatches />
           )}
 
-          <div className="mt-6">
-            <PriceHistoryChart
-              onlyOnFullCoverage
-              stores={storesWithPrice
-                .filter((row) => row.offer)
-                .map((row) => ({
-                  storeName: row.store.name,
-                  histories: row.offer!.histories.map((h) => ({
-                    price: h.price,
-                    recordedAt: h.recordedAt,
-                  })),
-                  currentPrice: row.offer!.price,
-                }))}
-              totalStores={stores.length}
-            />
-          </div>
+          {(() => {
+            const chartStores = storesWithPrice
+              .filter((row) => row.offer)
+              .map((row) => ({
+                storeName: row.store.name,
+                histories: row.offer!.histories.map((h) => ({
+                  price: h.price,
+                  recordedAt: h.recordedAt,
+                })),
+                currentPrice: row.offer!.price,
+              }));
+            // Mismas condiciones con las que el chart devuelve null: si no hay
+            // nada que graficar, no montar el componente evita cargar recharts.
+            const hasChartData =
+              stores.length >= 2 && chartStores.some((s) => s.histories.length >= 1);
+            return hasChartData ? (
+              <div className="mt-6">
+                <PriceHistoryChart onlyOnFullCoverage stores={chartStores} totalStores={stores.length} />
+              </div>
+            ) : null;
+          })()}
         </section>
       </section>
 
@@ -375,25 +400,7 @@ async function getProductData(slug: string[]) {
   }
 
   const [brandKey, ...modelParts] = slug;
-  const product = await prisma.product.findFirst({
-    where: {
-      brandKey,
-      modelSlug: modelParts.join("/"),
-    },
-    include: {
-      offers: {
-        include: {
-          store: true,
-          product: true,
-          histories: {
-            orderBy: { recordedAt: "desc" },
-            take: 4,
-          },
-        },
-        orderBy: [{ inStock: "desc" }, { price: "asc" }, { lastSeenAt: "desc" }],
-      },
-    },
-  });
+  const product = await findProductBySlug(brandKey, modelParts.join("/"));
 
   if (!product) {
     return null;
