@@ -1,23 +1,34 @@
 # Estado del Catálogo
 
-Último cierre: 30 de junio de 2026, commit 3c0b36a
+Último cierre: 1 de julio de 2026, commit fd79102
 
 Este documento mantiene la memoria del estado de curación del catálogo entre sesiones.
 
-## Resumen Actual (Después de Curación y SEO)
+## Resumen Actual
 
-- **Productos Curados:** 641
-- **Ofertas Totales:** 4508
-- **Ofertas Enlazadas a un Producto:** 1743
-- **Ofertas Huérfanas:** 2765
+- **Productos curados con ofertas:** 627
+- **Ofertas Totales:** 4530
 
-### Distribución de Productos por Número de Tiendas (Catálogo endurecido)
+### Distribución de Productos por Número de Tiendas
 
-- **4 tiendas:** 65
-- **3 tiendas:** 180
-- **2 tiendas:** 378
-- **1 tienda:** 15 (Confirmados como exclusivos de tienda, no se requiere auditoría de huérfanos)
+- **4 tiendas:** 69
+- **3 tiendas:** 186
+- **2 tiendas:** 356
+- **1 tienda:** 16 (exclusivos de tienda)
+
+## Sesión 1 jul 2026 (vuelta a Claude tras Antigravity)
+
+Saneamiento completo en 6 commits (d2df575..fd79102): deps reparadas (clsx, tsx,
+@huggingface/transformers), 3 tests de matching arreglados (GENERIC_TOKENS),
+scraper con precio/sku/stock por variante Jumpseller, redirect 308 de URLs
+legacy, hardening (allowlist next/image, headers, throttle login, SQL
+parametrizado, caches acotados, CI + Dependabot), 81 scripts one-shot
+archivados en scripts/archive (quedan 31 activos), y fix de variantes fantasma
+que ocultaban tiendas en el detalle (afectaba 7 productos, ej.
+clipper/lighter-classic mostraba 1/4). Tests 124/124, E2E 5/5.
 
 ## Tareas Pendientes
 
-- **Scraper:** Expandir la cobertura añadiendo una quinta tienda al ecosistema (en pausa por solicitud del usuario).
+- **Node local:** actualizar a 22 LTS (está en 20.11, bajo el engine de varias deps; el CI ya usa 22).
+- **Scraper:** quinta tienda (en pausa por solicitud del usuario).
+- **npm audit:** quedan 2 moderadas del postcss embebido en Next; se resuelven cuando Next actualice.
