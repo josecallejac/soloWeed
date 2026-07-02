@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test": "node scripts/run-tests.mjs",
     "scrape": "tsx scripts/scrape.ts",
+    "prices:refresh": "tsx scripts/refresh-product-prices.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
     "match:image": "tsx scripts/match-by-image.ts",
     "match:embedding": "tsx scripts/match-by-embedding.ts",
