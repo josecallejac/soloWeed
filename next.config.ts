@@ -11,9 +11,6 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.jumpseller.com" },
       { protocol: "https", hostname: "www.growbaratochile.cl" },
       { protocol: "https", hostname: "piranha.cl" },
-      // Product.imageUrl aún guarda URLs viejas de media.piranha.cl (el scraper
-      // solo normaliza Offer); ambos hosts sirven las mismas rutas.
-      { protocol: "https", hostname: "media.piranha.cl" },
     ],
   },
   async headers() {
