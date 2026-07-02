@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-12T22:09:14.250Z",
+  "generatedAt": "2026-07-02T12:59:30.760Z",
   "stale": [
     {
       "offerId": 259,
@@ -7,7 +7,7 @@
       "title": "Figura Lion Rolling Circus Bobblehead Tora Tora | PIRANHA",
       "url": "https://piranha.cl/inicio/7788/figura-lion-rolling-circus-bobblehead-tora-tora.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -17,7 +17,7 @@
       "title": "Boquilla Plana Pax 2/3 2 unidades",
       "url": "https://piranha.cl/inicio/1140/flat-mouthpiece-pax-23-2u.html",
       "productId": 5753,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -27,7 +27,7 @@
       "title": "Hitter American 1.8mm - BongLab | PIRANHA",
       "url": "https://piranha.cl/inicio/6878/hitter-american-18mm-bonglab.html",
       "productId": 6777,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -37,7 +37,7 @@
       "title": "Cono Preenrolado Vibes 1g (3u)",
       "url": "https://piranha.cl/inicio/6300/cono-preenrolado-vibes-1g-3u.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -47,7 +47,7 @@
       "title": "Eyce Mini Beaker Bong (Color a elección)",
       "url": "https://piranha.cl/inicio/1611/eyce-mini-beaker-bong-color-a-eleccion.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -57,7 +57,7 @@
       "title": "Quemador Macho 14mm",
       "url": "https://piranha.cl/inicio/2834/quemador-macho-calvo-14mm-color-a-eleccion.html",
       "productId": 5751,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -67,7 +67,7 @@
       "title": "Encendedor HS x Blazer Big Shot Torch V3",
       "url": "https://piranha.cl/inicio/6304/encendedor-hs-x-blazer-big-shot-torch-v3.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -77,7 +77,7 @@
       "title": "Quemador Perlas Calvo 14mm",
       "url": "https://piranha.cl/inicio/6371/quemador-perlas-calvo-14mm-color-a-eleccion.html",
       "productId": 10261,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -87,7 +87,7 @@
       "title": "Vaporizador Calvo Nectar Wax Pen 400MAH | PIRANHA",
       "url": "https://piranha.cl/vaporx/8370/vaporizador-calvo-nectar-wax-pen-400mah.html",
       "productId": 10525,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/206-vaporx"
     },
@@ -97,7 +97,7 @@
       "title": "Pipa Karma PieceMaker",
       "url": "https://piranha.cl/inicio/1913/pipa-karma-piecemaker-color-aleatorio.html",
       "productId": 5491,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -107,7 +107,7 @@
       "title": "Moledor metálico Bulldog de 4 partes",
       "url": "https://piranha.cl/inicio/238/moledor-metalico-manivela-bulldog-4-partes.html",
       "productId": 6567,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -117,7 +117,7 @@
       "title": "Hemper Tech Tapones de Limpieza + Caps Pro | PIRANHA",
       "url": "https://piranha.cl/inicio/7904/hemper-tech-tapones-de-limpieza-caps-pro-color-a-eleccion.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -127,7 +127,7 @@
       "title": "Vaporizador DynaVap New The M 7 | PIRANHA",
       "url": "https://piranha.cl/inicio/8510/vaporizador-dynavap-new-the-m-7.html",
       "productId": 5737,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -137,7 +137,7 @@
       "title": "Pipa Oro 22K Manchas",
       "url": "https://piranha.cl/inicio/5902/pipa-oro-doble-reina-22k-manchas.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -147,7 +147,7 @@
       "title": "Bandeja - Eyce",
       "url": "https://piranha.cl/inicio/2534/bandeja-eyce-color-a-eleccion.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -157,7 +157,7 @@
       "title": "Hitter Oro 22K Manchas",
       "url": "https://piranha.cl/inicio/5906/hitter-doble-reina-oro-22k-manchas.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -167,7 +167,7 @@
       "title": "Pipa Oro 22K Folia",
       "url": "https://piranha.cl/inicio/5988/pipa-doble-reina-oro-22k-folia.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -177,7 +177,7 @@
       "title": "Banger Cuarzo Bonglab Simple 45° (14mm/10mm) | PIRANHA",
       "url": "https://piranha.cl/inicio/7294/banger-cuarzo-bonglab-simple-45-14mm10mm-bonglab.html",
       "productId": 5768,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -187,7 +187,7 @@
       "title": "Moledor Cerámico v 2.5 5cm SLX | PIRANHA",
       "url": "https://piranha.cl/inicio/6881/moledor-ceramico-slx-v25-5cm-4-partes-color-a-eleccion.html",
       "productId": 5999,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -197,17 +197,57 @@
       "title": "Pipa Konjurer PieceMaker",
       "url": "https://piranha.cl/inicio/778/pipa-konjurer-piecemaker-color-a-eleccion.html",
       "productId": 5795,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 11138,
+      "store": "piranha",
+      "title": "Moledor Cerámico Lion Rolling Circus 6cm 3 Partes | PIRANHA",
+      "url": "https://piranha.cl/inicio/7778/moledor-ceramico-lion-rolling-circus-6cm-3-partes.html",
+      "productId": null,
       "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
-      "offerId": 14320,
+      "offerId": 11193,
       "store": "piranha",
-      "title": "DynaVap Ispire The Wand + Wand Adaptor | PIRANHA",
-      "url": "https://piranha.cl/inicio/7458/dynavap-ispire-the-wand.html",
-      "productId": 10405,
+      "title": "Hemp Wraps Blunt Soulblime | PIRANHA",
+      "url": "https://piranha.cl/inicio/5981/hemp-wraps-blunt-soulblime-mango-2u.html",
+      "productId": 10623,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 15658,
+      "store": "piranha",
+      "title": "Cotonitos Blazy Susan 100u (Pink/White) | PIRANHA",
+      "url": "https://piranha.cl/inicio/7373/cotonitos-extractos-blazy-susan-100u-pinkwhite.html",
+      "productId": 10351,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 15775,
+      "store": "piranha",
+      "title": "DynaVap Replacement Screen: Titanium CCD (3-Pack) | PIRANHA",
+      "url": "https://piranha.cl/inicio/7736/dynavap-replacement-screen-titanium-ccd-3-pack.html",
+      "productId": null,
       "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 16180,
+      "store": "piranha",
+      "title": "Waist Kit Banger",
+      "url": "https://piranha.cl/inicio/6182/waist-kit-banger-bonglab.html",
+      "productId": 10476,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     }
