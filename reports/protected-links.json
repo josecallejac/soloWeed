@@ -11,7 +11,8 @@
       190,
       856,
       2255,
-      6342
+      6342,
+      18110
     ]
   },
   {
@@ -79,7 +80,7 @@
     "id": 5462,
     "name": "Papelillos OCB Bamboo 1 1/4",
     "brandKey": "ocb",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": "bamboo-1-1-4",
     "modelSlug": "bamboo",
     "category": "Papelillos",
     "storeCount": 4,
@@ -94,7 +95,7 @@
     "id": 5463,
     "name": "Papel de fumar de cáñamo orgánico 1 1/4 OCB",
     "brandKey": "ocb",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "organic",
     "category": "Papelillos",
     "storeCount": 4,
@@ -109,7 +110,7 @@
     "id": 5464,
     "name": "Papelillo RAW Classic Black 1 1/4 | PIRANHA",
     "brandKey": "raw",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": "black-1-1-4",
     "modelSlug": "black",
     "category": "Papelillos",
     "storeCount": 4,
@@ -117,6 +118,7 @@
       214,
       515,
       779,
+      1067,
       1427
     ]
   },
@@ -124,7 +126,7 @@
     "id": 5479,
     "name": "Papelillos OCB X-Pert 1 1/4",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-x-pert-1-1-4",
+    "modelKey": "ocb-x-pert-1-1-4",
     "modelSlug": "x-pert",
     "category": "Papelillos",
     "storeCount": 4,
@@ -296,7 +298,7 @@
     "id": 5717,
     "name": "Tips Perforated Wide-Raw",
     "brandKey": "raw",
-    "modelKey": "filter-wide-wide",
+    "modelKey": "wide-wide",
     "modelSlug": "paper-tip-wide-wide",
     "category": "Filtros y boquillas",
     "storeCount": 4,
@@ -305,6 +307,40 @@
       606,
       1413,
       15813
+    ]
+  },
+  {
+    "id": 5720,
+    "name": "Filtro de cartón OCB Virgin sin contaminantes",
+    "brandKey": "ocb",
+    "modelKey": "filter-ocb-virgin",
+    "modelSlug": "paper-filter-virgin",
+    "category": "Filtros y boquillas",
+    "storeCount": 4,
+    "offerIds": [
+      318,
+      501,
+      12633,
+      19451,
+      20108
+    ]
+  },
+  {
+    "id": 5722,
+    "name": "Filtros de cartón OCB Premium de color blanco",
+    "brandKey": "ocb",
+    "modelKey": "filter-ocb-premium",
+    "modelSlug": "paper-filter-premium",
+    "category": "Filtros y boquillas",
+    "storeCount": 4,
+    "offerIds": [
+      313,
+      320,
+      397,
+      517,
+      17969,
+      18004,
+      19510
     ]
   },
   {
@@ -345,7 +381,7 @@
     "id": 5737,
     "name": "Vaporizador Dynavap M 7 - Regular",
     "brandKey": "dynavap",
-    "modelKey": "m7",
+    "modelKey": "vaporizadores-vaporizador-regular-regular",
     "modelSlug": "m7",
     "category": "Vaporizadores herbales",
     "storeCount": 4,
@@ -408,6 +444,23 @@
     ]
   },
   {
+    "id": 5761,
+    "name": "Estuche Anti Olor OZeta Grande (Color a elección)",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche-grande",
+    "modelSlug": "case-antiolor-large",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      532,
+      1259,
+      3417,
+      13243,
+      17964,
+      18550
+    ]
+  },
+  {
     "id": 5763,
     "name": "Ozeta Chestbag Circular 4x4 Con Clave - Anti Olor",
     "brandKey": "ozeta",
@@ -420,6 +473,23 @@
       738,
       1327,
       11401
+    ]
+  },
+  {
+    "id": 5765,
+    "name": "Estuche Anti Olor OZeta Pequeño (Color a elección)",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "case-antiolor-small",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      543,
+      833,
+      1281,
+      13247,
+      17966,
+      18552
     ]
   },
   {
@@ -502,7 +572,7 @@
     "id": 5816,
     "name": "Papelillos OCB Virgin 1 1/4",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-virgin-1-1-4",
+    "modelKey": "ocb-virgin-1-1-4",
     "modelSlug": "virgin",
     "category": "Papelillos",
     "storeCount": 4,
@@ -517,7 +587,7 @@
     "id": 5817,
     "name": "Papel ultrafino OCB Ultimate 1.1/4 - GB The Green Brand",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-ultimate-1-1-4",
+    "modelKey": "ocb-ultimate-1-1-4",
     "modelSlug": "ultimate",
     "category": "Papelillos",
     "storeCount": 4,
@@ -566,7 +636,7 @@
     "id": 6008,
     "name": "Papelillos OCB Premium 1 1/4",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-premium-1-1-4",
+    "modelKey": "ocb-premium-1-1-4",
     "modelSlug": "premium",
     "category": "Papelillos",
     "storeCount": 4,
@@ -582,7 +652,7 @@
     "id": 6576,
     "name": "Papelillo Vibes Cáñamo 1 1/4",
     "brandKey": "vibes",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "organic",
     "category": "Papelillos",
     "storeCount": 4,
@@ -618,11 +688,14 @@
     "category": "Vaporizadores herbales",
     "storeCount": 4,
     "offerIds": [
+      552,
       607,
       2083,
       10941,
       11370,
-      12642
+      11524,
+      12642,
+      15915
     ]
   },
   {
@@ -637,7 +710,8 @@
       495,
       1433,
       12585,
-      12967
+      12967,
+      16087
     ]
   },
   {
@@ -660,7 +734,7 @@
     "id": 10066,
     "name": "Blazy Susan papelillos king size purple – Papeles de enrolar ultra finos",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-king-size-king-size",
+    "modelKey": null,
     "modelSlug": "purple-king-size-slim",
     "category": "Papelillos",
     "storeCount": 4,
@@ -690,7 +764,7 @@
     "id": 10083,
     "name": "OCB Premium 1.1/4 + Tips",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-premium-1-1-4",
+    "modelKey": "ocb-premium-1-1-4-tips",
     "modelSlug": "premium-con-tips",
     "category": "Papelillos",
     "storeCount": 4,
@@ -735,7 +809,7 @@
     "id": 10140,
     "name": "OCB Premium Slim King Size 32 hojas",
     "brandKey": "ocb",
-    "modelKey": "paper-ocb-premium-king-size-slim",
+    "modelKey": "ocb-premium-king-size-slim",
     "modelSlug": "premium-king-size-slim",
     "category": "Papelillos",
     "storeCount": 4,
@@ -750,7 +824,7 @@
     "id": 10146,
     "name": "Papelillo Slim Ultimate King Size- Ocb",
     "brandKey": "ocb",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": "ultimate-king-size-slim",
     "modelSlug": "ultimate-king-size-slim",
     "category": "Papelillos",
     "storeCount": 4,
@@ -795,7 +869,7 @@
     "id": 10181,
     "name": "Blazy Susan Deluxe Rolling Kit Pink King Size",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-king-size-king-size",
+    "modelKey": null,
     "modelSlug": "pink-king-size-slim-con-tips",
     "category": "Papelillos",
     "storeCount": 4,
@@ -810,7 +884,7 @@
     "id": 10182,
     "name": "Blazy Susan Deluxe Rolling Kit Purple King Size",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-king-size-king-size",
+    "modelKey": null,
     "modelSlug": "purple-king-size-slim-con-tips",
     "category": "Papelillos",
     "storeCount": 4,
@@ -819,6 +893,29 @@
       2468,
       2686,
       11066
+    ]
+  },
+  {
+    "id": 10189,
+    "name": "Vaporizador Dynavap M7 XL",
+    "brandKey": "dynavap",
+    "modelKey": "vaporizadores-m7-xl-xl",
+    "modelSlug": "m7-xl",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      511,
+      1370,
+      1527,
+      11537,
+      12210,
+      12285,
+      12403,
+      12623,
+      12668,
+      15883,
+      15934,
+      16063
     ]
   },
   {
@@ -845,6 +942,7 @@
     "category": "Contenedores y estuches",
     "storeCount": 4,
     "offerIds": [
+      3225,
       11046,
       11446,
       12684,
@@ -885,7 +983,7 @@
     "id": 10274,
     "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
     "brandKey": "lion-rolling-circus",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "alfalfa",
     "category": "Papelillos",
     "storeCount": 4,
@@ -915,7 +1013,7 @@
     "id": 10309,
     "name": "BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm",
     "brandKey": "bonglab",
-    "modelKey": "ash-catcher-triple-honeycomb-14mm",
+    "modelKey": "repuestos-honeycomb-macho-14mm",
     "modelSlug": "atrapa-cenizas-triple-honeycomb-14mm",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 4,
@@ -930,7 +1028,7 @@
     "id": 10312,
     "name": "Puffco Hot Knife - Dabber eléctronico",
     "brandKey": "puffco",
-    "modelKey": "dabber-hot-knife",
+    "modelKey": null,
     "modelSlug": "hot-knife",
     "category": "Accesorios de extraccion",
     "storeCount": 4,
@@ -945,7 +1043,7 @@
     "id": 10331,
     "name": "Bencina 125mL Zippo",
     "brandKey": "zippo",
-    "modelKey": "bencina-125ml",
+    "modelKey": "lighter-bencina-125ml-125ml",
     "modelSlug": "bencina-125ml",
     "category": "Encendedores y sopletes",
     "storeCount": 4,
@@ -960,7 +1058,7 @@
     "id": 10338,
     "name": "Piedra Humidificadora RAW",
     "brandKey": "raw",
-    "modelKey": "piedra-humidificadora",
+    "modelKey": "humidifying-stone",
     "modelSlug": "piedra-humidificadora",
     "category": "Otros parafernalia",
     "storeCount": 4,
@@ -975,7 +1073,7 @@
     "id": 10343,
     "name": "Soporte Celular Soulblime | PIRANHA",
     "brandKey": "soulblime",
-    "modelKey": "soporte-celular",
+    "modelKey": null,
     "modelSlug": "soporte-celular",
     "category": "Otros parafernalia",
     "storeCount": 4,
@@ -990,7 +1088,7 @@
     "id": 10406,
     "name": "DynaVap The UniDyn",
     "brandKey": "dynavap",
-    "modelKey": "the-unidyn",
+    "modelKey": null,
     "modelSlug": "the-unidyn",
     "category": "Vaporizadores herbales",
     "storeCount": 4,
@@ -1005,7 +1103,7 @@
     "id": 10508,
     "name": "Weecke Vaporizador Fenix Mini Plus",
     "brandKey": "weecke",
-    "modelKey": "fenix-mini-plus",
+    "modelKey": "vaporizadores-vaporizador-fenix-mini-plus-mini",
     "modelSlug": "fenix-mini-plus",
     "category": "Vaporizadores herbales",
     "storeCount": 4,
@@ -1017,10 +1115,27 @@
     ]
   },
   {
+    "id": 10528,
+    "name": "Sploofy Pro Filtro de Aire Personal",
+    "brandKey": "sploofy",
+    "modelKey": null,
+    "modelSlug": "pro",
+    "category": "Filtros y boquillas",
+    "storeCount": 4,
+    "offerIds": [
+      11477,
+      12992,
+      17912,
+      17913,
+      18024,
+      27094
+    ]
+  },
+  {
     "id": 5418,
     "name": "Papelillos RAW Classic King Size Slim - Sabanas",
     "brandKey": "raw",
-    "modelKey": "paper-classic-king-size-slim-king-size-slim",
+    "modelKey": null,
     "modelSlug": "classic-king-size-slim",
     "category": "Papelillos",
     "storeCount": 3,
@@ -1034,7 +1149,7 @@
     "id": 5460,
     "name": "Blazy Susan Papelillos Purple 1 1/4",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "purple",
     "category": "Papelillos",
     "storeCount": 3,
@@ -1048,7 +1163,7 @@
     "id": 5465,
     "name": "Papelillos RAW Black Organic Hemp 1 1/4",
     "brandKey": "raw",
-    "modelKey": "paper-black-organic-hemp-1-1-4",
+    "modelKey": "black-organic-hemp-1-1-4",
     "modelSlug": "black-organic-hemp",
     "category": "Papelillos",
     "storeCount": 3,
@@ -1062,7 +1177,7 @@
     "id": 5471,
     "name": "Papelillos OCB Cañamo Orgánico 1 1/4 + Tips",
     "brandKey": "ocb",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "organic-con-tips",
     "category": "Papelillos",
     "storeCount": 3,
@@ -1076,13 +1191,20 @@
     "id": 5478,
     "name": "Papelillos Gizeh Pink 1 1/4 Extra Fine",
     "brandKey": "gizeh",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "pink",
     "category": "Papelillos",
     "storeCount": 3,
     "offerIds": [
       210,
+      624,
+      1229,
+      1251,
+      1273,
       1399,
+      2136,
+      2137,
+      2138,
       5169
     ]
   },
@@ -1211,7 +1333,9 @@
     "offerIds": [
       842,
       2606,
-      11374
+      11374,
+      18114,
+      18115
     ]
   },
   {
@@ -1290,7 +1414,7 @@
     "id": 5705,
     "name": "Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan",
     "brandKey": "blazy-susan",
-    "modelKey": "cone-1-1-4-1-1-4",
+    "modelKey": "1-1-4-6u",
     "modelSlug": "pre-roll-pink-1-1-4-6u",
     "category": "Conos y blunts",
     "storeCount": 3,
@@ -1321,7 +1445,7 @@
     "id": 5708,
     "name": "Blazy Susan Blunt Rose Wraps x2",
     "brandKey": "blazy-susan",
-    "modelKey": "cone-rose",
+    "modelKey": null,
     "modelSlug": "wrap-rose-2u",
     "category": "Conos y blunts",
     "storeCount": 3,
@@ -1335,7 +1459,7 @@
     "id": 5709,
     "name": "Blazy Susan 2X Tea Wraps Unidad",
     "brandKey": "blazy-susan",
-    "modelKey": "cone-tea",
+    "modelKey": null,
     "modelSlug": "wrap-tea-leaf-2u",
     "category": "Conos y blunts",
     "storeCount": 3,
@@ -1363,7 +1487,7 @@
     "id": 5715,
     "name": "Filtros Tips Gummed-Raw",
     "brandKey": "raw",
-    "modelKey": "filter-gummed",
+    "modelKey": null,
     "modelSlug": "gummed-tip-gummed",
     "category": "Filtros y boquillas",
     "storeCount": 3,
@@ -1388,20 +1512,6 @@
     ]
   },
   {
-    "id": 5720,
-    "name": "Filtro de cartón OCB Virgin sin contaminantes",
-    "brandKey": "ocb",
-    "modelKey": "filter-ocb-virgin",
-    "modelSlug": "paper-filter-virgin",
-    "category": "Filtros y boquillas",
-    "storeCount": 3,
-    "offerIds": [
-      318,
-      501,
-      12633
-    ]
-  },
-  {
     "id": 5721,
     "name": "Cajita Metálica RAW con 100u Filtros Pre-Enrolados 6mm | PIRANHA",
     "brandKey": "raw",
@@ -1413,23 +1523,6 @@
       524,
       1044,
       1547
-    ]
-  },
-  {
-    "id": 5722,
-    "name": "Filtros de cartón OCB Premium de color blanco",
-    "brandKey": "ocb",
-    "modelKey": "filter-ocb-premium",
-    "modelSlug": "paper-filter-premium",
-    "category": "Filtros y boquillas",
-    "storeCount": 3,
-    "offerIds": [
-      313,
-      320,
-      397,
-      517,
-      17969,
-      18004
     ]
   },
   {
@@ -1576,7 +1669,7 @@
     "id": 5740,
     "name": "Dynavap Vaporizador Starter Kit B2",
     "brandKey": "dynavap",
-    "modelKey": "b2",
+    "modelKey": "vaporizadores-b2",
     "modelSlug": "b2",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -1627,6 +1720,7 @@
       834,
       1381,
       2949,
+      13310,
       13311
     ]
   },
@@ -1714,35 +1808,24 @@
       873,
       11168,
       12181,
-      13172
+      13172,
+      23225
     ]
   },
   {
-    "id": 5761,
-    "name": "Estuche Anti Olor OZeta Grande (Color a elección)",
+    "id": 5764,
+    "name": "Estuche Anti Olor OZeta Mediano (Color a elección)",
     "brandKey": "ozeta",
-    "modelKey": "container-estuche-grande",
-    "modelSlug": "case-antiolor-large",
+    "modelKey": "container-estuche-mediano",
+    "modelSlug": "case-antiolor-medium",
     "category": "Contenedores y estuches",
     "storeCount": 3,
     "offerIds": [
-      532,
-      1259,
-      3417
-    ]
-  },
-  {
-    "id": 5765,
-    "name": "Estuche Anti Olor OZeta Pequeño (Color a elección)",
-    "brandKey": "ozeta",
-    "modelKey": "container-estuche",
-    "modelSlug": "case-antiolor-small",
-    "category": "Contenedores y estuches",
-    "storeCount": 3,
-    "offerIds": [
-      543,
-      833,
-      1281
+      1270,
+      3405,
+      13245,
+      17965,
+      18551
     ]
   },
   {
@@ -1961,10 +2044,25 @@
     ]
   },
   {
+    "id": 6567,
+    "name": "Moledor Bulldog Ámsterdam Metálico Silver 4 Partes",
+    "brandKey": "the-bulldog",
+    "modelKey": "grinder-metal",
+    "modelSlug": "metal-4-partes",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      446,
+      1073,
+      1367,
+      4322
+    ]
+  },
+  {
     "id": 6574,
     "name": "Papelillos RAW Artesano 1 1/4",
     "brandKey": "raw",
-    "modelKey": "paper-raw-artesano-1-1-4",
+    "modelKey": "raw-artesano-1-1-4",
     "modelSlug": "artesano",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2051,7 +2149,7 @@
     "id": 10067,
     "name": "Papelillo Pink 1 1/4 1Und-Blazy Susan",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-1-1-4-1-1-4",
+    "modelKey": null,
     "modelSlug": "pink",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2065,7 +2163,7 @@
     "id": 10068,
     "name": "Papelillo Pink King Size Slim- Blazy Susan",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": null,
     "modelSlug": "pink-king-size-slim",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2181,7 +2279,7 @@
     "id": 10130,
     "name": "Papelillos RAW Supernatural Super King Size 30cm | PIRANHA",
     "brandKey": "raw",
-    "modelKey": "paper-king-size-30cm-king-size",
+    "modelKey": null,
     "modelSlug": "super-king-30cm",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2195,7 +2293,7 @@
     "id": 10141,
     "name": "OCB Papelillos X-pert Slim King Size",
     "brandKey": "ocb",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": null,
     "modelSlug": "x-pert-king-size-slim",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2416,6 +2514,20 @@
     ]
   },
   {
+    "id": 10210,
+    "name": "Nectar Collector Obelisk 15Cm-Bonglab",
+    "brandKey": "bonglab",
+    "modelKey": "nectar-collector-obelisk-15cm",
+    "modelSlug": "nectar-collector-obelisk-15cm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      3202,
+      12258,
+      12976
+    ]
+  },
+  {
     "id": 10214,
     "name": "VAPORIZADOR YOCAN HIT 2",
     "brandKey": "yocan",
@@ -2500,6 +2612,21 @@
     ]
   },
   {
+    "id": 10236,
+    "name": "Contenedor Diseños Tapa Deslizable Psicodelia -Soulblime",
+    "brandKey": "soulblime",
+    "modelKey": "container-contenedor",
+    "modelSlug": "sliding",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      480,
+      2878,
+      12548,
+      16062
+    ]
+  },
+  {
     "id": 10239,
     "name": "Gas Butano Ronson 300 ML",
     "brandKey": "ronson",
@@ -2510,7 +2637,8 @@
     "offerIds": [
       1191,
       1312,
-      13406
+      13406,
+      15569
     ]
   },
   {
@@ -2531,7 +2659,7 @@
     "id": 10246,
     "name": "Glass Cleaner (30mL/250mL/500mL/1L)",
     "brandKey": "bonglab",
-    "modelKey": "cleaner-250ml",
+    "modelKey": "cleaner-250ml-30ml-500ml",
     "modelSlug": "cleaner-250ml",
     "category": "Limpieza",
     "storeCount": 3,
@@ -2545,7 +2673,7 @@
     "id": 10252,
     "name": "Thievery Super Dab Cleaner 250ml",
     "brandKey": "thievery",
-    "modelKey": "super-dab-cleaner-250ml",
+    "modelKey": "cleaner-super-250ml",
     "modelSlug": "super-dab-cleaner-250ml",
     "category": "Limpieza",
     "storeCount": 3,
@@ -2594,7 +2722,8 @@
     "offerIds": [
       11258,
       11870,
-      12854
+      12854,
+      15788
     ]
   },
   {
@@ -2621,8 +2750,24 @@
     "storeCount": 3,
     "offerIds": [
       11072,
+      12402,
       12417,
+      12423,
       12903
+    ]
+  },
+  {
+    "id": 10264,
+    "name": "Boquilla Para Mighty/ Crafty 4Ud-Storz &amp; Bickel",
+    "brandKey": "storz-bickel",
+    "modelKey": "filter-mighty",
+    "modelSlug": "mouthpiece-crafty-4u",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      2929,
+      12151,
+      16028
     ]
   },
   {
@@ -2643,7 +2788,7 @@
     "id": 10272,
     "name": "Papelillos RAW Black King Size Slim - Sabanas",
     "brandKey": "raw",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": "black-king-size-slim",
     "modelSlug": "black-king-size-slim",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2657,7 +2802,7 @@
     "id": 10273,
     "name": "Papelillos Raw Artesanos King Size Slim",
     "brandKey": "raw",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": null,
     "modelSlug": "artesano-king-size-slim",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2727,7 +2872,7 @@
     "id": 10282,
     "name": "Papelillo King Size Slim Blazy Susan Deluxe Kit Unbleached | PIRANHA",
     "brandKey": "blazy-susan",
-    "modelKey": "paper-king-size-king-size-slim",
+    "modelKey": "unbleached-king-size-slim-tips",
     "modelSlug": "unbleached-king-size-slim-con-tips",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2753,9 +2898,9 @@
   },
   {
     "id": 10287,
-    "name": "Anomaly Mighty Hitter 17mm",
+    "name": "Juego De Anillos Sellado Mighty-Storz &amp; Bickel",
     "brandKey": "storz-bickel",
-    "modelKey": "mighty",
+    "modelKey": "vaporizadores-mighty",
     "modelSlug": "mighty",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -2764,6 +2909,7 @@
       12640,
       13690,
       16030,
+      16092,
       16186,
       18125,
       19929
@@ -2803,7 +2949,7 @@
     "id": 10303,
     "name": "Unidad De Enfriamiento Mighty-Storz &amp; Bickel",
     "brandKey": "storz-bickel",
-    "modelKey": "cooling-unit-mighty",
+    "modelKey": "repuestos-mighty",
     "modelSlug": "cooling-unit-mighty",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -2817,7 +2963,7 @@
     "id": 10310,
     "name": "Special Blue Encendedor Soplete Mini Rubber 2.0",
     "brandKey": "special-blue",
-    "modelKey": "torch-mini-rubber-2-0",
+    "modelKey": "lighter-encendedor-soplete-mini-rubber-mini",
     "modelSlug": "mini-rubber-2-0",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
@@ -2831,7 +2977,7 @@
     "id": 10314,
     "name": "Calvo Glass Banger Full Weld Big Slurper - Macho 14mm",
     "brandKey": "calvo",
-    "modelKey": "banger-big-slurper-full-weld-14mm",
+    "modelKey": "banger-big-slurper-macho-14mm",
     "modelSlug": "banger-big-slurper-full-weld-14mm",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -2847,7 +2993,7 @@
     "id": 10316,
     "name": "BongLab AtrapaCenizas Triple HoneyComb - Macho 18mm",
     "brandKey": "bonglab",
-    "modelKey": "ash-catcher-triple-honeycomb-18mm",
+    "modelKey": "repuestos-honeycomb-macho-18mm",
     "modelSlug": "atrapa-cenizas-triple-honeycomb-18mm",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -2861,7 +3007,7 @@
     "id": 10321,
     "name": "Vaporizador Focus V Carta Sport | PIRANHA",
     "brandKey": "focus-v",
-    "modelKey": "vaporizer-carta-sport",
+    "modelKey": "vaporizadores-vaporizador-carta-sport",
     "modelSlug": "carta-sport",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -2875,7 +3021,7 @@
     "id": 10325,
     "name": "Vidrio de Repuesto Vaporizador Focus V Carta Sport | PIRANHA",
     "brandKey": "focus-v",
-    "modelKey": "glass-carta-sport",
+    "modelKey": null,
     "modelSlug": "vidrio-carta-sport",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -2889,7 +3035,7 @@
     "id": 10335,
     "name": "Cenicero Metálico Bulldog",
     "brandKey": "the-bulldog",
-    "modelKey": "ashtray-metal",
+    "modelKey": "tray-cenicero-metalico",
     "modelSlug": "cenicero-metalico",
     "category": "Bandejas y ceniceros",
     "storeCount": 3,
@@ -2903,7 +3049,7 @@
     "id": 10337,
     "name": "Cenicero de Bolsillo Portátil RAW",
     "brandKey": "raw",
-    "modelKey": "ashtray-bolsillo",
+    "modelKey": "tray-cenicero-bolsillo-portatil",
     "modelSlug": "cenicero-bolsillo",
     "category": "Bandejas y ceniceros",
     "storeCount": 3,
@@ -2917,13 +3063,14 @@
     "id": 10339,
     "name": "Máquina Enroladora Blazy Susan Bamboo Rolling Machine 110mm | PIRANHA",
     "brandKey": "blazy-susan",
-    "modelKey": "rolling-machine-bamboo-110mm",
+    "modelKey": "rolling-machine-110mm",
     "modelSlug": "bamboo-rolling-machine-110mm",
     "category": "Otros parafernalia",
     "storeCount": 3,
     "offerIds": [
       12469,
       15663,
+      18016,
       19863
     ]
   },
@@ -2931,7 +3078,7 @@
     "id": 10344,
     "name": "Bonglab K30 Fresh 42cm",
     "brandKey": "bonglab",
-    "modelKey": "k30",
+    "modelKey": "bong-k30-fresh-42cm-42cm",
     "modelSlug": "k30",
     "category": "Bongs",
     "storeCount": 3,
@@ -2945,7 +3092,7 @@
     "id": 10345,
     "name": "Bonglab KE10 Golden Beaker 46cm",
     "brandKey": "bonglab",
-    "modelKey": "ke10-golden-beaker",
+    "modelKey": "bong-ke10-golden-beaker-46cm-46cm",
     "modelSlug": "ke10-golden-beaker",
     "category": "Bongs",
     "storeCount": 3,
@@ -2959,7 +3106,7 @@
     "id": 10348,
     "name": "RAW Tips Black",
     "brandKey": "raw",
-    "modelKey": "tips-black",
+    "modelKey": null,
     "modelSlug": "tips-black",
     "category": "Filtros y boquillas",
     "storeCount": 3,
@@ -2973,7 +3120,7 @@
     "id": 10351,
     "name": "Blazy Susan Cotonitos Pink 100u",
     "brandKey": "blazy-susan",
-    "modelKey": "cotonitos-pink-100u",
+    "modelKey": null,
     "modelSlug": "cotonitos-pink-100u",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -2987,7 +3134,7 @@
     "id": 10353,
     "name": "Blazy Susan Roll 8m Pink",
     "brandKey": "blazy-susan",
-    "modelKey": "roll-8m-pink",
+    "modelKey": null,
     "modelSlug": "roll-8m-pink",
     "category": "Papelillos",
     "storeCount": 3,
@@ -2998,10 +3145,25 @@
     ]
   },
   {
+    "id": 10360,
+    "name": "DaVinci IQ2 Boquilla",
+    "brandKey": "davinci",
+    "modelKey": "filter-iq2",
+    "modelSlug": "iq2-boquilla",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12496,
+      13113,
+      13218,
+      15593
+    ]
+  },
+  {
     "id": 10362,
     "name": "Zippo Piedras Encendedor 6U",
     "brandKey": "zippo",
-    "modelKey": "piedras-encendedor-6u",
+    "modelKey": "lighter-piedras-encendedor",
     "modelSlug": "piedras-encendedor-6u",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
@@ -3015,7 +3177,7 @@
     "id": 10367,
     "name": "Storz & Bickel Juego de Herramientas",
     "brandKey": "storz-bickel",
-    "modelKey": "juego-herramientas",
+    "modelKey": "vaporizadores-juego-herramientas",
     "modelSlug": "juego-herramientas",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -3029,7 +3191,7 @@
     "id": 10373,
     "name": "DynaVap DynaKit Basic",
     "brandKey": "dynavap",
-    "modelKey": "dynakit-basic",
+    "modelKey": null,
     "modelSlug": "dynakit-basic",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -3043,11 +3205,16 @@
     "id": 10377,
     "name": "Storz & Bickel Plenty",
     "brandKey": "storz-bickel",
-    "modelKey": "plenty",
+    "modelKey": null,
     "modelSlug": "plenty",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
     "offerIds": [
+      12392,
+      12437,
+      12487,
+      12546,
+      12603,
       12645,
       16110,
       19536
@@ -3057,13 +3224,14 @@
     "id": 10381,
     "name": "G-Rollz Blunt Hemp Wrap x4 Sabores",
     "brandKey": "g-rollz",
-    "modelKey": "blunt-hemp-wrap-x4",
+    "modelKey": null,
     "modelSlug": "blunt-hemp-wrap-x4",
     "category": "Conos y blunts",
     "storeCount": 3,
     "offerIds": [
       518,
       12413,
+      12889,
       12897
     ]
   },
@@ -3071,21 +3239,22 @@
     "id": 10383,
     "name": "Soulblime Kit Rellena Conos",
     "brandKey": "soulblime",
-    "modelKey": "kit-rellena-conos",
+    "modelKey": null,
     "modelSlug": "kit-rellena-conos",
     "category": "Conos y blunts",
     "storeCount": 3,
     "offerIds": [
       1395,
       11128,
-      20192
+      20192,
+      21952
     ]
   },
   {
     "id": 10387,
     "name": "RAW Bolsa 200 Tips Pre-Enrolados",
     "brandKey": "raw",
-    "modelKey": "tips-preenrolados-bolsa-200",
+    "modelKey": null,
     "modelSlug": "tips-preenrolados-bolsa-200",
     "category": "Filtros y boquillas",
     "storeCount": 3,
@@ -3096,24 +3265,43 @@
     ]
   },
   {
+    "id": 10389,
+    "name": "Bandeja Metálica RAW Mix",
+    "brandKey": "raw",
+    "modelKey": "tray-metalica-mix",
+    "modelSlug": "mix-metalica",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      12173,
+      12174,
+      16005,
+      18489
+    ]
+  },
+  {
     "id": 10391,
     "name": "Ozeta Case XL Anti-Olor",
     "brandKey": "ozeta",
-    "modelKey": "case-xl",
+    "modelKey": null,
     "modelSlug": "case-xl",
     "category": "Otros parafernalia",
     "storeCount": 3,
     "offerIds": [
       12598,
+      12672,
       16001,
-      19514
+      19514,
+      19784,
+      19785,
+      19786
     ]
   },
   {
     "id": 10397,
     "name": "Storz & Bickel Magazine con 8 Cápsulas Dosificadoras",
     "brandKey": "storz-bickel",
-    "modelKey": "magazine-8-capsulas",
+    "modelKey": null,
     "modelSlug": "magazine-8-capsulas",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -3124,10 +3312,26 @@
     ]
   },
   {
+    "id": 10398,
+    "name": "Storz & Bickel Boquilla Solid Valve",
+    "brandKey": "storz-bickel",
+    "modelKey": null,
+    "modelSlug": "solid-valve-boquilla",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12596,
+      15860,
+      15916,
+      16025,
+      20226
+    ]
+  },
+  {
     "id": 10399,
     "name": "Difusor Bonglab Logo Magenta 14mm 12cm",
     "brandKey": "bonglab",
-    "modelKey": "difusor-magenta-14mm-12cm",
+    "modelKey": "repuestos-difusor-12cm-14mm",
     "modelSlug": "difusor-magenta-14mm-12cm",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -3141,7 +3345,7 @@
     "id": 10405,
     "name": "Ispire The Wand + Adaptador DynaVap",
     "brandKey": "ispire",
-    "modelKey": "the-wand-adaptador-dynavap",
+    "modelKey": "vaporizadores-wand-adaptador-dynavap",
     "modelSlug": "the-wand-adaptador-dynavap",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -3155,7 +3359,7 @@
     "id": 10407,
     "name": "Bonglab Bong Glycerin Black Ice",
     "brandKey": "bonglab",
-    "modelKey": "glycerin-black-ice",
+    "modelKey": "bong-glycerin-black-ice",
     "modelSlug": "glycerin-black-ice",
     "category": "Bongs",
     "storeCount": 3,
@@ -3169,7 +3373,7 @@
     "id": 10408,
     "name": "BongLab Bong K99 Octopus 30cm",
     "brandKey": "bonglab",
-    "modelKey": "k99-octopus-30cm",
+    "modelKey": "bong-k99-octopus-30cm-30cm",
     "modelSlug": "k99-octopus-30cm",
     "category": "Bongs",
     "storeCount": 3,
@@ -3183,7 +3387,7 @@
     "id": 10413,
     "name": "Encendedor Zippo Alien Design",
     "brandKey": "zippo",
-    "modelKey": "alien-design",
+    "modelKey": "lighter-encendedor-alien-design",
     "modelSlug": "alien-design",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
@@ -3197,7 +3401,7 @@
     "id": 10422,
     "name": "Storz & Bickel Dispositivo de Insuflación Mighty y Crafty",
     "brandKey": "storz-bickel",
-    "modelKey": "dispositivo-insuflacion",
+    "modelKey": "vaporizadores-mighty",
     "modelSlug": "dispositivo-insuflacion",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -3211,13 +3415,17 @@
     "id": 10427,
     "name": "Encendedor Zippo Skull Design",
     "brandKey": "zippo",
-    "modelKey": "skull-design",
+    "modelKey": "lighter-encendedor-skull-design",
     "modelSlug": "skull-design",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
     "offerIds": [
+      12650,
+      12688,
+      12959,
       15924,
       17172,
+      18507,
       18535
     ]
   },
@@ -3225,12 +3433,14 @@
     "id": 10433,
     "name": "Puffco Peak Pro Glass",
     "brandKey": "puffco",
-    "modelKey": "peak-pro-glass",
+    "modelKey": "vaporizer-peak-pro",
     "modelSlug": "peak-pro-glass",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
     "offerIds": [
+      16226,
       16233,
+      17199,
       17221,
       18585
     ]
@@ -3239,7 +3449,7 @@
     "id": 10435,
     "name": "Focus V Vaporizador Aeris",
     "brandKey": "focus-v",
-    "modelKey": "aeris",
+    "modelKey": "vaporizadores-vaporizador-aeris",
     "modelSlug": "aeris",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -3253,7 +3463,7 @@
     "id": 10441,
     "name": "DynaVap Soplete Honest",
     "brandKey": "dynavap",
-    "modelKey": "honest-torch",
+    "modelKey": "lighter-soplete-honest",
     "modelSlug": "honest-torch",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
@@ -3267,7 +3477,7 @@
     "id": 10442,
     "name": "Octave Hamr Cold Start Rig",
     "brandKey": "octave",
-    "modelKey": "hamr-cold-start-rig",
+    "modelKey": "bong-hamr-cold-start-rig",
     "modelSlug": "hamr-cold-start-rig",
     "category": "Bongs",
     "storeCount": 3,
@@ -3278,16 +3488,44 @@
     ]
   },
   {
+    "id": 10443,
+    "name": "Puffco Vaporizador Proxy",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-proxy",
+    "modelSlug": "proxy",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      16162,
+      16170,
+      16231,
+      16232,
+      17211,
+      17212,
+      17213,
+      17214,
+      17215,
+      18055,
+      18172,
+      18180,
+      18192,
+      18194,
+      18203,
+      18581
+    ]
+  },
+  {
     "id": 10446,
     "name": "Calvo Glass Marble Set",
     "brandKey": "calvo",
-    "modelKey": "marble-set",
+    "modelKey": null,
     "modelSlug": "marble-set",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
     "offerIds": [
       3193,
       18121,
+      19990,
       20148
     ]
   },
@@ -3295,7 +3533,7 @@
     "id": 10449,
     "name": "Puffco Peak Pro Ball Cap",
     "brandKey": "puffco",
-    "modelKey": "peak-pro-ball-cap",
+    "modelKey": "vaporizer-peak-pro",
     "modelSlug": "peak-pro-ball-cap",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3306,24 +3544,61 @@
     ]
   },
   {
+    "id": 10450,
+    "name": "Puffco Peak Travel Pack",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-peak",
+    "modelSlug": "peak-travel-pack",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      16216,
+      17224,
+      17225,
+      17226,
+      17227,
+      17228,
+      17229,
+      17230,
+      18207,
+      20311,
+      20312
+    ]
+  },
+  {
+    "id": 10452,
+    "name": "Papelillos Lion Rolling Circus Alfalfa King Size",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": null,
+    "modelSlug": "alfalfa-king-size",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      16051,
+      17908,
+      19932
+    ]
+  },
+  {
     "id": 10453,
     "name": "Calvo Glass Batería Cartridge 510",
     "brandKey": "calvo",
-    "modelKey": "bateria-cartridge-510",
+    "modelKey": null,
     "modelSlug": "bateria-cartridge-510",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
     "offerIds": [
       153,
       12474,
-      19374
+      19374,
+      20214
     ]
   },
   {
     "id": 10454,
     "name": "Puffco Peak Pro 3DXL Chamber",
     "brandKey": "puffco",
-    "modelKey": "peak-pro-3dxl-chamber",
+    "modelKey": "vaporizer-peak-pro",
     "modelSlug": "peak-pro-3dxl-chamber",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3337,7 +3612,7 @@
     "id": 10458,
     "name": "Puffco Pivot 3D Chamber 2-Pack",
     "brandKey": "puffco",
-    "modelKey": "pivot-3d-chamber-2-pack",
+    "modelKey": null,
     "modelSlug": "pivot-3d-chamber-2-pack",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3351,7 +3626,7 @@
     "id": 10464,
     "name": "Bandeja RAW Zombie Grande",
     "brandKey": "raw",
-    "modelKey": "zombie-grande",
+    "modelKey": "tray-zombie-grande-grande",
     "modelSlug": "zombie-grande",
     "category": "Bandejas y ceniceros",
     "storeCount": 3,
@@ -3365,7 +3640,7 @@
     "id": 10469,
     "name": "Stündenglass Glass Bowl",
     "brandKey": "stundenglass",
-    "modelKey": "glass-bowl",
+    "modelKey": "banger-bowl",
     "modelSlug": "glass-bowl",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -3379,7 +3654,7 @@
     "id": 10474,
     "name": "Bonglab Screw Kit Banger 14mm",
     "brandKey": "bonglab",
-    "modelKey": "screw-kit-banger",
+    "modelKey": "banger-simple-14mm",
     "modelSlug": "screw-kit-banger",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3393,7 +3668,7 @@
     "id": 10475,
     "name": "Bonglab Spinner Kit Banger 14mm",
     "brandKey": "bonglab",
-    "modelKey": "spinner-kit-banger",
+    "modelKey": "banger-simple-14mm",
     "modelSlug": "spinner-kit-banger",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3407,7 +3682,7 @@
     "id": 10476,
     "name": "Bonglab Waist Kit Banger 14mm",
     "brandKey": "bonglab",
-    "modelKey": "waist-kit-banger",
+    "modelKey": "banger-simple-14mm",
     "modelSlug": "waist-kit-banger",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3421,7 +3696,7 @@
     "id": 10483,
     "name": "Soplete Special Blue Bernie Wild & Free",
     "brandKey": "special-blue",
-    "modelKey": "bernie-wild-free",
+    "modelKey": "lighter-soplete-bernie-wild-free",
     "modelSlug": "bernie-wild-free",
     "category": "Encendedores y sopletes",
     "storeCount": 3,
@@ -3435,16 +3710,33 @@
     ]
   },
   {
+    "id": 10487,
+    "name": "Bonglab Bong Saucer Rig 13cm",
+    "brandKey": "bonglab",
+    "modelKey": "bong-saucer-rig-13cm-13cm",
+    "modelSlug": "saucer-rig-13cm",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      13284,
+      14196,
+      17171
+    ]
+  },
+  {
     "id": 10494,
     "name": "Puffco Vaporizador Pivot",
     "brandKey": "puffco",
-    "modelKey": "pivot",
+    "modelKey": null,
     "modelSlug": "pivot",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
     "offerIds": [
       16097,
+      18183,
       18184,
+      18185,
+      18187,
       18582
     ]
   },
@@ -3452,7 +3744,7 @@
     "id": 10503,
     "name": "Yocan Vaporizador Pocket",
     "brandKey": "yocan",
-    "modelKey": "pocket",
+    "modelKey": null,
     "modelSlug": "pocket",
     "category": "Accesorios de extraccion",
     "storeCount": 3,
@@ -3466,7 +3758,7 @@
     "id": 10517,
     "name": "Ozeta Mochila Roll Up Anti-Olor",
     "brandKey": "ozeta",
-    "modelKey": "mochila-roll-up",
+    "modelKey": null,
     "modelSlug": "mochila-roll-up",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -3480,7 +3772,7 @@
     "id": 10520,
     "name": "Ozeta Billetera Black Anti-Olor",
     "brandKey": "ozeta",
-    "modelKey": "billetera-black",
+    "modelKey": null,
     "modelSlug": "billetera-black",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -3494,7 +3786,7 @@
     "id": 10526,
     "name": "Ozeta Bolso Felpudo Gatito Anti-Olor",
     "brandKey": "ozeta",
-    "modelKey": "bolso-felpudo-gatito",
+    "modelKey": "container-bolso",
     "modelSlug": "bolso-felpudo-gatito",
     "category": "Contenedores y estuches",
     "storeCount": 3,
@@ -3505,24 +3797,10 @@
     ]
   },
   {
-    "id": 10528,
-    "name": "Sploofy Pro Filtro de Aire Personal",
-    "brandKey": "sploofy",
-    "modelKey": "pro",
-    "modelSlug": "pro",
-    "category": "Filtros y boquillas",
-    "storeCount": 3,
-    "offerIds": [
-      11477,
-      12992,
-      17912
-    ]
-  },
-  {
     "id": 10539,
     "name": "Vaporizador DaVinci IQC",
     "brandKey": "davinci",
-    "modelKey": "iqc",
+    "modelKey": "vaporizadores-vaporizador-iqc",
     "modelSlug": "iqc",
     "category": "Vaporizadores herbales",
     "storeCount": 3,
@@ -3536,7 +3814,7 @@
     "id": 10546,
     "name": "Soulblime Contenedor con Tapa-Bandeja",
     "brandKey": "soulblime",
-    "modelKey": "contenedor-tapa-bandeja",
+    "modelKey": "tray-contenedor-tapa",
     "modelSlug": "contenedor-tapa-bandeja",
     "category": "Bandejas y ceniceros",
     "storeCount": 3,
@@ -3550,7 +3828,7 @@
     "id": 10549,
     "name": "Tabaquera Soulblime",
     "brandKey": "soulblime",
-    "modelKey": "tabaquera",
+    "modelKey": null,
     "modelSlug": "tabaquera",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -3561,16 +3839,45 @@
     ]
   },
   {
+    "id": 10560,
+    "name": "Puffco New Peak Pro Onyx + 3DXL Limited",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-peak-pro",
+    "modelSlug": "new-peak-pro-onyx-3dxl",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      2086,
+      11054,
+      17189
+    ]
+  },
+  {
+    "id": 10565,
+    "name": "Cenicero Metálico Lion Rolling Circus",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "tray-cenicero-metalico",
+    "modelSlug": "cenicero-metalico",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      260,
+      18069,
+      19865
+    ]
+  },
+  {
     "id": 10583,
     "name": "Hemper Smoke Fiends Trixx The Ghost Filtro Personal",
     "brandKey": "hemper",
-    "modelKey": "smoke-fiends-trixx-the-ghost",
+    "modelKey": null,
     "modelSlug": "smoke-fiends-trixx-the-ghost",
     "category": "Filtros y boquillas",
     "storeCount": 3,
     "offerIds": [
       12613,
       15780,
+      15784,
       19809
     ]
   },
@@ -3578,7 +3885,7 @@
     "id": 10593,
     "name": "Gorro Pescador Fuzzy Blazy Susan",
     "brandKey": "blazy-susan",
-    "modelKey": "gorro-pescador-fuzzy",
+    "modelKey": null,
     "modelSlug": "gorro-pescador-fuzzy",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -3592,7 +3899,7 @@
     "id": 10597,
     "name": "Gorra Dad Hats Blazy Susan",
     "brandKey": "blazy-susan",
-    "modelKey": "dad-hats",
+    "modelKey": null,
     "modelSlug": "dad-hats",
     "category": "Otros parafernalia",
     "storeCount": 3,
@@ -3606,7 +3913,7 @@
     "id": 10600,
     "name": "Sploofy Filtro de Repuesto 3u",
     "brandKey": "sploofy",
-    "modelKey": "filtro-repuesto-3u",
+    "modelKey": null,
     "modelSlug": "filtro-repuesto-3u",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
@@ -3614,6 +3921,77 @@
       12429,
       20047,
       27293
+    ]
+  },
+  {
+    "id": 10611,
+    "name": "Repuesto de Vidrio Vaporizador Yocan Falcon Glass Attachment | PIRANHA",
+    "brandKey": "yocan",
+    "modelKey": null,
+    "modelSlug": "vaporizer",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      12399,
+      15587,
+      19968,
+      19969
+    ]
+  },
+  {
+    "id": 10651,
+    "name": "Storz & Bickel Easy Valve Globo Volcano con Adaptador",
+    "brandKey": "storz-bickel",
+    "modelKey": "easy-valve-globo-adaptador",
+    "modelSlug": "easy-valve-globo-adaptador",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12490,
+      12965,
+      15970
+    ]
+  },
+  {
+    "id": 10652,
+    "name": "Puffco Peak Pro Joystick Cap",
+    "brandKey": "puffco",
+    "modelKey": "peak-pro-joystick-cap",
+    "modelSlug": "peak-pro-joystick-cap",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      16160,
+      17200,
+      18583
+    ]
+  },
+  {
+    "id": 10655,
+    "name": "Lion Rolling Circus Papelillo Silver Big Smoke King Size",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "silver-big-smoke",
+    "modelSlug": "silver-big-smoke",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      304,
+      11587,
+      19771
+    ]
+  },
+  {
+    "id": 10657,
+    "name": "OZeta Mochila Slim Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": "mochila-slim",
+    "modelSlug": "mochila-slim",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      12256,
+      15999,
+      19787
     ]
   }
 ]
