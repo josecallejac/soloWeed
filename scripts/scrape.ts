@@ -1,3 +1,4 @@
+import { pathToFileURL } from "node:url";
 import { load } from "cheerio";
 import { BRAND_ALIASES, KNOWN_BRAND_PHRASES } from "../src/lib/matching-constants";
 import { prisma } from "../src/lib/prisma";
@@ -1316,7 +1317,11 @@ function extractJumpsellerVariants($: ReturnType<typeof load>): JumpsellerVarian
   return fallback;
 }
 
-function extractOffer(html: string, sourceUrl: string): ScrapedOffer[] | null {
+export function extractOffer(
+  html: string,
+  sourceUrl: string,
+  options?: { includeVariants?: boolean },
+): ScrapedOffer[] | null {
   const $ = load(html);
   const product = extractJsonLdProduct($);
   const productBrand = getRecord(product?.["brand"]);
@@ -1399,7 +1404,7 @@ function extractOffer(html: string, sourceUrl: string): ScrapedOffer[] | null {
     availability,
   };
 
-  const variants = extractJumpsellerVariants($);
+  const variants = options?.includeVariants === false ? [] : extractJumpsellerVariants($);
   if (variants.length > 0) {
     return variants.map((variant) => {
       const variantTitle = `${title} - ${variant.name}`;
@@ -1463,7 +1468,7 @@ function extractIdentifiers(html: string, product: Record<string, unknown> | nul
   return { sku: sku || undefined, ean: ean || undefined };
 }
 
-async function saveOffer(storeId: number, offer: ScrapedOffer) {
+export async function saveOffer(storeId: number, offer: ScrapedOffer) {
   const existing = await prisma.offer.findUnique({
     where: { url: offer.url },
     include: {
@@ -1868,7 +1873,7 @@ function hasProductLikeMetaPath(path: string) {
   return CANDIDATE_KEYWORDS.some((keyword) => path.includes(keyword.replace(/\s+/g, "-")));
 }
 
-async function fetchText(url: string) {
+export async function fetchText(url: string) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
@@ -2156,11 +2161,19 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error);
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Solo ejecutar el scrape en invocacion directa (npm run scrape); otros scripts
+// importan helpers de este archivo y no deben disparar un scrape completo.
+const isDirectRun = process.argv[1]
+  ? import.meta.url === pathToFileURL(process.argv[1]).href
+  : false;
+
+if (isDirectRun) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
