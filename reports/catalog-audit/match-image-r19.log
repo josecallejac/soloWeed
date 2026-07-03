@@ -1,0 +1,1385 @@
+﻿
+===== Accesorios de extraccion: 686 ofertas con imagen =====
+node.exe : oferta 96: hash fallido (Error: Input buffer contains unsupported image format)
+En C:\Program Files\nodejs\npx.ps1: 16 Carácter: 5
++     & "$basedir/node$exe"  "$basedir/node_modules/npm/bin/npx-cli.js" ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (oferta 96: hash...d image format):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+oferta 34372: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 35428: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 35590: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 35991: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 36929: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 36930: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 36980: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37327: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37341: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37528: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37541: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37545: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37817: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37825: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 37826: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+hashes ok: 670 | errores: 16
+111 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 683 t3 prod 10503 $79992 | Vaporizador de Extractos Yocan Pocket | PIRANHA
+       | 33095 t1 huerfana $94990 | VAPORIZADOR YOCAN POCKET - Plata
+*d=  0 | 15715 t3 prod 10214 $66491 | Vaporizador de Hierbas Secas Yocan Hit 2 | PIRANHA
+       | 31428 t1 huerfana $65990 | VAPORIZADOR YOCAN HIT 2 - Rosa
+*d=  0 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33069 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Naranjo
+*d=  0 | 16068 t3 prod 10521 $14391 | Vaporizador para Cartridge Yocan Kodo Pro | PIRANHA
+       | 32913 t1 huerfana $14990 | VAPORIZADOR YOCAN KODO PRO - Amarillo
+*d=  0 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33092 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Plata
+*d=  4 | 3366 t3 prod 5768 $8990 | Banger Cuarzo Bonglab Simple 45° (14mm/10mm) | PIRANHA
+       | 31275 t1 huerfana $8990 | Banger Cuarzo Simple 45 Grados -Bonglab - 14MM
+*d=  6 | 657 t2 prod 10648 $269990 | Vaporizador Puffco Peak 2024
+       | 31839 t1 huerfana $349990 | New Peak (Color a elección) -Puffco - ONYX
+*d= 10 | 2003 t2 prod 5768 $8990 | BongLab Banger Cuarzo 45° - Macho 14mm
+       | 31275 t1 huerfana $8990 | Banger Cuarzo Simple 45 Grados -Bonglab - 14MM
+*d= 10 | 3366 t3 prod 5768 $8990 | Banger Cuarzo Bonglab Simple 45° (14mm/10mm) | PIRANHA
+       | 31274 t1 huerfana $7990 | Banger Cuarzo Simple 45 Grados -Bonglab - 10MM
+*d= 11 | 11054 t3 prod 10560 $579591 | Vaporizador Puffco New Peak Pro Onyx 3DXL Limited | PIR
+       | 31797 t1 huerfana $597990 | New Peak Pro Pearl + 3Dxl-Puffco - ONYX
+*d= 11 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33066 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - verde
+*d= 11 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33071 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LEMON
+*d= 12 | 16209 t3 huerfana $89271 | Hemper Puffco Popcorn Peak Top | PIRANHA
+       | 37829 t2 huerfana $79990 | Hemper Pop Corn Puffco Peak Glass
+*d= 14 | 2003 t2 prod 5768 $8990 | BongLab Banger Cuarzo 45° - Macho 14mm
+       | 31274 t1 huerfana $7990 | Banger Cuarzo Simple 45 Grados -Bonglab - 10MM
+*d= 17 | 1161 t1 prod 10106 $24990 | BANGER REGULAR FULL WELD 10MM- Calvo glass
+       | 19980 t2 huerfana $7990 | Calvo Glass Banger Regular 14mm
+*d= 18 | 1264 t2 prod 10404 $8990 | Banger Calvo Flat Bucket 45° - Macho 10mm
+       | 32871 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 18 | 1264 t2 prod 10404 $8990 | Banger Calvo Flat Bucket 45° - Macho 10mm
+       | 32872 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 18 | 2149 t2 prod 10404 $8990 | Banger Calvo Flat Bucket 45° - Macho 14mm
+       | 32871 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 18 | 2149 t2 prod 10404 $8990 | Banger Calvo Flat Bucket 45° - Macho 14mm
+       | 32872 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 18 | 3365 t3 prod 10119 $8990 | Banger Cuarzo Bonglab Simple 90° (14mm/10mm) | PIRANHA
+       | 31277 t1 huerfana $6990 | Banger Cuarzo Simple 90 Grados -Bonglab - 14MM
+*d= 18 | 11055 t3 prod 10561 $497692 | Vaporizador Puffco New Peak Pro Pearl 3DXL Limited | PI
+       | 31794 t1 huerfana $597990 | New Peak Pro Pearl + 3Dxl-Puffco - Pearl
+*d= 18 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33072 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - TURQOISE
+*d= 23 | 2001 t2 prod 5768 $8990 | Bonglab Banger Cuarzo 45° - Macho 10mm
+       | 31275 t1 huerfana $8990 | Banger Cuarzo Simple 45 Grados -Bonglab - 14MM
+*d= 23 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+*d= 23 | 17216 t1 huerfana $314990 | New Peak Bliss - Puffco
+       | 37816 t2 huerfana $269990 | Vaporizador Puffco Peak 2024 - Rosado
+*d= 23 | 18184 t1 prod 10494 $201990 | Vaporizador Pivot Onyx-Puffco
+       | 34364 t2 huerfana $174990 | Vaporizador Puffco Pivot - Onyx
+*d= 27 | 2001 t2 prod 5768 $8990 | Bonglab Banger Cuarzo 45° - Macho 10mm
+       | 31274 t1 huerfana $7990 | Banger Cuarzo Simple 45 Grados -Bonglab - 10MM
+*d= 30 | 2002 t2 prod 10119 $7490 | Bonglab Banger Cuarzo 90° - Macho 10mm
+       | 31276 t1 huerfana $7990 | Banger Cuarzo Simple 90 Grados -Bonglab - 10MM
+*d= 32 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+*d= 33 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+*d= 34 | 2004 t2 prod 10119 $7490 | BongLab Banger Cuarzo 90° - Macho 14mm
+       | 31277 t1 huerfana $6990 | Banger Cuarzo Simple 90 Grados -Bonglab - 14MM
+*d= 34 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+*d= 35 | 15715 t3 prod 10214 $66491 | Vaporizador de Hierbas Secas Yocan Hit 2 | PIRANHA
+       | 31426 t1 huerfana $65990 | VAPORIZADOR YOCAN HIT 2 - verde
+*d= 36 | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 38 | 2150 t2 huerfana $8990 | Banger Calvo Flat Bucket 90° - Macho 10mm
+       | 32873 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 38 | 2150 t2 huerfana $8990 | Banger Calvo Flat Bucket 90° - Macho 10mm
+       | 32874 t1 prod 10105 $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 38 | 2151 t2 prod 10105 $8990 | Banger Calvo Flat Bucket 90° - Macho 14mm
+       | 32873 t1 huerfana $7990 | Flat Bucket Banger -Calvo (45° 10Mm/45° 14Mm/90° 10Mm/9
+*d= 39 | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 40 | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 41 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33091 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Negro
+*d= 45 | 2086 t2 prod 10560 $539990 | Puffco Vaporizador New Peak Pro + Chamber 3D XL
+       | 31828 t1 huerfana $549990 | New Peak Pro (Color a elección)-Puffco - ONYX
+*d= 45 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+*d= 45 | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 45 | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 47 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+*d= 47 | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 47 | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 48 | 31829 t1 huerfana $549990 | New Peak Pro (Color a elección)-Puffco - Pearl
+       | 34356 t2 prod 10561 $539990 | Puffco Vaporizador New Peak Pro + Chamber 3D XL - Pearl
+*d= 48 | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 49 | 15715 t3 prod 10214 $66491 | Vaporizador de Hierbas Secas Yocan Hit 2 | PIRANHA
+       | 31427 t1 huerfana $65990 | VAPORIZADOR YOCAN HIT 2 - Blanco
+*d= 49 | 33066 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - verde
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 49 | 34371 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Verde
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 50 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+*d= 50 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 50 | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 50 | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 50 | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 50 | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 51 | 15886 t3 huerfana $66491 | Saber Electronic Dab Tool Focus V | PIRANHA
+       | 36085 t2 huerfana $49990 | Focus V Saber - Dabber Eléctronico - Jade
+*d= 51 | 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 51 | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 52 | 683 t3 prod 10503 $79992 | Vaporizador de Extractos Yocan Pocket | PIRANHA
+       | 33093 t1 huerfana $94990 | VAPORIZADOR YOCAN POCKET - azul
+*d= 52 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+*d= 52 | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 52 | 33069 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Naranjo
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 52 | 33072 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - TURQOISE
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 53 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+*d= 53 | 18008 t1 prod 10493 $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 53 | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 53 | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 53 | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 54 | 18008 t1 prod 10493 $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 54 | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 55 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+*d= 55 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33088 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - verde
+*d= 55 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 55 | 18008 t1 prod 10493 $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 55 | 18011 t1 prod 10548 $10990 | VAPORIZADOR YOCAN FLAT
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 55 | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 55 | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 55 | 33071 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LEMON
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 55 | 33092 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Plata
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 56 | 14387 t3 prod 10312 $76491 | The Hot Knife - Puffco
+       | 31847 t1 huerfana $71990 | The Hot Knife -Puffco - DAYBREAK LIMITED
+*d= 56 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+*d= 56 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+*d= 56 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+*d= 56 | 18008 t1 prod 10493 $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 56 | 33067 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - IVORY
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 56 | 33073 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LILAC
+       | 34371 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Verde
+*d= 57 | 13000 t2 prod 10312 $79990 | Puffco Hot Knife - Dabber eléctronico
+       | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+*d= 57 | 33065 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - azul
+       | 34370 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Negro
+*d= 57 | 33072 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - TURQOISE
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 57 | 33091 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Negro
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 58 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+*d= 58 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33072 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - TURQOISE
+*d= 58 | 33066 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - verde
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 58 | 33091 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Negro
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 59 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 59 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 59 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33071 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LEMON
+*d= 59 | 33068 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - CARMINE
+       | 34371 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Verde
+*d= 59 | 33069 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Naranjo
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 59 | 33069 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Naranjo
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+*d= 59 | 33072 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - TURQOISE
+       | 34373 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Dessert
+*d= 60 | 12999 t2 prod 10207 $99990 | Puffco Vaporizador Plus
+       | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+*d= 60 | 15715 t3 prod 10214 $66491 | Vaporizador de Hierbas Secas Yocan Hit 2 | PIRANHA
+       | 31430 t1 huerfana $65990 | VAPORIZADOR YOCAN HIT 2 - Morado
+*d= 60 | 15904 t3 prod 10493 $29392 | Yocan Dirk Hot Knife | PIRANHA
+       | 33092 t1 huerfana $9990 | VAPORIZADOR YOCAN FLAT - Plata
+*d= 60 | 16077 t3 prod 10548 $9891 | Vaporizador para Cartridge Yocan Flat | PIRANHA
+       | 33069 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Naranjo
+*d= 60 | 18202 t1 huerfana $89990 | NEW HOT KNIFE-PUFFCO
+       | 39077 t3 huerfana $9592 | Batería Vaporizador Cartridge Airis V2.0 - Airistech | 
+*d= 60 | 33070 t1 huerfana $34990 | HOT KNIFE EXTRACTOS DIRK YOCAN - Negro
+       | 34360 t2 huerfana $104990 | Puffco Vaporizador Plus - Tornasol
+*d= 60 | 33071 t1 huerfana $32990 | HOT KNIFE EXTRACTOS DIRK YOCAN - LEMON
+       | 34374 t2 huerfana $79990 | Puffco Hot Knife - Dabber eléctronico - Onyx
+
+===== Bandejas y ceniceros: 349 ofertas con imagen =====
+oferta 31463: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 31465: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 32488: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 32492: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 32665: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 34230: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 34254: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 34255: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+oferta 34258: descarga fallida (TimeoutError: The operation was aborted due to timeout)
+hashes ok: 340 | errores: 9
+8 pares candidatos (distancia Hamming <= 60/512)
+*d= 10 | 12671 t1 prod 10533 $1990 | Cenicero Diseños Surtido-Soulblime
+       | 36146 t2 huerfana $2190 | Soulblime Cenicero Metálico - Diseños - Space
+*d= 17 | 12539 t1 prod 10285 $8990 | Bandeja Metálica Fly High Grande-Raw
+       | 13693 t2 huerfana $7690 | Bandeja RAW metálica Prepare for Flight - Mediana
+*d= 18 | 15979 t3 prod 10546 $4990 | Contenedor con Tapa Bandeja de Enrolado Soulblime | PIR
+       | 36151 t2 huerfana $3190 | Soulblime Contenedor con Tapa-Bandeja - Monstruos
+*d= 21 | 32697 t1 huerfana $23990 | Neon Tray Bandeja Enrolado Led -Bonglab - Rosa
+       | 36021 t2 huerfana $29990 | BongLab Bandeja Neon Tray - Iluminadas - Rosado
+*d= 28 | 1294 t3 prod 5731 $13941 | Cenicero Blazy Susan Deluxe (Color a elección) | PIRANH
+       | 32489 t1 huerfana $13990 | Cenicero Deluxe Silicona -Blazy Susan - Amarillo
+*d= 28 | 1564 t2 huerfana $26290 | Futurola x Mike Tyson Bandeja Metálica Grande
+       | 15960 t3 huerfana $14951 | Bandeja Tyson x Futurola Metal Rolling Tray Medium | PI
+*d= 55 | 16090 t3 huerfana $3990 | Bandeja Soulblime
+       | 36539 t2 huerfana $3590 | Soulblime bandejas pequeñas - Photography - Dientes
+*d= 58 | 32490 t1 huerfana $13990 | Cenicero Deluxe Silicona -Blazy Susan - Azul
+       | 34231 t2 huerfana $14990 | Blazy Susan Cenicero Deluxe - Lila
+
+===== Bongs: 1073 ofertas con imagen =====
+oferta 3191: descarga fallida (Error: HTTP 404)
+hashes ok: 1072 | errores: 1
+91 pares candidatos (distancia Hamming <= 60/512)
+*d=  1 | 31359 t1 huerfana $66990 | Big Blow-Bonglab - Verde azulado
+       | 34378 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Turquesa
+*d=  1 | 31360 t1 huerfana $66990 | Big Blow-Bonglab - Negro
+       | 34379 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Negro
+*d=  1 | 31386 t1 huerfana $28990 | Fat Candy -Bonglab - azul
+       | 34504 t2 huerfana $30990 | BongLab Bong W06 Fat Candy 25cm - Azul
+*d=  1 | 31670 t1 huerfana $20990 | Little Buchner-Bonglab - azul
+       | 37484 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Azul
+*d=  1 | 31701 t1 huerfana $23990 | Pocket Bell -Bonglab - AMBAR
+       | 34421 t2 huerfana $25990 | BongLab Bong X5 Pocket Bell 17cm - Ámbar
+*d=  2 | 31358 t1 huerfana $66990 | Big Blow-Bonglab - azul
+       | 34377 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Azul
+*d=  3 | 31671 t1 huerfana $20990 | Little Buchner-Bonglab - verde
+       | 37485 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Verde
+*d=  3 | 31672 t1 huerfana $20990 | Little Buchner-Bonglab - Rosa
+       | 37482 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Rosado
+*d=  4 | 31673 t1 huerfana $20990 | Little Buchner-Bonglab - Ámbar
+       | 37486 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Ámbar
+*d=  7 | 1583 t2 prod 5341 $29990 | Bonglab Bong Jelly Drop 20cm
+       | 31664 t1 huerfana $27990 | Jelly Drop-Bonglab - Ámbar
+*d=  7 | 31664 t1 huerfana $27990 | Jelly Drop-Bonglab - Ámbar
+       | 33845 t2 huerfana $29990 | Bonglab Bong Jelly Drop 20cm - Ámbar
+*d=  9 | 26 t1 prod 5778 $16990 | Tiny Bell -Bonglab
+       | 34668 t2 huerfana $16990 | BongLab Bong KM4 Tiny Bell 10cm - Transparente
+*d=  9 | 31733 t1 huerfana $15990 | Tiny Bell -Bonglab - CLEAR
+       | 34668 t2 huerfana $16990 | BongLab Bong KM4 Tiny Bell 10cm - Transparente
+*d= 10 | 31452 t1 huerfana $27990 | R3 Mini-Bonglab - Rosa
+       | 33944 t2 huerfana $21241 | BongLab Bong R3 Mini 10.5cm - Rosado
+*d= 13 | 2262 t4 prod 5519 $59800 | Bong de vidrio Big Blow de Bonglab- GB The Green Brand
+       | 31360 t1 huerfana $66990 | Big Blow-Bonglab - Negro
+*d= 14 | 2262 t4 prod 5519 $59800 | Bong de vidrio Big Blow de Bonglab- GB The Green Brand
+       | 34379 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Negro
+*d= 14 | 31390 t1 huerfana $25990 | Fat Candy -Bonglab - Celeste Transparente
+       | 34504 t2 huerfana $30990 | BongLab Bong W06 Fat Candy 25cm - Azul
+*d= 14 | 31628 t1 huerfana $22990 | Color Cube-Bonglab - verde
+       | 34677 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Verde
+*d= 14 | 31714 t1 huerfana $34990 | Prisma Plus -Bonglab - Rosa
+       | 33940 t2 huerfana $30990 | Bonglab Bong Prisma Plus 9cm - Rosado
+*d= 15 | 842 t3 prod 5525 $24831 | Bong Dream Rig
+       | 31383 t1 huerfana $29990 | Dream Rig X4 -Bonglab - Verde azulado
+*d= 15 | 13284 t2 prod 10487 $27990 | Bonglab Bong Saucer Rig 13cm
+       | 31720 t1 huerfana $29990 | Saucer Rig-Bonglab - Verde azulado
+*d= 15 | 31715 t1 huerfana $34990 | Prisma Plus -Bonglab - AMBAR
+       | 33943 t2 huerfana $30990 | Bonglab Bong Prisma Plus 9cm - Amarillo
+*d= 15 | 31720 t1 huerfana $29990 | Saucer Rig-Bonglab - Verde azulado
+       | 33956 t2 huerfana $27990 | Bonglab Bong Saucer Rig 13cm - Turquesa
+*d= 16 | 1059 t3 prod 10290 $52191 | Bong Calvo Abeja Color Blue Shower Perc 35cm
+       | 34993 t2 huerfana $56541 | Calvo Glass Bong Abejas 35cm - Azul
+*d= 16 | 13170 t2 prod 5535 $25990 | Bonglab Bong X2 Color Cube 23cm
+       | 31627 t1 huerfana $22990 | Color Cube-Bonglab - azul
+*d= 16 | 31627 t1 huerfana $22990 | Color Cube-Bonglab - azul
+       | 34680 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Azul
+*d= 16 | 31660 t1 huerfana $29990 | Jelly Drop-Bonglab - Esmeralda
+       | 33843 t2 huerfana $29990 | Bonglab Bong Jelly Drop 20cm - Turquesa
+*d= 17 | 916 t3 prod 10289 $60891 | Bong Calvo Straight Tube Perc 42cm
+       | 34997 t2 huerfana $60891 | Calvo Glass Bong Monster 42cm - Negro
+*d= 17 | 13287 t2 prod 10466 $27990 | Bonglab Bong Tough Beaker 23cm
+       | 31742 t1 huerfana $29990 | Tough Beaker -Bonglab - Verde azulado
+*d= 17 | 31742 t1 huerfana $29990 | Tough Beaker -Bonglab - Verde azulado
+       | 33960 t2 huerfana $27990 | Bonglab Bong Tough Beaker 23cm - Turquesa
+*d= 18 | 13186 t2 huerfana $34990 | Calvo Bong Sphere Dragon Rig 22cm
+       | 32719 t1 huerfana $36990 | Rig Dragon Ball Z -Calvo Glass - Morado
+*d= 18 | 15570 t3 prod 10344 $56990 | Bong K30
+       | 34949 t2 huerfana $64990 | Bonglab Bong Fresh K30 42cm - Negro
+*d= 18 | 32719 t1 huerfana $36990 | Rig Dragon Ball Z -Calvo Glass - Morado
+       | 34708 t2 huerfana $31491 | Calvo Bong Sphere Dragon Rig 22cm - Morado
+*d= 19 | 915 t3 prod 5536 $52191 | Bong Beaker Tree Perc 35cm
+       | 34431 t2 huerfana $52191 | Calvo Glass Bong Beaker Tree Perc M 35cm - Negro
+*d= 19 | 31625 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - Rosa
+       | 34672 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Rosado
+*d= 21 | 842 t3 prod 5525 $24831 | Bong Dream Rig
+       | 31382 t1 huerfana $29990 | Dream Rig X4 -Bonglab - verde
+*d= 22 | 31623 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - verde
+       | 34673 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Verde
+*d= 23 | 2605 t1 prod 5535 $23990 | Color Cube-Bonglab
+       | 34679 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Ámbar
+*d= 23 | 31626 t1 huerfana $22990 | Color Cube-Bonglab - AMBAR
+       | 34679 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Ámbar
+*d= 25 | 31306 t1 huerfana $37990 | Classic Ice Pro-Bonglab - Rosa
+       | 34687 t2 huerfana $39990 | Bonglab K288 Classic Ice Pro 35cm - Rosado
+*d= 26 | 80 t1 prod 5773 $22990 | Classic Ice 26Cm-Bonglab
+       | 34675 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Ámbar
+*d= 26 | 31621 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - AMBAR
+       | 34675 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Ámbar
+*d= 26 | 31803 t1 huerfana $424990 | Gravity Hookah -Stundenglass - DR GREENTHUMB
+       | 37005 t2 huerfana $479990 | Dr. Greenthumb&#39;s X Stündenglass Gravity Hookah
+*d= 27 | 32720 t1 huerfana $36990 | Rig Dragon Ball Z -Calvo Glass - verde
+       | 34709 t2 huerfana $31491 | Calvo Bong Sphere Dragon Rig 22cm - Verde
+*d= 28 | 74 t1 prod 5777 $22990 | Little Buchner-Bonglab
+       | 37483 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Negro
+*d= 28 | 20189 t2 prod 5777 $22990 | Bonglab Bong KS10 Little Buchner 25cm
+       | 31669 t1 huerfana $20990 | Little Buchner-Bonglab - Negro
+*d= 28 | 31669 t1 huerfana $20990 | Little Buchner-Bonglab - Negro
+       | 37483 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Negro
+*d= 29 | 856 t3 prod 5339 $60291 | Bong Bubbler Kush
+       | 31362 t1 huerfana $79990 | Bubbler Kush-Bonglab - verde
+*d= 29 | 917 t3 prod 10193 $59992 | Bong Space Opera Waterpipe 30cm
+       | 34994 t2 huerfana $65241 | Calvo Glass Bong Alien 30cm - Verde
+*d= 29 | 31736 t1 huerfana $15990 | Tiny Bell -Bonglab - Rosa
+       | 34670 t2 huerfana $16990 | BongLab Bong KM4 Tiny Bell 10cm - Rosado
+*d= 29 | 31737 t1 prod 5778 $15990 | Tiny Bell -Bonglab - Morado
+       | 34670 t2 huerfana $16990 | BongLab Bong KM4 Tiny Bell 10cm - Rosado
+*d= 30 | 1059 t3 prod 10290 $52191 | Bong Calvo Abeja Color Blue Shower Perc 35cm
+       | 34992 t2 huerfana $56541 | Calvo Glass Bong Abejas 35cm - Ámbar
+*d= 34 | 845 t3 prod 5340 $22493 | Bong Fat Candy
+       | 34506 t2 huerfana $30990 | BongLab Bong W06 Fat Candy 25cm - Ámbar
+*d= 34 | 1233 t2 prod 5519 $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm
+       | 31357 t1 huerfana $66990 | Big Blow-Bonglab - Morado
+*d= 34 | 2549 t1 prod 5519 $66990 | Big Blow-Bonglab
+       | 34380 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Morado
+*d= 34 | 31357 t1 huerfana $66990 | Big Blow-Bonglab - Morado
+       | 34380 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Morado
+*d= 35 | 31764 t1 huerfana $50990 | Mercurial KH1-Bonglab - KH1
+       | 34954 t2 huerfana $47990 | BongLab Bong KH1 Mercurial 24cm - Azul
+*d= 36 | 14201 t3 prod 10218 $29441 | Bong Handy Rig | PIRANHA
+       | 33928 t2 huerfana $30990 | Bonglab Bong Handy Rig 14cm - Rosado
+*d= 36 | 15752 t3 huerfana $38242 | Bong Classy Bonglab | PIRANHA
+       | 35484 t2 huerfana $55990 | Bonglab Bong KD1 Classy 29cm - Verde
+*d= 37 | 184 t1 prod 5341 $29990 | Jelly Drop-Bonglab
+       | 33841 t2 huerfana $29990 | Bonglab Bong Jelly Drop 20cm - Morado
+*d= 37 | 31662 t1 huerfana $27990 | Jelly Drop-Bonglab - Morado
+       | 33841 t2 huerfana $29990 | Bonglab Bong Jelly Drop 20cm - Morado
+*d= 39 | 31661 t1 huerfana $27990 | Jelly Drop-Bonglab - azul
+       | 33842 t2 huerfana $29990 | Bonglab Bong Jelly Drop 20cm - Azul
+*d= 39 | 31764 t1 huerfana $50990 | Mercurial KH1-Bonglab - KH1
+       | 34953 t2 huerfana $47990 | BongLab Bong KH1 Mercurial 24cm - Gris
+*d= 43 | 13168 t2 prod 5773 $22990 | Bonglab Bong KS11 Classic Ice 26cm
+       | 31622 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - azul
+*d= 43 | 24544 t2 huerfana $449990 | Stündenglass Gravity Hookah
+       | 31802 t1 huerfana $449990 | Gravity Hookah -Stundenglass - Negro
+*d= 43 | 31622 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - azul
+       | 34674 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Azul
+*d= 44 | 20189 t2 prod 5777 $22990 | Bonglab Bong KS10 Little Buchner 25cm
+       | 31673 t1 huerfana $20990 | Little Buchner-Bonglab - Ámbar
+*d= 44 | 31673 t1 huerfana $20990 | Little Buchner-Bonglab - Ámbar
+       | 37483 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Negro
+*d= 45 | 31627 t1 huerfana $22990 | Color Cube-Bonglab - azul
+       | 34679 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Ámbar
+*d= 46 | 31435 t1 huerfana $51990 | Bongbastic -Bonglab - Negro
+       | 34069 t2 huerfana $67990 | Bonglab Bong K276 Bongbastic 45cm - Negro
+*d= 46 | 31671 t1 huerfana $20990 | Little Buchner-Bonglab - verde
+       | 37484 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Azul
+*d= 47 | 13168 t2 prod 5773 $22990 | Bonglab Bong KS11 Classic Ice 26cm
+       | 31623 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - verde
+*d= 47 | 31623 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - verde
+       | 34674 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Azul
+*d= 49 | 17170 t1 prod 10465 $34990 | Prisma Plus -Bonglab
+       | 33943 t2 huerfana $30990 | Bonglab Bong Prisma Plus 9cm - Amarillo
+*d= 49 | 31683 t1 huerfana $51990 | Mad Professor - Bonglab - Rosa
+       | 33846 t2 huerfana $64990 | Bonglab Bong Mad Professor 42cm - Rosado
+*d= 50 | 13282 t2 prod 10465 $30990 | Bonglab Bong Prisma Plus 9cm
+       | 31715 t1 huerfana $34990 | Prisma Plus -Bonglab - AMBAR
+*d= 50 | 31670 t1 huerfana $20990 | Little Buchner-Bonglab - azul
+       | 37485 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Verde
+*d= 50 | 31715 t1 huerfana $34990 | Prisma Plus -Bonglab - AMBAR
+       | 33939 t2 prod 10465 $30990 | Bonglab Bong Prisma Plus 9cm - Morado
+*d= 51 | 31359 t1 huerfana $66990 | Big Blow-Bonglab - Verde azulado
+       | 34379 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Negro
+*d= 51 | 31360 t1 huerfana $66990 | Big Blow-Bonglab - Negro
+       | 34378 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Turquesa
+*d= 53 | 31624 t1 huerfana $20990 | Classic Ice 26Cm-Bonglab - Negro
+       | 34671 t2 huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Negro
+*d= 54 | 74 t1 prod 5777 $22990 | Little Buchner-Bonglab
+       | 37486 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Ámbar
+*d= 54 | 31669 t1 huerfana $20990 | Little Buchner-Bonglab - Negro
+       | 37486 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Ámbar
+*d= 55 | 31629 t1 huerfana $22990 | Color Cube-Bonglab - Rosa
+       | 34678 t2 huerfana $25990 | Bonglab Bong X2 Color Cube 23cm - Rosado
+*d= 58 | 2262 t4 prod 5519 $59800 | Bong de vidrio Big Blow de Bonglab- GB The Green Brand
+       | 34378 t2 huerfana $66990 | Bonglab Bong Pyrex K41 Big Blow 46cm - Turquesa
+*d= 58 | 17170 t1 prod 10465 $34990 | Prisma Plus -Bonglab
+       | 33940 t2 huerfana $30990 | Bonglab Bong Prisma Plus 9cm - Rosado
+*d= 59 | 858 t3 prod 5776 $61191 | Bong Jelly Fish
+       | 31667 t1 huerfana $67990 | Jelly Fish-Bonglab - verde
+*d= 59 | 2262 t4 prod 5519 $59800 | Bong de vidrio Big Blow de Bonglab- GB The Green Brand
+       | 31359 t1 huerfana $66990 | Big Blow-Bonglab - Verde azulado
+*d= 59 | 31741 t1 prod 10466 $29990 | Tough Beaker -Bonglab - Negro
+       | 33960 t2 huerfana $27990 | Bonglab Bong Tough Beaker 23cm - Turquesa
+*d= 60 | 31672 t1 huerfana $20990 | Little Buchner-Bonglab - Rosa
+       | 37485 t2 huerfana $22990 | Bonglab Bong KS10 Little Buchner 25cm - Verde
+*d= 60 | 31742 t1 huerfana $29990 | Tough Beaker -Bonglab - Verde azulado
+       | 33961 t2 prod 10466 $27990 | Bonglab Bong Tough Beaker 23cm - Azul
+
+===== Conos y blunts: 359 ofertas con imagen =====
+hashes ok: 359 | errores: 0
+30 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 31460 t1 huerfana $2490 | Blunt Hemp Wrap X4 Sabor a Elección- G-Rollz - Tutti Fr
+       | 34076 t2 huerfana $1990 | G-Rollz Blunt Hemp Wrap x4 - Slow Burning - Flavor Fies
+*d=  2 | 1982 t2 prod 5712 $4990 | Blazy Susan Conos Pre-enrolados Shorty 12 uds.
+       | 32327 t1 huerfana $4990 | Conos Pre Roll Shortys Pack 12U-Blazy Susan - Rosa
+*d=  2 | 11217 t3 prod 10623 $1000 | Hemp Wraps Blunt Soulblime | PIRANHA
+       | 36219 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Banana
+*d=  3 | 11216 t3 prod 10623 $1000 | Hemp Wraps Blunt Soulblime | PIRANHA
+       | 36231 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Melón
+*d=  3 | 12889 t2 prod 10381 $1990 | G-Rollz Blunt Hemp Wrap x4 - Slow Burning
+       | 31459 t1 huerfana $2490 | Blunt Hemp Wrap X4 Sabor a Elección- G-Rollz - Blueberr
+*d=  3 | 31459 t1 huerfana $2490 | Blunt Hemp Wrap X4 Sabor a Elección- G-Rollz - Blueberr
+       | 34073 t2 huerfana $1990 | G-Rollz Blunt Hemp Wrap x4 - Slow Burning - Blueberry B
+*d=  4 | 197 t2 prod 5706 $3990 | Blazy Susan Conos Pre-enrolados Pink King Size 3 uds.
+       | 32186 t1 huerfana $3990 | Conos Pre Roll King Size Pack 3U-Blazy Susan - Rosa
+*d=  4 | 826 t3 prod 5705 $2990 | Conos Pre-Enrolados Blazy Susan 1 1/4 6u Pink | PIRANHA
+       | 32180 t1 huerfana $3990 | Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan - ROSADO
+*d=  4 | 3329 t3 prod 5706 $2990 | Conos Pre-Enrolados Blazy Susan King Size 3u Pink | PIR
+       | 32186 t1 huerfana $3990 | Conos Pre Roll King Size Pack 3U-Blazy Susan - Rosa
+*d=  5 | 518 t3 prod 10381 $2461 | Blunt Hemp Wrap G-Rollz (4u) | PIRANHA
+       | 34074 t2 huerfana $1990 | G-Rollz Blunt Hemp Wrap x4 - Slow Burning - Tropical Tw
+*d=  6 | 2029 t2 prod 10232 $29990 | Blazy Susan Conos Pre-enrolados Pink 98mm 50 uds.
+       | 32322 t1 huerfana $29990 | Conos Pre Roll 98Mm Jar 50U-Blazy Susan - Rosa
+*d= 11 | 3328 t3 prod 5707 $2990 | Conos Pre-Enrolados Blazy Susan 1 1/4 6u Unbleached | P
+       | 32181 t1 huerfana $3990 | Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan - UNBLEACHED
+*d= 13 | 1973 t2 prod 5705 $3790 | Blazy Susan Conos Pre-enrolados Pink 1 1/4 6 uds.
+       | 32180 t1 huerfana $3990 | Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan - ROSADO
+*d= 16 | 826 t3 prod 5705 $2990 | Conos Pre-Enrolados Blazy Susan 1 1/4 6u Pink | PIRANHA
+       | 32186 t1 huerfana $3990 | Conos Pre Roll King Size Pack 3U-Blazy Susan - Rosa
+*d= 18 | 197 t2 prod 5706 $3990 | Blazy Susan Conos Pre-enrolados Pink King Size 3 uds.
+       | 32180 t1 huerfana $3990 | Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan - ROSADO
+*d= 18 | 18084 t1 huerfana $1490 | Kush Hemps Wraps Zero
+       | 34238 t2 huerfana $990 | Blunt Kush Hemp Wrap x2 - Zero
+*d= 20 | 3329 t3 prod 5706 $2990 | Conos Pre-Enrolados Blazy Susan King Size 3u Pink | PIR
+       | 32180 t1 huerfana $3990 | Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan - ROSADO
+*d= 23 | 1973 t2 prod 5705 $3790 | Blazy Susan Conos Pre-enrolados Pink 1 1/4 6 uds.
+       | 32186 t1 huerfana $3990 | Conos Pre Roll King Size Pack 3U-Blazy Susan - Rosa
+*d= 28 | 32389 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - EXTRA DULCES MIEL
+       | 36234 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Miel
+*d= 31 | 32395 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - FRUTALES FRUTILLA
+       | 36225 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Frutilla
+*d= 41 | 18034 t1 huerfana $1490 | Kush Hemps Wraps Kiwi Strawberry
+       | 34236 t2 huerfana $990 | Blunt Kush Hemp Wrap x2 - Kiwi Strawberry
+*d= 41 | 19562 t2 prod 10623 $1000 | Blunt Soulblime Hemp Wrap x2
+       | 32387 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - EXTRA DULCES ALGODON DE A
+*d= 41 | 32387 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - EXTRA DULCES ALGODON DE A
+       | 36217 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Algodón de Azúcar
+*d= 41 | 32387 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - EXTRA DULCES ALGODON DE A
+       | 36230 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Vainilla
+*d= 53 | 15985 t3 huerfana $1386 | Blunt Wrap - Lion Rolling Circus Terpenes - Gelato
+       | 20229 t2 huerfana $1490 | LRC Blunt Hemp Wraps Terpenes x2 - Sabores
+*d= 53 | 15985 t3 huerfana $1386 | Blunt Wrap - Lion Rolling Circus Terpenes - Gelato
+       | 37567 t2 huerfana $1341 | LRC Blunt Hemp Wraps Terpenes x2 - Sabores - Gelato
+*d= 56 | 18083 t1 huerfana $1490 | Kush Hemps Wraps Sweet
+       | 34234 t2 huerfana $990 | Blunt Kush Hemp Wrap x2 - Sweet
+*d= 57 | 11215 t3 prod 10623 $1000 | Hemp Wraps Blunt Soulblime | PIRANHA
+       | 32380 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - CLASICO CITRICO
+*d= 57 | 11215 t3 prod 10623 $1000 | Hemp Wraps Blunt Soulblime | PIRANHA
+       | 32381 t1 huerfana $1490 | Blunt Sabores 1U- Soulblime - CLASICOS MENTA
+*d= 60 | 11214 t3 prod 10623 $1000 | Hemp Wraps Blunt Soulblime | PIRANHA
+       | 36233 t2 huerfana $1000 | Blunt Soulblime Hemp Wrap x2 - Original
+
+===== Contenedores y estuches: 672 ofertas con imagen =====
+hashes ok: 672 | errores: 0
+37 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 3739 t2 prod 5965 $1590 | Porta Papelillo RAW 1 1/4
+       | 31911 t1 huerfana $1490 | PORTA PAPELILLOS METALICOS 1 1/4- RAW - NATURAL
+*d=  1 | 12548 t1 prod 10236 $1990 | Contenedor Diseños Tapa Deslizable Psicodelia -Soulblim
+       | 36567 t2 huerfana $1990 | Soulblime Contenedor tapa deslizable - Diseños - Pizza
+*d=  4 | 16062 t3 prod 10236 $2490 | Caja Soulblime Contenedor Largo | PIRANHA
+       | 36556 t2 huerfana $2490 | Soulblime Contenedor Tapa Desmontable - Diseños - Azul
+*d=  8 | 31295 t1 huerfana $37990 | Bolso 4X4 Con Clave -Ozeta - Morado
+       | 33912 t2 prod 5780 $42990 | Ozeta Chestbag 4x4 con clave - Anti-olor - Morado
+*d= 10 | 15967 t3 huerfana $39992 | Banano Anti Olor Fanny Pack Blazy Susan Pink | PIRANHA
+       | 33188 t1 huerfana $48990 | Bolso Smellprrof Cruzado -Blazy Susan - Rosa
+*d= 11 | 816 t1 huerfana $21990 | Jar Blanco Gold Ink 4Oz-Bonglab Re: Stash
+       | 35302 t2 huerfana $23990 | BongLab Contenedor Re:Stash 4oz - Dorado
+*d= 11 | 11061 t3 prod 10571 $30990 | Estuche Ywiwis Pizza - OZeta | PIRANHA
+       | 32847 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - PIZZA
+*d= 12 | 11060 t3 prod 10573 $23993 | Estuche Ywiwis Empanada - OZeta | PIRANHA
+       | 32843 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - EMPANADA
+*d= 13 | 2678 t1 prod 10292 $21990 | Jar Ocean Tie Dye 4Oz-Bonglab Re: Stash
+       | 35296 t2 huerfana $23990 | BongLab Contenedor Re:Stash 4oz - Ocean Tie Dye
+*d= 13 | 11261 t3 prod 10490 $24833 | Bolso Anti Olor Dime Bags The Boss con Candado 25cm | P
+       | 34460 t2 huerfana $35990 | Dime Bags Estuche The Boss Con Clave Anti-Olor 25cm - C
+*d= 15 | 32125 t1 huerfana $3490 | Contenedor Extractos Clear Tapa Blanca 4Ml-Bonglab - TA
+       | 34972 t2 huerfana $2990 | Bonglab Contenedor De Extractos 4ml - Negro
+*d= 16 | 11057 t3 prod 10199 $24473 | Estuche Ywiwis Perrito - OZeta | PIRANHA
+       | 32846 t1 huerfana $31990 | Bolso Ywiwis Antiolor-Ozeta - PERRITO
+*d= 16 | 12541 t1 prod 5782 $41990 | Bolso Muslera Con Clave Sand-Ozeta
+       | 37073 t2 huerfana $48990 | Ozeta Muslera Con Clave - Anti Olor - Sand
+*d= 16 | 15944 t3 prod 10488 $19752 | Estuche Anti Olor Dime Bags The Collector con Candado 2
+       | 34576 t2 huerfana $29990 | Dime Bags Estuche Collector Con Clave Anti-Olor 30cm - 
+*d= 16 | 19780 t2 prod 10199 $35990 | Ozeta Bolso Felpudo Perrito
+       | 32846 t1 huerfana $31990 | Bolso Ywiwis Antiolor-Ozeta - PERRITO
+*d= 17 | 12154 t1 prod 10295 $33990 | Jar Negro Magenta 16Oz-Bonglab Re: Stash
+       | 35294 t2 huerfana $35990 | BongLab Contenedor Re:Stash 16oz - Magenta
+*d= 17 | 12189 t1 prod 10293 $25990 | Jar Negro 8Oz-Bonglab Re: Stash
+       | 35306 t2 huerfana $25990 | BongLab Contenedor Re:Stash 8oz - Negro
+*d= 18 | 19781 t2 prod 10571 $28821 | Ozeta Estuche Felpudo Pizza - Anti-olor
+       | 32847 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - PIZZA
+*d= 19 | 12187 t1 prod 10294 $29990 | Jar Negro 12Oz-Bonglab Re: Stash
+       | 35286 t2 huerfana $29990 | BongLab Contenedor Re:Stash 12oz - Negro
+*d= 19 | 19778 t2 prod 10573 $31990 | Ozeta Estuche Felpudo Empanada - Anti-olor
+       | 32843 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - EMPANADA
+*d= 20 | 15846 t3 prod 10489 $24592 | Estuche Anti Olor Dime Bags The Collector con Candado 3
+       | 34570 t2 huerfana $25990 | Dime Bags Estuche Collector Con Clave Anti-Olor 22cm - 
+*d= 21 | 860 t3 prod 5782 $48990 | Muslera c/clave
+       | 37073 t2 huerfana $48990 | Ozeta Muslera Con Clave - Anti Olor - Sand
+*d= 21 | 3224 t4 huerfana $6300 | Lata de Ocultación【contenedor】discreta - Varios diseños
+       | 37040 t2 huerfana $6990 | Latas de Ocultación - Distintas comidas - Mushroom Soup
+*d= 21 | 15944 t3 prod 10488 $19752 | Estuche Anti Olor Dime Bags The Collector con Candado 2
+       | 34572 t2 huerfana $25990 | Dime Bags Estuche Collector Con Clave Anti-Olor 22cm - 
+*d= 23 | 11056 t3 prod 10526 $24473 | Estuche Ywiwis Gatito - OZeta | PIRANHA
+       | 32844 t1 huerfana $31990 | Bolso Ywiwis Antiolor-Ozeta - GATITO
+*d= 23 | 19783 t2 prod 10198 $30990 | Ozeta Estuche Ywiwi Carboncin - Anti-olor
+       | 32841 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - CARBONCIN
+*d= 24 | 417 t1 prod 10522 $21990 | Jar Rosado 4Oz-Bonglab Re: Stash
+       | 35299 t2 huerfana $23990 | BongLab Contenedor Re:Stash 4oz - Rosado
+*d= 24 | 11058 t3 prod 10198 $23243 | Estuche Ywiwis Carboncin - OZeta | PIRANHA
+       | 32841 t1 huerfana $28990 | Bolso Ywiwis Antiolor-Ozeta - CARBONCIN
+*d= 24 | 19779 t2 prod 10526 $35990 | Ozeta Bolso Felpudo Gatito
+       | 32844 t1 huerfana $31990 | Bolso Ywiwis Antiolor-Ozeta - GATITO
+*d= 26 | 15846 t3 prod 10489 $24592 | Estuche Anti Olor Dime Bags The Collector con Candado 3
+       | 34575 t2 huerfana $29990 | Dime Bags Estuche Collector Con Clave Anti-Olor 30cm - 
+*d= 26 | 31296 t1 huerfana $44990 | Bolso 4X4 Con Clave -Ozeta - Rosa
+       | 33914 t2 huerfana $42990 | Ozeta Chestbag 4x4 con clave - Anti-olor - Rosado
+*d= 31 | 687 t3 prod 7885 $19593 | Estuche Ywiwis Gollo - OZeta | PIRANHA
+       | 32848 t1 huerfana $27990 | Bolso Ywiwis Antiolor-Ozeta - GOLLO
+*d= 36 | 11052 t3 prod 10697 $19593 | Estuche Ywiwis Lola - OZeta | PIRANHA
+       | 36123 t2 huerfana $27990 | Ozeta Estuches Ywiwis Anti - Olor - Lola
+*d= 39 | 12181 t1 prod 5760 $3990 | Contenedor Extractos Clear Tapa Blanca 4Ml-Bonglab
+       | 34971 t2 huerfana $2990 | Bonglab Contenedor De Extractos 4ml - Blanco
+*d= 39 | 32124 t1 huerfana $3490 | Contenedor Extractos Clear Tapa Blanca 4Ml-Bonglab - TA
+       | 34971 t2 huerfana $2990 | Bonglab Contenedor De Extractos 4ml - Blanco
+*d= 41 | 2141 t2 prod 5965 $1990 | Porta Papelillo RAW Black 1 1/4
+       | 31910 t1 huerfana $1990 | PORTA PAPELILLOS METALICOS 1 1/4- RAW - Negro
+*d= 41 | 15850 t3 prod 10491 $22393 | Bolso Anti Olor Dime Bags The Boss con Candado 20cm | P
+       | 34454 t2 huerfana $31990 | Dime Bags Estuche The Boss Con Clave Anti-Olor 20cm - V
+
+===== Encendedores y sopletes: 1042 ofertas con imagen =====
+oferta 2: hash fallido (Error: Input buffer contains unsupported image format)
+oferta 5: hash fallido (Error: Input buffer contains unsupported image format)
+oferta 7: hash fallido (Error: Input buffer contains unsupported image format)
+oferta 91: hash fallido (Error: Input buffer contains unsupported image format)
+hashes ok: 1038 | errores: 4
+82 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 32494 t1 prod 10673 $6990 | Clipper Encendedor Metálico Metal Peacock
+       | 35862 t2 huerfana $6990 | Encendedor Clipper Metálico Peacock - Brillante
+*d=  1 | 33044 t1 prod 10667 $19990 | Soplete Phantom -Ignite - Negro
+       | 38364 t3 huerfana $14243 | Encendedor Soplete Ignite Phantom | PIRANHA
+*d=  2 | 33038 t1 huerfana $21990 | Soplete Compact -Ignite - Rosa
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d=  2 | 33040 t1 prod 10666 $21990 | Soplete Flex -Ignite - Azul
+       | 38366 t3 huerfana $15992 | Encendedor Soplete Ignite Flex | PIRANHA
+*d=  2 | 34288 t2 prod 10667 $20990 | Ignite Soplete Phantom - Negro
+       | 38364 t3 huerfana $14243 | Encendedor Soplete Ignite Phantom | PIRANHA
+*d=  3 | 33039 t1 prod 10665 $21990 | Soplete Compact -Ignite - Blanco
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d=  3 | 34311 t2 prod 10665 $23990 | Soplete Compact Ignite - Blanco
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d=  6 | 31478 t1 huerfana $6990 | Clipper Encendedor Metálico Demon Gradient
+       | 34113 t2 huerfana $6990 | Encendedor Clipper Metálico Demon Gradient - Brillante
+*d=  9 | 13679 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox
+       | 32568 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Morado
+*d=  9 | 32568 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Morado
+       | 35650 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 13 | 32567 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - azul
+       | 35652 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 15 | 13679 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox
+       | 32567 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - azul
+*d= 15 | 32567 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - azul
+       | 35650 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 17 | 2049 t2 prod 5724 $1592 | Encendedor Clipper Jet Flame Horror Zoo
+       | 2523 t1 huerfana $36990 | Encendedor Jet Flame Jet Horror Zoo 24U- Clipper
+*d= 17 | 32568 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Morado
+       | 35652 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 19 | 812 t1 huerfana $36990 | Encendedor Jet Flame Jet Cozy Skull 24U- Clipper
+       | 2067 t2 prod 5724 $1590 | Encendedor Clipper Jet Flame CozySkulls
+*d= 23 | 12856 t2 prod 10308 $44990 | Encendedor Zippo Cannabis Design
+       | 30578 t1 huerfana $44990 | Leaf Design 3-Zippo
+*d= 23 | 17961 t1 prod 10482 $6490 | Encendedor Metalico Rose Gold
+       | 35719 t2 huerfana $6990 | Encendedor Clipper Metálico Rose Gold - Opaco
+*d= 24 | 872 t3 prod 5727 $4990 | Encendedor Zengaz Jet Flame ZL-12
+       | 35455 t2 huerfana $4490 | Zengaz Encendedor Soplete Space 2 - 1
+*d= 24 | 872 t3 prod 5727 $4990 | Encendedor Zengaz Jet Flame ZL-12
+       | 35456 t2 huerfana $4490 | Zengaz Encendedor Soplete Space 2 - 2
+*d= 24 | 872 t3 prod 5727 $4990 | Encendedor Zengaz Jet Flame ZL-12
+       | 35457 t2 huerfana $4490 | Zengaz Encendedor Soplete Space 2 - 3
+*d= 24 | 872 t3 prod 5727 $4990 | Encendedor Zengaz Jet Flame ZL-12
+       | 35458 t2 huerfana $4490 | Zengaz Encendedor Soplete Space 2 - 4
+*d= 24 | 18127 t1 prod 10483 $3990 | Soplete Bernie Variedades
+       | 35808 t2 huerfana $3990 | Special Blue Encendedor Soplete Bernie Wild &amp; Free 
+*d= 24 | 32569 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Rojo
+       | 35651 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 25 | 34287 t2 prod 10666 $23990 | Ignite Soplete Flex - Azul
+       | 38366 t3 huerfana $15992 | Encendedor Soplete Ignite Flex | PIRANHA
+*d= 26 | 33038 t1 huerfana $21990 | Soplete Compact -Ignite - Rosa
+       | 34314 t2 prod 10665 $23990 | Soplete Compact Ignite - Verde
+*d= 29 | 13137 t2 prod 10310 $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0
+       | 32148 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Verde
+*d= 29 | 32148 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Verde
+       | 33875 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Verde
+*d= 29 | 32149 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - ORANGE
+       | 33876 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Naran
+*d= 29 | 33033 t1 huerfana $21990 | Soplete Compact -Ignite - Amarillo
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d= 29 | 33035 t1 prod 10665 $21990 | Soplete Compact -Ignite - Azul
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 29 | 34312 t2 prod 10665 $23990 | Soplete Compact Ignite - Azul
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 30 | 765 t1 prod 10310 $2990 | Soplete Mini Rubber 2.0 -Calvo Glass
+       | 33876 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Naran
+*d= 30 | 32147 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Azul
+       | 33876 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Naran
+*d= 31 | 33033 t1 huerfana $21990 | Soplete Compact -Ignite - Amarillo
+       | 34314 t2 prod 10665 $23990 | Soplete Compact Ignite - Verde
+*d= 33 | 765 t1 prod 10310 $2990 | Soplete Mini Rubber 2.0 -Calvo Glass
+       | 33874 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Celes
+*d= 33 | 32147 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Azul
+       | 33874 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Celes
+*d= 34 | 32149 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - ORANGE
+       | 33874 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Celes
+*d= 35 | 32150 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Rojo
+       | 33873 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Rojo
+*d= 37 | 32568 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Morado
+       | 35651 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 39 | 32567 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - azul
+       | 35651 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 40 | 32569 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Rojo
+       | 35652 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 40 | 33036 t1 prod 10665 $21990 | Soplete Compact -Ignite - Verde
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d= 41 | 33045 t1 prod 10667 $19990 | Soplete Phantom -Ignite - Rojo
+       | 38364 t3 huerfana $14243 | Encendedor Soplete Ignite Phantom | PIRANHA
+*d= 42 | 12583 t1 prod 10661 $14990 | Soplete Rubber Mod Orange-Calvo Glass
+       | 35961 t2 huerfana $14990 | Special Blue Soplete Portatil Mod Rubber - Naranjo
+*d= 42 | 33041 t1 prod 10666 $20990 | Soplete Flex -Ignite - Negro
+       | 38366 t3 huerfana $15992 | Encendedor Soplete Ignite Flex | PIRANHA
+*d= 43 | 32900 t1 huerfana $16990 | Soplete X-Mini -Ignite - Rosa
+       | 34268 t2 huerfana $17990 | Ignite Soplete X-Mini - Rosado
+*d= 43 | 34289 t2 prod 10667 $20990 | Ignite Soplete Phantom - Rojo
+       | 38364 t3 huerfana $14243 | Encendedor Soplete Ignite Phantom | PIRANHA
+*d= 44 | 13679 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox
+       | 32569 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Rojo
+*d= 44 | 32569 t1 huerfana $32990 | Soplete Monster Pro Doble Llama -Calvo Glass - Rojo
+       | 35650 t2 huerfana $34990 | Special Blue Soplete Monster Pro Doble Llama - Toolbox 
+*d= 44 | 33037 t1 huerfana $21990 | Soplete Compact -Ignite - ORANGE
+       | 34312 t2 prod 10665 $23990 | Soplete Compact Ignite - Azul
+*d= 46 | 765 t1 prod 10310 $2990 | Soplete Mini Rubber 2.0 -Calvo Glass
+       | 33873 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Rojo
+*d= 46 | 32147 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Azul
+       | 33873 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Rojo
+*d= 46 | 33035 t1 prod 10665 $21990 | Soplete Compact -Ignite - Azul
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d= 46 | 33037 t1 huerfana $21990 | Soplete Compact -Ignite - ORANGE
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d= 46 | 33038 t1 huerfana $21990 | Soplete Compact -Ignite - Rosa
+       | 34312 t2 prod 10665 $23990 | Soplete Compact Ignite - Azul
+*d= 48 | 32148 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Verde
+       | 33874 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Celes
+*d= 49 | 34286 t2 prod 10666 $23990 | Ignite Soplete Flex - Negro
+       | 38366 t3 huerfana $15992 | Encendedor Soplete Ignite Flex | PIRANHA
+*d= 50 | 33037 t1 huerfana $21990 | Soplete Compact -Ignite - ORANGE
+       | 34314 t2 prod 10665 $23990 | Soplete Compact Ignite - Verde
+*d= 52 | 33037 t1 huerfana $21990 | Soplete Compact -Ignite - ORANGE
+       | 34311 t2 prod 10665 $23990 | Soplete Compact Ignite - Blanco
+*d= 52 | 33039 t1 prod 10665 $21990 | Soplete Compact -Ignite - Blanco
+       | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+*d= 53 | 12583 t1 prod 10661 $14990 | Soplete Rubber Mod Orange-Calvo Glass
+       | 35960 t2 huerfana $14990 | Special Blue Soplete Portatil Mod Rubber - Celeste
+*d= 53 | 32148 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Verde
+       | 33873 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Rojo
+*d= 53 | 32150 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Rojo
+       | 33876 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Naran
+*d= 53 | 33037 t1 huerfana $21990 | Soplete Compact -Ignite - ORANGE
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 53 | 34314 t2 prod 10665 $23990 | Soplete Compact Ignite - Verde
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 54 | 33038 t1 huerfana $21990 | Soplete Compact -Ignite - Rosa
+       | 34311 t2 prod 10665 $23990 | Soplete Compact Ignite - Blanco
+*d= 55 | 815 t1 huerfana $3490 | Gas Butano Ultra Refinado X5 Premium-Calvo Glass
+       | 13057 t2 prod 10311 $3990 | Gas Butano Special Blue Ultra Refinado 9X 300ml
+*d= 55 | 32895 t1 huerfana $14990 | Soplete Phantom Mini-Ignite - Rojo
+       | 34265 t2 prod 10663 $15990 | Ignite Soplete Phantom Mini - Negro
+*d= 55 | 33038 t1 huerfana $21990 | Soplete Compact -Ignite - Rosa
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 55 | 34313 t2 huerfana $23990 | Soplete Compact Ignite - Rosado
+       | 38358 t3 huerfana $14993 | Encendedor Soplete Ignite Compact | PIRANHA
+*d= 56 | 765 t1 prod 10310 $2990 | Soplete Mini Rubber 2.0 -Calvo Glass
+       | 33875 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Verde
+*d= 56 | 13137 t2 prod 10310 $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0
+       | 32147 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Azul
+*d= 56 | 32147 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Azul
+       | 33875 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Verde
+*d= 56 | 32899 t1 huerfana $18990 | Soplete X-Mini -Ignite - ORANGE
+       | 38408 t3 huerfana $14392 | Soplete Ignite X-Mini | PIRANHA
+*d= 57 | 32149 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - ORANGE
+       | 33873 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Rojo
+*d= 58 | 32150 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Rojo
+       | 33874 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Celes
+*d= 59 | 13137 t2 prod 10310 $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0
+       | 32149 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - ORANGE
+*d= 59 | 13137 t2 prod 10310 $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0
+       | 32150 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Rojo
+*d= 59 | 32148 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Verde
+       | 33876 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Naran
+*d= 59 | 32149 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - ORANGE
+       | 33875 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Verde
+*d= 59 | 32150 t1 huerfana $2990 | Soplete Mini Rubber 2.0 -Calvo Glass - Rojo
+       | 33875 t2 huerfana $2990 | Special Blue Encendedor Soplete Mini Rubber 2.0 - Verde
+
+===== Filtros y boquillas: 341 ofertas con imagen =====
+hashes ok: 341 | errores: 0
+12 pares candidatos (distancia Hamming <= 60/512)
+*d=  3 | 13561 t2 prod 10301 $9490 | Boquillas Carbón Activo Calvo Black 6mm 50 Uds.
+       | 32686 t1 huerfana $9490 | FILTRO CARBON ACTIVADO 50U-CALVO - Negro
+*d=  8 | 13562 t2 prod 10301 $9490 | Boquillas Filtro Carbón Activo Calvo Pink 6 mm 50 Uds.
+       | 32687 t1 huerfana $9490 | FILTRO CARBON ACTIVADO 50U-CALVO - Rosa
+*d= 10 | 12379 t1 prod 10242 $14990 | Purize Filtros De Carbon Activado Xtra Slim 50U -Blazy 
+       | 35475 t2 huerfana $12990 | Blazy Susan Filtros de carbón activado Xtra Slim 50 uds
+*d= 10 | 13555 t2 prod 10242 $12990 | Blazy Susan Filtros de carbón activado Xtra Slim 50 uds
+       | 32344 t1 huerfana $14990 | Purize Filtros De Carbon Activado Xtra Slim 50U -Blazy 
+*d= 10 | 32344 t1 huerfana $14990 | Purize Filtros De Carbon Activado Xtra Slim 50U -Blazy 
+       | 35475 t2 huerfana $12990 | Blazy Susan Filtros de carbón activado Xtra Slim 50 uds
+*d= 15 | 32772 t1 huerfana $34990 | Filtro Personal Pro II -Sploofy - Rojo
+       | 36571 t2 huerfana $29990 | Sploofy Pro Filtro Personal - Rojo
+*d= 18 | 32345 t1 huerfana $14990 | Purize Filtros De Carbon Activado Xtra Slim 50U -Blazy 
+       | 35476 t2 huerfana $12990 | Blazy Susan Filtros de carbón activado Xtra Slim 50 uds
+*d= 25 | 27094 t3 prod 10528 $24493 | Filtro de Humo Personal Sploofy Pro II | PIRANHA
+       | 32771 t1 huerfana $34990 | Filtro Personal Pro II -Sploofy - AQUA
+*d= 27 | 17912 t1 prod 10528 $29990 | Pro Filtro De Humo Personal Aqua -Sploofy
+       | 36570 t2 huerfana $29990 | Sploofy Pro Filtro Personal - Aqua
+*d= 32 | 13412 t2 huerfana $75990 | Kasvi Filtro de Carbon Activo 125 x 400
+       | 31749 t1 huerfana $80990 | Filtro De Carbón Activado-Kasvi - 125X400 MM
+*d= 32 | 13412 t2 huerfana $75990 | Kasvi Filtro de Carbon Activo 125 x 400
+       | 31752 t1 huerfana $217990 | Filtro De Carbón Activado-Kasvi - 250X600 MM
+*d= 37 | 1050 t3 prod 10346 $4671 | Filtro de Vidrio Hemper Glass Tips 7mm | PIRANHA
+       | 13121 t2 huerfana $5990 | Hemper Boquillas de Vidrio 6mm
+
+===== Limpieza: 68 ofertas con imagen =====
+hashes ok: 68 | errores: 0
+0 pares candidatos (distancia Hamming <= 60/512)
+
+===== Moledores: 665 ofertas con imagen =====
+hashes ok: 665 | errores: 0
+24 pares candidatos (distancia Hamming <= 60/512)
+*d=  4 | 4924 t3 huerfana $24493 | Moledor Blazy Susan Aluminio Grado Aeronáutico | PIRANH
+       | 31029 t1 huerfana $32990 | 4 Pcs Grinder -Blazy Susan - Negro
+*d=  5 | 2563 t1 prod 5510 $8490 | HERB SAVER GRINDERS MINI MIX UND-BLAZY SUSAN
+       | 33623 t2 huerfana $13390 | Blazy Susan Moledor Contenedor Mini Herb Saver Lila - C
+*d=  6 | 685 t3 prod 5502 $34990 | Moledor Galaxy New Pro Model 6cm 4 Partes | PIRANHA
+       | 33699 t2 huerfana $34990 | Moledor Galaxy Pro Model 63mm - Plateado
+*d= 12 | 10791 t3 prod 6003 $2990 | Grindercard Tarjeta Moledor Soulblime | PIRANHA
+       | 33629 t2 huerfana $2990 | Soulblime Tarjeta Moledor - 420
+*d= 14 | 829 t3 prod 5356 $24892 | Moledor Galaxy Aluminio 7cm 4 Partes | PIRANHA
+       | 31204 t1 huerfana $21990 | Moledor 63MM -Galaxy - Plata
+*d= 14 | 829 t3 prod 5356 $24892 | Moledor Galaxy Aluminio 7cm 4 Partes | PIRANHA
+       | 31212 t1 huerfana $28990 | Moledor 73MM -Galaxy - Plata
+*d= 15 | 24 t1 prod 10096 $2490 | Moledor Plastico 3 Partes - Bulldog
+       | 33549 t2 huerfana $2490 | Moledor plástico Bulldog 3 partes 60mm - Rosado
+*d= 15 | 29040 t1 huerfana $2490 | Moledor Plastico 3 Partes - Bulldog - Rosa
+       | 33549 t2 huerfana $2490 | Moledor plástico Bulldog 3 partes 60mm - Rosado
+*d= 16 | 829 t3 prod 5356 $24892 | Moledor Galaxy Aluminio 7cm 4 Partes | PIRANHA
+       | 31188 t1 huerfana $18990 | Moledor 55MM-Galaxy - Plata
+*d= 18 | 30961 t1 huerfana $32990 | Moledor Quartz Grinder- Galaxy - GOLD ROSE
+       | 33615 t2 prod 10694 $47990 | Moledor Galaxy Quartz 63 mm - Negro
+*d= 18 | 30962 t1 huerfana $32990 | Moledor Quartz Grinder- Galaxy - Plata
+       | 33615 t2 prod 10694 $47990 | Moledor Galaxy Quartz 63 mm - Negro
+*d= 18 | 30964 t1 huerfana $32990 | Moledor Quartz Grinder- Galaxy - Rosa
+       | 33615 t2 prod 10694 $47990 | Moledor Galaxy Quartz 63 mm - Negro
+*d= 24 | 29044 t1 prod 9852 $59990 | Moledor 6CM -Slx - azul
+       | 33740 t2 huerfana $43491 | Moledor SLX 50mm - Azul
+*d= 24 | 31190 t1 huerfana $49990 | Moledor 5Cm -Slx - azul
+       | 33740 t2 huerfana $43491 | Moledor SLX 50mm - Azul
+*d= 29 | 474 t2 prod 5356 $31990 | Moledor Galaxy Aluminio 73 mm
+       | 31182 t1 huerfana $18990 | Moledor 55MM-Galaxy - verde
+*d= 30 | 474 t2 prod 5356 $31990 | Moledor Galaxy Aluminio 73 mm
+       | 31200 t1 huerfana $21990 | Moledor 63MM -Galaxy - verde
+*d= 30 | 487 t3 prod 5510 $9990 | Contenedor Moledor Herb Saver x Blazy Susan (Color Alea
+       | 33626 t2 huerfana $13390 | Blazy Susan Moledor Contenedor Mini Herb Saver Rosado -
+*d= 30 | 1185 t1 prod 5504 $17990 | Moledor Lite 63Mm- Calvo Glass
+       | 33666 t2 huerfana $17990 | Moledor Calvo Lite Aluminio 63mm - Rosado
+*d= 30 | 31068 t1 huerfana $17990 | Moledor Lite 63Mm- Calvo Glass - Rosa
+       | 33666 t2 huerfana $17990 | Moledor Calvo Lite Aluminio 63mm - Rosado
+*d= 34 | 31070 t1 huerfana $17990 | Moledor Lite 63Mm- Calvo Glass - Rojo
+       | 33670 t2 huerfana $17990 | Moledor Calvo Lite Aluminio 63mm - Rojo
+*d= 40 | 31071 t1 huerfana $17990 | Moledor Lite 63Mm- Calvo Glass - Plata
+       | 33667 t2 huerfana $17990 | Moledor Calvo Lite Aluminio 63mm - Plateado
+*d= 59 | 31071 t1 huerfana $17990 | Moledor Lite 63Mm- Calvo Glass - Plata
+       | 33672 t2 huerfana $17990 | Moledor Calvo Lite Aluminio 63mm - Azul
+*d= 60 | 31216 t1 prod 6002 $127990 | Moledor 9CM-Slx - verde
+       | 33564 t2 huerfana $52191 | Moledor SLX 60mm - Carbón
+*d= 60 | 31216 t1 prod 6002 $127990 | Moledor 9CM-Slx - verde
+       | 33739 t2 huerfana $43491 | Moledor SLX 50mm - Carbón
+
+===== Otros parafernalia: 1101 ofertas con imagen =====
+hashes ok: 1101 | errores: 0
+38 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 710 t3 prod 10587 $149591 | Traje RAW Spacesuit Black (L/XL) | PIRANHA
+       | 37100 t2 huerfana $197990 | Raw Traje Spacesuite - L
+*d=  0 | 710 t3 prod 10587 $149591 | Traje RAW Spacesuit Black (L/XL) | PIRANHA
+       | 37101 t2 huerfana $197990 | Raw Traje Spacesuite - XL
+*d=  5 | 16176 t3 prod 10592 $8091 | HighTrip - Cannabis Libre
+       | 33418 t1 huerfana $7990 | Pin-Hightrip - CANNABIS LIBRE
+*d=  6 | 16115 t3 prod 10496 $8091 | HighTrip - Pipazo
+       | 33426 t1 huerfana $7990 | Pin-Hightrip - PIPAZO
+*d=  8 | 19940 t2 prod 10496 $8091 | Hightrip Pin Pipazo
+       | 33426 t1 huerfana $7990 | Pin-Hightrip - PIPAZO
+*d=  8 | 20258 t2 huerfana $8990 | Hightrip Tattoo&#39;s
+       | 33423 t1 huerfana $7990 | Pin-Hightrip - HIGHTRIP TATTOS
+*d=  9 | 15879 t3 prod 10594 $89991 | Polerón RAW Hoodie Escondites Secretos (L/XL/XXL) | PIR
+       | 36867 t2 huerfana $117990 | Polerón Hoodie Canguro Raw Rawlers - Bolsillos Secretos
+*d=  9 | 15879 t3 prod 10594 $89991 | Polerón RAW Hoodie Escondites Secretos (L/XL/XXL) | PIR
+       | 36868 t2 huerfana $117990 | Polerón Hoodie Canguro Raw Rawlers - Bolsillos Secretos
+*d=  9 | 15879 t3 prod 10594 $89991 | Polerón RAW Hoodie Escondites Secretos (L/XL/XXL) | PIR
+       | 36869 t2 huerfana $117990 | Polerón Hoodie Canguro Raw Rawlers - Bolsillos Secretos
+*d=  9 | 15989 t3 huerfana $8091 | HighTrip - HighSkulls 2
+       | 33422 t1 huerfana $7990 | Pin-Hightrip - HIGH SKULLS 2
+*d= 10 | 18029 t1 prod 10593 $34990 | Gorro Pescador Textura Pink-Blazy Susan
+       | 34325 t2 huerfana $24792 | Blazy Susan Gorro Bucket Fuzzy - Rosado
+*d= 11 | 19514 t2 prod 10391 $43990 | Ozeta Case XL - Anti-olor
+       | 32675 t1 huerfana $43990 | CASE XL LOGO GRANDE NEGRO-OZETA
+*d= 11 | 32675 t1 huerfana $43990 | CASE XL LOGO GRANDE NEGRO-OZETA
+       | 36119 t2 huerfana $43990 | Ozeta Case XL - Anti-olor - Grande
+*d= 12 | 18030 t1 huerfana $29990 | Gorro Pescador Textura White-Blazy Susan
+       | 34324 t2 huerfana $24792 | Blazy Susan Gorro Bucket Fuzzy - Blanco
+*d= 13 | 18028 t1 huerfana $34990 | Gorro Pescador Textura Black-Blazy Susan
+       | 34323 t2 huerfana $24792 | Blazy Susan Gorro Bucket Fuzzy - Negro
+*d= 14 | 23990 t1 huerfana $30990 | Button Smell Proof Green-Dime Bags
+       | 35707 t2 huerfana $29990 | Dime Bags The Button Bandolera Con Clave Anti-Olor - Ve
+*d= 15 | 15664 t3 prod 10593 $29742 | Gorro Peludito Pescador Blazy Susan (Black/White/Pink) 
+       | 34325 t2 huerfana $24792 | Blazy Susan Gorro Bucket Fuzzy - Rosado
+*d= 16 | 16196 t3 prod 10497 $8091 | HighTrip - Pizzannabica
+       | 33427 t1 huerfana $7990 | Pin-Hightrip - PIZZANNABICA
+*d= 20 | 12588 t1 prod 10695 $26990 | White Shirt Smoker Life Xl-Bonglab
+       | 36508 t2 huerfana $21990 | Polera Bonglab Smoker Life - L
+*d= 20 | 12588 t1 prod 10695 $26990 | White Shirt Smoker Life Xl-Bonglab
+       | 36510 t2 huerfana $21990 | Polera Bonglab Smoker Life - XXL
+*d= 20 | 12588 t1 prod 10695 $26990 | White Shirt Smoker Life Xl-Bonglab
+       | 36511 t2 huerfana $21990 | Polera Bonglab Smoker Life - M
+*d= 20 | 23989 t1 prod 10607 $32990 | Button Smell Proof Black-Dime Bags
+       | 35706 t2 huerfana $29990 | Dime Bags The Button Bandolera Con Clave Anti-Olor - Ne
+*d= 20 | 25983 t2 huerfana $73980 | Dr. Greenthumb&#39;s X Stündenglass Wall Mount
+       | 33407 t1 huerfana $71990 | Wall Mount -Stundenglass - SR GREENTHUMBS
+*d= 23 | 16134 t3 prod 10498 $29993 | Polerón Pink Hoodie Blazy Susan | PIRANHA
+       | 33327 t1 huerfana $44990 | Poleron Pink-Blazy Susan - SMALL
+*d= 23 | 16134 t3 prod 10498 $29993 | Polerón Pink Hoodie Blazy Susan | PIRANHA
+       | 33328 t1 huerfana $44990 | Poleron Pink-Blazy Susan - MEDIUM
+*d= 23 | 16134 t3 prod 10498 $29993 | Polerón Pink Hoodie Blazy Susan | PIRANHA
+       | 33329 t1 huerfana $44990 | Poleron Pink-Blazy Susan - XL
+*d= 23 | 24127 t1 huerfana $59990 | Wall Mount -Stundenglass
+       | 26061 t2 prod 10670 $73980 | Cookies X Stündenglass - Wall Mount
+*d= 25 | 15585 t3 prod 10597 $24892 | Gorra Dad Hats Blazy Susan (Pink/White) | PIRANHA
+       | 34321 t2 huerfana $22492 | Blazy Susan Jockey Dad Hats - Rosado
+*d= 31 | 16001 t3 prod 10391 $43990 | Case XL - OZeta | PIRANHA
+       | 36119 t2 huerfana $43990 | Ozeta Case XL - Anti-olor - Grande
+*d= 32 | 16001 t3 prod 10391 $43990 | Case XL - OZeta | PIRANHA
+       | 32675 t1 huerfana $43990 | CASE XL LOGO GRANDE NEGRO-OZETA
+*d= 33 | 13622 t2 prod 10351 $3990 | Blazy Susan Cotonitos Pink 100 Unidades
+       | 31790 t1 huerfana $3990 | Cotonitos Pink -Blazy Susan - 100 UND
+*d= 33 | 13622 t2 prod 10351 $3990 | Blazy Susan Cotonitos Pink 100 Unidades
+       | 31791 t1 huerfana $9990 | Cotonitos Pink -Blazy Susan - 300 UND
+*d= 38 | 23543 t1 prod 10608 $9990 | Glass Adapter Grenco Connect Black 18Mm-G Pen
+       | 36824 t2 huerfana $15790 | G Pen Glass Adapter Connect - 18mm
+*d= 38 | 23543 t1 prod 10608 $9990 | Glass Adapter Grenco Connect Black 18Mm-G Pen
+       | 36825 t2 huerfana $15790 | G Pen Glass Adapter Connect - 14mm
+*d= 38 | 23543 t1 prod 10608 $9990 | Glass Adapter Grenco Connect Black 18Mm-G Pen
+       | 36826 t2 huerfana $15790 | G Pen Glass Adapter Connect - 10mm
+*d= 43 | 15658 t3 prod 10351 $3990 | Cotonitos Blazy Susan 100u (Pink/White) | PIRANHA
+       | 31790 t1 huerfana $3990 | Cotonitos Pink -Blazy Susan - 100 UND
+*d= 43 | 15658 t3 prod 10351 $3990 | Cotonitos Blazy Susan 100u (Pink/White) | PIRANHA
+       | 31791 t1 huerfana $9990 | Cotonitos Pink -Blazy Susan - 300 UND
+*d= 52 | 26061 t2 prod 10670 $73980 | Cookies X Stündenglass - Wall Mount
+       | 33407 t1 huerfana $71990 | Wall Mount -Stundenglass - SR GREENTHUMBS
+
+===== Papelillos: 341 ofertas con imagen =====
+hashes ok: 341 | errores: 0
+15 pares candidatos (distancia Hamming <= 60/512)
+*d=  2 | 492 t3 huerfana $1891 | Papelillo Blueberry Moon King Size Lion Rolling Circus 
+       | 20261 t2 huerfana $2390 | LRC Papelillos Flavour Big Smoke - Sabores
+*d=  2 | 492 t3 huerfana $1891 | Papelillo Blueberry Moon King Size Lion Rolling Circus 
+       | 37694 t2 huerfana $2390 | LRC Papelillos Flavour Big Smoke - Sabores - Blueberry
+*d=  3 | 16011 t3 huerfana $1891 | Papelillo Sweetie Watermelon King Size Lion Rolling Cir
+       | 37695 t2 huerfana $2390 | LRC Papelillos Flavour Big Smoke - Sabores - Watermelon
+*d=  4 | 3533 t3 prod 5421 $990 | Papelillo King Size Slim Blazy Susan Unbleached | PIRAN
+       | 12270 t1 huerfana $39990 | Papelillo Unbleached King Size Slim 50U-Blazy Susan
+*d=  8 | 2037 t2 prod 10066 $890 | Blazy Susan Papelillos King Size Purple
+       | 12268 t1 huerfana $39990 | Papelillo Purple King Size Slim 50U-Blazy Susan
+*d= 12 | 695 t3 prod 5467 $790 | Papelillo 1 1/4 Blazy Susan Unbleached | PIRANHA
+       | 12321 t1 huerfana $34990 | Papelillo Unbleached 1 1/4 50U-Blazy Susan
+*d= 14 | 16009 t3 huerfana $1891 | Papelillo Bloody Strawberry King Size Lion Rolling Circ
+       | 37697 t2 huerfana $2390 | LRC Papelillos Flavour Big Smoke - Sabores - Strawberry
+*d= 16 | 15733 t3 prod 10646 $1226 | Papelillo Electric Grape Lion Rolling Circus
+       | 35149 t2 huerfana $1390 | LRC Papelillos Flavour 1 1/4 - Sabores - Grape
+*d= 23 | 293 t3 prod 6008 $990 | Papelillo OCB Negro Premium 1 ¼
+       | 12444 t1 huerfana $21990 | Papelillo Negro 7Cm 50U-Ocb
+*d= 23 | 12373 t1 huerfana $990 | Papelillo Sabor Blueberry 1 1/4 Unidad
+       | 37798 t2 huerfana $1190 | Juicy Jays Papelillos de Sabores 1 1/4 - Blueberry
+*d= 23 | 12374 t1 huerfana $990 | Papelillo Sabor Candy 1 1/4 Unidad
+       | 37796 t2 huerfana $1190 | Juicy Jays Papelillos de Sabores 1 1/4 - Candy Cane
+*d= 31 | 12319 t1 huerfana $990 | Papelillo Sabor Bubble Gum 1 1/4 Unidad
+       | 37801 t2 huerfana $1190 | Juicy Jays Papelillos de Sabores 1 1/4 - Bubble Gum
+*d= 37 | 12375 t1 huerfana $990 | Papelillo Sabor Strawberry 1 1/4 Unidad
+       | 37792 t2 huerfana $1190 | Juicy Jays Papelillos de Sabores 1 1/4 - Strawberry
+*d= 49 | 1046 t3 prod 5460 $790 | Papelillo 1 1/4 Blazy Susan Purple | PIRANHA
+       | 12318 t1 huerfana $34990 | Papelillo Purple 1 1/4 50U-Blazy Susan
+*d= 58 | 3532 t3 prod 10066 $990 | Papelillo King Size Slim Blazy Susan Purple | PIRANHA
+       | 12268 t1 huerfana $39990 | Papelillo Purple King Size Slim 50U-Blazy Susan
+
+===== Pipas: 662 ofertas con imagen =====
+hashes ok: 662 | errores: 0
+13 pares candidatos (distancia Hamming <= 60/512)
+*d= 15 | 1072 t3 prod 5491 $9483 | Pipa Karma PieceMaker
+       | 33576 t2 huerfana $8990 | PMG Pipa Karma 9 cm - Beast Blue
+*d= 20 | 9052 t1 prod 6010 $1990 | Hitter Signature- Calvo Glass
+       | 35312 t2 huerfana $1990 | Calvo Pipa Hitter 12mm - Negro
+*d= 24 | 11078 t3 huerfana $2214 | Hemper Quick Hitter Banana | PIRANHA
+       | 34026 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Banana
+*d= 25 | 11073 t3 huerfana $3469 | Hemper Quick Hitter Uva | PIRANHA
+       | 34024 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Grape
+*d= 26 | 8122 t2 huerfana $4390 | Hemper Quick Hitter Multiuso x2
+       | 11074 t3 huerfana $3469 | Hemper Quick Hitter Arándano | PIRANHA
+*d= 26 | 11074 t3 huerfana $3469 | Hemper Quick Hitter Arándano | PIRANHA
+       | 34022 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Blueberry
+*d= 28 | 11075 t3 huerfana $3469 | Hemper Quick Hitter Sandía | PIRANHA
+       | 34025 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Watermelon
+*d= 35 | 11074 t3 huerfana $3469 | Hemper Quick Hitter Arándano | PIRANHA
+       | 34024 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Grape
+*d= 36 | 5472 t3 prod 5795 $21592 | Pipa Konjurer PieceMaker
+       | 33607 t2 huerfana $17990 | PMG Pipa Konjurer 32cm - Indy Glow
+*d= 42 | 5472 t3 prod 5795 $21592 | Pipa Konjurer PieceMaker
+       | 33608 t2 huerfana $17990 | PMG Pipa Konjurer 32cm - Kamo
+*d= 50 | 8122 t2 huerfana $4390 | Hemper Quick Hitter Multiuso x2
+       | 11073 t3 huerfana $3469 | Hemper Quick Hitter Uva | PIRANHA
+*d= 50 | 11073 t3 huerfana $3469 | Hemper Quick Hitter Uva | PIRANHA
+       | 34022 t2 huerfana $3951 | Hemper Quick Hitter Multiuso x2 - Blueberry
+*d= 59 | 8162 t2 huerfana $19990 | Marley Natural Taster Hitter De Madera
+       | 30980 t1 prod 5489 $8990 | Pipa Silicona Pocket Travel -Top Smoke - BLUE ICE
+
+===== Repuestos para bongs y vaporizadores: 854 ofertas con imagen =====
+oferta 739: hash fallido (Error: Input buffer contains unsupported image format)
+hashes ok: 853 | errores: 1
+126 pares candidatos (distancia Hamming <= 60/512)
+*d=  2 | 31291 t1 huerfana $3990 | Quemador Macho Simple 10 Mm - Bonglab - SMOKEY GRAY
+       | 34980 t2 huerfana $3990 | Bonglab Quemador Simple Macho 10mm - Negro
+*d=  4 | 31406 t1 huerfana $6990 | Quemador Macho 14Mm -Bonglab - Negro
+       | 33983 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm - Negro
+*d=  8 | 12237 t1 prod 10401 $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm)
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d=  8 | 12847 t2 prod 10256 $5391 | Bonglab Quemador Perlas - Macho 14mm
+       | 31340 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - GOLDEN
+*d=  8 | 12847 t2 prod 10256 $5391 | Bonglab Quemador Perlas - Macho 14mm
+       | 31416 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - GOLDEN
+*d=  8 | 12853 t2 prod 10401 $3590 | Difusor Bonglab 18mm-14mm - 12cm
+       | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+*d=  8 | 12853 t2 prod 10401 $3590 | Difusor Bonglab 18mm-14mm - 12cm
+       | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+*d=  8 | 31340 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - GOLDEN
+       | 33985 t2 prod 10256 $5391 | Bonglab Quemador Perlas - Macho 14mm - Ambar
+*d=  8 | 31416 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - GOLDEN
+       | 33985 t2 prod 10256 $5391 | Bonglab Quemador Perlas - Macho 14mm - Ambar
+*d=  8 | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d=  8 | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d=  9 | 651 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 14mm 90°
+       | 32162 t1 prod 10718 $24990 | Atrapa Ceniza Perc 18Mm -Bonglab - Negro
+*d=  9 | 2021 t2 prod 5747 $5990 | BongLab Quemador Honeycomb Macho 18mm
+       | 31336 t1 huerfana $6990 | Quemador Honeycomb Macho 18Mm-Bonglab - Morado
+*d=  9 | 12846 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm
+       | 31403 t1 huerfana $6990 | Quemador Macho 14Mm -Bonglab - Morado
+*d=  9 | 13155 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90°
+       | 32162 t1 prod 10718 $24990 | Atrapa Ceniza Perc 18Mm -Bonglab - Negro
+*d=  9 | 31403 t1 huerfana $6990 | Quemador Macho 14Mm -Bonglab - Morado
+       | 33981 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm - Morado
+*d= 10 | 772 t1 prod 10399 $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm)
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d= 10 | 12853 t2 prod 10401 $3590 | Difusor Bonglab 18mm-14mm - 12cm
+       | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+*d= 10 | 12853 t2 prod 10401 $3590 | Difusor Bonglab 18mm-14mm - 12cm
+       | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+*d= 10 | 14175 t3 prod 6020 $6990 | Quemador Macho Bonglab 14mm | PIRANHA
+       | 31403 t1 huerfana $6990 | Quemador Macho 14Mm -Bonglab - Morado
+*d= 10 | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d= 10 | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34003 t2 huerfana $3590 | Difusor Bonglab 18mm-14mm - 12cm - Negro
+*d= 12 | 15618 t3 huerfana $29990 | Atrapaceniza Perc 18mm90º
+       | 34640 t2 prod 10718 $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90° - Verde
+*d= 12 | 32159 t1 huerfana $24990 | Atrapa Ceniza Perc 14Mm -Bonglab - Verde
+       | 34640 t2 prod 10718 $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90° - Verde
+*d= 12 | 33289 t1 huerfana $18990 | Bateria Mystica Ace -Airistech - IVORY BLACK
+       | 39374 t3 huerfana $19992 | Batería Mystica Ace - Airistech | PIRANHA
+*d= 13 | 12325 t1 prod 10363 $4990 | Quemador Hembra 14Mm -Bonglab
+       | 33966 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0 - Negro
+*d= 13 | 31399 t1 huerfana $4990 | Quemador Hembra 14Mm -Bonglab - Negro
+       | 33966 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0 - Negro
+*d= 13 | 31402 t1 huerfana $6990 | Quemador Hembra 14Mm -Bonglab - Rosa
+       | 33967 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0 - Rosado
+*d= 13 | 33293 t1 huerfana $16990 | Bateria Mystica Max -Airistech - COCOA BROWN
+       | 38603 t3 huerfana $16641 | Batería Airistech Mystica Max | PIRANHA
+*d= 14 | 3369 t3 prod 5749 $4990 | Quemador Bowl Chico Hembra Bonglab 14mm | PIRANHA
+       | 31287 t1 huerfana $4990 | Quemador Bowl Chico Hembra 14Mm - Bonglab - Verde azula
+*d= 14 | 12848 t2 prod 10257 $4401 | Bonglab Quemador Perlas - Macho 18mm
+       | 31343 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - Rosa
+*d= 14 | 12848 t2 prod 10257 $4401 | Bonglab Quemador Perlas - Macho 18mm
+       | 31419 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - Rosa
+*d= 14 | 15612 t3 huerfana $25990 | Atrapaceniza Perc 14mm90º
+       | 34640 t2 prod 10718 $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90° - Verde
+*d= 14 | 31343 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - Rosa
+       | 33992 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Rosado
+*d= 14 | 31349 t1 huerfana $6990 | Quemador Perlas Macho 18Mm-Calvo Glass - Verde azulado
+       | 34777 t2 huerfana $6890 | Calvo Glass Quemador Perlas - Macho 18mm - Turquesa
+*d= 14 | 31419 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - Rosa
+       | 33992 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Rosado
+*d= 15 | 17983 t1 prod 10440 $9990 | Munchie Bowl -Pmg
+       | 34305 t2 huerfana $11990 | PMG Munchie Bowl - Miss Pinky
+*d= 15 | 18555 t2 prod 10440 $11990 | PMG Munchie Bowl
+       | 31691 t1 huerfana $12990 | Munchie Bowl -Pmg - ROSADO
+*d= 15 | 31691 t1 huerfana $12990 | Munchie Bowl -Pmg - ROSADO
+       | 34305 t2 huerfana $11990 | PMG Munchie Bowl - Miss Pinky
+*d= 16 | 3522 t3 prod 5748 $6990 | Quemador Perlas Calvo 18mm
+       | 34775 t2 huerfana $6890 | Calvo Glass Quemador Perlas - Macho 18mm - Amarillo
+*d= 16 | 12842 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0
+       | 31400 t1 huerfana $4990 | Quemador Hembra 14Mm -Bonglab - MILK GREEN
+*d= 16 | 15618 t3 huerfana $29990 | Atrapaceniza Perc 18mm90º
+       | 32159 t1 huerfana $24990 | Atrapa Ceniza Perc 14Mm -Bonglab - Verde
+*d= 16 | 31346 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - SMOKEY GRAY
+       | 33986 t2 huerfana $5391 | Bonglab Quemador Perlas - Macho 14mm - Negro
+*d= 16 | 31400 t1 huerfana $4990 | Quemador Hembra 14Mm -Bonglab - MILK GREEN
+       | 33969 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0 - Verde
+*d= 16 | 31405 t1 huerfana $5990 | Quemador Macho 14Mm -Bonglab - Rosa
+       | 33982 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm - Rosado
+*d= 16 | 31422 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - SMOKEY GRAY
+       | 33986 t2 huerfana $5391 | Bonglab Quemador Perlas - Macho 14mm - Negro
+*d= 17 | 31345 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - CLEAR
+       | 33996 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Transparente
+*d= 17 | 31421 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - CLEAR
+       | 33996 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Transparente
+*d= 18 | 12846 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm
+       | 31393 t1 huerfana $4990 | Quemador De 14Mm -Bonglab - Morado
+*d= 18 | 31393 t1 huerfana $4990 | Quemador De 14Mm -Bonglab - Morado
+       | 33981 t2 prod 10297 $4990 | Bonglab Quemador Macho 18mm - Morado
+*d= 19 | 864 t3 prod 10261 $6990 | Quemador Perlas Calvo 14mm
+       | 34774 t2 huerfana $6490 | Calvo Glass Quemador Perlas - Macho 14mm - Amarillo
+*d= 19 | 864 t3 prod 10261 $6990 | Quemador Perlas Calvo 14mm
+       | 34775 t2 huerfana $6890 | Calvo Glass Quemador Perlas - Macho 18mm - Amarillo
+*d= 19 | 12820 t2 prod 10258 $5990 | Bonglab Quemador Pro 14mm- Diferentes Colores
+       | 31351 t1 huerfana $3990 | Quemador Pro 14 Mm-Bonglab - verde
+*d= 19 | 14175 t3 prod 6020 $6990 | Quemador Macho Bonglab 14mm | PIRANHA
+       | 31393 t1 huerfana $4990 | Quemador De 14Mm -Bonglab - Morado
+*d= 19 | 31290 t1 huerfana $3990 | Quemador Macho Simple 10 Mm - Bonglab - CLEAR
+       | 34979 t2 huerfana $3990 | Bonglab Quemador Simple Macho 10mm - Transparente
+*d= 19 | 31351 t1 huerfana $3990 | Quemador Pro 14 Mm-Bonglab - verde
+       | 33896 t2 huerfana $5990 | Bonglab Quemador Pro 14mm- Diferentes Colores - Turques
+*d= 19 | 31351 t1 huerfana $3990 | Quemador Pro 14 Mm-Bonglab - verde
+       | 33899 t2 huerfana $5990 | Bonglab Quemador Pro 14mm- Diferentes Colores - Verde2
+*d= 20 | 3522 t3 prod 5748 $6990 | Quemador Perlas Calvo 18mm
+       | 34774 t2 huerfana $6490 | Calvo Glass Quemador Perlas - Macho 14mm - Amarillo
+*d= 20 | 14207 t3 prod 10257 $6990 | Quemador Macho Perlas Bonglab 18mm | PIRANHA
+       | 31338 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - verde
+*d= 20 | 15612 t3 huerfana $25990 | Atrapaceniza Perc 14mm90º
+       | 32159 t1 huerfana $24990 | Atrapa Ceniza Perc 14Mm -Bonglab - Verde
+*d= 20 | 31341 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - AMBAR
+       | 33994 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Ámbar
+*d= 20 | 31417 t1 prod 10256 $5990 | Quemador Perlas Macho 14Mm - Bonglab - AMBAR
+       | 33994 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Ámbar
+*d= 21 | 3369 t3 prod 5749 $4990 | Quemador Bowl Chico Hembra Bonglab 14mm | PIRANHA
+       | 31288 t1 huerfana $4990 | Quemador Bowl Chico Hembra 14Mm - Bonglab - SMOKEY GRAY
+*d= 21 | 15756 t3 prod 10412 $29990 | Atrapaceniza Tree 18mm45º
+       | 34946 t2 huerfana $29990 | Bonglab Atrapa cenizas 6 brazos 45° - 14mm
+*d= 21 | 15788 t3 prod 10260 $4990 | Difusor Bonglab 14mm/14cm | PIRANHA
+       | 31379 t1 huerfana $3990 | Difusor 14Mm 14Cm - Bonglab - Verde azulado
+*d= 21 | 31346 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - SMOKEY GRAY
+       | 33998 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Negro
+*d= 21 | 31422 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - SMOKEY GRAY
+       | 33998 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Negro
+*d= 22 | 33294 t1 huerfana $16990 | Bateria Mystica Max -Airistech - LAKE BLUE
+       | 39257 t3 huerfana $16641 | Batería Airistech Mystica Max | PIRANHA
+*d= 23 | 12278 t1 prod 10257 $5990 | Quemador Perlas Macho 18 Mm -Bonglab
+       | 33993 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Azul
+*d= 23 | 12328 t1 prod 10256 $5990 | Quemador Perlas Macho 14Mm - Bonglab
+       | 33993 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Azul
+*d= 23 | 31337 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - azul
+       | 33993 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Azul
+*d= 23 | 31413 t1 prod 10256 $5990 | Quemador Perlas Macho 14Mm - Bonglab - azul
+       | 33993 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Azul
+*d= 25 | 32164 t1 huerfana $24990 | Atrapa Ceniza Perc 18Mm -Bonglab - Rosa
+       | 34635 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 14mm 90° - Rosado
+*d= 25 | 32164 t1 huerfana $24990 | Atrapa Ceniza Perc 18Mm -Bonglab - Rosa
+       | 34639 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90° - Rosado
+*d= 26 | 31342 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - Morado
+       | 33995 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Morado
+*d= 26 | 31404 t1 huerfana $6990 | Quemador Macho 14Mm -Bonglab - MILK GREEN
+       | 33984 t2 huerfana $4990 | Bonglab Quemador Macho 18mm - Verde
+*d= 26 | 31412 t1 huerfana $5990 | Quemador Macho 18Mm -Bonglab - MILK GREEN
+       | 33984 t2 huerfana $4990 | Bonglab Quemador Macho 18mm - Verde
+*d= 26 | 31418 t1 prod 10256 $5990 | Quemador Perlas Macho 14Mm - Bonglab - Morado
+       | 33995 t2 huerfana $4401 | Bonglab Quemador Perlas - Macho 18mm - Morado
+*d= 26 | 32160 t1 huerfana $24990 | Atrapa Ceniza Perc 14Mm -Bonglab - Rosa
+       | 34635 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 14mm 90° - Rosado
+*d= 26 | 32160 t1 huerfana $24990 | Atrapa Ceniza Perc 14Mm -Bonglab - Rosa
+       | 34639 t2 huerfana $29990 | Bonglab Atrapa cenizas Slits macho 18mm 90° - Rosado
+*d= 26 | 33001 t1 huerfana $59990 | Heavy Bowl -Bonglab - Verde azulado
+       | 33893 t2 huerfana $61990 | BongLab Bong K165 Heavy Bowl 50cm - Turquesa
+*d= 28 | 15559 t3 prod 10359 $4990 | Difusor Bonglab 14mm/14cm Morado | PIRANHA
+       | 32199 t1 huerfana $3990 | Difusor Logo Purple 14Mm-Bonglab (14Cm/12Cm) - 14 CM
+*d= 29 | 15558 t3 prod 10399 $3990 | Difusor Bonglab 14mm/12cm Morado | PIRANHA
+       | 32200 t1 huerfana $3990 | Difusor Logo Purple 14Mm-Bonglab (14Cm/12Cm) - 12 CM
+*d= 30 | 31401 t1 huerfana $4990 | Quemador Hembra 14Mm -Bonglab - Morado
+       | 33968 t2 huerfana $6990 | Bonglab Quemador - Hembra 14mm 2.0 - Morado
+*d= 33 | 3150 t4 prod 10309 $21600 | Atrapa Cenizas Con Triple Percolador Bonglab
+       | 32104 t1 huerfana $23990 | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul
+*d= 33 | 13156 t2 prod 10309 $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm
+       | 32104 t1 huerfana $23990 | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul
+*d= 33 | 32104 t1 huerfana $23990 | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul
+       | 34642 t2 huerfana $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - A
+*d= 33 | 32107 t1 prod 10316 $22990 | Atrapa Ceniza Panal Triple 18Mm-Bonglab - Azul
+       | 34642 t2 huerfana $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - A
+*d= 36 | 32106 t1 huerfana $24990 | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Transparente
+       | 34643 t2 prod 10316 $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 18mm - T
+*d= 37 | 6907 t2 prod 6020 $4990 | Bonglab Quemador Macho 14mm Clear
+       | 31407 t1 huerfana $3990 | Quemador Macho 14Mm -Bonglab - CLEAR
+*d= 39 | 772 t1 prod 10399 $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm)
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 772 t1 prod 10399 $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm)
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 39 | 12237 t1 prod 10401 $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm)
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 12237 t1 prod 10401 $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm)
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 39 | 12854 t2 prod 10260 $3790 | Difusor Bonglab 18mm-14mm - 14cm
+       | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+*d= 39 | 12854 t2 prod 10260 $3790 | Difusor Bonglab 18mm-14mm - 14cm
+       | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+*d= 39 | 12854 t2 prod 10260 $3790 | Difusor Bonglab 18mm-14mm - 14cm
+       | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+*d= 39 | 12854 t2 prod 10260 $3790 | Difusor Bonglab 18mm-14mm - 14cm
+       | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+*d= 39 | 14207 t3 prod 10257 $6990 | Quemador Macho Perlas Bonglab 18mm | PIRANHA
+       | 31344 t1 huerfana $5990 | Quemador Perlas Macho 18 Mm -Bonglab - Verde azulado
+*d= 39 | 14207 t3 prod 10257 $6990 | Quemador Macho Perlas Bonglab 18mm | PIRANHA
+       | 31420 t1 huerfana $5990 | Quemador Perlas Macho 14Mm - Bonglab - Verde azulado
+*d= 39 | 31349 t1 huerfana $6990 | Quemador Perlas Macho 18Mm-Calvo Glass - Verde azulado
+       | 34773 t2 huerfana $6490 | Calvo Glass Quemador Perlas - Macho 14mm - Turquesa
+*d= 39 | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34004 t2 prod 10399 $3590 | Difusor Bonglab 18mm-14mm - 12cm - Magenta
+*d= 39 | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 32195 t1 huerfana $6990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 39 | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34004 t2 prod 10399 $3590 | Difusor Bonglab 18mm-14mm - 12cm - Magenta
+*d= 39 | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 32196 t1 huerfana $3990 | Difusor Logo Magenta 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 39 | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34004 t2 prod 10399 $3590 | Difusor Bonglab 18mm-14mm - 12cm - Magenta
+*d= 39 | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 32197 t1 huerfana $3790 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 14CM
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 39 | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34004 t2 prod 10399 $3590 | Difusor Bonglab 18mm-14mm - 12cm - Magenta
+*d= 39 | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 39 | 32198 t1 huerfana $3990 | Difusor Logo Negro 14Mm -Bonglab (14Cm/12Cm) - 12CM
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 42 | 3150 t4 prod 10309 $21600 | Atrapa Cenizas Con Triple Percolador Bonglab
+       | 34642 t2 huerfana $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - A
+*d= 47 | 15627 t3 prod 10316 $32990 | Atrapaceniza Panal Triple 18mm90º
+       | 32104 t1 huerfana $23990 | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul
+*d= 51 | 3369 t3 prod 5749 $4990 | Quemador Bowl Chico Hembra Bonglab 14mm | PIRANHA
+       | 31285 t1 huerfana $4990 | Quemador Bowl Chico Hembra 14Mm - Bonglab - Morado
+*d= 51 | 11258 t3 prod 10260 $3791 | Difusor Bonglab 14mm-14cm | PIRANHA
+       | 34005 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Negro
+*d= 51 | 14283 t3 prod 10375 $6951 | Difusor Premium Calvo 14mm
+       | 31585 t1 huerfana $7990 | Difusor Premium -Calvo Glass - TRANSLUCENT YELLOW
+*d= 53 | 15788 t3 prod 10260 $4990 | Difusor Bonglab 14mm/14cm | PIRANHA
+       | 31377 t1 huerfana $3990 | Difusor 14Mm 14Cm - Bonglab - Morado
+*d= 54 | 33298 t1 huerfana $16990 | Bateria Mystica Max -Airistech - WILDFLOWER BLACK
+       | 38603 t3 huerfana $16641 | Batería Airistech Mystica Max | PIRANHA
+*d= 55 | 11258 t3 prod 10260 $3791 | Difusor Bonglab 14mm-14cm | PIRANHA
+       | 34006 t2 huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+*d= 55 | 33295 t1 prod 10681 $16990 | Bateria Mystica Max -Airistech - LIME GREEN
+       | 38603 t3 huerfana $16641 | Batería Airistech Mystica Max | PIRANHA
+*d= 57 | 33297 t1 huerfana $16990 | Bateria Mystica Max -Airistech - PERSIAN RED
+       | 39257 t3 huerfana $16641 | Batería Airistech Mystica Max | PIRANHA
+*d= 58 | 15627 t3 prod 10316 $32990 | Atrapaceniza Panal Triple 18mm90º
+       | 34642 t2 huerfana $22990 | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - A
+*d= 58 | 33290 t1 huerfana $18990 | Bateria Mystica Ace -Airistech - PRAIRIE GREEN
+       | 39374 t3 huerfana $19992 | Batería Mystica Ace - Airistech | PIRANHA
+*d= 59 | 33293 t1 huerfana $16990 | Bateria Mystica Max -Airistech - COCOA BROWN
+       | 38604 t3 prod 10681 $16641 | Batería Airistech Mystica Max | PIRANHA
+
+===== Vaporizadores de extractos: 2 ofertas con imagen =====
+hashes ok: 2 | errores: 0
+0 pares candidatos (distancia Hamming <= 60/512)
+
+===== Vaporizadores electronicos: 92 ofertas con imagen =====
+hashes ok: 92 | errores: 0
+43 pares candidatos (distancia Hamming <= 60/512)
+*d= 30 | 32598 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Grape Ice
+       | 37425 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Grape Ice
+*d= 35 | 32619 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - BLUE RAZZ ICE
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 36 | 32620 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - GRAPE BERRIES
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 36 | 32620 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - GRAPE BERRIES
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 38 | 32598 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Grape Ice
+       | 37429 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Strawberry Wat
+*d= 38 | 32601 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Clear
+       | 37430 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Clear
+*d= 39 | 32619 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - BLUE RAZZ ICE
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 40 | 32602 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Strawberry Watermelon
+       | 37425 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Grape Ice
+*d= 40 | 32602 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Strawberry Watermelon
+       | 37429 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Strawberry Wat
+*d= 41 | 32598 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Grape Ice
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 41 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+*d= 41 | 32603 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Cranberry Grape
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 41 | 32621 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - MIXED BERRIES
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 42 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 42 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 42 | 32603 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Cranberry Grape
+       | 37429 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Strawberry Wat
+*d= 43 | 32598 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Grape Ice
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 43 | 32600 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Sunset Watermelon
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 43 | 32621 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - MIXED BERRIES
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 45 | 32600 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Sunset Watermelon
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 46 | 32600 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Sunset Watermelon
+       | 37425 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Grape Ice
+*d= 46 | 32603 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Cranberry Grape
+       | 37425 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Grape Ice
+*d= 47 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37425 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Grape Ice
+*d= 47 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37429 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Strawberry Wat
+*d= 47 | 32602 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Strawberry Watermelon
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 47 | 32602 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Strawberry Watermelon
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 48 | 32601 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Clear
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+*d= 48 | 32624 t1 huerfana $29990 | Vaporizador Liso 28000-Oxbar - WATERMELON ICE
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 49 | 32599 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Tutti Fruti
+       | 37430 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Clear
+*d= 49 | 32603 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Cranberry Grape
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 50 | 32600 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Sunset Watermelon
+       | 37429 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Strawberry Wat
+*d= 50 | 32624 t1 huerfana $29990 | Vaporizador Liso 28000-Oxbar - WATERMELON ICE
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 50 | 32625 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - WATERMELON STRAWBERRY KI
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 50 | 32625 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - WATERMELON STRAWBERRY KI
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 51 | 32617 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - GRAPE ICE
+       | 38789 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Blue Razz Ice 5% | PIRANH
+*d= 52 | 32598 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Grape Ice
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+*d= 52 | 32629 t1 huerfana $8990 | Vaporizador Mini 2200 -Oxbar - LIMONADA DE ARANDANO
+       | 38920 t3 huerfana $7992 | Oxbar Mini 2200 Strawberry Ice Lemon 4,5% | PIRANHA
+*d= 53 | 32601 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Clear
+       | 37426 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Sunset Waterme
+*d= 53 | 32601 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Clear
+       | 37427 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Cranberry Grap
+*d= 53 | 32617 t1 huerfana $24990 | Vaporizador Liso 28000-Oxbar - GRAPE ICE
+       | 39141 t3 huerfana $18973 | Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANH
+*d= 54 | 32600 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Sunset Watermelon
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+*d= 54 | 32602 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Strawberry Watermelon
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+*d= 56 | 32603 t1 huerfana $11990 | VAPORIZADOR G8000 ZERO -OXBAR - Cranberry Grape
+       | 37428 t2 huerfana $13990 | Oxbar Vaporizador Desechable G8K Puffs - Tutti Frutti
+
+===== Vaporizadores herbales: 572 ofertas con imagen =====
+hashes ok: 572 | errores: 0
+11 pares candidatos (distancia Hamming <= 60/512)
+*d=  0 | 14221 t3 prod 10321 $269691 | Vaporizador Focus V Carta Sport | PIRANHA
+       | 31575 t1 huerfana $269790 | VAPORIZADOR CARTA SPORT -FOCUS V - Verde azulado
+*d=  8 | 14221 t3 prod 10321 $269691 | Vaporizador Focus V Carta Sport | PIRANHA
+       | 31574 t1 huerfana $269790 | VAPORIZADOR CARTA SPORT -FOCUS V - Morado
+*d= 20 | 734 t1 prod 9244 $304990 | Vaporizador Da Vinci Iq3 (Onyx/Blue/Purple/Grey)
+       | 34079 t2 huerfana $299990 | Vaporizador DaVinci IQ3 - Negro
+*d= 20 | 2060 t2 prod 9244 $299990 | Vaporizador DaVinci IQ3
+       | 32232 t1 huerfana $219590 | Vaporizador Da Vinci Iq3 (Onyx/Blue/Purple/Grey) - Negr
+*d= 20 | 32232 t1 huerfana $219590 | Vaporizador Da Vinci Iq3 (Onyx/Blue/Purple/Grey) - Negr
+       | 34079 t2 huerfana $299990 | Vaporizador DaVinci IQ3 - Negro
+*d= 26 | 14221 t3 prod 10321 $269691 | Vaporizador Focus V Carta Sport | PIRANHA
+       | 31572 t1 huerfana $269790 | VAPORIZADOR CARTA SPORT -FOCUS V - Naranjo
+*d= 41 | 12969 t2 prod 10321 $289990 | Focus V Vaporizador Carta Sport
+       | 31573 t1 huerfana $269790 | VAPORIZADOR CARTA SPORT -FOCUS V - Negro
+*d= 51 | 2553 t1 prod 5737 $88990 | Vaporizador The New M7-Dynavap
+       | 13433 t2 huerfana $129990 | Vaporizador DynaVap M7 XL Starter Kit
+*d= 57 | 18091 t1 huerfana $69990 | SABER DAB TOOL-FOCUS V
+       | 18547 t2 prod 10406 $159990 | Dynavap Vaporizador Unidyn
+*d= 60 | 1304 t3 prod 5737 $89242 | Vaporizador DynaVap New The M 7 | PIRANHA
+       | 35045 t2 huerfana $127990 | Dynavap Vaporizador Mecánico M7 XL - Plateado
+*d= 60 | 1304 t3 prod 5737 $89242 | Vaporizador DynaVap New The M 7 | PIRANHA
+       | 35046 t2 huerfana $144990 | Dynavap Vaporizador Mecánico M7 XL - Tornasol
+
+* = distancia <= 60 (alta certeza). Revisar siempre titulo/precio/medidas antes de linkear.

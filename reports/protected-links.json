@@ -1003,6 +1003,36 @@
     ]
   },
   {
+    "id": 10198,
+    "name": "Estuche Ywiwis Carboncin - OZeta | PIRANHA",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "case-ywiwis-carboncin",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      11058,
+      11493,
+      19783,
+      32841
+    ]
+  },
+  {
+    "id": 10199,
+    "name": "Estuche Ywiwis Perrito - OZeta | PIRANHA",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "case-ywiwis-perrito",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      11057,
+      11494,
+      19780,
+      32846
+    ]
+  },
+  {
     "id": 10203,
     "name": "Quemador Abeja Calvo Glass Macho 14mm | Bowl de Borosilicato para Bong",
     "brandKey": "calvo",
@@ -1199,6 +1229,21 @@
     ]
   },
   {
+    "id": 10526,
+    "name": "Ozeta Bolso Felpudo Gatito Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": "container-bolso",
+    "modelSlug": "bolso-felpudo-gatito",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      11056,
+      11491,
+      19779,
+      32844
+    ]
+  },
+  {
     "id": 10528,
     "name": "Sploofy Pro Filtro de Aire Personal",
     "brandKey": "sploofy",
@@ -1213,6 +1258,29 @@
       17913,
       18024,
       27094
+    ]
+  },
+  {
+    "id": 10718,
+    "name": "Bonglab Atrapa Cenizas Slits Macho 18mm 90°",
+    "brandKey": "bonglab",
+    "modelKey": "atrapa-cenizas-slits-18mm",
+    "modelSlug": "atrapa-cenizas-slits-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      2289,
+      12214,
+      13155,
+      15618,
+      32161,
+      32162,
+      32163,
+      32166,
+      34637,
+      34638,
+      34640,
+      34641
     ]
   },
   {
@@ -1353,7 +1421,8 @@
     "offerIds": [
       1072,
       3195,
-      5580
+      5580,
+      33576
     ]
   },
   {
@@ -1397,6 +1466,11 @@
       1530,
       3129,
       31069,
+      31070,
+      31071,
+      33666,
+      33667,
+      33670,
       33671
     ]
   },
@@ -1537,7 +1611,23 @@
       810,
       826,
       1973,
-      12229
+      12229,
+      32180
+    ]
+  },
+  {
+    "id": 5706,
+    "name": "Conos Pre-Enrolados Blazy Susan King Size 3u Pink | PIRANHA",
+    "brandKey": "blazy-susan",
+    "modelKey": "cone-conos-pre-enrolados-king-size",
+    "modelSlug": "pre-roll-pink-king-size-3u",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      197,
+      3329,
+      3330,
+      32186
     ]
   },
   {
@@ -1552,7 +1642,8 @@
       626,
       3327,
       3328,
-      12232
+      12232,
+      32181
     ]
   },
   {
@@ -1594,7 +1685,8 @@
     "offerIds": [
       1982,
       3347,
-      17952
+      17952,
+      32327
     ]
   },
   {
@@ -1734,7 +1826,8 @@
     "offerIds": [
       1294,
       2076,
-      12481
+      12481,
+      32489
     ]
   },
   {
@@ -1827,7 +1920,10 @@
       773,
       3369,
       3596,
-      12876
+      12876,
+      31285,
+      31287,
+      31288
     ]
   },
   {
@@ -2022,11 +2118,13 @@
       26,
       846,
       13167,
+      31733,
       31734,
       31735,
       31737,
       34666,
       34667,
+      34668,
       34669
     ]
   },
@@ -2166,7 +2264,8 @@
     "offerIds": [
       3223,
       4661,
-      10791
+      10791,
+      33629
     ]
   },
   {
@@ -2197,7 +2296,9 @@
       12277,
       12326,
       12819,
-      14175
+      14175,
+      31403,
+      31407
     ]
   },
   {
@@ -2300,7 +2401,9 @@
     "offerIds": [
       682,
       734,
-      2060
+      2060,
+      32232,
+      34079
     ]
   },
   {
@@ -2386,7 +2489,8 @@
       2024,
       9444,
       29039,
-      33546
+      33546,
+      33549
     ]
   },
   {
@@ -2446,7 +2550,9 @@
       2004,
       2014,
       2532,
-      3365
+      3365,
+      31276,
+      31277
     ]
   },
   {
@@ -2656,35 +2762,8 @@
     "offerIds": [
       917,
       11532,
-      13302
-    ]
-  },
-  {
-    "id": 10198,
-    "name": "Estuche Ywiwis Carboncin - OZeta | PIRANHA",
-    "brandKey": "ozeta",
-    "modelKey": "container-estuche",
-    "modelSlug": "case-ywiwis-carboncin",
-    "category": "Contenedores y estuches",
-    "storeCount": 3,
-    "offerIds": [
-      11058,
-      11493,
-      19783
-    ]
-  },
-  {
-    "id": 10199,
-    "name": "Estuche Ywiwis Perrito - OZeta | PIRANHA",
-    "brandKey": "ozeta",
-    "modelKey": "container-estuche",
-    "modelSlug": "case-ywiwis-perrito",
-    "category": "Contenedores y estuches",
-    "storeCount": 3,
-    "offerIds": [
-      11057,
-      11494,
-      19780
+      13302,
+      34994
     ]
   },
   {
@@ -2867,7 +2946,8 @@
       480,
       2878,
       12548,
-      16062
+      16062,
+      36567
     ]
   },
   {
@@ -2939,7 +3019,18 @@
     "offerIds": [
       12278,
       12848,
-      14207
+      14207,
+      31337,
+      31338,
+      31341,
+      31342,
+      31343,
+      31344,
+      31345,
+      33993,
+      33994,
+      33995,
+      33996
     ]
   },
   {
@@ -2955,7 +3046,9 @@
       12205,
       14217,
       31289,
-      34978
+      31290,
+      34978,
+      34979
     ]
   },
   {
@@ -2970,7 +3063,9 @@
       11258,
       11870,
       12854,
-      15788
+      15788,
+      31377,
+      31379
     ]
   },
   {
@@ -3173,7 +3268,9 @@
     "offerIds": [
       1059,
       3180,
-      13301
+      13301,
+      34992,
+      34993
     ]
   },
   {
@@ -3273,7 +3370,11 @@
     "offerIds": [
       12634,
       12969,
-      14221
+      14221,
+      31572,
+      31573,
+      31574,
+      31575
     ]
   },
   {
@@ -3344,7 +3445,8 @@
     "offerIds": [
       2286,
       13279,
-      15570
+      15570,
+      34949
     ]
   },
   {
@@ -3507,6 +3609,11 @@
       12889,
       12897,
       31458,
+      31459,
+      31460,
+      34073,
+      34074,
+      34076,
       34090
     ]
   },
@@ -3569,7 +3676,9 @@
       19514,
       19784,
       19785,
-      19786
+      19786,
+      32675,
+      36119
     ]
   },
   {
@@ -3991,7 +4100,8 @@
       19346,
       19347,
       19423,
-      19424
+      19424,
+      35808
     ]
   },
   {
@@ -4008,6 +4118,7 @@
       17171,
       31717,
       31718,
+      31720,
       31721,
       33954,
       33957,
@@ -4028,7 +4139,8 @@
       18184,
       18185,
       18187,
-      18582
+      18582,
+      34364
     ]
   },
   {
@@ -4043,6 +4155,8 @@
       683,
       18012,
       19834,
+      33093,
+      33095,
       33097,
       36613
     ]
@@ -4073,20 +4187,6 @@
       16197,
       17940,
       19511
-    ]
-  },
-  {
-    "id": 10526,
-    "name": "Ozeta Bolso Felpudo Gatito Anti-Olor",
-    "brandKey": "ozeta",
-    "modelKey": "container-bolso",
-    "modelSlug": "bolso-felpudo-gatito",
-    "category": "Contenedores y estuches",
-    "storeCount": 3,
-    "offerIds": [
-      11056,
-      11491,
-      19779
     ]
   },
   {
@@ -4178,7 +4278,9 @@
     "offerIds": [
       2086,
       11054,
-      17189
+      17189,
+      31797,
+      31828
     ]
   },
   {
@@ -4192,6 +4294,8 @@
     "offerIds": [
       11055,
       17190,
+      31794,
+      31829,
       34356
     ]
   },
@@ -4207,6 +4311,34 @@
       260,
       18069,
       19865
+    ]
+  },
+  {
+    "id": 10571,
+    "name": "Ozeta Estuche Felpudo Pizza Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "estuche-felpudo-pizza",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      11061,
+      19781,
+      32847
+    ]
+  },
+  {
+    "id": 10573,
+    "name": "Ozeta Estuche Felpudo Empanada Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "estuche-felpudo-empanada",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      11060,
+      19778,
+      32843
     ]
   },
   {
@@ -4235,7 +4367,10 @@
     "offerIds": [
       15664,
       18029,
-      18563
+      18030,
+      18563,
+      34324,
+      34325
     ]
   },
   {
@@ -4249,7 +4384,8 @@
     "offerIds": [
       15585,
       18072,
-      18562
+      18562,
+      34321
     ]
   },
   {
@@ -4389,6 +4525,39 @@
     ]
   },
   {
+    "id": 10664,
+    "name": "Ignite Soplete X-Mini",
+    "brandKey": "ignite",
+    "modelKey": "x-mini",
+    "modelSlug": "x-mini",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      32897,
+      32899,
+      34267,
+      38408
+    ]
+  },
+  {
+    "id": 10666,
+    "name": "Ignite Soplete Flex",
+    "brandKey": "ignite",
+    "modelKey": "flex",
+    "modelSlug": "flex",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      33040,
+      33041,
+      33042,
+      34285,
+      34286,
+      34287,
+      38366
+    ]
+  },
+  {
     "id": 10707,
     "name": "Lion Rolling Circus Papelillos Celulosa Transparente 1 1/4",
     "brandKey": "lion-rolling-circus",
@@ -4403,24 +4572,23 @@
     ]
   },
   {
-    "id": 10718,
-    "name": "Bonglab Atrapa Cenizas Slits Macho 18mm 90°",
+    "id": 10717,
+    "name": "Bonglab Atrapa Cenizas Slits Macho 14mm 90°",
     "brandKey": "bonglab",
-    "modelKey": "atrapa-cenizas-slits-18mm",
-    "modelSlug": "atrapa-cenizas-slits-18mm",
+    "modelKey": "atrapa-cenizas-slits-14mm",
+    "modelSlug": "atrapa-cenizas-slits-14mm",
     "category": "Repuestos para bongs y vaporizadores",
     "storeCount": 3,
     "offerIds": [
-      2289,
-      12214,
-      32161,
-      32162,
-      32163,
-      32166,
-      34637,
-      34638,
-      34640,
-      34641
+      12213,
+      15612,
+      32156,
+      32157,
+      32158,
+      32159,
+      34633,
+      34634,
+      34636
     ]
   }
 ]
