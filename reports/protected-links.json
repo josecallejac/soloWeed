@@ -814,6 +814,21 @@
     ]
   },
   {
+    "id": 10105,
+    "name": "Banger Calvo Flat Bucket 90° - Macho 14mm",
+    "brandKey": "calvo",
+    "modelKey": "banger-flat-bucket-macho-90-14mm",
+    "modelSlug": "banger-flat-bucket-macho-90-14mm",
+    "category": "Accesorios de extraccion",
+    "storeCount": 4,
+    "offerIds": [
+      1410,
+      2151,
+      15642,
+      32874
+    ]
+  },
+  {
     "id": 10107,
     "name": "Banger Regular Full Weld 14 mm Calvo Glass",
     "brandKey": "calvo",
@@ -1153,6 +1168,22 @@
     ]
   },
   {
+    "id": 10412,
+    "name": "Bonglab Atrapa Ceniza Tree Clear 45°",
+    "brandKey": "bonglab",
+    "modelKey": null,
+    "modelSlug": "atrapaceniza-tree-clear-45",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      1428,
+      12215,
+      13275,
+      15756,
+      34945
+    ]
+  },
+  {
     "id": 10508,
     "name": "Weecke Vaporizador Fenix Mini Plus",
     "brandKey": "weecke",
@@ -1487,8 +1518,10 @@
       13165,
       31743,
       31744,
+      31746,
       34661,
-      34663
+      34663,
+      34664
     ]
   },
   {
@@ -2373,20 +2406,6 @@
     ]
   },
   {
-    "id": 10105,
-    "name": "Banger Calvo Flat Bucket 90° - Macho 14mm",
-    "brandKey": "calvo",
-    "modelKey": "banger-flat-bucket-macho-90-14mm",
-    "modelSlug": "banger-flat-bucket-macho-90-14mm",
-    "category": "Accesorios de extraccion",
-    "storeCount": 3,
-    "offerIds": [
-      1410,
-      2151,
-      15642
-    ]
-  },
-  {
     "id": 10110,
     "name": "Moledor Cerámico Galaxy Square 5cm 2 Partes | PIRANHA",
     "brandKey": "galaxy",
@@ -2882,7 +2901,7 @@
   },
   {
     "id": 10246,
-    "name": "Glass Cleaner (30mL/250mL/500mL/1L)",
+    "name": "Bonglab Limpiador Glass Cleaner 250 ml",
     "brandKey": "bonglab",
     "modelKey": "cleaner-250ml-30ml-500ml",
     "modelSlug": "cleaner-250ml",
@@ -2891,7 +2910,8 @@
     "offerIds": [
       12254,
       13174,
-      15800
+      15800,
+      31593
     ]
   },
   {
@@ -3233,7 +3253,13 @@
     "offerIds": [
       465,
       12170,
-      15627
+      15627,
+      32107,
+      32108,
+      32109,
+      34643,
+      34644,
+      34645
     ]
   },
   {
@@ -3421,6 +3447,20 @@
     ]
   },
   {
+    "id": 10370,
+    "name": "C-Thru Papelillo Celulosa Transparente 1 1/4",
+    "brandKey": "c-thru",
+    "modelKey": null,
+    "modelSlug": "celulosa-transparente-1-1-4",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      691,
+      2529,
+      19322
+    ]
+  },
+  {
     "id": 10373,
     "name": "DynaVap DynaKit Basic",
     "brandKey": "dynavap",
@@ -3602,20 +3642,6 @@
       2277,
       13458,
       16023
-    ]
-  },
-  {
-    "id": 10412,
-    "name": "Bonglab Atrapa Ceniza Tree Clear 45°",
-    "brandKey": "bonglab",
-    "modelKey": null,
-    "modelSlug": "atrapaceniza-tree-clear-45",
-    "category": "Repuestos para bongs y vaporizadores",
-    "storeCount": 3,
-    "offerIds": [
-      1428,
-      12215,
-      34945
     ]
   },
   {
@@ -4074,7 +4100,15 @@
     "offerIds": [
       12639,
       15741,
-      19459
+      19459,
+      32812,
+      32813,
+      32814,
+      32815,
+      36044,
+      36045,
+      36046,
+      36047
     ]
   },
   {
@@ -4352,6 +4386,41 @@
       12256,
       15999,
       19787
+    ]
+  },
+  {
+    "id": 10707,
+    "name": "Lion Rolling Circus Papelillos Celulosa Transparente 1 1/4",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "celulosa-transparente-1-1-4",
+    "modelSlug": "celulosa-transparente-1-1-4",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      305,
+      11431,
+      13513
+    ]
+  },
+  {
+    "id": 10718,
+    "name": "Bonglab Atrapa Cenizas Slits Macho 18mm 90°",
+    "brandKey": "bonglab",
+    "modelKey": "atrapa-cenizas-slits-18mm",
+    "modelSlug": "atrapa-cenizas-slits-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      2289,
+      12214,
+      32161,
+      32162,
+      32163,
+      32166,
+      34637,
+      34638,
+      34640,
+      34641
     ]
   }
 ]
