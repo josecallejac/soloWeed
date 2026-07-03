@@ -2172,7 +2172,18 @@
     "offerIds": [
       3172,
       5472,
-      9108
+      9108,
+      33601,
+      33602,
+      33603,
+      33604,
+      33605,
+      33606,
+      33607,
+      33608,
+      33609,
+      33610,
+      33611
     ]
   },
   {
@@ -2944,10 +2955,19 @@
     "storeCount": 3,
     "offerIds": [
       480,
-      2878,
       12548,
-      16062,
-      36567
+      22118,
+      36559,
+      36560,
+      36561,
+      36562,
+      36563,
+      36564,
+      36565,
+      36566,
+      36567,
+      36568,
+      36569
     ]
   },
   {
@@ -3911,6 +3931,20 @@
       37341,
       37342,
       37343
+    ]
+  },
+  {
+    "id": 10448,
+    "name": "Blazy Susan Banano Smellproof Fanny Pack Pink",
+    "brandKey": "blazy-susan",
+    "modelKey": null,
+    "modelSlug": "banano-smellproof-pink",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      15967,
+      18160,
+      18575
     ]
   },
   {
