@@ -47,6 +47,7 @@ export const KNOWN_BRAND_PHRASES = [
   "ignite",
   "kasvi",
   "kema",
+  "kleaner",
   "lion rolling circus",
   "mj arsenal",
   "ocb",

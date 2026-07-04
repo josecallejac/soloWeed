@@ -2052,7 +2052,9 @@
       12181,
       13172,
       23225,
+      32124,
       32125,
+      34971,
       34972
     ]
   },
@@ -3378,7 +3380,15 @@
     "offerIds": [
       765,
       13137,
-      14206
+      14206,
+      32147,
+      32148,
+      32149,
+      32150,
+      33873,
+      33874,
+      33875,
+      33876
     ]
   },
   {
@@ -4682,6 +4692,20 @@
     ]
   },
   {
+    "id": 10697,
+    "name": "Estuche Ywiwis Lola Anti-Olor Ozeta",
+    "brandKey": "ozeta",
+    "modelKey": "case-ywiwis-lola",
+    "modelSlug": "case-ywiwis-lola",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      11052,
+      32850,
+      36123
+    ]
+  },
+  {
     "id": 10704,
     "name": "Encendedor Clipper Metálico Pistachio",
     "brandKey": "clipper",
@@ -4745,6 +4769,20 @@
       11191,
       19296,
       31479
+    ]
+  },
+  {
+    "id": 10761,
+    "name": "Papelillos OCB Blanco 1 1/4",
+    "brandKey": "ocb",
+    "modelKey": "blanco-1-1-4",
+    "modelSlug": "blanco-1-1-4",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      300,
+      798,
+      13126
     ]
   }
 ]
