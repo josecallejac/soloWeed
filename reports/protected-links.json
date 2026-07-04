@@ -3747,6 +3747,7 @@
     "category": "Otros parafernalia",
     "storeCount": 3,
     "offerIds": [
+      12598,
       16001,
       19514,
       32675,
@@ -4795,6 +4796,20 @@
       305,
       11431,
       13513
+    ]
+  },
+  {
+    "id": 10715,
+    "name": "Ozeta Duffle Bag con Clave Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": "duffle-bag",
+    "modelSlug": "duffle-bag",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      12681,
+      16000,
+      19515
     ]
   },
   {
