@@ -1,0 +1,725 @@
+sim=91.8%
+  A: 31238 [Astro Growshop] huerfana $3990 | Moledor Contenedor Plastico Portatil - azul
+      https://astrogrowshop.cl/moledor-contenedor-plastico-portatil?variant=azul
+  B: 33798 [Fumetas] huerfana $5490 SIN-STOCK | Squadafum Moledor Pot Grinder 50mm - Menta
+      https://fumetas.cl/moledor-squadafum-pot-grinder?variant=Menta
+
+sim=91.8%
+  A: 4431 [Astro Growshop] prod 5792 "Moledor Cerámico Galaxy Pocket Grinder 5,5cm 4 Partes | PIRANHA" $29990 | Ceramics Pocket Grinder -Galaxy
+      https://astrogrowshop.cl/ceramics-pocket-grinder-galaxy
+  B: 4635 [Fumetas] huerfana $33990 | Moledor Pulsar Contenedor Wax/Hierba 61mm
+      https://fumetas.cl/moledor-pulsar-contenedor-waxhierba-61mm
+
+sim=91.7%
+  A: 31625 [Astro Growshop] huerfana $20990 | Classic Ice 26Cm-Bonglab - Rosa
+      https://astrogrowshop.cl/classic-ice-bonglab?variant=Rosa
+  B: 34672 [Fumetas] huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Rosado
+      https://fumetas.cl/bonglab-bong-ks11-classic-ice-26cm?variant=Rosado
+
+sim=91.6%
+  A: 32958 [Astro Growshop] prod 10217 "Double Shot -Bonglab" $65990 | Double Shot -Bonglab - Negro
+      https://astrogrowshop.cl/double-shot-bonglab?variant=Negro
+  B: 42210 [GrowBarato Chile] huerfana $68000 | Bong Bonglab K47 Medusa 30 cm | 7 Percoladores Alta Filtración
+      https://www.growbaratochile.cl/bonglab/bong-pyrex-k47-medusa-30cm-black-bonglab.html
+
+sim=91.5%
+  A: 31992 [Astro Growshop] huerfana $9990 | Pipa Pyrex Ignite 53- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-ignite-53-top-smoke
+  B: 34755 [Fumetas] huerfana $12741 | Calvo Glass Pipa Twist Spoon 11cm - Naranjo
+      https://fumetas.cl/calvo-glass-pipa-twist-spoon-11cm?variant=Naranjo
+
+sim=91.5%
+  A: 11547 [GrowBarato Chile] huerfana $3600 | Gas Butano Zengaz con 99,9% de pureza
+      https://www.growbaratochile.cl/bho-extracciones/gas-butano-zengaz.html
+  B: 12308 [Astro Growshop] prod 10240 "Gas Butano 300Ml-Zengaz" $3990 | Gas Butano 300Ml-Zengaz
+      https://astrogrowshop.cl/gas-butano-300ml-zengaz
+
+sim=91.4%
+  A: 12610 [Astro Growshop] huerfana $33990 SIN-STOCK | Encendedor Classic Brick Logo - Zippo
+      https://astrogrowshop.cl/encendedor-classic-brick-logo-zippo
+  B: 19914 [Fumetas] huerfana $35990 | Encendedor Zippo Merlot
+      https://fumetas.cl/encendedor-zippo-merlot
+
+sim=91.4%
+  A: 11511 [GrowBarato Chile] prod 10219 "Bong Pyrex KM1 Prisma 10cm Clear Bonglab | Mini Bong de Vidrio" $15300 | Bong Pyrex KM1 Prisma 10cm Clear Bonglab | Mini Bong de Vidrio
+      https://www.growbaratochile.cl/bonglab/bonglab-prisma.html
+  B: 12563 [Astro Growshop] huerfana $19990 SIN-STOCK | MINI BEAKER SIMPLE YELLOW- Calvo glass
+      https://astrogrowshop.cl/mini-beaker-simple-yellow-calvo-glass
+
+sim=91.4%
+  A: 11547 [GrowBarato Chile] huerfana $3600 | Gas Butano Zengaz con 99,9% de pureza
+      https://www.growbaratochile.cl/bho-extracciones/gas-butano-zengaz.html
+  B: 12883 [Fumetas] prod 10240 "Gas Butano 300Ml-Zengaz" $3990 | Gas Butano Zengaz 300ml
+      https://fumetas.cl/gas-butano-zengaz-300ml
+
+sim=91.3%
+  A: 31625 [Astro Growshop] huerfana $20990 | Classic Ice 26Cm-Bonglab - Rosa
+      https://astrogrowshop.cl/classic-ice-bonglab?variant=Rosa
+  B: 34675 [Fumetas] huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Ámbar
+      https://fumetas.cl/bonglab-bong-ks11-classic-ice-26cm?variant=%C3%81mbar
+
+sim=91.2%
+  A: 31448 [Astro Growshop] huerfana $27990 | R3 Mini-Bonglab - Verde azulado
+      https://astrogrowshop.cl/r3-mini-bonglab?variant=Verde%20azulado
+  B: 33956 [Fumetas] huerfana $27990 SIN-STOCK | Bonglab Bong Saucer Rig 13cm - Turquesa
+      https://fumetas.cl/bonglab-bong-saucer-rig-13cm?variant=Turquesa
+
+sim=91.2%
+  A: 12354 [Astro Growshop] huerfana $4990 SIN-STOCK | Difusor 13Cm-Bonglab
+      https://astrogrowshop.cl/difusor-13cm-bonglab
+  B: 13471 [Fumetas] huerfana $3990 SIN-STOCK | Difusor Points 18mm-18mm - 13cm
+      https://fumetas.cl/difusor-bong-generico-18mm-18mm-13-cm
+
+sim=91.1%
+  A: 32235 [Astro Growshop] huerfana $219590 | Vaporizador Da Vinci Iq3 (Onyx/Blue/Purple/Grey) - azul
+      https://astrogrowshop.cl/vaporizador-da-vinci-iq3-onyx?variant=azul
+  B: 35039 [Fumetas] huerfana $249990 SIN-STOCK | Vaporizador DaVinci IQ2 - Azul
+      https://fumetas.cl/da-vinci-iq2-vaporizador-multiproposito?variant=Azul
+
+sim=91.1%
+  A: 17924 [Astro Growshop] huerfana $7990 SIN-STOCK | Thermal Banger Clear-Bonglab
+      https://astrogrowshop.cl/thermal-banger-clear-bonglab
+  B: 19980 [Fumetas] huerfana $7990 SIN-STOCK | Calvo Glass Banger Regular 14mm
+      https://fumetas.cl/banger-14mm
+
+sim=91%
+  A: 31195 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Amarillo
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Amarillo
+  B: 33744 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Amarillo
+      https://fumetas.cl/moledor-slx-50mm?variant=Amarillo
+
+sim=91%
+  A: 13190 [Fumetas] huerfana $8990 SIN-STOCK | Calvo Glass Banger Evan Shore 14mm
+      https://fumetas.cl/calvo-glass-banger-evan-shore-14mm
+  B: 17924 [Astro Growshop] huerfana $7990 SIN-STOCK | Thermal Banger Clear-Bonglab
+      https://astrogrowshop.cl/thermal-banger-clear-bonglab
+
+sim=90.8%
+  A: 12233 [Astro Growshop] huerfana $9990 SIN-STOCK | Contenedor 11,6 Oz Tapa Negra Base Negra-Secret Stash
+      https://astrogrowshop.cl/contenedor-116-oz-tapa-negra-base-negra-secret-stash
+  B: 13552 [Fumetas] huerfana $12490 SIN-STOCK | Airtight Contenedor Full Solid Negro 1350ml
+      https://fumetas.cl/airtight-contenedor-full-solid-negro-1350ml
+
+sim=90.8%
+  A: 32199 [Astro Growshop] prod 10359 "Bonglab Difusor Logo 14mm Morado" $3990 | Difusor Logo Purple 14Mm-Bonglab (14Cm/12Cm) - 14 CM
+      https://astrogrowshop.cl/difusor-logo-purple-14mm-bonglab?variant=14%20CM
+  B: 34006 [Fumetas] huerfana $3790 | Difusor Bonglab 18mm-14mm - 14cm - Magenta
+      https://fumetas.cl/difusor-bonglab-18mm-14mm-14cm?variant=Magenta
+
+sim=90.7%
+  A: 11538 [GrowBarato Chile] huerfana $1400 | Hemp Wraps Rolling Stones Lion Rolling Circus | Diferentes sabores
+      https://www.growbaratochile.cl/parafernalia/blunt-hemp-wrap-lion-rolling-circus.html
+  B: 17946 [Astro Growshop] huerfana $1390 SIN-STOCK | Blunt Hemp Wrap Terpenes Rolling Stones Lemon Haze- Lion Rolling Circus
+      https://astrogrowshop.cl/blunt-hemp-wrap-terpenes-rolling-stones-lemon-haze-lion-rolling-circus
+
+sim=90.7%
+  A: 31761 [Astro Growshop] huerfana $59990 | Headshot Black-Bonglab - SPINNER GREEN
+      https://astrogrowshop.cl/headshot-bonglab?variant=SPINNER%20GREEN
+  B: 33847 [Fumetas] huerfana $64990 SIN-STOCK | Bonglab Bong Mad Professor 42cm - Verde
+      https://fumetas.cl/bonglab-bong-mad-professor-42cm-diferentes-colores?variant=Verde
+
+sim=90.7%
+  A: 32562 [Astro Growshop] huerfana $65990 | Rig Con Percolador De Arbol -Calvo Glass - Naranjo
+      https://astrogrowshop.cl/rig-con-percolador-de-arbol-calvo-glass?variant=Naranjo
+  B: 34541 [Fumetas] huerfana $60891 SIN-STOCK | Calvo Glass Bong Hongo Shower Head 28cm - Naranjo
+      https://fumetas.cl/calvo-glass-bong-hongo-shower-head-28cm?variant=Naranjo
+
+sim=90.6%
+  A: 30968 [Astro Growshop] huerfana $32990 | Ceramics Grinder -Galaxy - Rosa
+      https://astrogrowshop.cl/ceramics-grinder-galaxy?variant=Rosa
+  B: 33560 [Fumetas] huerfana $31990 | Moledor Galaxy Cerámico 60mm - Menta
+      https://fumetas.cl/moledor-galaxy-ceramico-60mm?variant=Menta
+
+sim=90.5%
+  A: 30966 [Astro Growshop] huerfana $32990 | Ceramics Grinder -Galaxy - Morado
+      https://astrogrowshop.cl/ceramics-grinder-galaxy?variant=Morado
+  B: 33562 [Fumetas] huerfana $31990 | Moledor Galaxy Cerámico 60mm - Lila
+      https://fumetas.cl/moledor-galaxy-ceramico-60mm?variant=Lila
+
+sim=90.4%
+  A: 11571 [GrowBarato Chile] huerfana $20600 | Kit Fumador OZeta Clip┃Estuche blando de ocultación
+      https://www.growbaratochile.cl/ozeta/kit-fumador-ozeta-clip.html
+  B: 12595 [Astro Growshop] prod 10415 "Ozeta Clip Mediano Black Anti-Olor" $25990 | Bolso Clip Mediano Black-Ozeta
+      https://astrogrowshop.cl/bolso-clip-mediano-black-ozeta
+
+sim=90.4%
+  A: 31189 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - verde
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=verde
+  B: 33745 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Verde
+      https://fumetas.cl/moledor-slx-50mm?variant=Verde
+
+sim=90.4%
+  A: 31694 [Astro Growshop] huerfana $9990 SIN-STOCK | Munchie Bowl -Pmg - Naranjo
+      https://astrogrowshop.cl/munchie-bowl-pmg?variant=Naranjo
+  B: 34306 [Fumetas] huerfana $11990 SIN-STOCK | PMG Munchie Bowl - Indy Glow
+      https://fumetas.cl/pmg-munchie-bowl?variant=Indy%20Glow
+
+sim=90.4%
+  A: 16172 [Piranha] huerfana $85491 | Accesorio Puffco New Hot Knife | PIRANHA
+      https://piranha.cl/inicio/8809/accesorio-puffco-new-hot-knife-color-a-eleccion.html
+  B: 18175 [Astro Growshop] huerfana $109990 SIN-STOCK | Vaporizador New Plus White-Puffco
+      https://astrogrowshop.cl/vaporizador-new-plus-white-puffco
+
+sim=90.3%
+  A: 2994 [Fumetas] huerfana $7990 SIN-STOCK | Calvo Glass Banger Quarzo 45° Macho 14mm
+      https://fumetas.cl/calvo-glass-banger-quarzo-45-macho-14mm
+  B: 17924 [Astro Growshop] huerfana $7990 SIN-STOCK | Thermal Banger Clear-Bonglab
+      https://astrogrowshop.cl/thermal-banger-clear-bonglab
+
+sim=90.3%
+  A: 31197 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Rosa
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Rosa
+  B: 33742 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Rosado
+      https://fumetas.cl/moledor-slx-50mm?variant=Rosado
+
+sim=90.2%
+  A: 31196 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Plata
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Plata
+  B: 33743 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Plateado
+      https://fumetas.cl/moledor-slx-50mm?variant=Plateado
+
+sim=90.2%
+  A: 401 [Astro Growshop] huerfana $4990 SIN-STOCK | Contenedor 6,6 Oz Tapa Roja Base Transparente-Secret Stash
+      https://astrogrowshop.cl/contenedor-66-oz-tapa-roja-base-transparente-secret-stash
+  B: 13689 [Fumetas] huerfana $5990 SIN-STOCK | Airtight Contenedor Transparente 650ml
+      https://fumetas.cl/airtight-contenedor-transparente-650ml
+
+sim=90.1%
+  A: 31852 [Astro Growshop] huerfana $71990 SIN-STOCK | The Hot Knife -Puffco - ONYX
+      https://astrogrowshop.cl/the-hot-knife-puffco?variant=ONYX
+  B: 34370 [Fumetas] huerfana $79990 SIN-STOCK | Puffco Hot Knife - Dabber eléctronico - Negro
+      https://fumetas.cl/puffco-hot-knife?variant=Negro
+
+sim=90%
+  A: 31672 [Astro Growshop] huerfana $20990 | Little Buchner-Bonglab - Rosa
+      https://astrogrowshop.cl/little-buchner-bonglab?variant=Rosa
+  B: 33944 [Fumetas] huerfana $21241 SIN-STOCK | BongLab Bong R3 Mini 10.5cm - Rosado
+      https://fumetas.cl/bonglab-bong-r3-mini-105cm?variant=Rosado
+
+sim=90%
+  A: 31236 [Astro Growshop] huerfana $3990 | Moledor Contenedor Plastico Portatil - Rojo
+      https://astrogrowshop.cl/moledor-contenedor-plastico-portatil?variant=Rojo
+  B: 33798 [Fumetas] huerfana $5490 SIN-STOCK | Squadafum Moledor Pot Grinder 50mm - Menta
+      https://fumetas.cl/moledor-squadafum-pot-grinder?variant=Menta
+
+sim=90%
+  A: 16168 [Piranha] huerfana $149993 | Accesorio New Proxy Wizard - Puffco
+      https://piranha.cl/inicio/8509/accesorio-puffco-new-proxy-wizard-color-a-eleccion.html
+  B: 18153 [Astro Growshop] huerfana $159990 | Accesorio Extractos New Proxy Wizard Haze-Puffco
+      https://astrogrowshop.cl/vaporizador-extractos-new-proxy-wizard-haze-puffco
+
+sim=89.9%
+  A: 33177 [Astro Growshop] huerfana $27990 SIN-STOCK | Batería Secret Box -Blazy Susan - MIAMI VICE
+      https://astrogrowshop.cl/bateria-secret-box-blazy-susan?variant=MIAMI%20VICE
+  B: 37260 [Fumetas] huerfana $29990 | Pulsar Batería Cartridges 510 DL 2.0 Pro - Cyberpunk Rainstorm
+      https://fumetas.cl/pulsar-bateria-cartridges-510-dl-20-pro?variant=Cyberpunk%20Rainstorm
+
+sim=89.9%
+  A: 30972 [Astro Growshop] huerfana $32990 | Ceramics Grinder -Galaxy - Negro
+      https://astrogrowshop.cl/ceramics-grinder-galaxy?variant=Negro
+  B: 33557 [Fumetas] huerfana $31990 | Moledor Galaxy Cerámico 60mm - Negro
+      https://fumetas.cl/moledor-galaxy-ceramico-60mm?variant=Negro
+
+sim=89.9%
+  A: 12602 [Astro Growshop] huerfana $4990 SIN-STOCK | Contenedor Vidrio Negro Uv Con Tapa
+      https://astrogrowshop.cl/contenedor-vidrio-negro-uv-con-tapa
+  B: 13446 [Fumetas] huerfana $6290 SIN-STOCK | Airtight Contenedor Full Solid 650ml
+      https://fumetas.cl/airtight-contenedor-full-solid-650ml-varios-colores
+
+sim=89.9%
+  A: 12582 [Astro Growshop] huerfana $63990 SIN-STOCK | SOLID VALVE VOLCANO DIGIT/CLASSIC-STORZ &amp; BICKEL
+      https://astrogrowshop.cl/solid-valve-volcano-digitclassic-storz-bickel
+  B: 15859 [Piranha] huerfana $56991 | Solid Valve Cámara de Relleno para Hierbas
+      https://piranha.cl/inicio/308/volcano-solid-valve-camara-de-relleno-para-hierbas.html
+
+sim=89.8%
+  A: 12602 [Astro Growshop] huerfana $4990 SIN-STOCK | Contenedor Vidrio Negro Uv Con Tapa
+      https://astrogrowshop.cl/contenedor-vidrio-negro-uv-con-tapa
+  B: 13445 [Fumetas] huerfana $3590 SIN-STOCK | Airtight Contenedor al vacío 60ml
+      https://fumetas.cl/airtight-contenedor-full-solid-60ml-varios-colores
+
+sim=89.7%
+  A: 11414 [GrowBarato Chile] prod 10703 "Filtro de Carbón Activado Kasvi 100x300mm" $53200 | Filtro de Carbón Activado Kasvi 100x300 ➤ Control olores cultivo
+      https://www.growbaratochile.cl/tratamiento-de-olores/filtro-de-carbon-activo-100x300-kasvi.html
+  B: 13411 [Fumetas] huerfana $65990 SIN-STOCK | Kasvi Filtro de Carbon Activo 100 x 300
+      https://fumetas.cl/kasvi-filtro-de-carbon-activo-100-x-300
+
+sim=89.7%
+  A: 31697 [Astro Growshop] huerfana $9990 SIN-STOCK | Munchie Bowl -Pmg - CELESTE
+      https://astrogrowshop.cl/munchie-bowl-pmg?variant=CELESTE
+  B: 34306 [Fumetas] huerfana $11990 SIN-STOCK | PMG Munchie Bowl - Indy Glow
+      https://fumetas.cl/pmg-munchie-bowl?variant=Indy%20Glow
+
+sim=89.7%
+  A: 31194 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Morado
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Morado
+  B: 33741 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Morado
+      https://fumetas.cl/moledor-slx-50mm?variant=Morado
+
+sim=89.6%
+  A: 25916 [Fumetas] prod 10608 "G Pen Connect Glass Adapter 18mm" $15790 | G Pen Glass Adapter Connect
+      https://fumetas.cl/grenco-glass-adapter-connect-black-g-pen
+  B: 27435 [Piranha] huerfana $15594 | G Pen Elite Dock de Carga
+      https://piranha.cl/inicio/1617/g-pen-elite-dock-de-carga.html
+
+sim=89.6%
+  A: 30966 [Astro Growshop] huerfana $32990 | Ceramics Grinder -Galaxy - Morado
+      https://astrogrowshop.cl/ceramics-grinder-galaxy?variant=Morado
+  B: 33560 [Fumetas] huerfana $31990 | Moledor Galaxy Cerámico 60mm - Menta
+      https://fumetas.cl/moledor-galaxy-ceramico-60mm?variant=Menta
+
+sim=89.5%
+  A: 31059 [Astro Growshop] huerfana $94990 | Moledor Aluminio Mediano 4P-Santa Cruz - Negro
+      https://astrogrowshop.cl/moledor-aluminio-mediano-4p-santa-cruz?variant=Negro
+  B: 33738 [Fumetas] huerfana $82490 SIN-STOCK | Moledor Kannastor GR8TR Jar Body Grinder - Negro
+      https://fumetas.cl/moledor-kannastor-gr8tr-jar-body-grinder?variant=Negro
+
+sim=89.5%
+  A: 19776 [Fumetas] huerfana $40990 | Ozeta Bandolera - Anti-olor
+      https://fumetas.cl/ozeta-bandolera-anti-olor
+  B: 23561 [Astro Growshop] huerfana $34990 | The Boss Con Candado Clave 20 Cm -Dime Bags
+      https://astrogrowshop.cl/the-boss-con-candado-clave-20-cm-dime-bags
+
+sim=89.5%
+  A: 31992 [Astro Growshop] huerfana $9990 | Pipa Pyrex Ignite 53- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-ignite-53-top-smoke
+  B: 35013 [Fumetas] huerfana $9990 SIN-STOCK | Calvo Glass Pipa Rainbow 11cm - Orange and White
+      https://fumetas.cl/calvo-glass-pipa-rainbow-11cm?variant=Orange%20and%20White
+
+sim=89.4%
+  A: 678 [Piranha] huerfana $258993 | Vaporizador Puffco New Peak | PIRANHA
+      https://piranha.cl/inicio/7665/vaporizador-puffco-new-peak-color-a-eleccion.html
+  B: 18157 [Astro Growshop] huerfana $350990 | Vaporizador Puffco Peak Canyon
+      https://astrogrowshop.cl/vaporizador-puffco-peak-canyon-smart-e-rig
+
+sim=89.4%
+  A: 32893 [Astro Growshop] prod 10663 "Ignite Soplete Phantom Mini" $14990 | Soplete Phantom Mini-Ignite - Blanco
+      https://astrogrowshop.cl/soplete-phantom-mini-ignite?variant=Blanco
+  B: 38364 [Piranha] huerfana $14243 | Encendedor Soplete Ignite Phantom | PIRANHA
+      https://piranha.cl/inicio/7202/encendedor-soplete-ignite-phantom-color-a-eleccion.html
+
+sim=89.3%
+  A: 31693 [Astro Growshop] huerfana $11990 SIN-STOCK | Munchie Bowl -Pmg - Verde
+      https://astrogrowshop.cl/munchie-bowl-pmg?variant=Verde
+  B: 34306 [Fumetas] huerfana $11990 SIN-STOCK | PMG Munchie Bowl - Indy Glow
+      https://fumetas.cl/pmg-munchie-bowl?variant=Indy%20Glow
+
+sim=89.3%
+  A: 2594 [Astro Growshop] huerfana $37990 SIN-STOCK | Encendedor High Polish Rose-Zippo
+      https://astrogrowshop.cl/encendedor-high-polish-rose-zippo
+  B: 19387 [Fumetas] huerfana $44990 | Encendedor Zippo Classic High Polish Purple
+      https://fumetas.cl/encendedor-zippo-classic-high-polish-purple
+
+sim=89.3%
+  A: 32562 [Astro Growshop] huerfana $65990 | Rig Con Percolador De Arbol -Calvo Glass - Naranjo
+      https://astrogrowshop.cl/rig-con-percolador-de-arbol-calvo-glass?variant=Naranjo
+  B: 35027 [Fumetas] huerfana $56541 SIN-STOCK | Calvo Glass Rig Hongo 22cm - Naranjo
+      https://fumetas.cl/calvo-glass-rig-hongo-22cm?variant=Naranjo
+
+sim=89.3%
+  A: 12123 [Astro Growshop] huerfana $9990 | Pipa Pyrex Toxic 8- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-toxic-8-top-smoke
+  B: 35013 [Fumetas] huerfana $9990 SIN-STOCK | Calvo Glass Pipa Rainbow 11cm - Orange and White
+      https://fumetas.cl/calvo-glass-pipa-rainbow-11cm?variant=Orange%20and%20White
+
+sim=89.3%
+  A: 31729 [Astro Growshop] huerfana $55990 SIN-STOCK | The Sheikh 42Cm -Bonglab - Rosa
+      https://astrogrowshop.cl/the-sheikh-bonglab?variant=Rosa
+  B: 33846 [Fumetas] huerfana $64990 SIN-STOCK | Bonglab Bong Mad Professor 42cm - Rosado
+      https://fumetas.cl/bonglab-bong-mad-professor-42cm-diferentes-colores?variant=Rosado
+
+sim=89.3%
+  A: 806 [Astro Growshop] prod 5757 "Storz &amp; Bickel Cápsulas Monodosis 40 unidades" $99990 | Capsulas Monodosis 40 Unidades Con Tampon-Storz &amp; Bickel
+      https://astrogrowshop.cl/capsulas-monodosis-40-unidades-con-tampon-storz-bickel
+  B: 14380 [Piranha] huerfana $75991 | Cargador Inalámbrico Focus V Aeris | PIRANHA
+      https://piranha.cl/inicio/8721/cargador-inalambrico-focus-v-aeris.html
+
+sim=89.2%
+  A: 16138 [Piranha] huerfana $4990 | Encendedor Torch Soplete
+      https://piranha.cl/inicio/6018/encendedor-torch-soplete-color-aleatorio.html
+  B: 17996 [Astro Growshop] huerfana $3990 SIN-STOCK | SOPLETE PEQUEÑO-RONSON
+      https://astrogrowshop.cl/soplete-pequeno-ronson
+
+sim=89.2%
+  A: 3005 [Fumetas] huerfana $27992 | Calvo Glass Bong Straight Tube American 26cm
+      https://fumetas.cl/calvo-glass-bong-straight-tube-american-26cm
+  B: 31623 [Astro Growshop] huerfana $20990 | Classic Ice 26Cm-Bonglab - verde
+      https://astrogrowshop.cl/classic-ice-bonglab?variant=verde
+
+sim=89.2%
+  A: 835 [Piranha] prod 5762 "Banano Anti Olor Con Clave" $42990 | Banano Anti Olor Con Clave
+      https://piranha.cl/inicio/3880/banano-cclave-anti-olor-ozeta-color-a-eleccion.html
+  B: 19512 [Fumetas] huerfana $43990 SIN-STOCK | Ozeta Bolso Cilíndrico con Clave - Anti-olor
+      https://fumetas.cl/ozeta-bolso-cilindrico-con-clave
+
+sim=89.1%
+  A: 12563 [Astro Growshop] huerfana $19990 SIN-STOCK | MINI BEAKER SIMPLE YELLOW- Calvo glass
+      https://astrogrowshop.cl/mini-beaker-simple-yellow-calvo-glass
+  B: 16084 [Piranha] prod 10219 "Bong Pyrex KM1 Prisma 10cm Clear Bonglab | Mini Bong de Vidrio" $19990 | Bong Prisma Bonglab
+      https://piranha.cl/inicio/1812/bong-prisma-bonglab.html
+
+sim=89%
+  A: 13315 [Fumetas] huerfana $249990 SIN-STOCK | Vaporizador DaVinci IQ2
+      https://fumetas.cl/da-vinci-iq2-vaporizador-multiproposito
+  B: 18119 [Astro Growshop] huerfana $269990 SIN-STOCK | Iq Stealth-Da Vinci
+      https://astrogrowshop.cl/iq-stealth-da-vinci
+
+sim=89%
+  A: 31761 [Astro Growshop] huerfana $59990 | Headshot Black-Bonglab - SPINNER GREEN
+      https://astrogrowshop.cl/headshot-bonglab?variant=SPINNER%20GREEN
+  B: 33848 [Fumetas] huerfana $64990 SIN-STOCK | Bonglab Bong Mad Professor 42cm - Jade Green
+      https://fumetas.cl/bonglab-bong-mad-professor-42cm-diferentes-colores?variant=Jade%20Green
+
+sim=89%
+  A: 689 [Piranha] prod 10737 "Encendedor Zippo Classic High Polish Green" $41990 | Encendedor Zippo High Polish Green Chameleon
+      https://piranha.cl/inicio/6259/encendedor-zippo-high-polish-green-chameleon.html
+  B: 19489 [Fumetas] huerfana $33990 SIN-STOCK | Encendedor Zippo Reg Iridescent Matte
+      https://fumetas.cl/encendedor-zippo-reg-iridescent-matte
+
+sim=89%
+  A: 33006 [Astro Growshop] huerfana $31990 SIN-STOCK | Honey Dry-Bonglab - verde
+      https://astrogrowshop.cl/honey-dry-bonglab?variant=verde
+  B: 37335 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm - Verde
+      https://fumetas.cl/calvo-glass-implosion-gotas?variant=Verde
+
+sim=89%
+  A: 31992 [Astro Growshop] huerfana $9990 | Pipa Pyrex Ignite 53- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-ignite-53-top-smoke
+  B: 35019 [Fumetas] huerfana $8491 SIN-STOCK | Calvo Glass Pipa Round 11cm - Red and White
+      https://fumetas.cl/calvo-glass-pipa-round-11cm?variant=Red%20and%20White
+
+sim=88.9%
+  A: 1069 [Piranha] prod 5490 "Pipa Calvo Horn Pipe 10cm | PIRANHA" $10943 | Pipa Calvo Horn Pipe 10cm | PIRANHA
+      https://piranha.cl/inicio/8050/pipa-calvo-horn-pipe-10cm-color-aleatorio.html
+  B: 2689 [Astro Growshop] huerfana $9990 | Pipa Pyrex Apollyon 126- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-apollyon-126-top-smoke
+
+sim=88.9%
+  A: 31693 [Astro Growshop] huerfana $11990 SIN-STOCK | Munchie Bowl -Pmg - Verde
+      https://astrogrowshop.cl/munchie-bowl-pmg?variant=Verde
+  B: 34308 [Fumetas] huerfana $11990 | PMG Munchie Bowl - Mamba Violet
+      https://fumetas.cl/pmg-munchie-bowl?variant=Mamba%20Violet
+
+sim=88.9%
+  A: 19940 [Fumetas] prod 10496 "Hightrip Pin Pipazo" $8091 | Hightrip Pin Pipazo
+      https://fumetas.cl/pin-hightrip-pipazo
+  B: 33426 [Astro Growshop] huerfana $7990 | Pin-Hightrip - PIPAZO
+      https://astrogrowshop.cl/pin-hightrip?variant=PIPAZO
+
+sim=88.9%
+  A: 30971 [Astro Growshop] huerfana $32990 | Ceramics Grinder -Galaxy - Dorado
+      https://astrogrowshop.cl/ceramics-grinder-galaxy?variant=Dorado
+  B: 33560 [Fumetas] huerfana $31990 | Moledor Galaxy Cerámico 60mm - Menta
+      https://fumetas.cl/moledor-galaxy-ceramico-60mm?variant=Menta
+
+sim=88.9%
+  A: 12130 [Astro Growshop] huerfana $9990 | Pipa Pyrex Venator 16- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-venator-16-top-smoke
+  B: 35019 [Fumetas] huerfana $8491 SIN-STOCK | Calvo Glass Pipa Round 11cm - Red and White
+      https://fumetas.cl/calvo-glass-pipa-round-11cm?variant=Red%20and%20White
+
+sim=88.8%
+  A: 19776 [Fumetas] huerfana $40990 | Ozeta Bandolera - Anti-olor
+      https://fumetas.cl/ozeta-bandolera-anti-olor
+  B: 23565 [Astro Growshop] huerfana $51990 | The Soldier Con Lock 22 Cm Black-Dime Bags
+      https://astrogrowshop.cl/the-soldier-con-lock-22-cm-black-dime-bags
+
+sim=88.8%
+  A: 16090 [Piranha] huerfana $3990 | Bandeja Soulblime
+      https://piranha.cl/inicio/5975/bandeja-soulblime-diseno-a-eleccion.html
+  B: 36539 [Fumetas] huerfana $3590 | Soulblime bandejas pequeñas - Photography - Dientes
+      https://fumetas.cl/soulblime-bandeja-pequena-photography?variant=Dientes
+
+sim=88.8%
+  A: 31196 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Plata
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Plata
+  B: 33740 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Azul
+      https://fumetas.cl/moledor-slx-50mm?variant=Azul
+
+sim=88.8%
+  A: 12337 [Astro Growshop] huerfana $13990 | Accesorio Mouthpiece Stem Fenix 2.0 -Weecke
+      https://astrogrowshop.cl/accesorio-mouthpiece-stem-fenix-20-weecke
+  B: 16026 [Piranha] huerfana $13900 | Mighty Juego de Boquillas
+      https://piranha.cl/inicio/317/mightymighty-juego-de-boquillas.html
+
+sim=88.8%
+  A: 19461 [Fumetas] huerfana $38990 | Dime Bags Banano Outfit Con Clave Anti-Olor
+      https://fumetas.cl/dime-bags-banano-outfit-con-clave-anti-olor
+  B: 23562 [Astro Growshop] huerfana $37990 | The Boss Con Candado Clave 25 Cm -Dime Bags
+      https://astrogrowshop.cl/the-boss-con-candado-clave-25-cm-dime-bags
+
+sim=88.8%
+  A: 17973 [Astro Growshop] huerfana $31990 SIN-STOCK | Honey Dry-Bonglab
+      https://astrogrowshop.cl/honey-dry-bonglab
+  B: 20145 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm
+      https://fumetas.cl/calvo-glass-implosion-gotas
+
+sim=88.8%
+  A: 32317 [Astro Growshop] huerfana $41990 | Classy-Bonglab - verde
+      https://astrogrowshop.cl/classy-kd1-bonglab?variant=verde
+  B: 37335 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm - Verde
+      https://fumetas.cl/calvo-glass-implosion-gotas?variant=Verde
+
+sim=88.8%
+  A: 12238 [Astro Growshop] prod 10359 "Bonglab Difusor Logo 14mm Morado" $3990 | Difusor Logo Purple 14Mm-Bonglab (14Cm/12Cm)
+      https://astrogrowshop.cl/difusor-logo-purple-14mm-bonglab
+  B: 13607 [Fumetas] huerfana $5490 SIN-STOCK | Squadafum Difusor Glass Tube 18mm-14mm - 12cm
+      https://fumetas.cl/squadafum-difusor-glass-tube-18mm-13cm
+
+sim=88.8%
+  A: 12604 [Astro Growshop] huerfana $75290 SIN-STOCK | DEPÓSITO SOLID VALVE-STORZ &amp; BICKEL
+      https://astrogrowshop.cl/deposito-solid-valve-storz-bickel
+  B: 15859 [Piranha] huerfana $56991 | Solid Valve Cámara de Relleno para Hierbas
+      https://piranha.cl/inicio/308/volcano-solid-valve-camara-de-relleno-para-hierbas.html
+
+sim=88.8%
+  A: 19461 [Fumetas] huerfana $38990 | Dime Bags Banano Outfit Con Clave Anti-Olor
+      https://fumetas.cl/dime-bags-banano-outfit-con-clave-anti-olor
+  B: 24011 [Astro Growshop] huerfana $37990 | Outfit Smell Proof Green-Dime Bags
+      https://astrogrowshop.cl/outfit-smell-proof-green-dime-bags
+
+sim=88.7%
+  A: 12182 [Astro Growshop] huerfana $3790 SIN-STOCK | Difusor Perc 135 Mm 14Mm-Bonglab
+      https://astrogrowshop.cl/difusor-perc-135-mm-14mm-bonglab
+  B: 12916 [Fumetas] huerfana $3890 SIN-STOCK | Quemador Transparente - Macho 14mm/18mm
+      https://fumetas.cl/quemador-macho-transparente-14mm
+
+sim=88.6%
+  A: 31622 [Astro Growshop] huerfana $20990 | Classic Ice 26Cm-Bonglab - azul
+      https://astrogrowshop.cl/classic-ice-bonglab?variant=azul
+  B: 34675 [Fumetas] huerfana $22990 | Bonglab Bong KS11 Classic Ice 26cm - Ámbar
+      https://fumetas.cl/bonglab-bong-ks11-classic-ice-26cm?variant=%C3%81mbar
+
+sim=88.6%
+  A: 11571 [GrowBarato Chile] huerfana $20600 | Kit Fumador OZeta Clip┃Estuche blando de ocultación
+      https://www.growbaratochile.cl/ozeta/kit-fumador-ozeta-clip.html
+  B: 13660 [Fumetas] prod 10553 "OZeta Estuche Flat con Clave Mediano Anti-Olor" $25990 SIN-STOCK | OZeta Estuche Flat con clave Mediano - Anti Olor
+      https://fumetas.cl/ozeta-estuche-flat-con-clave-mediano-anti-olor
+
+sim=88.5%
+  A: 18119 [Astro Growshop] huerfana $269990 SIN-STOCK | Iq Stealth-Da Vinci
+      https://astrogrowshop.cl/iq-stealth-da-vinci
+  B: 20134 [Fumetas] huerfana $193990 | Vaporizador Series X1 Omura
+      https://fumetas.cl/vaporizador-series-x-omura
+
+sim=88.5%
+  A: 12424 [Astro Growshop] huerfana $3990 SIN-STOCK | Difusor 14Mm Pyrex
+      https://astrogrowshop.cl/difusor-14mm-pyrex
+  B: 13578 [Fumetas] huerfana $4490 SIN-STOCK | Difusor Slits Bong 18mm - 14mm - 9cm
+      https://fumetas.cl/difusor-slits-bong-18mm-14mm-9cm
+
+sim=88.5%
+  A: 29048 [Astro Growshop] huerfana $59990 SIN-STOCK | Moledor 6CM -Slx - Plata
+      https://astrogrowshop.cl/moledor-6cm-slx?variant=Plata
+  B: 33564 [Fumetas] huerfana $52191 SIN-STOCK | Moledor SLX 60mm - Carbón
+      https://fumetas.cl/moledor-slx-60mm?variant=Carb%C3%B3n
+
+sim=88.5%
+  A: 32104 [Astro Growshop] huerfana $23990 SIN-STOCK | Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul
+      https://astrogrowshop.cl/atrapa-ceniza-panal-triple-14mm-bonglab?variant=Azul
+  B: 34642 [Fumetas] huerfana $22990 SIN-STOCK | BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - Azul
+      https://fumetas.cl/bonglab-atrapacenizas-triple-honeycomb-macho-14mm?variant=Azul
+
+sim=88.4%
+  A: 23542 [Astro Growshop] prod 10608 "G Pen Connect Glass Adapter 18mm" $9990 | Glass Adapter Grenco Connect Black 14Mm-G Pen
+      https://astrogrowshop.cl/glass-adapter-grenco-connect-black-14mm-g-pen
+  B: 27406 [Piranha] huerfana $10995 | Carcasa Silicona G Pen Elite
+      https://piranha.cl/inicio/1620/carcasa-silicona-g-pen-elite.html
+
+sim=88.4%
+  A: 29050 [Astro Growshop] huerfana $59990 SIN-STOCK | Moledor 6CM -Slx - Rosa
+      https://astrogrowshop.cl/moledor-6cm-slx?variant=Rosa
+  B: 33568 [Fumetas] huerfana $52191 SIN-STOCK | Moledor SLX 60mm - Rosado
+      https://fumetas.cl/moledor-slx-60mm?variant=Rosado
+
+sim=88.4%
+  A: 13118 [Fumetas] huerfana $6990 SIN-STOCK | Galaxy Hot Knife 510 Cerámico Repuesto
+      https://fumetas.cl/galaxy-hot-knife-510-ceramico
+  B: 18025 [Astro Growshop] huerfana $6990 | Flash Mouthpiece Tip -Cloud Vapes
+      https://astrogrowshop.cl/flash-mouthpiece-tip-cloud-vapes
+
+sim=88.4%
+  A: 32818 [Astro Growshop] huerfana $129990 SIN-STOCK | Vaporizador Miqro C -Da Vinci - Amarillo
+      https://astrogrowshop.cl/vaporizador-miqro-c-da-vinci?variant=Amarillo
+  B: 36262 [Fumetas] huerfana $129990 SIN-STOCK | Vaporizador DaVinci Miqro C - Herbal - Amarillo
+      https://fumetas.cl/da-vinci-miqro-vaporizador?variant=Amarillo
+
+sim=88.4%
+  A: 12233 [Astro Growshop] huerfana $9990 SIN-STOCK | Contenedor 11,6 Oz Tapa Negra Base Negra-Secret Stash
+      https://astrogrowshop.cl/contenedor-116-oz-tapa-negra-base-negra-secret-stash
+  B: 13616 [Fumetas] huerfana $8490 SIN-STOCK | Tightvac Contenedor Al Vacío 570ml Black
+      https://fumetas.cl/tightvac-contenedor-al-vacio-570ml-black
+
+sim=88.4%
+  A: 15959 [Piranha] prod 10518 "Ozeta Case Cilíndrico Con Clave Anti-Olor" $49990 | Case Cilíndrico c/clave - OZeta | PIRANHA
+      https://piranha.cl/inicio/6965/case-cilindrico-cclave-anti-olor-ozeta.html
+  B: 23565 [Astro Growshop] huerfana $51990 | The Soldier Con Lock 22 Cm Black-Dime Bags
+      https://astrogrowshop.cl/the-soldier-con-lock-22-cm-black-dime-bags
+
+sim=88.4%
+  A: 33054 [Astro Growshop] huerfana $29990 SIN-STOCK | The Sphere -Bonglab - Verde azulado
+      https://astrogrowshop.cl/the-sphere-bonglab?variant=Verde%20azulado
+  B: 37336 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm - Turquesa
+      https://fumetas.cl/calvo-glass-implosion-gotas?variant=Turquesa
+
+sim=88.3%
+  A: 31621 [Astro Growshop] huerfana $20990 | Classic Ice 26Cm-Bonglab - AMBAR
+      https://astrogrowshop.cl/classic-ice-bonglab?variant=AMBAR
+  B: 34556 [Fumetas] huerfana $24291 | Calvo Glass Bong Straight Tube Lite 26cm - Naranjo
+      https://fumetas.cl/calvo-glass-bong-straight-tube-lite-26cm?variant=Naranjo
+
+sim=88.3%
+  A: 32291 [Astro Growshop] huerfana $35990 | The Boss Con Candado Clave 25 Cm -Dime Bags - CAMO
+      https://astrogrowshop.cl/the-boss-con-candado-clave-25-cm-dime-bags?variant=CAMO
+  B: 35598 [Fumetas] huerfana $38990 | Dime Bags Banano Outfit Con Clave Anti-Olor - Negro
+      https://fumetas.cl/dime-bags-banano-outfit-con-clave-anti-olor?variant=Negro
+
+sim=88.3%
+  A: 15846 [Piranha] prod 10489 "Dime Bags Estuche The Collector con Clave 30cm" $24592 | Estuche Anti Olor Dime Bags The Collector con Candado 30cm | PIRANHA
+      https://piranha.cl/inicio/8350/dime-bags-the-collector-con-candado-30.html
+  B: 18131 [Astro Growshop] huerfana $29990 SIN-STOCK | Bolso Krypto - Ryot
+      https://astrogrowshop.cl/bolso-krypto-ryot
+
+sim=88.3%
+  A: 11585 [GrowBarato Chile] huerfana $18000 | PieceMaker Gear Kolt | Bong Flexible y Ergonómico
+      https://www.growbaratochile.cl/bongs-de-silicona/piece-maker-gear-kolt.html
+  B: 20264 [Fumetas] huerfana $24990 SIN-STOCK | PMG Bong Kermit 27cm
+      https://fumetas.cl/pmg-kermit
+
+sim=88.3%
+  A: 16115 [Piranha] prod 10496 "Hightrip Pin Pipazo" $8091 | HighTrip - Pipazo
+      https://piranha.cl/inicio/6037/pin-pipazo.html
+  B: 33426 [Astro Growshop] huerfana $7990 | Pin-Hightrip - PIPAZO
+      https://astrogrowshop.cl/pin-hightrip?variant=PIPAZO
+
+sim=88.3%
+  A: 31356 [Astro Growshop] huerfana $59990 | Vaporizador Herbva 5G White-Airistech
+      https://astrogrowshop.cl/vaporizador-herbva-5g-white-airistech
+  B: 36195 [Fumetas] huerfana $45990 SIN-STOCK | Airistech Vaporizador Herbva Viva - Blanco
+      https://fumetas.cl/airistech-vaporizador-herbva-viva?variant=Blanco
+
+sim=88.3%
+  A: 731 [Astro Growshop] huerfana $4490 | ADAPTADOR PYREX HEMBRA A MACHO 18MM- Bonglab
+      https://astrogrowshop.cl/adaptador-pyrex-hembra-a-macho-18mm-bonglab
+  B: 12916 [Fumetas] huerfana $3890 SIN-STOCK | Quemador Transparente - Macho 14mm/18mm
+      https://fumetas.cl/quemador-macho-transparente-14mm
+
+sim=88.3%
+  A: 31196 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - Plata
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=Plata
+  B: 33739 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Carbón
+      https://fumetas.cl/moledor-slx-50mm?variant=Carb%C3%B3n
+
+sim=88.3%
+  A: 2740 [Astro Growshop] huerfana $9990 | Pipa Pyrex Nitroshock 79- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-nitroshock-79-top-smoke
+  B: 35013 [Fumetas] huerfana $9990 SIN-STOCK | Calvo Glass Pipa Rainbow 11cm - Orange and White
+      https://fumetas.cl/calvo-glass-pipa-rainbow-11cm?variant=Orange%20and%20White
+
+sim=88.3%
+  A: 32771 [Astro Growshop] huerfana $34990 | Filtro Personal Pro II -Sploofy - AQUA
+      https://astrogrowshop.cl/filtro-personal-pro-ii-sploofy?variant=AQUA
+  B: 36570 [Fumetas] huerfana $29990 | Sploofy Pro Filtro Personal - Aqua
+      https://fumetas.cl/sploofy-pro-filtro-personal?variant=Aqua
+
+sim=88.2%
+  A: 31853 [Astro Growshop] huerfana $71990 | The Hot Knife -Puffco - PEARL
+      https://astrogrowshop.cl/the-hot-knife-puffco?variant=PEARL
+  B: 34370 [Fumetas] huerfana $79990 SIN-STOCK | Puffco Hot Knife - Dabber eléctronico - Negro
+      https://fumetas.cl/puffco-hot-knife?variant=Negro
+
+sim=88.2%
+  A: 29045 [Astro Growshop] huerfana $59990 SIN-STOCK | Moledor 6CM -Slx - CHARCOAL
+      https://astrogrowshop.cl/moledor-6cm-slx?variant=CHARCOAL
+  B: 33564 [Fumetas] huerfana $52191 SIN-STOCK | Moledor SLX 60mm - Carbón
+      https://fumetas.cl/moledor-slx-60mm?variant=Carb%C3%B3n
+
+sim=88.2%
+  A: 31192 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - CHARCOAL
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=CHARCOAL
+  B: 33739 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Carbón
+      https://fumetas.cl/moledor-slx-50mm?variant=Carb%C3%B3n
+
+sim=88.2%
+  A: 12263 [Astro Growshop] huerfana $24990 | OZETA CHESTBAG 4X4 CON CLAVE - CAJA ROTA
+      https://astrogrowshop.cl/ozeta-chestbag-4x4-con-clave
+  B: 15846 [Piranha] prod 10489 "Dime Bags Estuche The Collector con Clave 30cm" $24592 | Estuche Anti Olor Dime Bags The Collector con Candado 30cm | PIRANHA
+      https://piranha.cl/inicio/8350/dime-bags-the-collector-con-candado-30.html
+
+sim=88.2%
+  A: 33454 [Astro Growshop] huerfana $20990 SIN-STOCK | Bolso Krypto Kit -Ryot - Negro
+      https://astrogrowshop.cl/bolso-krypto-kit-ryot?variant=Negro
+  B: 34298 [Fumetas] huerfana $28990 | Ozeta Estuche pequeño - Anti-olor - Negro
+      https://fumetas.cl/ozeta-estuche-pequeno?variant=Negro
+
+sim=88.2%
+  A: 19776 [Fumetas] huerfana $40990 | Ozeta Bandolera - Anti-olor
+      https://fumetas.cl/ozeta-bandolera-anti-olor
+  B: 23562 [Astro Growshop] huerfana $37990 | The Boss Con Candado Clave 25 Cm -Dime Bags
+      https://astrogrowshop.cl/the-boss-con-candado-clave-25-cm-dime-bags
+
+sim=88.2%
+  A: 31710 [Astro Growshop] huerfana $29990 SIN-STOCK | Pocket Twister -Bonglab - AMBAR
+      https://astrogrowshop.cl/pocket-twister-bonglab?variant=AMBAR
+  B: 37331 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm - Naranjo
+      https://fumetas.cl/calvo-glass-implosion-gotas?variant=Naranjo
+
+sim=88.2%
+  A: 31710 [Astro Growshop] huerfana $29990 SIN-STOCK | Pocket Twister -Bonglab - AMBAR
+      https://astrogrowshop.cl/pocket-twister-bonglab?variant=AMBAR
+  B: 37337 [Fumetas] huerfana $39141 SIN-STOCK | Calvo Glass Implosion Gotas 22cm - Amarillo
+      https://fumetas.cl/calvo-glass-implosion-gotas?variant=Amarillo
+
+sim=88.1%
+  A: 31427 [Astro Growshop] huerfana $65990 SIN-STOCK | VAPORIZADOR YOCAN HIT 2 - Blanco
+      https://astrogrowshop.cl/vaporizador-yocan-hit-2?variant=Blanco
+  B: 36617 [Fumetas] huerfana $47990 SIN-STOCK | Yocan Vaporizador Evolve Plus Version 2020 - Champán
+      https://fumetas.cl/yocan-vaporizador-evolve-plus?variant=Champ%C3%A1n
+
+sim=88.1%
+  A: 31451 [Astro Growshop] huerfana $27990 | R3 Mini-Bonglab - CLEAR
+      https://astrogrowshop.cl/r3-mini-bonglab?variant=CLEAR
+  B: 33928 [Fumetas] huerfana $30990 | Bonglab Bong Handy Rig 14cm - Rosado
+      https://fumetas.cl/bonglab-bong-handy-rig-14cm?variant=Rosado
+
+sim=88.1%
+  A: 3384 [Piranha] huerfana $42741 | Volcano Hybrid Set Tubos 3x1m c/u | PIRANHA
+      https://piranha.cl/inicio/7826/volcano-hybrid-set-tubos-3u-x-1m-cu.html
+  B: 12600 [Astro Growshop] huerfana $52990 | Condensador M Con Boquilla-Dynavap
+      https://astrogrowshop.cl/condensador-m-con-boquilla-dynavap
+
+sim=88.1%
+  A: 1134 [Astro Growshop] huerfana $9990 | Pipa Pyrex Chromatic 114- Top Smoke
+      https://astrogrowshop.cl/pipa-pyrex-chromatic-114-top-smoke
+  B: 34755 [Fumetas] huerfana $12741 | Calvo Glass Pipa Twist Spoon 11cm - Naranjo
+      https://fumetas.cl/calvo-glass-pipa-twist-spoon-11cm?variant=Naranjo
+
+sim=88.1%
+  A: 24005 [Astro Growshop] prod 10684 "G Pen Mouthpiece Dash Dr. Greenthumb's" $13990 | Mouthpiece Dash Dr. Greenthumbs-G Pen
+      https://astrogrowshop.cl/mouthpiece-dash-dr-greenthumbs-g-pen
+  B: 27435 [Piranha] huerfana $15594 | G Pen Elite Dock de Carga
+      https://piranha.cl/inicio/1617/g-pen-elite-dock-de-carga.html
+
+sim=88.1%
+  A: 31669 [Astro Growshop] huerfana $20990 | Little Buchner-Bonglab - Negro
+      https://astrogrowshop.cl/little-buchner-bonglab?variant=Negro
+  B: 35680 [Fumetas] huerfana $25221 SIN-STOCK | Calvo Glass Bong Beaker Mandala 25cm - Negro
+      https://fumetas.cl/bong-beaker-mandala-25cm?variant=Negro
+
+sim=88.1%
+  A: 33180 [Astro Growshop] huerfana $27990 SIN-STOCK | Batería Secret Box -Blazy Susan - SUMMER TREEES
+      https://astrogrowshop.cl/bateria-secret-box-blazy-susan?variant=SUMMER%20TREEES
+  B: 37465 [Fumetas] huerfana $23990 | Pulsar Batería Cartridges 510 DL Centro - Siren&amp;#39;s Snare
+      https://fumetas.cl/pulsar-bateria-cartridges-510-dl-centro?variant=Siren%26amp%3B%2339%3Bs%20Snare
+
+sim=88%
+  A: 13633 [Fumetas] huerfana $5190 | Capsula Dosificadora Fenix Pro / Fenix Mini Plus / Pulsar Shift
+      https://fumetas.cl/capsula-dosificadora-fenix-pro-fenix-mini-plus-pulsar-shift
+  B: 15947 [Piranha] huerfana $4995 | Boquilla DaVinci
+      https://piranha.cl/inicio/1149/boquilla-davinci-iq.html
+
+sim=88%
+  A: 31192 [Astro Growshop] huerfana $49990 SIN-STOCK | Moledor 5Cm -Slx - CHARCOAL
+      https://astrogrowshop.cl/moledor-5cm-slx?variant=CHARCOAL
+  B: 33743 [Fumetas] huerfana $43491 SIN-STOCK | Moledor SLX 50mm - Plateado
+      https://fumetas.cl/moledor-slx-50mm?variant=Plateado

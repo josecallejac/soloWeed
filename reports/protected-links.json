@@ -1094,6 +1094,21 @@
     ]
   },
   {
+    "id": 10240,
+    "name": "Gas Butano 300Ml-Zengaz",
+    "brandKey": "zengaz",
+    "modelKey": "lighter-gas-butano-300ml-300ml",
+    "modelSlug": "gas-300ml",
+    "category": "Encendedores y sopletes",
+    "storeCount": 4,
+    "offerIds": [
+      11547,
+      12308,
+      12883,
+      14031
+    ]
+  },
+  {
     "id": 10274,
     "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
     "brandKey": "lion-rolling-circus",
@@ -2468,12 +2483,19 @@
       29042,
       29043,
       29044,
+      29045,
+      29046,
       29047,
+      29048,
       29049,
+      29050,
       29051,
+      33564,
       33565,
       33566,
       33567,
+      33568,
+      33569,
       33570,
       33571,
       33572
@@ -2742,7 +2764,8 @@
     "offerIds": [
       29,
       2276,
-      13463
+      13463,
+      42210
     ]
   },
   {
@@ -3022,20 +3045,6 @@
       1312,
       13406,
       15569
-    ]
-  },
-  {
-    "id": 10240,
-    "name": "Gas Butano 300Ml-Zengaz",
-    "brandKey": "zengaz",
-    "modelKey": "lighter-gas-butano-300ml-300ml",
-    "modelSlug": "gas-300ml",
-    "category": "Encendedores y sopletes",
-    "storeCount": 3,
-    "offerIds": [
-      12308,
-      12883,
-      14031
     ]
   },
   {
@@ -3833,6 +3842,20 @@
     ]
   },
   {
+    "id": 10415,
+    "name": "Ozeta Clip Mediano Black Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": null,
+    "modelSlug": "clip-mediano-black",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      11571,
+      12595,
+      12962
+    ]
+  },
+  {
     "id": 10422,
     "name": "Storz & Bickel Dispositivo de Insuflación Mighty y Crafty",
     "brandKey": "storz-bickel",
@@ -4223,6 +4246,20 @@
       18582,
       34364,
       34365
+    ]
+  },
+  {
+    "id": 10496,
+    "name": "Hightrip Pin Pipazo",
+    "brandKey": "hightrip",
+    "modelKey": null,
+    "modelSlug": "pin-pipazo",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      16115,
+      19940,
+      33426
     ]
   },
   {
@@ -4658,6 +4695,22 @@
     ]
   },
   {
+    "id": 10667,
+    "name": "Ignite Soplete Phantom",
+    "brandKey": "ignite",
+    "modelKey": "phantom",
+    "modelSlug": "phantom",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      33044,
+      33045,
+      34288,
+      34289,
+      38364
+    ]
+  },
+  {
     "id": 10670,
     "name": "Cookies x Stündenglass Wall Mount",
     "brandKey": "cookies",
@@ -4698,6 +4751,20 @@
       11052,
       32850,
       36123
+    ]
+  },
+  {
+    "id": 10703,
+    "name": "Filtro de Carbón Activado Kasvi 100x300mm",
+    "brandKey": "kasvi",
+    "modelKey": "carbon-activado-100x300",
+    "modelSlug": "carbon-activado-100x300",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      11414,
+      13411,
+      31748
     ]
   },
   {
@@ -4778,6 +4845,23 @@
       300,
       798,
       13126
+    ]
+  },
+  {
+    "id": 10769,
+    "name": "Dime Bags Banano The Outfit con Clave Anti-Olor",
+    "brandKey": "dime-bags",
+    "modelKey": "the-outfit-con-clave",
+    "modelSlug": "the-outfit-con-clave",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      19461,
+      24010,
+      24011,
+      27080,
+      35598,
+      35599
     ]
   }
 ]
