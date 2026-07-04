@@ -79,6 +79,7 @@ model Offer {
 
   @@index([storeId])
   @@index([productId])
+  @@index([productId, storeId])
   @@index([category])
   @@index([brand])
   @@index([brandKey])

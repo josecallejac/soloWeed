@@ -35,6 +35,19 @@ const PriceHistoryChart = nextDynamic(() =>
 
 export const revalidate = 3600;
 
+// Pre-renderiza en build las fichas de productos curados con ofertas; las
+// rutas legacy /productos/<slug> y productos nuevos siguen resolviéndose
+// on-demand vía ISR (dynamicParams por defecto).
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({
+    where: { offers: { some: {} } },
+    select: { brandKey: true, modelSlug: true },
+  });
+  return products
+    .filter((product) => product.brandKey && product.modelSlug)
+    .map((product) => ({ slug: [product.brandKey!, ...product.modelSlug!.split("/")] }));
+}
+
 // Compartido entre generateMetadata y la página: una sola query por request.
 const findProductBySlug = cache(async (brandKey: string, modelSlug: string) =>
   prisma.product.findFirst({
