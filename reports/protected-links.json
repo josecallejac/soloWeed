@@ -1324,6 +1324,21 @@
     ]
   },
   {
+    "id": 10703,
+    "name": "Filtro de Carbón Activado Kasvi 100x300mm",
+    "brandKey": "kasvi",
+    "modelKey": "carbon-activado-100x300",
+    "modelSlug": "carbon-activado-100x300",
+    "category": "Filtros y boquillas",
+    "storeCount": 4,
+    "offerIds": [
+      11414,
+      13411,
+      31748,
+      52591
+    ]
+  },
+  {
     "id": 10718,
     "name": "Bonglab Atrapa Cenizas Slits Macho 18mm 90°",
     "brandKey": "bonglab",
@@ -4755,17 +4770,31 @@
     ]
   },
   {
-    "id": 10703,
-    "name": "Filtro de Carbón Activado Kasvi 100x300mm",
-    "brandKey": "kasvi",
-    "modelKey": "carbon-activado-100x300",
-    "modelSlug": "carbon-activado-100x300",
-    "category": "Filtros y boquillas",
+    "id": 10701,
+    "name": "Oxbar TriFusion 45K Puffs Pineapple Mango Watermelon",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-pineapple-mango-watermelon",
+    "modelSlug": "trifusion-45k-pineapple-mango-watermelon",
+    "category": "Vaporizadores electronicos",
     "storeCount": 3,
     "offerIds": [
-      11414,
-      13411,
-      31748
+      32641,
+      37071,
+      53157
+    ]
+  },
+  {
+    "id": 10702,
+    "name": "Oxbar TriFusion 45K Puffs Strawberry Kiwi Watermelon",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-strawberry-kiwi-watermelon",
+    "modelSlug": "trifusion-45k-strawberry-kiwi-watermelon",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32642,
+      37070,
+      53156
     ]
   },
   {
@@ -4835,6 +4864,34 @@
     ]
   },
   {
+    "id": 10725,
+    "name": "Filtro de Carbón Activado Kasvi 125x400mm",
+    "brandKey": "kasvi",
+    "modelKey": "carbon-activado-125x400",
+    "modelSlug": "carbon-activado-125x400",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      13412,
+      31749,
+      52592
+    ]
+  },
+  {
+    "id": 10742,
+    "name": "Filtro de Carbón Activado Kasvi 150x400mm",
+    "brandKey": "kasvi",
+    "modelKey": "carbon-activado-150x400",
+    "modelSlug": "carbon-activado-150x400",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      13413,
+      31750,
+      52593
+    ]
+  },
+  {
     "id": 10748,
     "name": "Encendedor Clipper Metálico Matt Black",
     "brandKey": "clipper",
@@ -4863,6 +4920,20 @@
     ]
   },
   {
+    "id": 10764,
+    "name": "Kleaner Spray Detox 30ml",
+    "brandKey": "kleaner",
+    "modelKey": "spray-detox-30ml",
+    "modelSlug": "spray-detox-30ml",
+    "category": "Limpieza",
+    "storeCount": 3,
+    "offerIds": [
+      555,
+      1170,
+      50124
+    ]
+  },
+  {
     "id": 10769,
     "name": "Dime Bags Banano The Outfit con Clave Anti-Olor",
     "brandKey": "dime-bags",
@@ -4877,6 +4948,233 @@
       27080,
       35598,
       35599
+    ]
+  },
+  {
+    "id": 10770,
+    "name": "Extractor Tubular Kasvi 100mm",
+    "brandKey": "kasvi",
+    "modelKey": "extractor-tubular-100mm",
+    "modelSlug": "extractor-tubular-100mm",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      47779,
+      50485,
+      53495
+    ]
+  },
+  {
+    "id": 10771,
+    "name": "Extractor Tubular Kasvi 125mm",
+    "brandKey": "kasvi",
+    "modelKey": "extractor-tubular-125mm",
+    "modelSlug": "extractor-tubular-125mm",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      47780,
+      50486,
+      53496
+    ]
+  },
+  {
+    "id": 10772,
+    "name": "Extractor Tubular Kasvi 150mm",
+    "brandKey": "kasvi",
+    "modelKey": "extractor-tubular-150mm",
+    "modelSlug": "extractor-tubular-150mm",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      47781,
+      50487,
+      53497
+    ]
+  },
+  {
+    "id": 10790,
+    "name": "Oxbar Svopp Batería",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-bateria",
+    "modelSlug": "svopp-bateria",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47703,
+      47704,
+      47705,
+      51826,
+      51827,
+      53460
+    ]
+  },
+  {
+    "id": 10791,
+    "name": "Oxbar Svopp Recarga 25K Puffs Blue Razz Ice",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-blue-razz-ice",
+    "modelSlug": "svopp-25k-blue-razz-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47117,
+      51979,
+      53161
+    ]
+  },
+  {
+    "id": 10792,
+    "name": "Oxbar Svopp Recarga 25K Puffs Blueberry Raspberry Lemon",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-blueberry-raspberry-lemon",
+    "modelSlug": "svopp-25k-blueberry-raspberry-lemon",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47106,
+      51977,
+      53159
+    ]
+  },
+  {
+    "id": 10793,
+    "name": "Oxbar Svopp Recarga 25K Puffs Extreme Mint",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-extreme-mint",
+    "modelSlug": "svopp-25k-extreme-mint",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47110,
+      51976,
+      53149
+    ]
+  },
+  {
+    "id": 10794,
+    "name": "Oxbar Svopp Recarga 25K Puffs Grape Ice",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-grape-ice",
+    "modelSlug": "svopp-25k-grape-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47109,
+      51973,
+      53150
+    ]
+  },
+  {
+    "id": 10795,
+    "name": "Oxbar Svopp Recarga 25K Puffs Grapefruit Passion Fruit",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-grapefruit-passion-fruit",
+    "modelSlug": "svopp-25k-grapefruit-passion-fruit",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47107,
+      51975,
+      53158
+    ]
+  },
+  {
+    "id": 10796,
+    "name": "Oxbar Svopp Recarga 25K Puffs Tobacco Virginia",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-tobacco-virginia",
+    "modelSlug": "svopp-25k-tobacco-virginia",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47108,
+      51974,
+      53153
+    ]
+  },
+  {
+    "id": 10797,
+    "name": "Oxbar Svopp Recarga 25K Puffs Triple Mango Ice",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-triple-mango-ice",
+    "modelSlug": "svopp-25k-triple-mango-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47116,
+      51978,
+      53160
+    ]
+  },
+  {
+    "id": 10798,
+    "name": "Oxbar Svopp Recarga 25K Puffs Watermelon Ice",
+    "brandKey": "oxbar",
+    "modelKey": "svopp-25k-watermelon-ice",
+    "modelSlug": "svopp-25k-watermelon-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      47111,
+      51971,
+      53154
+    ]
+  },
+  {
+    "id": 10802,
+    "name": "Oxbar TriFusion 45K Puffs Double Mint",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-double-mint",
+    "modelSlug": "trifusion-45k-double-mint",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32638,
+      37068,
+      53180
+    ]
+  },
+  {
+    "id": 10803,
+    "name": "Oxbar TriFusion 45K Puffs Grape Raspberry",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-grape-raspberry",
+    "modelSlug": "trifusion-45k-grape-raspberry",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32640,
+      37069,
+      53181
+    ]
+  },
+  {
+    "id": 10804,
+    "name": "Oxbar TriFusion 45K Puffs Blueberry Raspberry",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-blueberry-raspberry",
+    "modelSlug": "trifusion-45k-blueberry-raspberry",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32637,
+      37066,
+      53182
+    ]
+  },
+  {
+    "id": 10805,
+    "name": "Oxbar TriFusion 45K Puffs Grape Ice",
+    "brandKey": "oxbar",
+    "modelKey": "trifusion-45k-grape-ice",
+    "modelSlug": "trifusion-45k-grape-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32639,
+      37067,
+      53183
     ]
   }
 ]
