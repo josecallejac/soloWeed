@@ -129,8 +129,8 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
             ) : (
               <a
                 className="flex items-center justify-center min-w-0 rounded-lg px-2 py-3 text-center text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-white/80 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-accent-text"
-                href={offer.url}
-                rel="noreferrer"
+                href={`/ir/${offer.id}`}
+                rel="nofollow noreferrer"
                 target="_blank"
               >
                 Ir a tienda

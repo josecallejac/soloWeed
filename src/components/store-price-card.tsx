@@ -8,6 +8,7 @@ type PriceHistory = {
 };
 
 type StorePriceCardOffer = {
+  id: number;
   availability: string | null;
   histories: PriceHistory[];
   imageUrl: string | null;
@@ -164,8 +165,8 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
 
         <a
           className="mt-5 block rounded-lg bg-accent px-5 py-3 text-center text-sm font-black text-black transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_20px_rgba(192,255,0,0.3)] font-mono"
-          href={offer.url}
-          rel="noreferrer"
+          href={`/ir/${offer.id}`}
+          rel="nofollow noreferrer"
           target="_blank"
         >
           Ir a tienda

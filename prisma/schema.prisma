@@ -126,6 +126,18 @@ model Session {
   @@index([expiresAt])
 }
 
+model OutboundClick {
+  id        Int      @id @default(autoincrement())
+  offerId   Int
+  storeId   Int
+  productId Int?
+  createdAt DateTime @default(now())
+
+  @@index([storeId, createdAt])
+  @@index([productId, createdAt])
+  @@index([offerId])
+}
+
 model MatchDecision {
   id               Int      @id @default(autoincrement())
   seedOfferId      Int

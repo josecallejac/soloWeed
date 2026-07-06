@@ -4,6 +4,7 @@ import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { LogoutButton } from "../logout-button";
 import { exportCatalogAudit } from "../../../../scripts/export-catalog-audit";
 
@@ -51,6 +52,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   const query = typeof params.q === "string" ? params.q.trim() : "";
   const table = filterTable(await readReport(selectedReport.file, selectedRun), query);
   const comparison = compareRun ? compareTables(await readReport(selectedReport.file, selectedRun), await readReport(selectedReport.file, compareRun)) : null;
+  const clicks = await getOutboundClickStats();
 
   return (
     <main className="min-h-screen bg-[#f4f1e8] px-5 py-6 text-[#17150f] sm:px-8 lg:px-10">
@@ -86,6 +88,45 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             </form>
           </div>
         </header>
+
+        <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[6px_6px_0_#17150f]">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">Clics salientes (via /ir)</p>
+              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Trafico referido a tiendas</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-2 text-center text-sm sm:min-w-60">
+              <Stat label="Ultimos 30 dias" value={clicks.last30Days} />
+              <Stat label="Total historico" value={clicks.total} />
+            </div>
+          </div>
+          {clicks.byStore.length > 0 ? (
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {clicks.byStore.map((store) => (
+                <div className="rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-3" key={store.name}>
+                  <span className="block text-2xl font-black">{store.count}</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.16em] text-black/50">{store.name}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-black/55">
+              Aun no hay clics registrados. Cada clic en &quot;Ir a tienda&quot; desde el catalogo o el detalle de producto queda registrado aqui.
+            </p>
+          )}
+          {clicks.topProducts.length > 0 ? (
+            <div className="mt-5">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-black/45">Top productos por clics (30 dias)</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {clicks.topProducts.map((product) => (
+                  <span className="rounded-full border border-black/10 bg-[#f4f1e8] px-4 py-2 text-xs font-bold" key={product.id}>
+                    {product.name} · {product.count}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </section>
 
         <form className="mt-6 grid gap-3 rounded-[2rem] border border-black/10 bg-white p-4 shadow-[6px_6px_0_#17150f] lg:grid-cols-[1fr_1fr_1.2fr_auto]" method="get">
           <input name="file" type="hidden" value={selectedFile} />
@@ -194,6 +235,48 @@ function Stat({ label, value }: { label: string; value: number }) {
       <span className="text-[10px] font-black uppercase tracking-[0.16em] text-black/50">{label}</span>
     </div>
   );
+}
+
+async function getOutboundClickStats() {
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+
+  try {
+    const [total, last30Days, byStoreRaw, byProductRaw] = await Promise.all([
+      prisma.outboundClick.count(),
+      prisma.outboundClick.count({ where: { createdAt: { gte: since } } }),
+      prisma.outboundClick.groupBy({ by: ["storeId"], _count: true, where: { createdAt: { gte: since } } }),
+      prisma.outboundClick.groupBy({
+        by: ["productId"],
+        _count: true,
+        where: { createdAt: { gte: since }, productId: { not: null } },
+        orderBy: { _count: { productId: "desc" } },
+        take: 10,
+      }),
+    ]);
+
+    const stores = await prisma.store.findMany({ select: { id: true, name: true } });
+    const storeNames = new Map(stores.map((store) => [store.id, store.name]));
+    const productIds = byProductRaw.map((row) => row.productId).filter((id): id is number => id !== null);
+    const products = productIds.length > 0
+      ? await prisma.product.findMany({ where: { id: { in: productIds } }, select: { id: true, name: true } })
+      : [];
+    const productNames = new Map(products.map((product) => [product.id, product.name]));
+
+    return {
+      total,
+      last30Days,
+      byStore: byStoreRaw
+        .map((row) => ({ name: storeNames.get(row.storeId) ?? `Tienda ${row.storeId}`, count: row._count }))
+        .sort((a, b) => b.count - a.count),
+      topProducts: byProductRaw.map((row) => ({
+        id: row.productId!,
+        name: productNames.get(row.productId!) ?? `Producto ${row.productId}`,
+        count: row._count,
+      })),
+    };
+  } catch {
+    return { total: 0, last30Days: 0, byStore: [], topProducts: [] };
+  }
 }
 
 async function readReport(file: string, run: string): Promise<ReportTable> {
