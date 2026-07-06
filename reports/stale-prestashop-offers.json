@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T12:59:30.760Z",
+  "generatedAt": "2026-07-06T13:54:42.252Z",
   "stale": [
     {
       "offerId": 259,
@@ -8,6 +8,16 @@
       "url": "https://piranha.cl/inicio/7788/figura-lion-rolling-circus-bobblehead-tora-tora.html",
       "productId": null,
       "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 258,
+      "store": "piranha",
+      "title": "Hemper Smoke Fiends Filtro de Reemplazo Juice The Pineapple | PIRANHA",
+      "url": "https://piranha.cl/inicio/7887/hemper-smoke-fiends-filtro-de-reemplazo-juice-the-pineapple.html",
+      "productId": 10585,
+      "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -66,7 +76,7 @@
       "store": "piranha",
       "title": "Encendedor HS x Blazer Big Shot Torch V3",
       "url": "https://piranha.cl/inicio/6304/encendedor-hs-x-blazer-big-shot-torch-v3.html",
-      "productId": null,
+      "productId": 10711,
       "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -207,7 +217,7 @@
       "title": "Moledor Cerámico Lion Rolling Circus 6cm 3 Partes | PIRANHA",
       "url": "https://piranha.cl/inicio/7778/moledor-ceramico-lion-rolling-circus-6cm-3-partes.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -217,6 +227,16 @@
       "title": "Hemp Wraps Blunt Soulblime | PIRANHA",
       "url": "https://piranha.cl/inicio/5981/hemp-wraps-blunt-soulblime-mango-2u.html",
       "productId": 10623,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 14329,
+      "store": "piranha",
+      "title": "Repuesto Clipper Pedernal Encendedor (3u) | PIRANHA",
+      "url": "https://piranha.cl/inicio/8231/repuesto-clipper-pedernal-encendedor.html",
+      "productId": 10318,
       "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -232,11 +252,31 @@
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
+      "offerId": 15715,
+      "store": "piranha",
+      "title": "Vaporizador de Hierbas Secas Yocan Hit 2 | PIRANHA",
+      "url": "https://piranha.cl/inicio/8749/vaporizador-de-hierbas-secas-yocan-hit-2-color-a-eleccion.html",
+      "productId": 10214,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
       "offerId": 15775,
       "store": "piranha",
       "title": "DynaVap Replacement Screen: Titanium CCD (3-Pack) | PIRANHA",
       "url": "https://piranha.cl/inicio/7736/dynavap-replacement-screen-titanium-ccd-3-pack.html",
       "productId": null,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 16068,
+      "store": "piranha",
+      "title": "Vaporizador para Cartridge Yocan Kodo Pro | PIRANHA",
+      "url": "https://piranha.cl/inicio/8750/vaporizador-para-cartridge-yocan-kodo-pro-color-a-eleccion.html",
+      "productId": 10521,
       "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -248,6 +288,26 @@
       "url": "https://piranha.cl/inicio/6182/waist-kit-banger-bonglab.html",
       "productId": 10476,
       "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 38796,
+      "store": "piranha",
+      "title": "Recarga Vaporizador Life Pod P8000 Cherry Bomb 4,5% | PIRANHA",
+      "url": "https://piranha.cl/inicio/8621/recarga-vaporizador-life-pod-p8000-cherry-bomb-45.html",
+      "productId": 10821,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 38806,
+      "store": "piranha",
+      "title": "Recarga Vaporizador Life Pod P8000 Pear Ice 4,5% | PIRANHA",
+      "url": "https://piranha.cl/inicio/8779/recarga-vaporizador-life-pod-p8000-pear-ice-45.html",
+      "productId": 10822,
+      "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     }

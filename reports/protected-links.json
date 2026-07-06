@@ -5176,5 +5176,103 @@
       37067,
       53183
     ]
+  },
+  {
+    "id": 10806,
+    "name": "Oxbar Mini 2200 Grape Ice",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-grape-ice",
+    "modelSlug": "mini-2200-grape-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32635,
+      37221,
+      53493
+    ]
+  },
+  {
+    "id": 10807,
+    "name": "Oxbar Mini 2200 Apple Grape",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-apple-grape",
+    "modelSlug": "mini-2200-apple-grape",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32636,
+      37220,
+      53494
+    ]
+  },
+  {
+    "id": 10808,
+    "name": "Oxbar Mini 2200 Juicy Watermelon Ice",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-juicy-watermelon-ice",
+    "modelSlug": "mini-2200-juicy-watermelon-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32633,
+      37225,
+      53458
+    ]
+  },
+  {
+    "id": 10809,
+    "name": "Oxbar Mini 2200 Peach Watermelon Ice",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-peach-watermelon-ice",
+    "modelSlug": "mini-2200-peach-watermelon-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32632,
+      37219,
+      53449
+    ]
+  },
+  {
+    "id": 10810,
+    "name": "Oxbar Mini 2200 Strawberry Ice Lemon",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-strawberry-ice-lemon",
+    "modelSlug": "mini-2200-strawberry-ice-lemon",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32628,
+      37226,
+      38920
+    ]
+  },
+  {
+    "id": 10824,
+    "name": "Oxbar Mini 2200 Blue Razz Ice",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-blue-razz-ice",
+    "modelSlug": "mini-2200-blue-razz-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32626,
+      37217,
+      53448
+    ]
+  },
+  {
+    "id": 10825,
+    "name": "Oxbar Mini 2200 Miami Mint",
+    "brandKey": "oxbar",
+    "modelKey": "mini-2200-miami-mint",
+    "modelSlug": "mini-2200-miami-mint",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32631,
+      37218,
+      53492
+    ]
   }
 ]
