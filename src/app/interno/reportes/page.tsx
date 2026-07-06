@@ -62,7 +62,12 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             <Link className="text-sm font-black uppercase tracking-[0.2em] text-[#bddf57]" href="/">
               SoloWeed
             </Link>
-            <LogoutButton />
+            <div className="flex items-center gap-3">
+              <Link className="text-xs font-black uppercase tracking-[0.14em] text-[#f8f4df]/70 hover:text-[#bddf57]" href="/interno/inteligencia-precios">
+                Inteligencia de precios
+              </Link>
+              <LogoutButton />
+            </div>
           </div>
           <h1 className="mt-3 text-4xl font-black tracking-[-0.05em] sm:text-6xl">Reportes de catalogo</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#f8f4df]/70">
