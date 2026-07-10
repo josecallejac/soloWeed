@@ -3706,7 +3706,9 @@
       34073,
       34074,
       34076,
-      34090
+      34090,
+      54883,
+      54884
     ]
   },
   {
@@ -4492,6 +4494,34 @@
     ]
   },
   {
+    "id": 10585,
+    "name": "Hemper Smoke Fiends Filtro de Reemplazo Juice The Pineapple",
+    "brandKey": "hemper",
+    "modelKey": null,
+    "modelSlug": "smoke-fiends-repuesto-juice-the-pineapple",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      258,
+      17968,
+      19529
+    ]
+  },
+  {
+    "id": 10586,
+    "name": "Hemper Smoke Fiends Filtro de Reemplazo Blaze The Cactus",
+    "brandKey": "hemper",
+    "modelKey": null,
+    "modelSlug": "smoke-fiends-repuesto-blaze-the-cactus",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      15785,
+      17967,
+      19806
+    ]
+  },
+  {
     "id": 10593,
     "name": "Gorro Pescador Fuzzy Blazy Susan",
     "brandKey": "blazy-susan",
@@ -5245,6 +5275,90 @@
       32628,
       37226,
       38920
+    ]
+  },
+  {
+    "id": 10811,
+    "name": "Nasty Bar 20000 Puffs Artic Mint",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-artic-mint",
+    "modelSlug": "bar-20000-artic-mint",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32588,
+      37422,
+      67254
+    ]
+  },
+  {
+    "id": 10812,
+    "name": "Nasty Bar 20000 Puffs Slow Blow",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-slow-blow",
+    "modelSlug": "bar-20000-slow-blow",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32589,
+      37423,
+      67250
+    ]
+  },
+  {
+    "id": 10813,
+    "name": "Nasty Bar 20000 Puffs Strawberry Ice",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-strawberry-ice",
+    "modelSlug": "bar-20000-strawberry-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32590,
+      37420,
+      67249
+    ]
+  },
+  {
+    "id": 10815,
+    "name": "Nasty Bar 20000 Puffs Blue Razz Ice",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-blue-razz-ice",
+    "modelSlug": "bar-20000-blue-razz-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32592,
+      37416,
+      67248
+    ]
+  },
+  {
+    "id": 10816,
+    "name": "Nasty Bar 20000 Puffs Cushman Strawberry",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-cushman-strawberry",
+    "modelSlug": "bar-20000-cushman-strawberry",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32594,
+      37417,
+      67252
+    ]
+  },
+  {
+    "id": 10818,
+    "name": "Nasty Bar 20000 Puffs Double Watermelon Ice",
+    "brandKey": "nasty",
+    "modelKey": "bar-20000-double-watermelon-ice",
+    "modelSlug": "bar-20000-double-watermelon-ice",
+    "category": "Vaporizadores electronicos",
+    "storeCount": 3,
+    "offerIds": [
+      32596,
+      37418,
+      67251
     ]
   },
   {
