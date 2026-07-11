@@ -1,4 +1,5 @@
 import { CategoryFilters } from "./category-filters";
+import { FiltersPanel } from "./filters-panel";
 import { SearchBox } from "./search-box";
 import { BrandFilters } from "./brand-filters";
 import { SortControls } from "./sort-controls";
@@ -183,37 +184,46 @@ export default async function Home({ searchParams }: HomeProps) {
       </section>
 
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[280px_1fr] lg:px-10">
-        <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
-          <CategoryFilters categories={data.categories} query={query} selectedCategory={selectedCategory} />
-          <BrandFilters brands={data.brands} query={query} category={selectedCategory} selectedBrand={selectedBrand} sort={sort} minPrice={params.minPrice ?? ""} maxPrice={params.maxPrice ?? ""} stores={selectedStores} />
+        <aside className="lg:sticky lg:top-6 lg:self-start">
+          <FiltersPanel
+            activeCount={
+              (selectedCategory ? 1 : 0) +
+              (selectedBrand ? 1 : 0) +
+              selectedStores.length +
+              (params.minPrice || params.maxPrice ? 1 : 0)
+            }
+          >
+            <CategoryFilters categories={data.categories} query={query} selectedCategory={selectedCategory} sort={sort} minPrice={params.minPrice ?? ""} maxPrice={params.maxPrice ?? ""} stores={selectedStores} />
+            <BrandFilters brands={data.brands} query={query} category={selectedCategory} selectedBrand={selectedBrand} sort={sort} minPrice={params.minPrice ?? ""} maxPrice={params.maxPrice ?? ""} stores={selectedStores} />
 
-          <StoreFilters
-            stores={data.stores.map((s) => ({ slug: s.slug, name: s.name }))}
-            selectedStores={selectedStores}
-            query={query}
-            category={selectedCategory}
-            sort={sort}
-            minPrice={params.minPrice ?? ""}
-            maxPrice={params.maxPrice ?? ""}
-          />
+            <StoreFilters
+              stores={data.stores.map((s) => ({ slug: s.slug, name: s.name }))}
+              selectedStores={selectedStores}
+              query={query}
+              category={selectedCategory}
+              sort={sort}
+              minPrice={params.minPrice ?? ""}
+              maxPrice={params.maxPrice ?? ""}
+            />
 
-          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
-            <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Visitar tiendas</h2>
-            <div className="mt-4 space-y-3">
-              {data.stores.map((store) => (
-                <a
-                  className="block rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 text-sm font-bold text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-accent/50 border border-transparent"
-                  href={store.baseUrl}
-                  key={store.slug}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {store.name}
-                  <span className="block text-xs font-medium text-zinc-500 dark:text-white/40 font-mono uppercase tracking-wider mt-1">{store.platform}</span>
-                </a>
-              ))}
+            <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
+              <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Visitar tiendas</h2>
+              <div className="mt-4 space-y-3">
+                {data.stores.map((store) => (
+                  <a
+                    className="block rounded-lg bg-black/5 dark:bg-white/5 px-4 py-3 text-sm font-bold text-zinc-900 dark:text-white transition hover:bg-black/10 dark:hover:bg-white/10 hover:border-accent/50 border border-transparent"
+                    href={store.baseUrl}
+                    key={store.slug}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {store.name}
+                    <span className="block text-xs font-medium text-zinc-500 dark:text-white/40 font-mono uppercase tracking-wider mt-1">{store.platform}</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          </FiltersPanel>
         </aside>
 
         <section>

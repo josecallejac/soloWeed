@@ -1,5 +1,6 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { LinkPendingBadge } from "./filter-pending";
 
 type BrandCount = {
   brand: string;
@@ -57,6 +58,7 @@ export function BrandFilters({ brands, query, category, selectedBrand, sort, min
           href={buildBrandUrl("", query, category, sort, minPrice, maxPrice, stores)}
         >
           <span>Todas las marcas</span>
+          <LinkPendingBadge>{null}</LinkPendingBadge>
         </Link>
 
         {brands.map((b) => (
@@ -71,16 +73,18 @@ export function BrandFilters({ brands, query, category, selectedBrand, sort, min
             key={b.brandKey}
           >
             <span className="truncate pr-2">{b.brand}</span>
-            <span
-              className={clsx(
-                "rounded-md px-2 py-0.5 text-xs font-mono font-bold transition-colors duration-300",
-                selectedBrand === b.brandKey
-                  ? "bg-accent text-[#09090b]"
-                  : "bg-black/5 text-zinc-400 group-hover:bg-black/10 group-hover:text-zinc-600 dark:bg-white/5 dark:text-white/30 dark:group-hover:bg-white/10 dark:group-hover:text-white/60",
-              )}
-            >
-              {b.count}
-            </span>
+            <LinkPendingBadge>
+              <span
+                className={clsx(
+                  "rounded-md px-2 py-0.5 text-xs font-mono font-bold transition-colors duration-300",
+                  selectedBrand === b.brandKey
+                    ? "bg-accent text-[#09090b]"
+                    : "bg-black/5 text-zinc-400 group-hover:bg-black/10 group-hover:text-zinc-600 dark:bg-white/5 dark:text-white/30 dark:group-hover:bg-white/10 dark:group-hover:text-white/60",
+                )}
+              >
+                {b.count}
+              </span>
+            </LinkPendingBadge>
           </Link>
         ))}
       </div>

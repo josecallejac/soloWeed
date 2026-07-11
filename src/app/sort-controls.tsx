@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useOptimistic, useTransition } from "react";
 
 type SortControlsProps = {
   sort: string;
@@ -13,6 +14,10 @@ type SortControlsProps = {
 
 export function SortControls({ sort, minPrice, maxPrice, category, query, stores }: SortControlsProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  // El select muestra la nueva opción al instante en vez de esperar el render
+  // del servidor (se revierte solo si la navegación falla).
+  const [optimisticSort, setOptimisticSort] = useOptimistic(sort);
 
   function buildUrl(overrides: Record<string, string | null>) {
     const params = new URLSearchParams();
@@ -31,8 +36,10 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
   }
 
   function handleSortChange(value: string) {
-    const url = buildUrl({ sort: value });
-    router.push(url, { scroll: false });
+    startTransition(() => {
+      setOptimisticSort(value);
+      router.push(buildUrl({ sort: value }), { scroll: false });
+    });
   }
 
   function handlePriceSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -40,8 +47,9 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
     const form = new FormData(e.currentTarget);
     const min = (form.get("minPrice") as string) || "";
     const max = (form.get("maxPrice") as string) || "";
-    const url = buildUrl({ minPrice: min, maxPrice: max });
-    router.push(url, { scroll: false });
+    startTransition(() => {
+      router.push(buildUrl({ minPrice: min, maxPrice: max }), { scroll: false });
+    });
   }
 
   return (
@@ -51,7 +59,7 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
         <select
           className="rounded-lg border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] px-3 py-2 text-sm font-bold text-zinc-900 dark:text-white focus:border-accent focus:ring-1 focus:ring-accent font-mono transition-colors"
           onChange={(e) => handleSortChange(e.target.value)}
-          value={sort}
+          value={optimisticSort}
         >
           <option value="">Destacados</option>
           <option value="price_asc">Precio: menor a mayor</option>
@@ -69,6 +77,9 @@ export function SortControls({ sort, minPrice, maxPrice, category, query, stores
           Aplicar
         </button>
       </form>
+      {isPending ? (
+        <span aria-label="Cargando" className="size-4 animate-spin rounded-full border-2 border-accent/30 border-t-accent" role="status" />
+      ) : null}
     </div>
   );
 }

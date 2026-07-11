@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useOptimistic, useTransition } from "react";
 
 type StoreFiltersProps = {
   stores: Array<{ slug: string; name: string }>;
@@ -14,6 +15,10 @@ type StoreFiltersProps = {
 
 export function StoreFilters({ stores, selectedStores, query, category, sort, minPrice, maxPrice }: StoreFiltersProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  // El checkbox refleja el nuevo estado al instante; React lo revierte solo si
+  // la navegación falla, y lo confirma cuando llega el render del servidor.
+  const [optimisticStores, setOptimisticStores] = useOptimistic(selectedStores);
 
   function buildUrl() {
     const params = new URLSearchParams();
@@ -25,26 +30,35 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
     return params;
   }
 
-  function toggleStore(slug: string) {
-    const params = buildUrl();
-    const newSelected = selectedStores.includes(slug)
-      ? selectedStores.filter((s) => s !== slug)
-      : [...selectedStores, slug];
-    for (const s of newSelected) params.append("store", s);
-    router.push(`/?${params.toString()}`, { scroll: false });
+  function navigateWith(newSelected: string[]) {
+    startTransition(() => {
+      setOptimisticStores(newSelected);
+      const params = buildUrl();
+      for (const s of newSelected) params.append("store", s);
+      const qs = params.toString();
+      router.push(qs ? `/?${qs}` : "/", { scroll: false });
+    });
   }
 
-  function clearStores() {
-    const params = buildUrl();
-    router.push(`/?${params.toString()}`, { scroll: false });
+  function toggleStore(slug: string) {
+    navigateWith(
+      optimisticStores.includes(slug)
+        ? optimisticStores.filter((s) => s !== slug)
+        : [...optimisticStores, slug],
+    );
   }
 
   return (
     <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
-      <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Tiendas</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Tiendas</h2>
+        {isPending ? (
+          <span aria-label="Cargando" className="size-4 animate-spin rounded-full border-2 border-accent/30 border-t-accent" role="status" />
+        ) : null}
+      </div>
       <div className="mt-4 space-y-2">
         {stores.map((store) => {
-          const checked = selectedStores.includes(store.slug);
+          const checked = optimisticStores.includes(store.slug);
           return (
             <label
               key={store.slug}
@@ -66,10 +80,10 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
           );
         })}
       </div>
-      {selectedStores.length > 0 ? (
+      {optimisticStores.length > 0 ? (
         <button
           className="mt-4 w-full rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-black text-red-600 dark:text-red-400 hover:bg-red-500/20 font-mono transition-colors"
-          onClick={clearStores}
+          onClick={() => navigateWith([])}
           type="button"
         >
           Limpiar filtro
