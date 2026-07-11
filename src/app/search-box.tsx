@@ -74,7 +74,7 @@ export function SearchBox({ query }: SearchBoxProps) {
     >
       <div className="relative min-w-0">
         <input
-          className="min-h-[72px] w-full rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 pr-14 text-lg sm:text-xl font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20 font-mono transition-all"
+          className="min-h-[56px] w-full rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 pr-14 text-base sm:text-lg font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20 font-mono transition-all"
           name="q"
           placeholder="Busca bongs, moledores, RAW, vaporizadores..."
           ref={inputRef}
@@ -90,7 +90,7 @@ export function SearchBox({ query }: SearchBoxProps) {
           />
         ) : null}
       </div>
-      <button className="min-h-[72px] rounded-2xl bg-accent px-10 text-lg font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
+      <button className="min-h-[56px] rounded-2xl bg-accent px-8 text-base font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
         Buscar ofertas
       </button>
     </form>
