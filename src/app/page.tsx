@@ -1,4 +1,5 @@
 import { CategoryFilters } from "./category-filters";
+import { SearchBox } from "./search-box";
 import { BrandFilters } from "./brand-filters";
 import { SortControls } from "./sort-controls";
 import { StoreFilters } from "./store-filters";
@@ -150,18 +151,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
           <div className="flex flex-col items-center justify-center py-24 w-full max-w-4xl mx-auto text-center gap-16">
             <div className="w-full animate-fade-in-up" style={{ animationDelay: "0ms", opacity: 0 }}>
-              <form className="grid gap-3 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-[#18181b]/60 p-4 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20 focus-within:border-accent/50 focus-within:shadow-[0_0_40px_rgba(192,255,0,0.15)] md:grid-cols-[1fr_auto]">
-                <input
-                  className="min-h-[72px] rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 text-lg sm:text-xl font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20 font-mono transition-all"
-                  name="q"
-                  placeholder="Busca bongs, moledores, RAW, vaporizadores..."
-                  defaultValue={query}
-                />
-                {selectedCategory ? <input name="category" type="hidden" value={selectedCategory} /> : null}
-                <button className="min-h-[72px] rounded-2xl bg-accent px-10 text-lg font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
-                  Buscar ofertas
-                </button>
-              </form>
+              <SearchBox query={query} />
             </div>
 
             <div className="w-full animate-fade-in-up" style={{ animationDelay: "150ms", opacity: 0 }}>
