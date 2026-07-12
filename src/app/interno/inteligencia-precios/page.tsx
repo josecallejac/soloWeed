@@ -3,32 +3,9 @@ import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatPrice, formatShortDate } from "@/lib/format";
 import { LogoutButton } from "../logout-button";
+import { ALERT_WINDOW_DAYS, OUTLIER_RATIO, getPriceIntelligence, positionStatus } from "./data";
 
 export const dynamic = "force-dynamic";
-
-const ALERT_WINDOW_DAYS = 14;
-// Pares con ratio de precio mayor a esto son casi siempre un repuesto/variante
-// capturado como precio mínimo, no una diferencia real: van a "Revisar" y fuera del resumen.
-const OUTLIER_RATIO = 2;
-
-type PositionRow = {
-  productId: number;
-  productName: string;
-  myPrice: number;
-  bestOtherPrice: number;
-  bestOtherStore: string;
-  suspect: boolean;
-};
-
-type Alert = {
-  productId: number;
-  productName: string;
-  competitorStore: string;
-  previousPrice: number;
-  newPrice: number;
-  myPrice: number;
-  recordedAt: Date;
-};
 
 type InteligenciaPreciosPageProps = {
   searchParams?: Promise<{ store?: string }>;
@@ -116,6 +93,14 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                   (probable repuesto/variante mal emparejado) — marcados como &quot;Revisar&quot; al final de la tabla.
                 </p>
               ) : null}
+              {data.positions.length > 0 ? (
+                <a
+                  className="mt-4 inline-block rounded-full bg-[#17150f] px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#bddf57] transition hover:bg-black"
+                  href={`/interno/inteligencia-precios/export?store=${encodeURIComponent(selectedStore!.slug)}`}
+                >
+                  Exportar CSV
+                </a>
+              ) : null}
 
               {data.positions.length > 0 ? (
                 <div className="mt-5 max-h-[60vh] overflow-auto rounded-2xl border border-black/10">
@@ -131,13 +116,7 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                     <tbody>
                       {data.positions.map((row) => {
                         const gap = row.myPrice - row.bestOtherPrice;
-                        const status = row.suspect
-                          ? "Revisar"
-                          : gap > 0
-                            ? "Sobrepreciada"
-                            : gap < 0
-                              ? "Mas barata"
-                              : "Empatada";
+                        const status = positionStatus(row);
                         const statusClass = row.suspect
                           ? "bg-amber-500/10 text-amber-700 border-amber-500/30"
                           : gap > 0
@@ -148,7 +127,15 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
 
                         return (
                           <tr className="border-t border-black/10 odd:bg-black/[0.02]" key={row.productId}>
-                            <td className="px-3 py-2 align-top max-w-[320px] whitespace-normal break-words text-black/70">{row.productName}</td>
+                            <td className="px-3 py-2 align-top max-w-[320px] whitespace-normal break-words text-black/70">
+                              {row.productPath ? (
+                                <a className="underline decoration-black/20 underline-offset-2 hover:text-black hover:decoration-[#bddf57]" href={row.productPath} rel="noreferrer" target="_blank">
+                                  {row.productName}
+                                </a>
+                              ) : (
+                                row.productName
+                              )}
+                            </td>
                             <td className="whitespace-nowrap px-3 py-2 align-top font-bold text-black/70">{formatPrice(row.myPrice)}</td>
                             <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">
                               {formatPrice(row.bestOtherPrice)} <span className="text-black/40">({row.bestOtherStore})</span>
@@ -184,7 +171,13 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                   {data.alerts.map((alert, index) => (
                     <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-red-500/20 bg-red-500/5 px-4 py-3" key={`${alert.productId}-${index}`}>
                       <div>
-                        <p className="font-bold text-black/80">{alert.productName}</p>
+                        {alert.productPath ? (
+                          <a className="font-bold text-black/80 underline decoration-black/20 underline-offset-2 hover:text-black hover:decoration-[#bddf57]" href={alert.productPath} rel="noreferrer" target="_blank">
+                            {alert.productName}
+                          </a>
+                        ) : (
+                          <p className="font-bold text-black/80">{alert.productName}</p>
+                        )}
                         <p className="text-xs text-black/50">
                           {alert.competitorStore} bajo de {formatPrice(alert.previousPrice)} a {formatPrice(alert.newPrice)} · {formatShortDate(alert.recordedAt)}
                         </p>
@@ -215,126 +208,4 @@ function Stat({ label, value }: { label: string; value: number }) {
       <span className="text-[10px] font-black uppercase tracking-[0.16em] text-black/50">{label}</span>
     </div>
   );
-}
-
-async function getPriceIntelligence(storeId: number) {
-  const positions = await prisma.$queryRaw<
-    Array<{ productId: number; productName: string; myPrice: number; bestOtherPrice: number; bestOtherStore: string }>
-  >`
-    SELECT
-      p."id" as "productId",
-      p."name" as "productName",
-      mine."price" as "myPrice",
-      MIN(others."price") as "bestOtherPrice",
-      (
-        SELECT s2."name" FROM "Offer" o2
-        JOIN "Store" s2 ON s2."id" = o2."storeId"
-        WHERE o2."productId" = p."id"
-          AND o2."storeId" != ${storeId}
-          AND o2."inStock" = 1
-          AND o2."price" > 0
-        ORDER BY o2."price" ASC
-        LIMIT 1
-      ) as "bestOtherStore"
-    FROM "Product" p
-    JOIN "Offer" mine ON mine."productId" = p."id" AND mine."storeId" = ${storeId} AND mine."inStock" = 1 AND mine."price" > 0
-    JOIN "Offer" others ON others."productId" = p."id" AND others."storeId" != ${storeId} AND others."inStock" = 1 AND others."price" > 0
-    GROUP BY p."id"
-    ORDER BY (mine."price" - MIN(others."price")) DESC
-  `;
-
-  const rows: PositionRow[] = positions.map((row) => {
-    const myPrice = Number(row.myPrice);
-    const bestOtherPrice = Number(row.bestOtherPrice);
-
-    return {
-      productId: row.productId,
-      productName: row.productName,
-      myPrice,
-      bestOtherPrice,
-      bestOtherStore: row.bestOtherStore,
-      suspect: Math.max(myPrice, bestOtherPrice) / Math.min(myPrice, bestOtherPrice) > OUTLIER_RATIO,
-    };
-  });
-
-  const summary = rows.reduce(
-    (acc, row) => {
-      if (row.suspect) {
-        acc.suspects += 1;
-        return acc;
-      }
-      const gap = row.myPrice - row.bestOtherPrice;
-      if (gap > 0) {
-        acc.overpriced += 1;
-        acc.gapPctSum += (gap / row.bestOtherPrice) * 100;
-      } else if (gap < 0) {
-        acc.cheapest += 1;
-      } else {
-        acc.tied += 1;
-      }
-      return acc;
-    },
-    { cheapest: 0, tied: 0, overpriced: 0, suspects: 0, gapPctSum: 0 }
-  );
-
-  const alerts = await getUndercutAlerts(storeId, rows);
-
-  return {
-    // los sospechosos van al final para que la tabla abra con los gaps confiables
-    positions: [...rows.filter((row) => !row.suspect), ...rows.filter((row) => row.suspect)],
-    summary: { ...summary, avgGapPct: summary.overpriced > 0 ? summary.gapPctSum / summary.overpriced : 0 },
-    alerts,
-  };
-}
-
-async function getUndercutAlerts(storeId: number, allPositions: PositionRow[]): Promise<Alert[]> {
-  const positions = allPositions.filter((row) => !row.suspect);
-  if (positions.length === 0) return [];
-
-  const productIds = positions.map((row) => row.productId);
-  const myPriceByProduct = new Map(positions.map((row) => [row.productId, row.myPrice]));
-  const since = new Date(Date.now() - ALERT_WINDOW_DAYS * 24 * 60 * 60 * 1000);
-
-  const competingOffers = await prisma.offer.findMany({
-    where: { productId: { in: productIds }, storeId: { not: storeId } },
-    select: {
-      id: true,
-      productId: true,
-      store: { select: { name: true } },
-      product: { select: { name: true } },
-      histories: { orderBy: { recordedAt: "asc" }, select: { price: true, recordedAt: true } },
-    },
-  });
-
-  const alerts: Alert[] = [];
-  for (const offer of competingOffers) {
-    if (!offer.productId || !offer.product) continue;
-    const myPrice = myPriceByProduct.get(offer.productId);
-    if (myPrice === undefined) continue;
-
-    for (let i = 1; i < offer.histories.length; i += 1) {
-      const previous = offer.histories[i - 1];
-      const current = offer.histories[i];
-      const isDrop = current.price < previous.price;
-      const isRecent = current.recordedAt >= since;
-      const undercutsMe = current.price < myPrice;
-      // bajas de más del 50% o que quedan a menos de la mitad de mi precio suelen ser
-      // cambios de variante (repuesto/accesorio), no un undercut real
-      const isPlausible = current.price >= previous.price / 2 && current.price * OUTLIER_RATIO >= myPrice;
-
-      if (isDrop && isRecent && undercutsMe && isPlausible) {
-        alerts.push({
-          productId: offer.productId,
-          productName: offer.product.name,
-          competitorStore: offer.store.name,
-          previousPrice: previous.price,
-          newPrice: current.price,
-          myPrice,
-          recordedAt: current.recordedAt,
-        });
-      }
-    }
-  }
-
-  return alerts.sort((a, b) => b.recordedAt.getTime() - a.recordedAt.getTime());
 }
