@@ -28,54 +28,42 @@ if (-not $Name) {
 # Ensure backups directory
 New-Item -ItemType Directory -Path backups -Force | Out-Null
 
-# Resolve the active DB file from .env DATABASE_URL (file:./X is relative to prisma/)
-$dbPath = "prisma\dev.db"
+# La BD viva es el Postgres de Railway apuntado por .env; el dump lógico lo
+# hace scripts/pg-snapshot.ts vía Prisma (sin pg_dump). El flujo SQLite legado
+# (file:./X) se mantiene por si se restaura un checkpoint antiguo.
+$isPostgres = $true
+$dbPath = ""
 if (Test-Path ".env") {
     $envLine = Select-String -Path ".env" -Pattern '^\s*DATABASE_URL\s*=\s*"?file:\./([^"\s]+)"?' | Select-Object -First 1
     if ($envLine) {
+        $isPostgres = $false
         $dbPath = "prisma\" + $envLine.Matches[0].Groups[1].Value
     }
-}
-
-# Check DB exists
-if (-not (Test-Path $dbPath)) {
-    Write-Error "$dbPath not found. Run scraping first?"
-    exit 1
 }
 
 # Get current commit
 $commit = git rev-parse --short HEAD
 if (-not $?) { Write-Error "Failed to get git commit"; exit 1 }
 
-# Copy database
-Write-Host "Backing up $dbPath -> backups\$Name.db" -ForegroundColor Cyan
-Copy-Item -LiteralPath $dbPath -Destination "backups\$Name.db" -Force
-$dbSize = (Get-Item "backups\$Name.db").Length
-
-# Query metrics via Prisma (write temp script, run it, clean up)
-$tempScript = "scripts\_snap_metrics_temp.ts"
-@"
-import { PrismaClient } from "@prisma/client";
-const p = new PrismaClient();
-(async () => {
-  const [offers, products, stores, curated] = await Promise.all([
-    p.offer.count(), p.product.count(), p.store.count(),
-    p.offer.count({ where: { productId: { not: null } } })
-  ]);
-  console.log(JSON.stringify({ checkpoint: "$Name", commit: "$commit", date: new Date().toISOString(), offers, products, stores, curatedOffers: curated }));
-  await p.`$disconnect();
-})();
-"@ | Set-Content -LiteralPath $tempScript -Encoding UTF8
-
-$metricsJson = npx tsx $tempScript
-Remove-Item -LiteralPath $tempScript -ErrorAction SilentlyContinue
-
-if (-not $metricsJson) {
-    # Fallback: save minimal metadata without Prisma
+if ($isPostgres) {
+    Write-Host "Dump logico de Postgres -> backups\$Name.json.gz" -ForegroundColor Cyan
+    $metricsJson = npx tsx scripts/pg-snapshot.ts dump $Name
+    if (-not $? -or -not $metricsJson) { Write-Error "pg-snapshot dump failed"; exit 1 }
+    $backupFile = "backups\$Name.json.gz"
+    $metricsJson = $metricsJson -replace '\{', "{`"commit`":`"$commit`","
+} else {
+    if (-not (Test-Path $dbPath)) {
+        Write-Error "$dbPath not found. Run scraping first?"
+        exit 1
+    }
+    Write-Host "Backing up $dbPath -> backups\$Name.db" -ForegroundColor Cyan
+    Copy-Item -LiteralPath $dbPath -Destination "backups\$Name.db" -Force
+    $backupFile = "backups\$Name.db"
+    $dbSize = (Get-Item $backupFile).Length
     $metricsJson = "{`"checkpoint`":`"$Name`",`"commit`":`"$commit`",`"date`":`"$((Get-Date).ToUniversalTime().ToString('o'))`",`"dbSizeBytes`":$dbSize}"
-    Write-Warning "Could not query Prisma metrics; saved minimal metadata"
 }
 
+$dbSize = (Get-Item $backupFile).Length
 $metricsJson | Set-Content -LiteralPath "backups\$Name.json" -Encoding UTF8
 
 # Create git tag
@@ -84,10 +72,11 @@ if (-not $?) { Write-Error "Failed to create git tag"; exit 1 }
 
 Write-Host "Checkpoint '$Name' saved:" -ForegroundColor Green
 Write-Host "  Tag:       $Name (commit $commit)" -ForegroundColor Green
-Write-Host "  DB backup: backups\$Name.db ($($dbSize.ToString('N0')) bytes)" -ForegroundColor Green
+Write-Host "  DB backup: $backupFile ($($dbSize.ToString('N0')) bytes)" -ForegroundColor Green
 Write-Host "  Metadata:  backups\$Name.json" -ForegroundColor Green
 try {
     $meta = Get-Content "backups\$Name.json" -Raw | ConvertFrom-Json
     Write-Host "  Offers: $($meta.offers) | Products: $($meta.products) | Stores: $($meta.stores)" -ForegroundColor Green
 } catch {}
 Write-Host "Restore with: .\scripts\snapshot-restore.ps1 -Name $Name" -ForegroundColor Cyan
+Write-Host "(el restore de un .json.gz TRUNCA el Postgres vivo y lo repuebla)" -ForegroundColor Yellow

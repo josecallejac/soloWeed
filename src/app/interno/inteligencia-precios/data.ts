@@ -49,23 +49,23 @@ export async function getPriceIntelligence(storeId: number) {
       p."name" as "productName",
       p."brandKey" as "brandKey",
       p."modelSlug" as "modelSlug",
-      mine."price" as "myPrice",
+      MIN(mine."price") as "myPrice",
       MIN(others."price") as "bestOtherPrice",
       (
         SELECT s2."name" FROM "Offer" o2
         JOIN "Store" s2 ON s2."id" = o2."storeId"
         WHERE o2."productId" = p."id"
           AND o2."storeId" != ${storeId}
-          AND o2."inStock" = 1
+          AND o2."inStock"
           AND o2."price" > 0
         ORDER BY o2."price" ASC
         LIMIT 1
       ) as "bestOtherStore"
     FROM "Product" p
-    JOIN "Offer" mine ON mine."productId" = p."id" AND mine."storeId" = ${storeId} AND mine."inStock" = 1 AND mine."price" > 0
-    JOIN "Offer" others ON others."productId" = p."id" AND others."storeId" != ${storeId} AND others."inStock" = 1 AND others."price" > 0
+    JOIN "Offer" mine ON mine."productId" = p."id" AND mine."storeId" = ${storeId} AND mine."inStock" AND mine."price" > 0
+    JOIN "Offer" others ON others."productId" = p."id" AND others."storeId" != ${storeId} AND others."inStock" AND others."price" > 0
     GROUP BY p."id"
-    ORDER BY (mine."price" - MIN(others."price")) DESC
+    ORDER BY (MIN(mine."price") - MIN(others."price")) DESC
   `;
 
   const rows: PositionRow[] = positions.map((row) => {

@@ -26,19 +26,24 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot\..
 
-# Resolve the active DB file from .env DATABASE_URL (file:./X is relative to prisma/)
-$dbPath = "prisma\dev.db"
+# La BD viva es el Postgres de Railway apuntado por .env; el restore lógico lo
+# hace scripts/pg-snapshot.ts (TRUNCATE + repoblado). El flujo SQLite legado
+# (file:./X + backup .db) se mantiene por si se restaura un checkpoint antiguo.
+$isPostgres = $true
+$dbPath = ""
 if (Test-Path ".env") {
     $envLine = Select-String -Path ".env" -Pattern '^\s*DATABASE_URL\s*=\s*"?file:\./([^"\s]+)"?' | Select-Object -First 1
     if ($envLine) {
+        $isPostgres = $false
         $dbPath = "prisma\" + $envLine.Matches[0].Groups[1].Value
     }
 }
 
 # Check backup exists
-if (-not (Test-Path "backups\$Name.db")) {
-    Write-Error "Backup 'backups\$Name.db' not found. Available checkpoints:"
-    Get-ChildItem backups\*.db | ForEach-Object { Write-Host "  $($_.BaseName)" -ForegroundColor Yellow }
+$backupFile = if ($isPostgres) { "backups\$Name.json.gz" } else { "backups\$Name.db" }
+if (-not (Test-Path $backupFile)) {
+    Write-Error "Backup '$backupFile' not found. Available checkpoints:"
+    Get-ChildItem backups\* -Include *.db, *.json.gz | ForEach-Object { Write-Host "  $($_.Name)" -ForegroundColor Yellow }
     exit 1
 }
 
@@ -46,7 +51,11 @@ if (-not (Test-Path "backups\$Name.db")) {
 $tagExists = git tag -l $Name
 if (-not $tagExists) {
     Write-Error "Git tag '$Name' not found. The backup file exists but the git tag is missing."
-    Write-Host "You can still restore the DB manually: Copy-Item backups\$Name.db $dbPath" -ForegroundColor Yellow
+    if ($isPostgres) {
+        Write-Host "You can still restore the DB manually: npx tsx scripts/pg-snapshot.ts restore $Name" -ForegroundColor Yellow
+    } else {
+        Write-Host "You can still restore the DB manually: Copy-Item backups\$Name.db $dbPath" -ForegroundColor Yellow
+    }
     exit 1
 }
 
@@ -81,8 +90,14 @@ git checkout $Name
 if (-not $?) { Write-Error "Git checkout failed"; exit 1 }
 
 # Restore database
-Write-Host "Restoring database from backups\$Name.db -> $dbPath..." -ForegroundColor Cyan
-Copy-Item -LiteralPath "backups\$Name.db" -Destination $dbPath -Force
+if ($isPostgres) {
+    Write-Host "Restoring Postgres from $backupFile (TRUNCATE + repoblado)..." -ForegroundColor Cyan
+    npx tsx scripts/pg-snapshot.ts restore $Name
+    if (-not $?) { Write-Error "pg-snapshot restore failed"; exit 1 }
+} else {
+    Write-Host "Restoring database from $backupFile -> $dbPath..." -ForegroundColor Cyan
+    Copy-Item -LiteralPath $backupFile -Destination $dbPath -Force
+}
 
 # Run Prisma generate to sync client
 Write-Host "Regenerating Prisma client..." -ForegroundColor Cyan

@@ -4,12 +4,12 @@ const prisma = new PrismaClient();
 
 async function main() {
   const rows = await prisma.$queryRawUnsafe<Array<{ storeCount: number; cnt: number }>>(`
-    SELECT storeCount, COUNT(*) as cnt FROM (
-      SELECT p.id, COUNT(DISTINCT o.storeId) as storeCount
+    SELECT "storeCount", COUNT(*) as "cnt" FROM (
+      SELECT p."id", COUNT(DISTINCT o."storeId") as "storeCount"
       FROM "Product" p
-      JOIN "Offer" o ON o."productId" = p.id
-      GROUP BY p.id
-    ) sub GROUP BY storeCount ORDER BY storeCount DESC
+      JOIN "Offer" o ON o."productId" = p."id"
+      GROUP BY p."id"
+    ) sub GROUP BY "storeCount" ORDER BY "storeCount" DESC
   `);
 
   console.log("=== DISTRIBUCIÓN ACTUAL DE PRODUCTOS POR NÚMERO DE TIENDAS ===\n");
