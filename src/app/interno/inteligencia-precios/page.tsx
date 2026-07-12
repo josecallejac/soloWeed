@@ -7,6 +7,9 @@ import { LogoutButton } from "../logout-button";
 export const dynamic = "force-dynamic";
 
 const ALERT_WINDOW_DAYS = 14;
+// Pares con ratio de precio mayor a esto son casi siempre un repuesto/variante
+// capturado como precio mínimo, no una diferencia real: van a "Revisar" y fuera del resumen.
+const OUTLIER_RATIO = 2;
 
 type PositionRow = {
   productId: number;
@@ -14,6 +17,7 @@ type PositionRow = {
   myPrice: number;
   bestOtherPrice: number;
   bestOtherStore: string;
+  suspect: boolean;
 };
 
 type Alert = {
@@ -106,6 +110,12 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                   Gap promedio en productos sobrepreciados: {data.summary.avgGapPct.toFixed(1)}%
                 </p>
               ) : null}
+              {data.summary.suspects > 0 ? (
+                <p className="mt-2 text-xs text-black/50">
+                  {data.summary.suspects} pares con diferencia mayor a {OUTLIER_RATIO}x quedan fuera del resumen
+                  (probable repuesto/variante mal emparejado) — marcados como &quot;Revisar&quot; al final de la tabla.
+                </p>
+              ) : null}
 
               {data.positions.length > 0 ? (
                 <div className="mt-5 max-h-[60vh] overflow-auto rounded-2xl border border-black/10">
@@ -121,9 +131,16 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                     <tbody>
                       {data.positions.map((row) => {
                         const gap = row.myPrice - row.bestOtherPrice;
-                        const status = gap > 0 ? "Sobrepreciada" : gap < 0 ? "Mas barata" : "Empatada";
-                        const statusClass =
-                          gap > 0
+                        const status = row.suspect
+                          ? "Revisar"
+                          : gap > 0
+                            ? "Sobrepreciada"
+                            : gap < 0
+                              ? "Mas barata"
+                              : "Empatada";
+                        const statusClass = row.suspect
+                          ? "bg-amber-500/10 text-amber-700 border-amber-500/30"
+                          : gap > 0
                             ? "bg-red-500/10 text-red-600 border-red-500/20"
                             : gap < 0
                               ? "bg-[#bddf57]/30 text-[#17150f] border-[#bddf57]"
@@ -139,7 +156,11 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                             <td className="whitespace-nowrap px-3 py-2 align-top">
                               <span className={`rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] ${statusClass}`}>
                                 {status}
-                                {gap !== 0 ? ` ${formatPrice(Math.abs(gap))}` : ""}
+                                {row.suspect
+                                  ? ` ${(Math.max(row.myPrice, row.bestOtherPrice) / Math.min(row.myPrice, row.bestOtherPrice)).toFixed(1)}x`
+                                  : gap !== 0
+                                    ? ` ${formatPrice(Math.abs(gap))}`
+                                    : ""}
                               </span>
                             </td>
                           </tr>
@@ -222,16 +243,26 @@ async function getPriceIntelligence(storeId: number) {
     ORDER BY (mine."price" - MIN(others."price")) DESC
   `;
 
-  const rows: PositionRow[] = positions.map((row) => ({
-    productId: row.productId,
-    productName: row.productName,
-    myPrice: Number(row.myPrice),
-    bestOtherPrice: Number(row.bestOtherPrice),
-    bestOtherStore: row.bestOtherStore,
-  }));
+  const rows: PositionRow[] = positions.map((row) => {
+    const myPrice = Number(row.myPrice);
+    const bestOtherPrice = Number(row.bestOtherPrice);
+
+    return {
+      productId: row.productId,
+      productName: row.productName,
+      myPrice,
+      bestOtherPrice,
+      bestOtherStore: row.bestOtherStore,
+      suspect: Math.max(myPrice, bestOtherPrice) / Math.min(myPrice, bestOtherPrice) > OUTLIER_RATIO,
+    };
+  });
 
   const summary = rows.reduce(
     (acc, row) => {
+      if (row.suspect) {
+        acc.suspects += 1;
+        return acc;
+      }
       const gap = row.myPrice - row.bestOtherPrice;
       if (gap > 0) {
         acc.overpriced += 1;
@@ -243,19 +274,21 @@ async function getPriceIntelligence(storeId: number) {
       }
       return acc;
     },
-    { cheapest: 0, tied: 0, overpriced: 0, gapPctSum: 0 }
+    { cheapest: 0, tied: 0, overpriced: 0, suspects: 0, gapPctSum: 0 }
   );
 
   const alerts = await getUndercutAlerts(storeId, rows);
 
   return {
-    positions: rows,
+    // los sospechosos van al final para que la tabla abra con los gaps confiables
+    positions: [...rows.filter((row) => !row.suspect), ...rows.filter((row) => row.suspect)],
     summary: { ...summary, avgGapPct: summary.overpriced > 0 ? summary.gapPctSum / summary.overpriced : 0 },
     alerts,
   };
 }
 
-async function getUndercutAlerts(storeId: number, positions: PositionRow[]): Promise<Alert[]> {
+async function getUndercutAlerts(storeId: number, allPositions: PositionRow[]): Promise<Alert[]> {
+  const positions = allPositions.filter((row) => !row.suspect);
   if (positions.length === 0) return [];
 
   const productIds = positions.map((row) => row.productId);
@@ -285,8 +318,11 @@ async function getUndercutAlerts(storeId: number, positions: PositionRow[]): Pro
       const isDrop = current.price < previous.price;
       const isRecent = current.recordedAt >= since;
       const undercutsMe = current.price < myPrice;
+      // bajas de más del 50% o que quedan a menos de la mitad de mi precio suelen ser
+      // cambios de variante (repuesto/accesorio), no un undercut real
+      const isPlausible = current.price >= previous.price / 2 && current.price * OUTLIER_RATIO >= myPrice;
 
-      if (isDrop && isRecent && undercutsMe) {
+      if (isDrop && isRecent && undercutsMe && isPlausible) {
         alerts.push({
           productId: offer.productId,
           productName: offer.product.name,
