@@ -442,7 +442,7 @@ async function getRelatedProducts(category: string, excludeId: number) {
       p."modelSlug", 
       COALESCE(p."imageUrl", MAX(o."imageUrl")) as "imageUrl", 
       COUNT(DISTINCT o."storeId") as "storeCount",
-      MIN(CASE WHEN o."inStock" = 1 AND o."price" > 0 THEN o."price" ELSE NULL END) as "minPrice"
+      MIN(CASE WHEN o."inStock" AND o."price" > 0 THEN o."price" ELSE NULL END) as "minPrice"
     FROM "Product" p
     LEFT JOIN "Offer" o ON o."productId" = p."id"
     WHERE p."category" = ${category}

@@ -8,8 +8,21 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: soloweed
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     env:
-      DATABASE_URL: "file:./dev.db"
+      DATABASE_URL: "postgresql://postgres:ci@localhost:5432/soloweed"
     steps:
       - uses: actions/checkout@v4
 
@@ -21,10 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # El repo no versiona migraciones (solo migration_lock.toml); el esquema se
-      # aplica directo desde schema.prisma sobre una SQLite vacía.
+      # Aplica las migraciones versionadas sobre el Postgres vacío del service
+      # container; valida de paso que la migración init corre limpia.
       - name: Prepare empty database
-        run: npx prisma db push --skip-generate
+        run: npx prisma migrate deploy
 
       # Falla solo con vulnerabilidades high/critical; las moderadas del postcss
       # embebido en Next no bloquean.

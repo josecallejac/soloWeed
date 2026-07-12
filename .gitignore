@@ -54,6 +54,8 @@ next-env.d.ts
 
 # database backups
 /backups/*.db
+/backups/*.json
+/backups/*.json.gz
 
 # temporary DB files and dumps
 /prisma/*.before-docs
