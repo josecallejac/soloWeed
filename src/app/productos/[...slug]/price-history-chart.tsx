@@ -104,7 +104,7 @@ export function PriceHistoryChart({ stores, totalStores, onlyOnFullCoverage }: P
   if (!mounted || chartData.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-zinc-50/50 dark:bg-[#18181b]/50 p-6 shadow-2xl backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20">
+    <div className="relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-6 shadow-2xl transition-all hover:border-black/20 dark:hover:border-white/20">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(192,255,0,0.05),transparent_50%)] pointer-events-none" />
       <h3 className="mb-6 text-xl font-black uppercase tracking-widest text-zinc-900 dark:text-white font-mono">
         Evolución de precios

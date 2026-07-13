@@ -85,7 +85,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
   const isSuggestedMatch = offer.productId !== productId;
 
   return (
-    <article className="relative overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50/70 dark:bg-[#18181b]/70 p-5 shadow-xl backdrop-blur-xl dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:-translate-y-1 hover:shadow-2xl dark:hover:shadow-[0_0_30px_rgba(192,255,0,0.2)] hover:border-accent/50 duration-500">
+    <article className="relative overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 shadow-xl dark:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:-translate-y-1 hover:shadow-2xl dark:hover:shadow-[0_0_30px_rgba(192,255,0,0.2)] hover:border-accent/50 duration-500">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(192,255,0,0.08),transparent_50%)] pointer-events-none" />
       <div className="relative">
         <div className="flex items-start justify-between gap-4">
@@ -144,7 +144,7 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
           </div>
         </div>
 
-        <div className="mt-5 rounded-lg bg-black/5 dark:bg-black/40 p-5 text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 transition-colors backdrop-blur-md">
+        <div className="mt-5 rounded-lg bg-black/5 dark:bg-black/40 p-5 text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 transition-colors">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-zinc-500 dark:text-white/50 font-mono transition-colors">Precio detectado</p>
           <div className="mt-2 flex flex-wrap items-end gap-3">
             <span className="text-4xl font-black tracking-[-0.06em] text-accent-text drop-shadow-[0_0_15px_rgba(192,255,0,0.3)] transition-all">{formatPrice(offer.price)}</span>
