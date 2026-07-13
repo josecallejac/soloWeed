@@ -51,7 +51,6 @@
     }
   },
   "devDependencies": {
-    "@anthropic-ai/sdk": "^0.111.0",
     "@huggingface/transformers": "^4.2.0",
     "@playwright/test": "^1.49.0",
     "@tailwindcss/postcss": "^4",
