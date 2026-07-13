@@ -1,5 +1,6 @@
 import { formatDateTime, formatPrice, formatShortDate } from "@/lib/format";
 import Image from "next/image";
+import { OutboundLink } from "./outbound-link";
 
 type PriceHistory = {
   id: number;
@@ -163,14 +164,13 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
           </div>
         ) : null}
 
-        <a
+        <OutboundLink
           className="mt-5 block rounded-lg bg-accent px-5 py-3 text-center text-sm font-black text-black transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_20px_rgba(192,255,0,0.3)] font-mono"
-          href={`/ir/${offer.id}`}
-          rel="nofollow noreferrer"
-          target="_blank"
+          offerId={offer.id}
+          eventData={{ origen: "ficha", tienda: store.name, productId }}
         >
           Ir a tienda
-        </a>
+        </OutboundLink>
       </div>
     </article>
   );

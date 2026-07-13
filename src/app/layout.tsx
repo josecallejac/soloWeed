@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 import "./globals.css";
+
+// Analítica de tráfico self-hosted (Umami). Se inyecta solo si las env
+// NEXT_PUBLIC_UMAMI_* están definidas (se inlinean en build). Cookieless:
+// no requiere banner de consentimiento.
+const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC;
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +54,13 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {children}
         </ThemeProvider>
+        {UMAMI_SRC && UMAMI_WEBSITE_ID ? (
+          <Script
+            src={UMAMI_SRC}
+            data-website-id={UMAMI_WEBSITE_ID}
+            strategy="afterInteractive"
+          />
+        ) : null}
       </body>
     </html>
   );
