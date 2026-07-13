@@ -9,7 +9,3 @@ updates:
       # Un solo PR para minors/patches; los majors llegan separados.
       minor-y-patch:
         update-types: ["minor", "patch"]
-  - package-ecosystem: github-actions
-    directory: "/"
-    schedule:
-      interval: monthly
