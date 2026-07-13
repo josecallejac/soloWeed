@@ -167,7 +167,6 @@ export function StorePriceCard({ row, minPrice, productId, showHistoryAsList = f
         <OutboundLink
           className="mt-5 block rounded-lg bg-accent px-5 py-3 text-center text-sm font-black text-black transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_20px_rgba(192,255,0,0.3)] font-mono"
           offerId={offer.id}
-          eventData={{ origen: "ficha", tienda: store.name, productId }}
         >
           Ir a tienda
         </OutboundLink>
