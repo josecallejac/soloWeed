@@ -25,6 +25,7 @@ import Image from "next/image";
 import nextDynamic from "next/dynamic";
 import { cache } from "react";
 import { VariantSelector } from "@/components/variant-selector";
+import { ProductDescription } from "@/components/product-description";
 import { getVariantName } from "@/lib/variant-utils";
 
 // Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
@@ -274,9 +275,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
               </h1>
 
               {description ? (
-                <p className="mt-5 max-w-2xl text-base leading-7 text-zinc-600 dark:text-white/70 sm:text-lg transition-colors">
-                  {description}
-                </p>
+                <ProductDescription description={description} />
               ) : null}
 
               {variants.length > 1 && (
