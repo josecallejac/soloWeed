@@ -16,6 +16,7 @@
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
+    "catalog:short-desc": "tsx scripts/generate-short-descriptions.ts",
     "admin:create": "tsx scripts/create-admin.ts",
     "brand:backfill": "tsx scripts/backfill-brand-keys.ts",
     "model:backfill": "tsx scripts/backfill-model-keys.ts",
@@ -50,6 +51,7 @@
     }
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.111.0",
     "@huggingface/transformers": "^4.2.0",
     "@playwright/test": "^1.49.0",
     "@tailwindcss/postcss": "^4",

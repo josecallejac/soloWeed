@@ -2,7 +2,7 @@ import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
-import { formatDateTime, formatPrice, formatPriceRange } from "@/lib/format";
+import { cleanDescription, formatDateTime, formatPrice, formatPriceRange } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
 import {
   countIntersection,
@@ -195,9 +195,13 @@ export default async function ProductDetail(props: ProductDetailProps) {
   const maxPrice = detectedPrices.length > 0 ? Math.max(...detectedPrices) : undefined;
   const suggestedMatchCount = Math.max(storesWithPrice.length - 1, 0);
   const imageUrl = product.imageUrl ?? product.offers[0]?.imageUrl ?? storesWithPrice[0]?.offer?.imageUrl;
-  const description =
+  const rawDescription =
     storesWithPrice.find((row) => row.offer?.description)?.offer?.description ??
     product.offers.find((offer) => offer.description)?.description;
+  const fullDescription = cleanDescription(rawDescription);
+  const shortDescription = product.shortDescription?.trim() || undefined;
+  // Para SEO usamos el resumen si existe (largo ideal); si no, el texto completo limpio.
+  const seoDescription = shortDescription ?? (fullDescription || undefined);
   const coverage = stores.length > 0 ? Math.round((storesWithPrice.length / stores.length) * 100) : 0;
 
   const jsonLd = {
@@ -207,7 +211,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
     ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
     category: product.category,
     ...(imageUrl ? { image: imageUrl } : {}),
-    ...(description ? { description } : {}),
+    ...(seoDescription ? { description: seoDescription } : {}),
     ...(product.brandKey && product.modelSlug
       ? { url: `${SITE_URL}${productPath(product.brandKey, product.modelSlug)}` }
       : {}),
@@ -274,8 +278,8 @@ export default async function ProductDetail(props: ProductDetailProps) {
                 {product.name}
               </h1>
 
-              {description ? (
-                <ProductDescription description={description} />
+              {shortDescription || fullDescription ? (
+                <ProductDescription short={shortDescription} full={fullDescription} />
               ) : null}
 
               {variants.length > 1 && (

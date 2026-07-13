@@ -31,6 +31,49 @@ export function formatShortDate(value: Date) {
   }).format(value);
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  nbsp: " ",
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  ldquo: "“",
+  rdquo: "”",
+  lsquo: "‘",
+  rsquo: "’",
+  hellip: "…",
+  ndash: "–",
+  mdash: "—",
+  deg: "°",
+  aacute: "á",
+  eacute: "é",
+  iacute: "í",
+  oacute: "ó",
+  uacute: "ú",
+  ntilde: "ñ",
+  uuml: "ü",
+};
+
+function decodeEntitiesOnce(text: string) {
+  return text
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&([a-zA-Z]+);/g, (match, name) => NAMED_ENTITIES[name.toLowerCase()] ?? match);
+}
+
+// Las descripciones scrapeadas traen entidades HTML, a veces doble-escapadas
+// (`&amp;nbsp;`). Decodificamos dos veces para deshacer ese doble escape y
+// normalizamos los espacios en blanco.
+export function cleanDescription(text: string | null | undefined) {
+  if (!text) return "";
+  const decoded = decodeEntitiesOnce(decodeEntitiesOnce(text));
+  return decoded
+    .replace(/\s+/g, " ")
+    .replace(/([.!?])(?=[A-ZÁÉÍÓÚÑ])/g, "$1 ")
+    .trim();
+}
+
 export function formatPriceRange(minPrice?: number, maxPrice?: number) {
   if (minPrice === undefined || maxPrice === undefined) {
     return "Sin precio";

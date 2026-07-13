@@ -3,33 +3,46 @@
 import { useLayoutEffect, useRef, useState } from "react";
 
 type ProductDescriptionProps = {
-  description: string;
+  // Resumen breve generado (1 frase). Si existe, se muestra por defecto.
+  short?: string | null;
+  // Descripcion completa (copy de la oferta). Se revela con "Ver mas".
+  full: string;
 };
 
-export function ProductDescription({ description }: ProductDescriptionProps) {
+export function ProductDescription({ short, full }: ProductDescriptionProps) {
   const [expanded, setExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
 
-  // Solo mostramos "Ver mas" cuando el texto realmente se desborda del clamp;
-  // se recalcula en cada render por si cambia la variante/descripcion.
+  const hasShort = Boolean(short && short.trim());
+  const hasFull = full.trim().length > 0;
+
+  // En modo fallback (sin resumen) medimos si el clamp de 3 lineas desborda,
+  // para mostrar el boton solo cuando hay texto oculto.
   useLayoutEffect(() => {
+    if (hasShort) return;
     const el = textRef.current;
     if (!el) return;
     setIsOverflowing(el.scrollHeight > el.clientHeight + 1);
-  }, [description]);
+  }, [hasShort, full]);
+
+  // Con resumen: se ve la frase corta; "Ver mas" revela el texto completo.
+  // Sin resumen: comportamiento previo, clamp del texto completo a 3 lineas.
+  const visibleText = hasShort ? (expanded ? full : (short as string)) : full;
+  const clampFallback = !hasShort && !expanded;
+  const showButton = hasShort ? hasFull : isOverflowing || expanded;
 
   return (
     <div className="mt-5 max-w-2xl">
       <p
         ref={textRef}
         className={`text-base leading-7 text-zinc-600 dark:text-white/70 sm:text-lg transition-colors ${
-          expanded ? "" : "line-clamp-3"
+          clampFallback ? "line-clamp-3" : ""
         }`}
       >
-        {description}
+        {visibleText}
       </p>
-      {(isOverflowing || expanded) && (
+      {showButton && (
         <button
           type="button"
           onClick={() => setExpanded((prev) => !prev)}

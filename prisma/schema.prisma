@@ -31,10 +31,11 @@ model Product {
   brandKey       String?
   modelKey       String?
   modelSlug      String?
-  category       String
-  imageUrl       String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  category         String
+  imageUrl         String?
+  shortDescription String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   offers Offer[]
 
