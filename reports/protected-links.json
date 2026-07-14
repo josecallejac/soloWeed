@@ -118,7 +118,6 @@
       214,
       515,
       779,
-      1067,
       1427
     ]
   },
@@ -357,40 +356,6 @@
       517,
       18004,
       19510
-    ]
-  },
-  {
-    "id": 5725,
-    "name": "Encendedor Clipper Racoons",
-    "brandKey": "clipper",
-    "modelKey": "lighter-encendedor-racoons",
-    "modelSlug": "lighter-classic",
-    "category": "Encendedores y sopletes",
-    "storeCount": 4,
-    "offerIds": [
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      89,
-      90,
-      91,
-      92,
-      93,
-      102,
-      103,
-      493,
-      1214,
-      1384,
-      1406,
-      1443,
-      1555,
-      1566,
-      2072,
-      11967,
-      11968
     ]
   },
   {
@@ -678,22 +643,6 @@
       293,
       299,
       309
-    ]
-  },
-  {
-    "id": 6576,
-    "name": "Papelillo Vibes Cáñamo 1 1/4",
-    "brandKey": "vibes",
-    "modelKey": null,
-    "modelSlug": "organic",
-    "category": "Papelillos",
-    "storeCount": 4,
-    "offerIds": [
-      376,
-      788,
-      2139,
-      2291,
-      13130
     ]
   },
   {
