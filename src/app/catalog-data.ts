@@ -110,7 +110,7 @@ export async function getCatalogData(
       ? Prisma.sql`AND "Store"."slug" IN (${Prisma.join(options.storeFilter)})`
       : Prisma.empty;
 
-    const [stores, offersRaw, { categories, brands }, coverage] = await Promise.all([
+    const [stores, offersRaw, { categories, brands: brandsGlobal, brandsByCategory }, coverage] = await Promise.all([
       prisma.store.findMany({ orderBy: { name: "asc" } }),
       prisma.$queryRaw(Prisma.sql`
         -- Solo las columnas que consume el catálogo: excluir description (texto
@@ -132,6 +132,11 @@ export async function getCatalogData(
       getComparableFiltersCounts(normalizedQuery, queryWhere),
       getProductCoverage(),
     ]);
+
+    // La lista de marcas del sidebar depende de la categoría activa: con categoría
+    // seleccionada solo se muestran las marcas que tienen productos en ella (evita
+    // combinaciones marca+categoría con 0 resultados). Sin categoría, todas.
+    const brands = selectedCategory ? (brandsByCategory[selectedCategory] ?? []) : brandsGlobal;
 
     // Reconstruct offers from raw query results (bypasses Prisma strict type coercion)
     const storeById = new Map(stores.map((s) => [s.id, s]));
@@ -404,6 +409,9 @@ const getComparableFiltersCounts = unstable_cache(
 
   const categoriesMap = new Map<string, number>();
   const brandsMap = new Map<string, { brand: string; count: number }>();
+  // Marcas agrupadas por categoría para poder scopear la lista del sidebar según la
+  // categoría activa (ver getCatalogData). Se acumula en el mismo recorrido.
+  const brandsByCategoryMap = new Map<string, Map<string, { brand: string; count: number }>>();
 
   for (const item of catalogItems) {
     categoriesMap.set(item.category, (categoriesMap.get(item.category) ?? 0) + 1);
@@ -414,20 +422,41 @@ const getComparableFiltersCounts = unstable_cache(
       } else {
         brandsMap.set(item.brandKey, { brand: item.brand, count: 1 });
       }
+
+      let byCat = brandsByCategoryMap.get(item.category);
+      if (!byCat) {
+        byCat = new Map();
+        brandsByCategoryMap.set(item.category, byCat);
+      }
+      const existingInCat = byCat.get(item.brandKey);
+      if (existingInCat) {
+        existingInCat.count++;
+      } else {
+        byCat.set(item.brandKey, { brand: item.brand, count: 1 });
+      }
     }
   }
+
+  const sortBrands = (map: Map<string, { brand: string; count: number }>) =>
+    [...map.entries()]
+      .filter(([, data]) => data.count > 0)
+      .map(([brandKey, data]) => ({ brandKey, brand: data.brand, count: data.count }))
+      .sort((first, second) => first.brand.localeCompare(second.brand));
 
   const categoryCounts = [...categoriesMap]
     .filter(([, count]) => count > 0)
     .map(([category, count]) => ({ category, count }))
     .sort((first, second) => first.category.localeCompare(second.category));
 
-  const brandCounts = [...brandsMap.entries()]
-    .filter(([, data]) => data.count > 0)
-    .map(([brandKey, data]) => ({ brandKey, brand: data.brand, count: data.count }))
-    .sort((first, second) => first.brand.localeCompare(second.brand));
+  const brandCounts = sortBrands(brandsMap);
 
-  return { categories: categoryCounts, brands: brandCounts };
+  // Objeto plano (no Map) porque unstable_cache serializa el resultado a JSON.
+  const brandsByCategory: Record<string, ReturnType<typeof sortBrands>> = {};
+  for (const [category, map] of brandsByCategoryMap) {
+    brandsByCategory[category] = sortBrands(map);
+  }
+
+  return { categories: categoryCounts, brands: brandCounts, brandsByCategory };
   },
   ["home-filter-counts"],
   { revalidate: 300 },
