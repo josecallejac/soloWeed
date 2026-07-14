@@ -904,29 +904,6 @@
     ]
   },
   {
-    "id": 10189,
-    "name": "Vaporizador Dynavap M7 XL",
-    "brandKey": "dynavap",
-    "modelKey": "vaporizadores-m7-xl-xl",
-    "modelSlug": "m7-xl",
-    "category": "Vaporizadores herbales",
-    "storeCount": 4,
-    "offerIds": [
-      511,
-      1370,
-      1527,
-      11537,
-      12210,
-      12285,
-      12403,
-      12623,
-      12668,
-      15883,
-      15934,
-      16063
-    ]
-  },
-  {
     "id": 10190,
     "name": "Bandeja RAW Metálica Classic Mediana",
     "brandKey": "raw",
@@ -2748,6 +2725,21 @@
     ]
   },
   {
+    "id": 10189,
+    "name": "Vaporizador Dynavap M7 XL",
+    "brandKey": "dynavap",
+    "modelKey": "vaporizadores-m7-xl-xl",
+    "modelSlug": "m7-xl",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      1370,
+      1527,
+      12210,
+      12285
+    ]
+  },
+  {
     "id": 10191,
     "name": "Bonglab Kraken KC47 37cm | Bong Recycler con 5 Percoladores HoneyComb",
     "brandKey": "bonglab",
@@ -3847,6 +3839,20 @@
     ]
   },
   {
+    "id": 10439,
+    "name": "DynaVap Vaporizador The B",
+    "brandKey": "dynavap",
+    "modelKey": null,
+    "modelSlug": "the-b",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      11537,
+      17928,
+      18546
+    ]
+  },
+  {
     "id": 10441,
     "name": "DynaVap Soplete Honest",
     "brandKey": "dynavap",
@@ -4126,6 +4132,20 @@
       33955,
       33957,
       33958
+    ]
+  },
+  {
+    "id": 10492,
+    "name": "DynaVap DynaCoil Adaptador para Extractos",
+    "brandKey": "dynavap",
+    "modelKey": null,
+    "modelSlug": "dynacoil",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12403,
+      15880,
+      19883
     ]
   },
   {
