@@ -1,11 +1,44 @@
+import { randomBytes } from "node:crypto";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatPrice, formatShortDate } from "@/lib/format";
+import { SITE_URL } from "@/lib/site";
 import { LogoutButton } from "../logout-button";
+import { ShareLink } from "./share-link";
 import { ALERT_WINDOW_DAYS, OUTLIER_RATIO, getPriceIntelligence, positionStatus } from "./data";
 
 export const dynamic = "force-dynamic";
+
+async function generateShareToken(formData: FormData) {
+  "use server";
+
+  await requireAdmin();
+
+  const storeId = Number(formData.get("storeId"));
+  if (!Number.isInteger(storeId)) return;
+
+  await prisma.store.update({
+    where: { id: storeId },
+    data: { shareToken: randomBytes(16).toString("base64url") },
+  });
+
+  revalidatePath("/interno/inteligencia-precios");
+}
+
+async function disableShareToken(formData: FormData) {
+  "use server";
+
+  await requireAdmin();
+
+  const storeId = Number(formData.get("storeId"));
+  if (!Number.isInteger(storeId)) return;
+
+  await prisma.store.update({ where: { id: storeId }, data: { shareToken: null } });
+
+  revalidatePath("/interno/inteligencia-precios");
+}
 
 type InteligenciaPreciosPageProps = {
   searchParams?: Promise<{ store?: string }>;
@@ -59,6 +92,47 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
             );
           })}
         </nav>
+
+        {selectedStore ? (
+          <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[6px_6px_0_#17150f]">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">Link para compartir</p>
+            <h2 className="mt-1 text-2xl font-black tracking-[-0.04em]">Demo pública de {selectedStore.name}</h2>
+            {selectedStore.shareToken ? (
+              <div className="mt-4 space-y-3">
+                <ShareLink url={`${SITE_URL}/precios/${selectedStore.shareToken}`} />
+                <div className="flex flex-wrap gap-2">
+                  <form action={generateShareToken}>
+                    <input name="storeId" type="hidden" value={selectedStore.id} />
+                    <button className="rounded-full border border-black/15 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-black/60 transition hover:border-black/40 hover:text-black">
+                      Rotar link
+                    </button>
+                  </form>
+                  <form action={disableShareToken}>
+                    <input name="storeId" type="hidden" value={selectedStore.id} />
+                    <button className="rounded-full border border-red-500/30 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-red-600 transition hover:bg-red-500/10">
+                      Desactivar
+                    </button>
+                  </form>
+                </div>
+                <p className="text-xs text-black/50">
+                  Solo lectura, sin login. Rotar invalida el link anterior; desactivar lo apaga por completo.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-4">
+                <form action={generateShareToken}>
+                  <input name="storeId" type="hidden" value={selectedStore.id} />
+                  <button className="rounded-full bg-[#17150f] px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#bddf57] transition hover:bg-black">
+                    Generar link público
+                  </button>
+                </form>
+                <p className="mt-2 text-xs text-black/50">
+                  Crea un enlace de solo lectura para mandarle esta demo a {selectedStore.name} sin darle acceso al panel.
+                </p>
+              </div>
+            )}
+          </section>
+        ) : null}
 
         {!data ? (
           <div className="mt-6 rounded-[2rem] border border-black/10 bg-white p-8 text-center text-sm text-black/55">
