@@ -4,10 +4,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-// Analítica de tráfico con Cloudflare Web Analytics. El beacon se inyecta solo
-// si NEXT_PUBLIC_CF_BEACON_TOKEN está definida (se inlinea en build). Cookieless:
+// Analítica de tráfico con Umami Cloud (tier gratis). Se inyecta solo si las env
+// NEXT_PUBLIC_UMAMI_* están definidas (se inlinean en build). Cookieless:
 // no requiere banner de consentimiento.
-const CF_BEACON_TOKEN = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN;
+const UMAMI_SRC = process.env.NEXT_PUBLIC_UMAMI_SRC;
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,10 +54,10 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           {children}
         </ThemeProvider>
-        {CF_BEACON_TOKEN ? (
+        {UMAMI_SRC && UMAMI_WEBSITE_ID ? (
           <Script
-            src="https://static.cloudflareinsights.com/beacon.min.js"
-            data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN, spa: true })}
+            src={UMAMI_SRC}
+            data-website-id={UMAMI_WEBSITE_ID}
             strategy="afterInteractive"
           />
         ) : null}
