@@ -345,21 +345,6 @@
     ]
   },
   {
-    "id": 5720,
-    "name": "Filtro de cartón OCB Virgin sin contaminantes",
-    "brandKey": "ocb",
-    "modelKey": "filter-ocb-virgin",
-    "modelSlug": "paper-filter-virgin",
-    "category": "Filtros y boquillas",
-    "storeCount": 4,
-    "offerIds": [
-      318,
-      501,
-      12633,
-      19451
-    ]
-  },
-  {
     "id": 5722,
     "name": "Filtros de cartón OCB Premium de color blanco",
     "brandKey": "ocb",
@@ -369,7 +354,6 @@
     "storeCount": 4,
     "offerIds": [
       313,
-      320,
       517,
       18004,
       19510
@@ -1788,6 +1772,20 @@
       224,
       709,
       794
+    ]
+  },
+  {
+    "id": 5720,
+    "name": "Filtro de cartón OCB Virgin sin contaminantes",
+    "brandKey": "ocb",
+    "modelKey": "filter-ocb-virgin",
+    "modelSlug": "paper-filter-virgin",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      318,
+      501,
+      19451
     ]
   },
   {
