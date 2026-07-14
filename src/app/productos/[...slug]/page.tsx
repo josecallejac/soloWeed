@@ -2,7 +2,7 @@ import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
-import { cleanDescription, formatDateTime, formatPrice, formatPriceRange } from "@/lib/format";
+import { cleanDescription, formatDateTime, formatPrice, formatPriceRange, truncateAtBoundary } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
 import {
   countIntersection,
@@ -199,6 +199,9 @@ export default async function ProductDetail(props: ProductDetailProps) {
     storesWithPrice.find((row) => row.offer?.description)?.offer?.description ??
     product.offers.find((offer) => offer.description)?.description;
   const fullDescription = cleanDescription(rawDescription);
+  // El texto que revela "Ver mas" se recorta a un parrafo (el copy scrapeado
+  // llega a >2.000 chars y resulta un muro). El SEO usa el texto completo.
+  const displayDescription = truncateAtBoundary(fullDescription, 420);
   const shortDescription = product.shortDescription?.trim() || undefined;
   // Para SEO usamos el resumen si existe (largo ideal); si no, el texto completo limpio.
   const seoDescription = shortDescription ?? (fullDescription || undefined);
@@ -279,7 +282,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
               </h1>
 
               {shortDescription || fullDescription ? (
-                <ProductDescription short={shortDescription} full={fullDescription} />
+                <ProductDescription short={shortDescription} full={displayDescription} />
               ) : null}
 
               {variants.length > 1 && (

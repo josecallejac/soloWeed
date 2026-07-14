@@ -74,6 +74,30 @@ export function cleanDescription(text: string | null | undefined) {
     .trim();
 }
 
+// Recorta un texto a un largo maximo cortando en un limite natural: primero
+// intenta terminar en el ultimo punto/!/? dentro de la ventana; si no hay,
+// corta en el ultimo espacio. Agrega "…" solo si efectivamente recorto.
+export function truncateAtBoundary(text: string, maxChars: number) {
+  const trimmed = text.trim();
+  if (trimmed.length <= maxChars) return trimmed;
+
+  const window = trimmed.slice(0, maxChars);
+  const lastSentence = Math.max(
+    window.lastIndexOf(". "),
+    window.lastIndexOf("! "),
+    window.lastIndexOf("? "),
+  );
+  // Usamos el corte por frase solo si deja al menos el 60% del texto objetivo,
+  // para no quedarnos con una sola frase muy corta.
+  if (lastSentence >= maxChars * 0.6) {
+    return `${window.slice(0, lastSentence + 1)} …`;
+  }
+
+  const lastSpace = window.lastIndexOf(" ");
+  const cut = lastSpace > 0 ? window.slice(0, lastSpace) : window;
+  return `${cut.replace(/[.,;:!?]+$/, "")} …`;
+}
+
 export function formatPriceRange(minPrice?: number, maxPrice?: number) {
   if (minPrice === undefined || maxPrice === undefined) {
     return "Sin precio";
