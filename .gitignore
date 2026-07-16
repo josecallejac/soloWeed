@@ -69,3 +69,9 @@ next-env.d.ts
 /scratch/
 
 reports/upgrades-run.txt
+
+# estado transitorio del flujo frugal: se regenera en cada scrape
+# (un snapshot viejo commiteado daria deltas engañosos)
+/reports/scrape-snapshot.json
+/reports/catalog-audit/triage-*-candidates.csv
+/reports/catalog-audit/triage-*-orphan-orphan.csv
