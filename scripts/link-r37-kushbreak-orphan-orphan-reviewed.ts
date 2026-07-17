@@ -143,6 +143,16 @@ const NEW_PRODUCTS: NewSpec[] = [
     category: "Accesorios de extraccion",
   },
   {
+    // G18: caja metalica Elements 1 1/4 identica en ambas fotos (misma foto
+    // oficial abierta/cerrada).
+    offerIds: [13131, 69350],
+    name: "Elements Porta Papelillos Metalico 1 1/4",
+    brand: "Elements",
+    brandKey: "elements",
+    modelSlug: "porta-metalico-1-1-4",
+    category: "Contenedores y estuches",
+  },
+  {
     // G15: pack crema/tan ORGANIC HEMP identico en Piranha y Kushbreak;
     // linea distinta del Black Organic (P5465, pack negro).
     offerIds: [1067, 69342],
