@@ -456,6 +456,7 @@ export const GENERIC_TOKENS = new Set([
   "https",
   "king",
   "kit",
+  "kushbreak",
   "la",
   "las",
   "liar",

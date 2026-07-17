@@ -666,6 +666,7 @@ const GENERIC_MATCH_TOKENS = new Set([
   "growbarato",
   "hoja",
   "hojas",
+  "kushbreak",
   "la",
   "las",
   "liar",

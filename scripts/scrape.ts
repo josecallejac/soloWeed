@@ -233,6 +233,30 @@ const STORES: StoreConfig[] = [
       "https://www.growbaratochile.cl/cabo/cabo-heavy-hitter-pyrex.html",
     ],
   },
+  {
+    slug: "kushbreak",
+    name: "Kushbreak",
+    baseUrl: "https://www.kushbreak.cl",
+    platform: "Jumpseller",
+    sitemapUrls: ["https://www.kushbreak.cl/sitemap.xml"],
+    categoryUrls: [
+      "https://www.kushbreak.cl/naturalglass-bong-vidrio-borosilicato/bongs",
+      "https://www.kushbreak.cl/pipas-mano-vidrio-metal-fumar",
+      "https://www.kushbreak.cl/moledores-grinders-cannabis-aluminio",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar/papelillos",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar/conos",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar/papelillos/filtros-y-boquillas",
+      "https://www.kushbreak.cl/fuego-mecha-hempwick-encendedor",
+      "https://www.kushbreak.cl/contenedores-bolsos-hermeticos-olor-cannabis",
+      "https://www.kushbreak.cl/bandejas-enrolar",
+      "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos",
+      "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos/vaporizadores-de-concentrados",
+      "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos/vaporizadores-de-aceites",
+      "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos/vaporizadores-de-hierbas",
+      "https://www.kushbreak.cl/extracciones",
+    ],
+  },
 ];
 
 const SEEDED_CANDIDATE_URLS = new Set(STORES.flatMap((store) => store.seedUrls ?? []));

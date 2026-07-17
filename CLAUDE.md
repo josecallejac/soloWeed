@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-SoloWeed: a price comparator (inspired by SoloTodo) for cannabis paraphernalia in Chile — bongs, pipes, grinders, rolling papers, vaporizers, etc. It does not sell anything; it scrapes four stores (Astro Growshop, Fumetas, Piranha, GrowBarato Chile) and links to them. Stack: Next.js 16 App Router + TypeScript + Tailwind 4, Prisma + SQLite, Cheerio for scraping.
+SoloWeed: a price comparator (inspired by SoloTodo) for cannabis paraphernalia in Chile — bongs, pipes, grinders, rolling papers, vaporizers, etc. It does not sell anything; it scrapes five stores (Astro Growshop, Fumetas, Piranha, GrowBarato Chile, Kushbreak) and links to them. Stack: Next.js 16 App Router + TypeScript + Tailwind 4, Prisma + SQLite, Cheerio for scraping.
 
 **The detailed operational docs are in Spanish and are the source of truth.** Read in this order when touching the corresponding area: `AGENTS.md` (summary), `docs/PROJECT_RULES.md` (invariants), `docs/RUNBOOK.md` (exact commands), `docs/SCRAPER_RULES.md`, `docs/MATCHING_AND_SLUGS.md`, `docs/DATA_MODEL.md`.
 

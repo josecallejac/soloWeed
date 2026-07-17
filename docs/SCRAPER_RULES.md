@@ -14,10 +14,11 @@ El scraper vive en `scripts/scrape.ts`. Ahi se concentran:
 
 ## Tiendas Actuales
 
-- Astro Growshop
-- Fumetas
-- Piranha
-- GrowBarato Chile
+- Astro Growshop (Jumpseller)
+- Fumetas (Jumpseller)
+- Piranha (PrestaShop)
+- GrowBarato Chile (PrestaShop)
+- Kushbreak (Jumpseller, agregada 17 jul 2026)
 
 ## URLs Permitidas
 

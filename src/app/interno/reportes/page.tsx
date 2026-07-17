@@ -37,7 +37,7 @@ const REPORT_FILES = [
   { file: "06-single-store-curated.csv", label: "Curados 1 tienda" },
   { file: "07-two-store-curated.csv", label: "Curados 2 tiendas" },
   { file: "08-three-store-curated.csv", label: "Curados 3 tiendas" },
-  { file: "09-four-store-curated.csv", label: "Curados 4 tiendas" },
+  { file: "09-four-store-curated.csv", label: "Curados 4+ tiendas" },
 ];
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
