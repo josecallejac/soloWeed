@@ -115,6 +115,11 @@ por diseño (no bloquea el turno), el sleep en foreground esta bloqueado y cada 
 capea a 10 min — menos de lo que dura un scrape completo. Y con el digest el log ya
 no entra al contexto de nadie, asi que delegar el scrape no ahorra tokens.
 
+**El vigia debe grepear el marcador de fin REAL de cada proceso** (mirar los ultimos
+`console.log` del script antes de armarlo): scrape → `^Done\.`; `match:image` →
+`Revisar siempre titulo` (su leyenda final); `match:embedding` → `alta certeza sem`.
+Un vigia armado con el marcador equivocado espera su timeout completo en vano.
+
 **Siempre redirigir dentro de `cmd.exe /c ...`, nunca con `>` directo de PowerShell**:
 PS 5.1 escribe UTF-16 LE en la redireccion nativa y los digests (que leen UTF-8) no
 parsean ninguna linea — fallan ruidosamente (exit 1) pero es mejor evitarlo.
