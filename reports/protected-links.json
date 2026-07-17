@@ -1,5 +1,38 @@
 [
   {
+    "id": 9246,
+    "name": "Vaporizador Volcano Classi",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-vaporizador-volcano-classi",
+    "modelSlug": "volcano-classic",
+    "category": "Vaporizadores herbales",
+    "storeCount": 5,
+    "offerIds": [
+      496,
+      1442,
+      2261,
+      12587,
+      19431,
+      69030
+    ]
+  },
+  {
+    "id": 10145,
+    "name": "Raw Enrolador King Size - GB The Green Brand",
+    "brandKey": "raw",
+    "modelKey": "rolling-machine-king-size",
+    "modelSlug": "rolling-machine-ecoplastic-king-size",
+    "category": "Otros parafernalia",
+    "storeCount": 5,
+    "offerIds": [
+      151,
+      2032,
+      11033,
+      31689,
+      69207
+    ]
+  },
+  {
     "id": 5339,
     "name": "Bong Bubbler Kush",
     "brandKey": "bonglab",
@@ -119,6 +152,28 @@
       515,
       779,
       1427
+    ]
+  },
+  {
+    "id": 5478,
+    "name": "Papelillos Gizeh Pink 1 1/4 Extra Fine",
+    "brandKey": "gizeh",
+    "modelKey": null,
+    "modelSlug": "pink",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      210,
+      624,
+      1229,
+      1251,
+      1273,
+      1399,
+      2136,
+      2137,
+      2138,
+      5169,
+      69343
     ]
   },
   {
@@ -630,6 +685,29 @@
     ]
   },
   {
+    "id": 6002,
+    "name": "Moledor SLX 90mm",
+    "brandKey": "slx",
+    "modelKey": "grinder-90mm",
+    "modelSlug": "ceramic-90mm",
+    "category": "Moledores",
+    "storeCount": 4,
+    "offerIds": [
+      2311,
+      4425,
+      6194,
+      31215,
+      31216,
+      31217,
+      31218,
+      33748,
+      33749,
+      33750,
+      33751,
+      68968
+    ]
+  },
+  {
     "id": 6008,
     "name": "Papelillos OCB Premium 1 1/4",
     "brandKey": "ocb",
@@ -658,6 +736,22 @@
       1401,
       8959,
       9006
+    ]
+  },
+  {
+    "id": 7885,
+    "name": "Estuche Ywiwis Gollo - OZeta | PIRANHA",
+    "brandKey": "ozeta",
+    "modelKey": "container-estuche",
+    "modelSlug": "case-ywiwis",
+    "category": "Contenedores y estuches",
+    "storeCount": 4,
+    "offerIds": [
+      687,
+      740,
+      32848,
+      36121,
+      69161
     ]
   },
   {
@@ -693,19 +787,37 @@
     ]
   },
   {
-    "id": 9246,
-    "name": "Vaporizador Volcano Classi",
-    "brandKey": "storz-bickel",
-    "modelKey": "vaporizadores-vaporizador-volcano-classi",
-    "modelSlug": "volcano-classic",
-    "category": "Vaporizadores herbales",
+    "id": 9852,
+    "name": "Moledor SLX 60mm┃Moledor de cerámica antiadherente",
+    "brandKey": "slx",
+    "modelKey": "grinder-ceramic-63mm",
+    "modelSlug": "ceramic-60mm",
+    "category": "Moledores",
     "storeCount": 4,
     "offerIds": [
-      496,
-      1442,
-      2261,
-      12587,
-      19431
+      538,
+      4423,
+      4646,
+      29042,
+      29043,
+      29044,
+      29045,
+      29046,
+      29047,
+      29048,
+      29049,
+      29050,
+      29051,
+      33564,
+      33565,
+      33566,
+      33567,
+      33568,
+      33569,
+      33570,
+      33571,
+      33572,
+      68964
     ]
   },
   {
@@ -811,21 +923,6 @@
       307,
       784,
       13596
-    ]
-  },
-  {
-    "id": 10145,
-    "name": "Raw Enrolador King Size - GB The Green Brand",
-    "brandKey": "raw",
-    "modelKey": "rolling-machine-king-size",
-    "modelSlug": "rolling-machine-ecoplastic-king-size",
-    "category": "Otros parafernalia",
-    "storeCount": 4,
-    "offerIds": [
-      151,
-      2032,
-      11033,
-      31689
     ]
   },
   {
@@ -1176,6 +1273,21 @@
     ]
   },
   {
+    "id": 10517,
+    "name": "Ozeta Mochila Roll Up Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": null,
+    "modelSlug": "mochila-roll-up",
+    "category": "Otros parafernalia",
+    "storeCount": 4,
+    "offerIds": [
+      12506,
+      16159,
+      20110,
+      69330
+    ]
+  },
+  {
     "id": 10526,
     "name": "Ozeta Bolso Felpudo Gatito Anti-Olor",
     "brandKey": "ozeta",
@@ -1222,6 +1334,23 @@
       21958,
       37289,
       37291
+    ]
+  },
+  {
+    "id": 10561,
+    "name": "Puffco New Peak Pro Pearl + 3DXL Limited",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-peak-pro",
+    "modelSlug": "new-peak-pro-pearl-3dxl",
+    "category": "Accesorios de extraccion",
+    "storeCount": 4,
+    "offerIds": [
+      11055,
+      17190,
+      31794,
+      31829,
+      34356,
+      69037
     ]
   },
   {
@@ -1319,27 +1448,6 @@
     ]
   },
   {
-    "id": 5478,
-    "name": "Papelillos Gizeh Pink 1 1/4 Extra Fine",
-    "brandKey": "gizeh",
-    "modelKey": null,
-    "modelSlug": "pink",
-    "category": "Papelillos",
-    "storeCount": 3,
-    "offerIds": [
-      210,
-      624,
-      1229,
-      1251,
-      1273,
-      1399,
-      2136,
-      2137,
-      2138,
-      5169
-    ]
-  },
-  {
     "id": 5489,
     "name": "Pipa Top Smoke Pocket Travel | PIRANHA",
     "brandKey": "top-smoke",
@@ -1405,6 +1513,20 @@
     ]
   },
   {
+    "id": 5492,
+    "name": "Cabo Heavy Hitter Pyrex",
+    "brandKey": "cabo",
+    "modelKey": "pipe-heavy-hitter-pyrex",
+    "modelSlug": "heavy-hitter-9mm",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      1411,
+      2027,
+      68973
+    ]
+  },
+  {
     "id": 5494,
     "name": "PMG Pipa Kazili 12cm",
     "brandKey": "piecemaker",
@@ -1416,6 +1538,20 @@
       3211,
       5474,
       5581
+    ]
+  },
+  {
+    "id": 5498,
+    "name": "Galaxy Moledor Biodegradable | Grinder ecológico resistente",
+    "brandKey": "galaxy",
+    "modelKey": "grinder-grinder-ecologico",
+    "modelSlug": "ecologico",
+    "category": "Moledores",
+    "storeCount": 3,
+    "offerIds": [
+      4097,
+      4713,
+      68956
     ]
   },
   {
@@ -2220,28 +2356,6 @@
     ]
   },
   {
-    "id": 6002,
-    "name": "Moledor SLX 90mm",
-    "brandKey": "slx",
-    "modelKey": "grinder-90mm",
-    "modelSlug": "ceramic-90mm",
-    "category": "Moledores",
-    "storeCount": 3,
-    "offerIds": [
-      2311,
-      4425,
-      6194,
-      31215,
-      31216,
-      31217,
-      31218,
-      33748,
-      33749,
-      33750,
-      33751
-    ]
-  },
-  {
     "id": 6003,
     "name": "Moledor Tarjeta Soulblime portátil",
     "brandKey": "soulblime",
@@ -2354,21 +2468,6 @@
     ]
   },
   {
-    "id": 7885,
-    "name": "Estuche Ywiwis Gollo - OZeta | PIRANHA",
-    "brandKey": "ozeta",
-    "modelKey": "container-estuche",
-    "modelSlug": "case-ywiwis",
-    "category": "Contenedores y estuches",
-    "storeCount": 3,
-    "offerIds": [
-      687,
-      740,
-      32848,
-      36121
-    ]
-  },
-  {
     "id": 8647,
     "name": "Repuesto Saber Replacement Tip Focus V | PIRANHA",
     "brandKey": "focus-v",
@@ -2396,39 +2495,6 @@
       2060,
       32232,
       34079
-    ]
-  },
-  {
-    "id": 9852,
-    "name": "Moledor SLX 60mm┃Moledor de cerámica antiadherente",
-    "brandKey": "slx",
-    "modelKey": "grinder-ceramic-63mm",
-    "modelSlug": "ceramic-60mm",
-    "category": "Moledores",
-    "storeCount": 3,
-    "offerIds": [
-      538,
-      4423,
-      4646,
-      29042,
-      29043,
-      29044,
-      29045,
-      29046,
-      29047,
-      29048,
-      29049,
-      29050,
-      29051,
-      33564,
-      33565,
-      33566,
-      33567,
-      33568,
-      33569,
-      33570,
-      33571,
-      33572
     ]
   },
   {
@@ -2780,6 +2846,20 @@
       11532,
       13302,
       34994
+    ]
+  },
+  {
+    "id": 10200,
+    "name": "Limpiador Parafernalia Silicona Thievery 250Ml",
+    "brandKey": "thievery",
+    "modelKey": "cleaner-250ml",
+    "modelSlug": "cleaner-250ml",
+    "category": "Limpieza",
+    "storeCount": 3,
+    "offerIds": [
+      11248,
+      12311,
+      69225
     ]
   },
   {
@@ -3524,6 +3604,22 @@
     ]
   },
   {
+    "id": 10359,
+    "name": "Bonglab Difusor Logo 14mm Morado",
+    "brandKey": "bonglab",
+    "modelKey": "repuestos-difusor-14mm",
+    "modelSlug": "difusor-logo-14mm-morado",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      12238,
+      15559,
+      32199,
+      34005,
+      34006
+    ]
+  },
+  {
     "id": 10360,
     "name": "DaVinci IQ2 Boquilla",
     "brandKey": "davinci",
@@ -3592,6 +3688,30 @@
       11118,
       11589,
       18162
+    ]
+  },
+  {
+    "id": 10376,
+    "name": "Ozeta Banano con Clave Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": null,
+    "modelSlug": "banano-con-clave",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      12655,
+      12936,
+      32829,
+      32830,
+      32831,
+      32832,
+      32833,
+      34154,
+      34155,
+      34156,
+      34157,
+      34158,
+      69126
     ]
   },
   {
@@ -4052,6 +4172,20 @@
     ]
   },
   {
+    "id": 10472,
+    "name": "Caja de Madera RAW",
+    "brandKey": "raw",
+    "modelKey": null,
+    "modelSlug": "caja-madera",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      16050,
+      19575,
+      69181
+    ]
+  },
+  {
     "id": 10474,
     "name": "Bonglab Screw Kit Banger 14mm",
     "brandKey": "bonglab",
@@ -4182,6 +4316,20 @@
     ]
   },
   {
+    "id": 10497,
+    "name": "Hightrip Pin Pizzannabica",
+    "brandKey": "hightrip",
+    "modelKey": null,
+    "modelSlug": "pin-pizzannabica",
+    "category": "Otros parafernalia",
+    "storeCount": 3,
+    "offerIds": [
+      16196,
+      20233,
+      33427
+    ]
+  },
+  {
     "id": 10503,
     "name": "Yocan Vaporizador Pocket",
     "brandKey": "yocan",
@@ -4200,17 +4348,17 @@
     ]
   },
   {
-    "id": 10517,
-    "name": "Ozeta Mochila Roll Up Anti-Olor",
+    "id": 10518,
+    "name": "Ozeta Case Cilíndrico Con Clave Anti-Olor",
     "brandKey": "ozeta",
     "modelKey": null,
-    "modelSlug": "mochila-roll-up",
+    "modelSlug": "case-cilindrico-con-clave",
     "category": "Otros parafernalia",
     "storeCount": 3,
     "offerIds": [
-      12506,
-      16159,
-      20110
+      15959,
+      19320,
+      69112
     ]
   },
   {
@@ -4319,22 +4467,6 @@
       17189,
       31797,
       31828
-    ]
-  },
-  {
-    "id": 10561,
-    "name": "Puffco New Peak Pro Pearl + 3DXL Limited",
-    "brandKey": "puffco",
-    "modelKey": "vaporizer-peak-pro",
-    "modelSlug": "new-peak-pro-pearl-3dxl",
-    "category": "Accesorios de extraccion",
-    "storeCount": 3,
-    "offerIds": [
-      11055,
-      17190,
-      31794,
-      31829,
-      34356
     ]
   },
   {
@@ -4480,6 +4612,21 @@
       3140,
       16035,
       17904
+    ]
+  },
+  {
+    "id": 10648,
+    "name": "Puffco New Peak Onyx (2024)",
+    "brandKey": "puffco",
+    "modelKey": "new-peak-onyx",
+    "modelSlug": "new-peak-onyx",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      657,
+      17218,
+      31839,
+      69335
     ]
   },
   {
@@ -4657,6 +4804,24 @@
       26061,
       26780,
       33406
+    ]
+  },
+  {
+    "id": 10680,
+    "name": "Airistech Vaporizador Herbva Nokiva",
+    "brandKey": "airistech",
+    "modelKey": "herbva-nokiva",
+    "modelSlug": "herbva-nokiva",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      33396,
+      33397,
+      33398,
+      36191,
+      36192,
+      36193,
+      39787
     ]
   },
   {
