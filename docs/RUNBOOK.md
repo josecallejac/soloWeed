@@ -110,6 +110,10 @@ echo "TIMEOUT"; exit 2
 arma el watch, su turno se da por completado y la notificacion de fin no re-invoca a
 nadie — el scrape termina bien pero el resultado queda colgado. El scrape en si
 (`Start-Process` desacoplado) nunca muere; lo que se pierde es quien lo recoge.
+Tampoco lo rescata darle al subagente un wait fijo (ej. 5 min): Monitor es asincrono
+por diseño (no bloquea el turno), el sleep en foreground esta bloqueado y cada Bash
+capea a 10 min — menos de lo que dura un scrape completo. Y con el digest el log ya
+no entra al contexto de nadie, asi que delegar el scrape no ahorra tokens.
 
 **Siempre redirigir dentro de `cmd.exe /c ...`, nunca con `>` directo de PowerShell**:
 PS 5.1 escribe UTF-16 LE en la redireccion nativa y los digests (que leen UTF-8) no
