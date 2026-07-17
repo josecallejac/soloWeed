@@ -65,6 +65,23 @@
     ]
   },
   {
+    "id": 5747,
+    "name": "Quemador Honeycomb Macho 18Mm",
+    "brandKey": "bonglab",
+    "modelKey": "banger-quemador-honeycomb-18mm",
+    "modelSlug": "bowl-honeycomb-18mm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 5,
+    "offerIds": [
+      2021,
+      2240,
+      2547,
+      2581,
+      3492,
+      69081
+    ]
+  },
+  {
     "id": 5761,
     "name": "Estuche Anti Olor OZeta Grande (Color a elección)",
     "brandKey": "ozeta",
@@ -180,6 +197,22 @@
       12684,
       12984,
       69162
+    ]
+  },
+  {
+    "id": 10274,
+    "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": null,
+    "modelSlug": "alfalfa",
+    "category": "Papelillos",
+    "storeCount": 5,
+    "offerIds": [
+      2323,
+      12322,
+      13416,
+      15811,
+      69295
     ]
   },
   {
@@ -581,22 +614,6 @@
       2020,
       2546,
       2580
-    ]
-  },
-  {
-    "id": 5747,
-    "name": "Quemador Honeycomb Macho 18Mm",
-    "brandKey": "bonglab",
-    "modelKey": "banger-quemador-honeycomb-18mm",
-    "modelSlug": "bowl-honeycomb-18mm",
-    "category": "Repuestos para bongs y vaporizadores",
-    "storeCount": 4,
-    "offerIds": [
-      2021,
-      2240,
-      2547,
-      2581,
-      3492
     ]
   },
   {
@@ -1159,21 +1176,6 @@
       12308,
       12883,
       14031
-    ]
-  },
-  {
-    "id": 10274,
-    "name": "Papelillos Alfalfa 1 1/4-Lion Rolling Circus",
-    "brandKey": "lion-rolling-circus",
-    "modelKey": null,
-    "modelSlug": "alfalfa",
-    "category": "Papelillos",
-    "storeCount": 4,
-    "offerIds": [
-      2323,
-      12322,
-      13416,
-      15811
     ]
   },
   {
