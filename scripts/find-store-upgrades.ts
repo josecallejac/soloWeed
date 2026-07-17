@@ -21,12 +21,23 @@ import { scoreSuggestion, type ReviewOfferInput } from "../src/lib/matching";
 const MIN_SCORE = Number(process.env.UPGRADE_MIN_SCORE ?? "0.62");
 const PRICE_BAND = Number(process.env.UPGRADE_PRICE_BAND ?? "0.5"); // +-50% del precio del seed
 const TOP_PER_PRODUCT = Number(process.env.UPGRADE_TOP ?? "3");
-// Niveles de producto a incluir como objetivo (los de 4 estan congelados).
+// Niveles de producto a incluir como objetivo. Los de 4 tiendas estan
+// congelados pero pueden RECIBIR la oferta de una tienda nueva y subir a 5
+// (regla "solo sumar", 2026-07-17): UPGRADE_LEVELS="4" + UPGRADE_STORES con
+// la tienda nueva. Jamas tocar/cambiar sus ofertas existentes.
 const LEVELS = new Set(
   (process.env.UPGRADE_LEVELS ?? "2,3")
     .split(",")
     .map((n) => Number(n.trim()))
-    .filter((n) => n >= 1 && n <= 3),
+    .filter((n) => n >= 1 && n <= 4),
+);
+// Restringe las tiendas donde buscar la oferta faltante (slugs separados por
+// coma); vacio = todas las que le falten al producto.
+const STORE_FILTER = new Set(
+  (process.env.UPGRADE_STORES ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
 );
 const CATEGORY_FILTER = new Set(
   (process.env.UPGRADE_CATEGORIES ?? "")
@@ -109,7 +120,9 @@ async function main() {
   const candidates: Candidate[] = [];
   for (const product of targets) {
     const productStores = new Set(product.offers.map((o) => o.storeId));
-    const missingStores = allStoreIds.filter((id) => !productStores.has(id));
+    const missingStores = allStoreIds.filter(
+      (id) => !productStores.has(id) && (!STORE_FILTER.size || STORE_FILTER.has(storeName.get(id) ?? "")),
+    );
     if (!missingStores.length) continue;
 
     // Seed: la oferta del producto con mas senal (titulo mas largo).
