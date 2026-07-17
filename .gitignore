@@ -75,3 +75,4 @@ reports/upgrades-run.txt
 /reports/scrape-snapshot.json
 /reports/catalog-audit/triage-*-candidates.csv
 /reports/catalog-audit/triage-*-orphan-orphan.csv
+/reports/catalog-audit/triage-orphan-groups-*.csv

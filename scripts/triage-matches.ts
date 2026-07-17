@@ -45,8 +45,8 @@ const FREQ_MAX = Number(process.env.TRIAGE_FREQ_MAX ?? "3");
 const FROZEN_STORES = Number(process.env.TRIAGE_FROZEN ?? "4");
 
 // Metadata inline de una oferta tal como aparece en el log.
-type LogOffer = { id: number; storeId: number; productId: number | null; price: number };
-type LogPair = { score: number; scoreKind: "sim" | "dist"; a: LogOffer; b: LogOffer };
+export type LogOffer = { id: number; storeId: number; productId: number | null; price: number };
+export type LogPair = { score: number; scoreKind: "sim" | "dist"; a: LogOffer; b: LogOffer };
 
 // "12623 t1 huerfana $89990 | Titulo..." / "16063 t3 prod 10855 $94991 | ..."
 const OFFER_RE = /(\d+)\s+t(\d+)\s+(?:prod\s+(\d+)|huerfana)\s+\$(\d+)\s+\|/;
@@ -62,7 +62,7 @@ function parseOffer(line: string): LogOffer | null {
   return { id: Number(m[1]), storeId: Number(m[2]), productId: m[3] ? Number(m[3]) : null, price: Number(m[4]) };
 }
 
-function parseLog(logPath: string): LogPair[] {
+export function parseLog(logPath: string): LogPair[] {
   const lines = readFileSync(logPath, "utf-8").split(/\r?\n/);
   const pairs: LogPair[] = [];
   let pending: { score: number; scoreKind: "sim" | "dist"; a: LogOffer } | null = null;
@@ -270,11 +270,14 @@ async function main() {
   }
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Guard: triage-orphan-pairs.ts importa parseLog de aca; solo corre como CLI.
+if (require.main === module) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
