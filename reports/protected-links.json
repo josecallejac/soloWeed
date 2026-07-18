@@ -3428,6 +3428,20 @@
     ]
   },
   {
+    "id": 10302,
+    "name": "Storz &amp; Bickel Vaporizador Volcano Classic Gold 24K",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-volcano-classic",
+    "modelSlug": "volcano-classic-gold-24k",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      1243,
+      12211,
+      69031
+    ]
+  },
+  {
     "id": 10303,
     "name": "Unidad De Enfriamiento Mighty-Storz &amp; Bickel",
     "brandKey": "storz-bickel",
