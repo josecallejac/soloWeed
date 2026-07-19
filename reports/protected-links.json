@@ -1300,6 +1300,21 @@
     ]
   },
   {
+    "id": 10457,
+    "name": "Bonglab Mini Beaker Kit Extractos",
+    "brandKey": "bonglab",
+    "modelKey": "bong-mini-beaker-kit-extractos-mini",
+    "modelSlug": "mini-beaker-kit-extractos",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      55,
+      16133,
+      18122,
+      18493
+    ]
+  },
+  {
     "id": 10508,
     "name": "Weecke Vaporizador Fenix Mini Plus",
     "brandKey": "weecke",
@@ -1393,6 +1408,29 @@
       31829,
       34356,
       69037
+    ]
+  },
+  {
+    "id": 10665,
+    "name": "Ignite Soplete Compact",
+    "brandKey": "ignite",
+    "modelKey": "compact",
+    "modelSlug": "compact",
+    "category": "Encendedores y sopletes",
+    "storeCount": 4,
+    "offerIds": [
+      33034,
+      33035,
+      33036,
+      33038,
+      33039,
+      34311,
+      34312,
+      34313,
+      34314,
+      34315,
+      38358,
+      39745
     ]
   },
   {
@@ -1733,7 +1771,9 @@
       2984,
       3498,
       31602,
-      34507
+      31603,
+      34507,
+      34508
     ]
   },
   {
@@ -2054,9 +2094,11 @@
       3369,
       3596,
       12876,
+      31272,
       31285,
       31287,
-      31288
+      31288,
+      34052
     ]
   },
   {
@@ -3160,10 +3202,12 @@
       31343,
       31344,
       31345,
+      31346,
       33993,
       33994,
       33995,
-      33996
+      33996,
+      33998
     ]
   },
   {
@@ -3180,8 +3224,10 @@
       14217,
       31289,
       31290,
+      31291,
       34978,
-      34979
+      34979,
+      34980
     ]
   },
   {
