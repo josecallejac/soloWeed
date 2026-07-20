@@ -514,8 +514,19 @@ const EXCLUDED_PRODUCT_TERMS = [
   "gomita",
   "snack",
   "bebida",
-  "tabaco",
 ];
+
+/**
+ * Terminos que solo excluyen si aparecen en el TITULO, no en la URL ni en la
+ * categoria de origen.
+ *
+ * "tabaco": Kushbreak etiqueta sus papelillos/filtros con "tabaco" en el slug
+ * (papelillos-ocb-bamboo-1-1/4-tabaco), asi que mirarlo en la URL descartaba
+ * parafernalia legitima. De las 15 URLs suyas con "tabaco", 14 son papelillos,
+ * filtros, blunt wraps o ceniceros; el unico tabaco real ("Tabaco Stingray
+ * Golden Virginia") lo declara en el titulo.
+ */
+const EXCLUDED_TITLE_TERMS = ["tabaco"];
 
 const VAPE_EXCLUDED_TERMS = [
   "desechable",
@@ -1678,6 +1689,10 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
   const titleOnly = normalizeForSearch(title);
 
   if (EXCLUDED_PRODUCT_TERMS.some((term) => text.includes(term))) {
+    return null;
+  }
+
+  if (EXCLUDED_TITLE_TERMS.some((term) => titleOnly.includes(term))) {
     return null;
   }
 
