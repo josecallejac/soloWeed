@@ -22,7 +22,7 @@ type OfferRow = {
   category: string | null;
 };
 
-function cosineSimilarity(vecA: number[], vecB: number[]) {
+export function cosineSimilarity(vecA: number[], vecB: number[]) {
   let dotProduct = 0;
   let normA = 0;
   let normB = 0;
@@ -39,16 +39,21 @@ function formatOffer(offer: OfferRow): string {
   return `${offer.id} t${offer.storeId} ${tag} $${offer.price} | ${offer.title.slice(0, 55)}`;
 }
 
-async function main() {
+/**
+ * Embeddings CLIP de las ofertas indicadas, con cache en disco.
+ *
+ * TRAMPA HEREDADA (documentada en r29): esto NO descarga imagenes; solo procesa
+ * las ofertas cuyo `.bin` ya existe en la cache de match-by-image.ts. Correrlo
+ * sin haber corrido match:image antes devuelve un resultado de apariencia normal
+ * que ignora silenciosamente las ofertas nuevas.
+ *
+ * Exportada para que find-store-upgrades-by-image.ts pueda reusar el motor sin
+ * el agrupamiento por categoria del barrido global (Kushbreak clasifica sucio).
+ */
+export async function computeEmbeddings(offerIds: number[]): Promise<Map<number, number[]>> {
   console.log("Cargando modelo CLIP Vision (Xenova/clip-vit-base-patch32)...");
   // Carga de la red neuronal que convertirá imágenes en vectores
-  const extractor = await pipeline('image-feature-extraction', 'Xenova/clip-vit-base-patch32');
-
-  const offers = await prisma.offer.findMany({
-    where: { imageUrl: { not: null } },
-    select: { id: true, storeId: true, productId: true, price: true, title: true, category: true },
-    orderBy: { id: "asc" }
-  });
+  const extractor = await pipeline("image-feature-extraction", "Xenova/clip-vit-base-patch32");
 
   // Load cached embeddings if any
   let embeddingsCache: Record<number, number[]> = {};
@@ -59,16 +64,16 @@ async function main() {
   const embeddings = new Map<number, number[]>();
   let newlyComputed = 0;
 
-  console.log(`Procesando embeddings para ${offers.length} ofertas...`);
-  
-  for (let i = 0; i < offers.length; i++) {
-    const offer = offers[i];
-    const imgPath = path.join(CACHE_DIR, `${offer.id}.bin`);
-    
+  console.log(`Procesando embeddings para ${offerIds.length} ofertas...`);
+
+  for (let i = 0; i < offerIds.length; i++) {
+    const offerId = offerIds[i];
+    const imgPath = path.join(CACHE_DIR, `${offerId}.bin`);
+
     if (!existsSync(imgPath)) continue;
 
-    if (embeddingsCache[offer.id]) {
-      embeddings.set(offer.id, embeddingsCache[offer.id]);
+    if (embeddingsCache[offerId]) {
+      embeddings.set(offerId, embeddingsCache[offerId]);
       continue;
     }
 
@@ -82,21 +87,32 @@ async function main() {
       const output = await extractor(absolutePath);
       // output.data contiene el Float32Array
       const vec = Array.from(output.data) as number[];
-      embeddings.set(offer.id, vec);
-      embeddingsCache[offer.id] = vec;
+      embeddings.set(offerId, vec);
+      embeddingsCache[offerId] = vec;
       newlyComputed++;
     } catch (e) {
       // Error silencioso si no puede procesar la imagen (ej: buffer corrupto)
     }
 
     if ((i + 1) % 100 === 0) {
-      process.stdout.write(`\rProcesadas: ${i + 1}/${offers.length}`);
+      process.stdout.write(`\rProcesadas: ${i + 1}/${offerIds.length}`);
     }
   }
   console.log(`\nExtracción completa. Embeddings nuevos calculados: ${newlyComputed}`);
 
   // Save cache
   writeFileSync(EMBEDDING_CACHE, JSON.stringify(embeddingsCache));
+  return embeddings;
+}
+
+async function main() {
+  const offers = await prisma.offer.findMany({
+    where: { imageUrl: { not: null } },
+    select: { id: true, storeId: true, productId: true, price: true, title: true, category: true },
+    orderBy: { id: "asc" }
+  });
+
+  const embeddings = await computeEmbeddings(offers.map((o) => o.id));
 
   console.log("Buscando coincidencias semánticas...");
 
@@ -141,4 +157,8 @@ async function main() {
   console.log("\n* = similitud >= 95% (alta certeza semántica). Revisar el texto de todas formas.");
 }
 
-main().catch(console.error).finally(() => prisma.$disconnect());
+// Guard: find-store-upgrades-by-image.ts importa computeEmbeddings de aca; el
+// barrido global por categoria solo corre como CLI.
+if (require.main === module) {
+  main().catch(console.error).finally(() => prisma.$disconnect());
+}

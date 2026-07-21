@@ -27,12 +27,15 @@ import { prisma } from "../src/lib/prisma";
 // scratch/img/cache, fuera del repo); borrar el archivo para re-descargar.
 
 const CACHE_DIR = process.env.MATCH_IMG_CACHE ?? path.join("scratch", "img", "cache");
+// A nivel de modulo: los importadores (find-store-upgrades-by-image.ts) usan
+// fetchImage sin pasar por main(), y sin el directorio toda descarga falla.
+mkdirSync(CACHE_DIR, { recursive: true });
 const MAX_DIST = Number(process.env.MATCH_IMG_MAX_DIST ?? 140);
 const HIGH_CONFIDENCE_DIST = 60;
 const HASH_SIZE = 16; // 16x16 en ambos ejes = 512 bits
 const DOWNLOAD_CONCURRENCY = 8;
 
-type OfferRow = {
+export type OfferRow = {
   id: number;
   storeId: number;
   productId: number | null;
@@ -41,7 +44,7 @@ type OfferRow = {
   imageUrl: string;
 };
 
-async function fetchImage(offer: OfferRow): Promise<Buffer | null> {
+export async function fetchImage(offer: OfferRow): Promise<Buffer | null> {
   const cached = path.join(CACHE_DIR, `${offer.id}.bin`);
   if (existsSync(cached)) return readFileSync(cached);
   try {
@@ -61,7 +64,7 @@ async function fetchImage(offer: OfferRow): Promise<Buffer | null> {
 
 // El hash de 512 bits se representa como Uint8Array(64): el target ES2017 del
 // proyecto no admite literales BigInt y el XOR por byte es ademas mas rapido.
-async function computeHash(buffer: Buffer): Promise<Uint8Array> {
+export async function computeHash(buffer: Buffer): Promise<Uint8Array> {
   // Recortar al contenido: pixeles mas oscuros que 230 (umbral del prototipo).
   const { data, info } = await sharp(buffer)
     .greyscale()
@@ -116,7 +119,7 @@ for (let i = 0; i < 256; i++) {
   POPCOUNT[i] = (i & 1) + POPCOUNT[i >> 1];
 }
 
-function hammingDistance(a: Uint8Array, b: Uint8Array): number {
+export function hammingDistance(a: Uint8Array, b: Uint8Array): number {
   let count = 0;
   for (let i = 0; i < a.length; i++) {
     count += POPCOUNT[a[i] ^ b[i]];
@@ -175,7 +178,6 @@ async function scanCategory(category: string, offers: OfferRow[]) {
 }
 
 async function main() {
-  mkdirSync(CACHE_DIR, { recursive: true });
   const requested = process.env.MATCH_IMG_CATEGORIES?.split(",")
     .map((value) => value.trim())
     .filter(Boolean);
@@ -203,11 +205,15 @@ async function main() {
   );
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+// Guard: find-store-upgrades-by-image.ts importa fetchImage/computeHash/
+// hammingDistance de aca; el barrido completo solo corre como CLI.
+if (require.main === module) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}
