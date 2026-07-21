@@ -11,8 +11,10 @@
  * Motivos que distingue, en el mismo orden en que el scraper descarta:
  *   1 url-no-producto  isAllowedUrl / isLikelyProductUrl (categorias, blog, legales)
  *   2 sin-senal        isPotentialCandidate: ni CANDIDATE_KEYWORDS ni marca conocida
- *   3 excluida         pasa los filtros pero classifyProduct devuelve null
- *   4 deberia-estar    pasa todo -> hay otro bug (p.ej. corte de candidatos)
+ *   3 no-carga         la pagina no responde (sitemap obsoleto: Piranha redirige a 404)
+ *   4 no-es-ficha      og:type != product (el sitemap lista categorias y paginas CMS)
+ *   5 excluida         es ficha, pero classifyProduct la descarta (cultivo, semillas)
+ *   6 deberia-estar    pasa todo -> hay otro bug (p.ej. corte de candidatos)
  *
  * El motivo 2 es el agujero de cobertura: esas URLs ni siquiera se visitan.
  *
@@ -44,12 +46,29 @@ const STORE_SLUG = process.env.COVERAGE_STORE ?? "kushbreak";
 const FETCH_TITLES = (process.env.COVERAGE_TITLES ?? "1") !== "0";
 const DELAY_MS = Number(process.env.COVERAGE_DELAY_MS ?? "700");
 
-type Reason = "url-no-producto" | "sin-senal" | "excluida" | "deberia-estar";
+type Reason = "url-no-producto" | "sin-senal" | "no-carga" | "no-es-ficha" | "excluida" | "deberia-estar";
 
 type Row = { url: string; reason: Reason; title: string; category: string };
 
+// PrestaShop (Piranha/GrowBarato) sirve la MISMA ficha bajo varias rutas, asi
+// que comparar la URL literal daria "todo ausente":
+//   Piranha BD /inicio/7787/figura-x.html  vs sitemap /inicio/38-filtro-y.html
+//   GB         /<categoria>/<slug>.html    con la categoria variable
+// La identidad real es el id numerico (Piranha) o el slug final (GB).
 function normalizeUrlForCompare(url: string): string {
-  return url.split("?")[0].replace(/\/$/, "").toLowerCase();
+  const clean = url.split("?")[0].replace(/\/$/, "").toLowerCase();
+
+  if (clean.includes("piranha.cl")) {
+    const id = clean.match(/\/(\d+)[-/][^/]*\.html$/);
+    if (id) return `piranha:${id[1]}`;
+  }
+
+  if (clean.includes("growbaratochile.cl") && clean.endsWith(".html")) {
+    const slug = clean.replace(/\.html$/, "").split("/").filter(Boolean).pop();
+    if (slug) return `gb:${slug.replace(/^\d+-/, "")}`;
+  }
+
+  return clean;
 }
 
 async function main() {
@@ -93,23 +112,29 @@ async function main() {
   // classifyProduct las aceptaria (el scraper visita la pagina en este punto).
   for (const url of pending) {
     let title = "";
+    let ogType = "";
     if (FETCH_TITLES) {
       try {
         const html = await fetchText(url);
         const $ = load(html);
         title = ($("meta[property='og:title']").attr("content") ?? $("h1").first().text() ?? "").trim();
+        ogType = ($("meta[property='og:type']").attr("content") ?? "").trim().toLowerCase();
       } catch {
         title = "";
       }
       await new Promise((r) => setTimeout(r, DELAY_MS));
     }
     const category = title ? classifyProduct(title, url) : null;
-    rows.push({
-      url,
-      reason: title && !category ? "excluida" : "deberia-estar",
-      title,
-      category: category ?? "",
-    });
+    let reason: Reason = "deberia-estar";
+    if (FETCH_TITLES) {
+      // og:type es la unica senal fiable de "esto es una ficha": los sitemaps
+      // listan tambien categorias y paginas CMS, que dan titulo y hasta
+      // categoria plausible ("BONGS") sin ser un producto.
+      if (!title) reason = "no-carga";
+      else if (ogType !== "product") reason = "no-es-ficha";
+      else if (!category) reason = "excluida";
+    }
+    rows.push({ url, reason, title, category: category ?? "" });
   }
 
   const byReason = new Map<Reason, Row[]>();
@@ -118,12 +143,19 @@ async function main() {
     byReason.get(row.reason)!.push(row);
   }
 
-  const order: Reason[] = ["sin-senal", "excluida", "deberia-estar", "url-no-producto"];
+  const order: Reason[] = [
+    "deberia-estar",
+    "sin-senal",
+    "excluida",
+    "no-es-ficha",
+    "no-carga",
+    "url-no-producto",
+  ];
   for (const reason of order) {
     const list = byReason.get(reason) ?? [];
     console.log(`=== ${reason}: ${list.length} ===`);
-    // url-no-producto es ruido esperado (categorias/blog/legales): solo el conteo.
-    if (reason === "url-no-producto") continue;
+    // Ruido esperado (categorias/blog/legales/sitemap obsoleto): solo el conteo.
+    if (reason === "url-no-producto" || reason === "no-es-ficha" || reason === "no-carga") continue;
     for (const row of list) {
       const path = row.url.replace(store.baseUrl, "");
       console.log(`  ${path}${row.title ? `  | ${row.title.slice(0, 50)}` : ""}${row.category ? ` -> ${row.category}` : ""}`);
@@ -134,7 +166,7 @@ async function main() {
   mkdirSync("reports", { recursive: true });
   writeFileSync(
     `reports/store-coverage-${STORE_SLUG}.csv`,
-    [
+    "﻿" + [
       "reason,url,title,category",
       ...rows.map((r) => [r.reason, r.url, `"${r.title.replace(/"/g, "'")}"`, r.category].join(",")),
     ].join("\n"),

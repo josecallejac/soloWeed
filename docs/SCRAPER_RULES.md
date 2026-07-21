@@ -48,12 +48,39 @@ Piranha y GrowBarato Chile son PrestaShop. Para estas tiendas:
 - Solo persistir URLs de producto `.html`.
 - Limpiar ofertas obsoletas que apunten a categorias, marcas o paginas no producto.
 - No aceptar URLs de categoria aunque tengan nombres parecidos a productos.
+- Sus sitemaps envuelven cada `<loc>` en `CDATA`; `decodeXml` debe desenvolverlo. Sin
+  eso las URLs no parsean y **el camino sitemap queda muerto** para ambas tiendas (bug
+  encontrado el 21 jul 2026: GrowBarato tenia 232 fichas de parafernalia sin scrapear).
 
 ## Candidatos Y Cobertura
 
 - Las URLs candidatas se agrupan por categoria y familia/firma de producto antes de intercalarse.
 - Esto evita que limites bajos de scraping dejen sin cobertura secciones pequenas como `Pipas`.
 - Si agregas nuevas categorias, revisa que la intercalacion siga cubriendo categorias chicas.
+
+### Medir la cobertura de una tienda
+
+`scripts/diagnose-store-coverage.ts` (solo lectura) compara el sitemap con la BD y
+clasifica cada URL ausente con los filtros REALES del scraper:
+
+```powershell
+$env:COVERAGE_STORE="growbarato"; npx tsx scripts/diagnose-store-coverage.ts
+$env:COVERAGE_TITLES="0"; ...   # sin red: solo el reparto por filtros de URL
+```
+
+Solo `deberia-estar` es hueco accionable. Los demas motivos son ruido esperado:
+`sin-senal` (el scraper ni la visita), `no-es-ficha` (og:type != product: el sitemap
+lista categorias y CMS), `no-carga` (sitemap obsoleto), `excluida` (cultivo/semillas).
+
+Trampas medidas el 21 jul 2026, tenerlas en cuenta antes de creerle a un numero:
+
+- **Comparar la URL literal no sirve en PrestaShop**: sirve la misma ficha bajo varias
+  rutas (Piranha por id `/inicio/38-slug.html` vs `/inicio/7787/slug.html`; GB con la
+  categoria variable). La identidad es el id (Piranha) o el slug final (GB).
+- **El sitemap de Piranha esta obsoleto**: sus URLs redirigen a 404, no son cobertura
+  perdida. Cuestan ~104 fetches fallidos por corrida y no ensucian la BD.
+- Un titulo de categoria ("BONGS") clasifica como categoria valida sin ser un producto:
+  por eso el motivo se decide con `og:type`, no con `classifyProduct`.
 
 ## Clasificacion Y Reparacion
 

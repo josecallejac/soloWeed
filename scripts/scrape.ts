@@ -2265,6 +2265,13 @@ function hasAny(value: string, terms: string[]) {
 }
 
 function decodeXml(value: string) {
+  // Los sitemaps de PrestaShop (Piranha/GrowBarato) envuelven cada <loc> en
+  // CDATA; su contenido es literal, no lleva entidades que decodificar.
+  const cdata = value.trim().match(/^<!\[CDATA\[([\s\S]*?)\]\]>$/);
+  if (cdata) {
+    return cdata[1].trim();
+  }
+
   return value
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
