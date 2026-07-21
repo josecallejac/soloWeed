@@ -3,7 +3,7 @@ import { load } from "cheerio";
 import { BRAND_ALIASES, KNOWN_BRAND_PHRASES } from "../src/lib/matching-constants";
 import { prisma } from "../src/lib/prisma";
 
-type StoreConfig = {
+export type StoreConfig = {
   slug: string;
   name: string;
   baseUrl: string;
@@ -52,7 +52,7 @@ const CATEGORY_FILTER = new Set(
     .filter(Boolean),
 );
 
-const STORES: StoreConfig[] = [
+export const STORES: StoreConfig[] = [
   {
     slug: "astrogrowshop",
     name: "Astro Growshop",
@@ -255,6 +255,29 @@ const STORES: StoreConfig[] = [
       "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos/vaporizadores-de-aceites",
       "https://www.kushbreak.cl/vaporizadores-cannabis-hierbas-extractos/vaporizadores-de-hierbas",
       "https://www.kushbreak.cl/extracciones",
+      // Categorias y paginas de marca que el diagnostico de cobertura
+      // (diagnose-store-coverage.ts, 2026-07-21) encontro en su sitemap sin
+      // configurar. Desde una categoria el filtro ve URL + texto del enlace,
+      // que es mas senal que la URL sola.
+      "https://www.kushbreak.cl/bongs-vidrio-borosilicato",
+      "https://www.kushbreak.cl/grav-labs-pipas",
+      "https://www.kushbreak.cl/pesa-gramera-digital-gramos-cannabis",
+      "https://www.kushbreak.cl/contenedores-hermeticos-vacio-cannabis/boveda-inc",
+      "https://www.kushbreak.cl/contenedores-hermeticos-vacio-cannabis/cvault",
+      "https://www.kushbreak.cl/moledores-grinders-cannabis-aluminio/calicrusher",
+      "https://www.kushbreak.cl/moledores-grinders-cannabis-aluminio/santacruz-shredder",
+      "https://www.kushbreak.cl/moledores-grinders-cannabis-aluminio/kannastor",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar/kingpalm",
+      "https://www.kushbreak.cl/papeleria-papelillos-enrolar/khemo-papers",
+      "https://www.kushbreak.cl/papeleria/lion-rolling-circus",
+      "https://www.kushbreak.cl/papeleria/empire-rolling-papers",
+      "https://www.kushbreak.cl/raw-papers-papelillos-tabaqueria",
+      "https://www.kushbreak.cl/ocb-papelillos-tabaqueria",
+      "https://www.kushbreak.cl/elements-papelillos-tabaqueria",
+      "https://www.kushbreak.cl/shine-papers-papelillos-oro",
+      "https://www.kushbreak.cl/futurola",
+      "https://www.kushbreak.cl/otros-papelillos",
+      "https://www.kushbreak.cl/ozeta",
     ],
   },
 ];
@@ -355,6 +378,31 @@ const CANDIDATE_KEYWORDS = [
   "bonglab",
   "galaxy",
   "ozeta",
+  // Tipos de producto que faltaban y dejaban fuera parafernalia entera
+  // (diagnostico de cobertura del 2026-07-21: 530 URLs del sitemap de Kushbreak
+  // nunca se visitaban porque su slug no contenia ninguna palabra de esta lista
+  // ni una marca conocida). Son categorias que el catalogo YA tiene.
+  "pesa",
+  "gramera",
+  "balanza",
+  "humedad",
+  "malla",
+  "micron",
+  "rosin",
+  "prensa",
+  "kief",
+  "alcohol",
+  "isopropilico",
+  "lupa",
+  "mecha",
+  "hempwick",
+  "cannagar",
+  "screen",
+  "terp",
+  "nectar",
+  "bateria",
+  // "pipa" ya estaba; las tiendas que titulan en ingles usan "pipe".
+  "pipe",
 ];
 
 // Fuente unica en src/lib/matching-constants.ts; "pmg" se agrega aqui porque
@@ -510,10 +558,40 @@ const EXCLUDED_PRODUCT_TERMS = [
   "masturbador",
   "vibrador",
   "dildo",
-  "chocolate",
   "gomita",
   "snack",
   "bebida",
+  // Fertilizantes y aditivos de cultivo que no dicen "fertilizante" en el
+  // titulo (se colarian ahora que el descubrimiento es mas amplio).
+  "advanced nutrients",
+  "ata organics",
+  // Test de drogas y afines: no son parafernalia. "screeny weeny" entraba por
+  // la keyword "screen" (de los screen kit de moledor).
+  "orina",
+  "detox",
+  "protesis",
+  // Secado/curado de cosecha (cultivo) y servicios, no productos.
+  "secador",
+  "servicio prensa",
+];
+
+/**
+ * Terminos de comestible que NO excluyen si el producto es parafernalia con ese
+ * SABOR. Misma clase de bug que "tabaco" (r42): "chocolate" estaba en la lista
+ * general y dejaba fuera el "HempWrap Chocolate Lion Rolling Circus", que es un
+ * blunt wrap, no un comestible.
+ */
+const FLAVOUR_TERMS = ["chocolate"];
+const PARAPHERNALIA_FLAVOUR_CONTEXT = [
+  "wrap",
+  "blunt",
+  "papelillo",
+  "papel",
+  "cono",
+  "hemp",
+  "cigarrillo",
+  "filtro",
+  "boquilla",
 ];
 
 /**
@@ -962,7 +1040,7 @@ function sortBucketsByPriority(buckets: string[][]) {
   });
 }
 
-async function fetchSitemapUrls(sitemapUrl: string, depth = 0): Promise<string[]> {
+export async function fetchSitemapUrls(sitemapUrl: string, depth = 0): Promise<string[]> {
   if (depth > 2) {
     return [];
   }
@@ -1696,6 +1774,14 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return null;
   }
 
+  // Comestible vs parafernalia con ese sabor (ver FLAVOUR_TERMS).
+  if (
+    FLAVOUR_TERMS.some((term) => text.includes(term)) &&
+    !PARAPHERNALIA_FLAVOUR_CONTEXT.some((term) => text.includes(term))
+  ) {
+    return null;
+  }
+
   // Estuches y Bolsos Ozeta específicos (por encima de moledores genéricos)
   if (hasAny(titleOnly, ["chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "estuche antiolor", "bolso antiolor", "anti-olor ozeta", "tubo case", "porta joint"]) ||
       (hasAny(titleOnly, ["porta papelillo", "porta papelillos"]) && !hasAny(titleOnly, ["filtro", "filtros", "tip", "tips", "boquilla", "boquillas"])) ||
@@ -1852,12 +1938,12 @@ function isHerbalVaporizer(titleOnly: string, text: string) {
   return true;
 }
 
-function isPotentialCandidate(value: string) {
+export function isPotentialCandidate(value: string) {
   const text = normalizeForSearch(value);
   return CANDIDATE_KEYWORDS.some((keyword) => text.includes(keyword)) || getCandidateBrandKey(text) !== "generico";
 }
 
-function isAllowedUrl(value: string, baseUrl: string) {
+export function isAllowedUrl(value: string, baseUrl: string) {
   try {
     const url = new URL(value);
     const base = new URL(baseUrl);
@@ -1873,7 +1959,7 @@ function isAllowedUrl(value: string, baseUrl: string) {
   }
 }
 
-function isLikelyProductUrl(value: string) {
+export function isLikelyProductUrl(value: string) {
   try {
     const url = new URL(value);
     const path = url.pathname.toLowerCase();

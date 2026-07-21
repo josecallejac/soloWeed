@@ -97,6 +97,24 @@ export const KNOWN_BRAND_PHRASES = [
   "blunt wrap",
   "kush hemp",
   "ryot",
+  // Marcas que el catalogo ya vende pero no reconocia. Sin ellas el scraper ni
+  // siquiera visitaba sus paginas: su slug no trae palabra de tipo (ej.
+  // /atmos-micropal, /cali-crusher-slick-mediano) y el descubrimiento exige
+  // keyword O marca conocida (diagnostico de cobertura, 2026-07-21).
+  "boveda",
+  "truweigh",
+  "cali crusher",
+  "boundless",
+  "atmos",
+  "magic flight",
+  "shine",
+  "khemo",
+  "pypetek",
+  "brass knuckles",
+  "kannastor",
+  "kingpalm",
+  "cvault",
+  "empire",
 ];
 
 // Fuente unica de aliases de marca (frase -> brandKey). La comparten el
