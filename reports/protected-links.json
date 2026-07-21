@@ -343,6 +343,66 @@
     ]
   },
   {
+    "id": 10376,
+    "name": "Ozeta Banano con Clave Anti-Olor",
+    "brandKey": "ozeta",
+    "modelKey": null,
+    "modelSlug": "banano-con-clave",
+    "category": "Otros parafernalia",
+    "storeCount": 5,
+    "offerIds": [
+      835,
+      1397,
+      12655,
+      12936,
+      32829,
+      32830,
+      32831,
+      32832,
+      32833,
+      34154,
+      34155,
+      34156,
+      34157,
+      34158,
+      69126
+    ]
+  },
+  {
+    "id": 10388,
+    "name": "Soulblime Hemp Blunt Wrap Sabores",
+    "brandKey": "soulblime",
+    "modelKey": null,
+    "modelSlug": "hemp-blunt-wrap-sabores",
+    "category": "Conos y blunts",
+    "storeCount": 5,
+    "offerIds": [
+      11169,
+      11170,
+      11172,
+      11192,
+      11193,
+      11194,
+      11195,
+      11196,
+      11197,
+      11213,
+      11214,
+      11215,
+      11216,
+      11217,
+      11558,
+      12414,
+      19562,
+      22142,
+      36219,
+      36220,
+      36231,
+      36233,
+      69032
+    ]
+  },
+  {
     "id": 5339,
     "name": "Bong Bubbler Kush",
     "brandKey": "bonglab",
@@ -3805,30 +3865,6 @@
     ]
   },
   {
-    "id": 10376,
-    "name": "Ozeta Banano con Clave Anti-Olor",
-    "brandKey": "ozeta",
-    "modelKey": null,
-    "modelSlug": "banano-con-clave",
-    "category": "Otros parafernalia",
-    "storeCount": 3,
-    "offerIds": [
-      12655,
-      12936,
-      32829,
-      32830,
-      32831,
-      32832,
-      32833,
-      34154,
-      34155,
-      34156,
-      34157,
-      34158,
-      69126
-    ]
-  },
-  {
     "id": 10377,
     "name": "Storz & Bickel Plenty",
     "brandKey": "storz-bickel",
@@ -3893,21 +3929,6 @@
       1274,
       11212,
       12176
-    ]
-  },
-  {
-    "id": 10388,
-    "name": "Soulblime Hemp Blunt Wrap Sabores",
-    "brandKey": "soulblime",
-    "modelKey": null,
-    "modelSlug": "hemp-blunt-wrap-sabores",
-    "category": "Conos y blunts",
-    "storeCount": 3,
-    "offerIds": [
-      11558,
-      12414,
-      22142,
-      69032
     ]
   },
   {
