@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -17,6 +17,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
@@ -47,11 +52,11 @@ export default function RootLayout({
   return (
     <html
       lang="es-CL"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col bg-white dark:bg-[#09090b]">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+      <body suppressHydrationWarning className="min-h-full flex flex-col bg-white dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] antialiased selection:bg-[#C0FF00] selection:text-[#050507]">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
         </ThemeProvider>
         {UMAMI_SRC && UMAMI_WEBSITE_ID ? (
@@ -65,3 +70,4 @@ export default function RootLayout({
     </html>
   );
 }
+

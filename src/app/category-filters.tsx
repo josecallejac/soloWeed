@@ -41,7 +41,7 @@ function buildCategoryUrl(
 
 export function CategoryFilters({ categories, query, selectedCategory, sort, minPrice, maxPrice, stores }: CategoryFiltersProps) {
   return (
-    <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
+    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5 backdrop-blur-xl shadow-lg transition-colors duration-300">
       <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Categorias</h2>
       <div className="mt-4 flex flex-col gap-2">
         <FilterLink active={!selectedCategory} href={buildCategoryUrl("", query, sort, minPrice, maxPrice, stores)}>
@@ -55,7 +55,7 @@ export function CategoryFilters({ categories, query, selectedCategory, sort, min
             <FilterLink active={selectedCategory === cat.category} href={href} key={cat.category}>
               {cat.category}
               <LinkPendingBadge>
-                <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-mono font-bold transition-all duration-300 ${selectedCategory === cat.category ? "bg-white/20 text-white dark:bg-black/20 dark:text-black" : "bg-black/10 dark:bg-white/10 text-zinc-600 dark:text-white/60 group-hover:bg-accent/20 group-hover:text-accent-text"}`}>{cat.count}</span>
+                <span className={`ml-auto rounded-full px-2.5 py-0.5 text-xs font-mono font-bold transition-all duration-300 ${selectedCategory === cat.category ? "bg-black/20 text-black dark:bg-black/30 dark:text-black" : "bg-black/10 dark:bg-white/10 text-zinc-600 dark:text-white/60 group-hover:bg-accent/20 group-hover:text-accent-text"}`}>{cat.count}</span>
               </LinkPendingBadge>
             </FilterLink>
           );
@@ -68,10 +68,10 @@ export function CategoryFilters({ categories, query, selectedCategory, sort, min
 function FilterLink({ active, children, href }: { active: boolean; children: React.ReactNode; href: string }) {
   return (
     <Link
-      className={`group flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition-all duration-300 border border-transparent ${
+      className={`group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition-all duration-300 border ${
         active
-          ? "bg-accent text-black border-accent shadow-[0_0_15px_rgba(192,255,0,0.3)]"
-          : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/50 hover:shadow-lg dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
+          ? "bg-accent text-black border-accent shadow-[0_0_20px_rgba(192,255,0,0.3)]"
+          : "border-transparent bg-black/5 dark:bg-white/[0.03] text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/30 hover:shadow-md dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
       }`}
       href={href}
       scroll={false}

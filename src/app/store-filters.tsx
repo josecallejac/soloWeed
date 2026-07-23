@@ -49,7 +49,7 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
   }
 
   return (
-    <div className="rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#18181b] p-5 shadow-sm dark:shadow-none transition-colors duration-300">
+    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5 backdrop-blur-xl shadow-lg transition-colors duration-300">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Tiendas</h2>
         {isPending ? (
@@ -62,8 +62,10 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
           return (
             <label
               key={store.slug}
-              className={`group flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold transition-all duration-300 border border-transparent ${
-                checked ? "bg-accent text-black border-accent shadow-[0_0_15px_rgba(192,255,0,0.3)]" : "bg-black/5 dark:bg-white/5 text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/50 hover:shadow-lg dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
+              className={`group flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold transition-all duration-300 border ${
+                checked
+                  ? "bg-accent text-black border-accent shadow-[0_0_20px_rgba(192,255,0,0.3)]"
+                  : "border-transparent bg-black/5 dark:bg-white/[0.03] text-zinc-600 dark:text-white/70 hover:bg-white dark:hover:bg-white/10 hover:text-zinc-900 dark:hover:text-white hover:border-accent/30 hover:shadow-md dark:hover:shadow-[0_4px_15px_rgba(192,255,0,0.1)] hover:translate-x-1"
               }`}
             >
               <input
@@ -72,7 +74,7 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
                 onChange={() => toggleStore(store.slug)}
                 type="checkbox"
               />
-              <span className={`grid size-5 place-items-center rounded-md border-2 text-xs transition-colors ${checked ? "border-black bg-black text-accent-text dark:border-black dark:bg-black dark:text-accent-text" : "border-black/20 dark:border-white/20 bg-white dark:bg-[#18181b]"}`}>
+              <span className={`grid size-5 place-items-center rounded-md border-2 text-xs transition-colors ${checked ? "border-black bg-black text-accent-text dark:border-black dark:bg-black dark:text-accent-text" : "border-black/20 dark:border-white/20 bg-white dark:bg-[#070709]"}`}>
                 {checked ? "✓" : ""}
               </span>
               {store.name}
@@ -82,7 +84,7 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
       </div>
       {optimisticStores.length > 0 ? (
         <button
-          className="mt-4 w-full rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-black text-red-600 dark:text-red-400 hover:bg-red-500/20 font-mono transition-colors"
+          className="mt-4 w-full rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-xs font-black text-red-600 dark:text-red-400 hover:bg-red-500/20 font-mono transition-colors uppercase tracking-wider"
           onClick={() => navigateWith([])}
           type="button"
         >

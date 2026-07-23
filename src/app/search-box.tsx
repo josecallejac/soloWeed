@@ -60,6 +60,13 @@ export function SearchBox({ query }: SearchBoxProps) {
     }, DEBOUNCE_MS);
   }
 
+  function handleClear() {
+    setValue("");
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (inputRef.current) inputRef.current.focus();
+    navigate("", "replace");
+  }
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -68,13 +75,18 @@ export function SearchBox({ query }: SearchBoxProps) {
 
   return (
     <form
-      className="grid gap-3 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-[#18181b]/60 p-4 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all hover:border-black/20 dark:hover:border-white/20 focus-within:border-accent/50 focus-within:shadow-[0_0_40px_rgba(192,255,0,0.15)] md:grid-cols-[1fr_auto]"
+      className="grid gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-3.5 sm:p-4 shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all hover:border-slate-300 dark:hover:border-white/20 focus-within:border-[#C0FF00] focus-within:ring-2 focus-within:ring-[#C0FF00]/50 focus-within:shadow-[0_0_35px_rgba(192,255,0,0.25)] md:grid-cols-[1fr_auto]"
       onSubmit={handleSubmit}
       role="search"
     >
-      <div className="relative min-w-0">
+      <div className="relative flex items-center min-w-0">
+        <div className="pointer-events-none absolute left-4 sm:left-5 text-slate-400 dark:text-white/40">
+          <svg className="size-5 sm:size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
         <input
-          className="min-h-[56px] w-full rounded-2xl border border-black/5 dark:border-white/5 bg-white dark:bg-[#09090b] px-6 pr-14 text-base sm:text-lg font-medium text-zinc-900 dark:text-white outline-none placeholder:text-zinc-500 dark:placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20 font-mono transition-all"
+          className="min-h-[58px] sm:min-h-[64px] w-full rounded-xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-[#070709] pl-12 sm:pl-14 pr-14 text-base sm:text-lg font-medium text-slate-900 dark:text-white outline-none placeholder:text-slate-400 dark:placeholder:text-white/30 focus:border-[#C0FF00] focus:ring-2 focus:ring-[#C0FF00]/50 font-mono transition-all"
           name="q"
           placeholder="Busca bongs, moledores, RAW, vaporizadores..."
           ref={inputRef}
@@ -82,15 +94,26 @@ export function SearchBox({ query }: SearchBoxProps) {
           onChange={handleChange}
           autoComplete="off"
         />
+        {value ? (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute right-12 sm:right-14 p-1 text-slate-400 hover:text-slate-700 dark:text-white/40 dark:hover:text-white transition-colors"
+            title="Limpiar búsqueda"
+            aria-label="Limpiar búsqueda"
+          >
+            <span className="text-sm font-black font-mono">✕</span>
+          </button>
+        ) : null}
         {isPending ? (
           <span
             aria-label="Buscando"
-            className="absolute right-5 top-1/2 size-5 -translate-y-1/2 animate-spin rounded-full border-2 border-accent/30 border-t-accent"
+            className="absolute right-4 sm:right-5 size-5 animate-spin rounded-full border-2 border-accent/30 border-t-accent"
             role="status"
           />
         ) : null}
       </div>
-      <button className="min-h-[56px] rounded-2xl bg-accent px-8 text-base font-black text-[#09090b] transition-all hover:-translate-y-1 hover:bg-accent-hover hover:shadow-[0_10px_30px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
+      <button className="min-h-[58px] sm:min-h-[64px] rounded-xl bg-accent px-8 sm:px-10 text-base font-black text-[#070709] transition-all hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_0_25px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono">
         Buscar ofertas
       </button>
     </form>

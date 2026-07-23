@@ -59,13 +59,13 @@ export function FiltersPanel({ activeCount, children }: FiltersPanelProps) {
         <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Filtros">
           <button
             aria-label="Cerrar filtros"
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
             onClick={() => setOpen(false)}
             type="button"
           />
-          <div className="absolute inset-x-0 bottom-0 flex max-h-[85vh] flex-col rounded-t-3xl border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-[#121214]/95 backdrop-blur-xl shadow-[0_-20px_60px_rgba(0,0,0,0.4)]">
+          <div className="absolute inset-x-0 bottom-0 flex max-h-[85vh] flex-col rounded-t-3xl border-t border-black/10 dark:border-white/10 bg-white/95 dark:bg-[#0d0d12]/95 backdrop-blur-xl shadow-[0_-20px_60px_rgba(0,0,0,0.8)]">
             <div className="flex items-center justify-between px-5 pb-2 pt-4">
-              <span className="mx-auto h-1.5 w-12 rounded-full bg-black/15 dark:bg-white/15" aria-hidden />
+              <span className="mx-auto h-1.5 w-12 rounded-full bg-black/20 dark:bg-white/20" aria-hidden />
             </div>
             <div className="flex items-center justify-between px-5 pb-3">
               <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Filtros</h2>
@@ -78,10 +78,10 @@ export function FiltersPanel({ activeCount, children }: FiltersPanelProps) {
                 ✕
               </button>
             </div>
-            <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-5 pb-5">{children}</div>
-            <div className="border-t border-black/10 dark:border-white/10 p-4">
+            <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-5 pb-5 custom-scrollbar">{children}</div>
+            <div className="border-t border-black/10 dark:border-white/10 p-4 bg-white/50 dark:bg-[#070709]/50 backdrop-blur-md">
               <button
-                className="w-full rounded-xl bg-accent px-6 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-[#09090b] transition-transform active:scale-[0.98] font-mono"
+                className="w-full rounded-xl bg-accent px-6 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-[#070709] transition-transform active:scale-[0.98] font-mono shadow-[0_0_20px_rgba(192,255,0,0.3)]"
                 onClick={() => setOpen(false)}
                 type="button"
               >

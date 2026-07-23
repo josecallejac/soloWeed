@@ -1,6 +1,5 @@
-import { EmptyState } from "@/components/empty-state";
 import { SiteHeader, BackLink } from "@/components/site-header";
-import { StorePriceCard, StoreStatusRow } from "@/components/store-price-card";
+import { StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
 import { cleanDescription, formatDateTime, formatPrice, formatPriceRange, truncateAtBoundary } from "@/lib/format";
 import { KNOWN_BRAND_PHRASES } from "@/lib/matching-constants";
@@ -21,12 +20,14 @@ import type { Prisma } from "@prisma/client";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
-import Image from "next/image";
 import nextDynamic from "next/dynamic";
 import { cache } from "react";
 import { VariantSelector } from "@/components/variant-selector";
 import { ProductDescription } from "@/components/product-description";
 import { getVariantName } from "@/lib/variant-utils";
+import { ProductImageGallery } from "@/components/product-image-gallery";
+import { StoreComparisonMatrix } from "@/components/store-comparison-matrix";
+import { RelatedProductsCarousel } from "@/components/related-products-carousel";
 
 // Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
 // así queda en un chunk aparte en vez del bundle de cada página de producto.
@@ -194,6 +195,23 @@ export default async function ProductDetail(props: ProductDetailProps) {
   const minPrice = detectedPrices.length > 0 ? Math.min(...detectedPrices) : undefined;
   const maxPrice = detectedPrices.length > 0 ? Math.max(...detectedPrices) : undefined;
   const suggestedMatchCount = Math.max(storesWithPrice.length - 1, 0);
+
+  // Collect unique image URLs for the thumbnail gallery
+  const galleryImages: Array<{ url: string; source: string }> = [];
+  const imageSet = new Set<string>();
+
+  if (product.imageUrl) {
+    galleryImages.push({ url: product.imageUrl, source: "Original" });
+    imageSet.add(product.imageUrl);
+  }
+
+  for (const row of storesWithPrice) {
+    if (row.offer?.imageUrl && !imageSet.has(row.offer.imageUrl)) {
+      imageSet.add(row.offer.imageUrl);
+      galleryImages.push({ url: row.offer.imageUrl, source: row.store.name });
+    }
+  }
+
   const imageUrl = product.imageUrl ?? product.offers[0]?.imageUrl ?? storesWithPrice[0]?.offer?.imageUrl;
   const rawDescription =
     storesWithPrice.find((row) => row.offer?.description)?.offer?.description ??
@@ -244,75 +262,160 @@ export default async function ProductDetail(props: ProductDetailProps) {
       : {}),
   };
 
+  const bestPriceStoreName =
+    storesInStock.find((r) => r.offer?.price === minPrice)?.store.name ??
+    storesWithPrice.find((r) => r.offer?.price === minPrice)?.store.name;
+
   return (
-    <main className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300">
+    <main className="min-h-screen bg-slate-50 dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] transition-colors duration-300 font-sans">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="relative overflow-hidden border-b border-black/10 dark:border-white/10 bg-white dark:bg-[#09090b] text-zinc-900 dark:text-white transition-colors duration-300">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,#C0FF00_0,transparent_20%),radial-gradient(circle_at_78%_18%,#39FF14_0,transparent_20%)] opacity-20 pointer-events-none" />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b border-slate-200 dark:border-white/10 bg-white/60 dark:bg-[#050507] text-slate-900 dark:text-white transition-colors duration-300">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(192,255,0,0.15)_0,transparent_30%),radial-gradient(circle_at_78%_18%,rgba(57,255,20,0.12)_0,transparent_30%)] opacity-30 pointer-events-none" />
+        
         <div className="relative mx-auto w-full max-w-7xl px-5 py-6 sm:px-8 lg:px-10">
           <SiteHeader subtitle="Comparador" trailing={<BackLink />} />
 
-          <div className="grid gap-8 py-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 text-zinc-900 dark:text-white shadow-xl dark:shadow-[0_0_30px_rgba(192,255,0,0.1)] transition-colors duration-300">
-              <div className="grid min-h-80 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 relative group transition-colors">
-                {imageUrl ? (
-                  <Image alt={product.name} className="object-contain p-6" src={imageUrl} fill sizes="(max-width: 1024px) 100vw, 50vw" priority />
-                ) : (
-                  <div className="grid size-full min-h-80 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-6xl font-black text-white dark:text-black opacity-50 font-mono">
-                    SW
-                  </div>
-                )}
-              </div>
+          <div className="grid gap-10 py-8 lg:py-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+            {/* Gallery Column */}
+            <div>
+              <ProductImageGallery images={galleryImages} productName={product.name} />
             </div>
 
+            {/* Product Details & Summary Header */}
             <div>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded bg-accent px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-black font-mono transition-colors">
+              {/* Breadcrumbs */}
+              <nav className="mb-4 flex flex-wrap items-center gap-2 text-xs font-mono font-bold text-slate-500 dark:text-white/50">
+                <Link href="/" className="hover:text-accent-text dark:hover:text-accent transition-colors">
+                  Inicio
+                </Link>
+                <span>/</span>
+                <span className="text-slate-700 dark:text-white/70">{product.category}</span>
+                {product.brand ? (
+                  <>
+                    <span>/</span>
+                    <span className="text-accent-text dark:text-accent font-black">{product.brand}</span>
+                  </>
+                ) : null}
+              </nav>
+
+              {/* Taxonomy Badges & Coverage Pill */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-lg bg-accent/15 border border-accent/40 px-3.5 py-1.5 text-xs font-black uppercase tracking-wider text-slate-900 dark:text-accent font-mono shadow-sm dark:shadow-[0_0_12px_rgba(192,255,0,0.2)]">
                   {product.category}
                 </span>
                 {product.brand ? (
-                  <span className="rounded border border-black/20 dark:border-white/20 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-zinc-600 dark:text-white/80 font-mono transition-colors">
+                  <span className="rounded-lg border border-slate-300 dark:border-white/15 bg-white dark:bg-white/5 px-3.5 py-1.5 text-xs font-black uppercase tracking-wider text-slate-800 dark:text-white/80 font-mono shadow-sm">
                     {product.brand}
                   </span>
                 ) : null}
+                <span className="rounded-lg border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 px-3.5 py-1.5 text-xs font-bold font-mono text-slate-700 dark:text-white/70 shadow-sm">
+                  Disponible en {storesWithPrice.length} / {stores.length} tiendas
+                </span>
               </div>
 
-              <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[0.95] tracking-[-0.06em] sm:text-6xl lg:text-7xl">
+              {/* Product Title */}
+              <h1 className="mt-4 max-w-4xl text-3xl sm:text-5xl lg:text-6xl font-black font-display leading-[0.98] tracking-tight text-slate-900 dark:text-white">
                 {product.name}
               </h1>
 
+              {/* Best Price & Savings Callout Hero Box */}
+              {minPrice !== undefined ? (
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white dark:bg-[#0c0c10]/80 border border-accent/40 dark:border-accent/40 p-5 sm:p-6 shadow-xl dark:shadow-[0_0_30px_rgba(192,255,0,0.15)] backdrop-blur-md">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="block text-[11px] font-mono font-black uppercase tracking-widest text-slate-500 dark:text-white/50">
+                        Mejor precio detectado
+                      </span>
+                      {bestPriceStoreName && (
+                        <span className="rounded-md bg-accent/15 border border-accent/40 px-2 py-0.5 text-[11px] font-mono font-bold text-slate-900 dark:text-accent">
+                          en {bestPriceStoreName}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 dark:text-accent font-mono drop-shadow-none dark:drop-shadow-[0_0_20px_rgba(192,255,0,0.4)]">
+                      {formatPrice(minPrice)}
+                    </span>
+                  </div>
+
+                  {maxPrice !== undefined && maxPrice > minPrice ? (
+                    <div className="rounded-xl bg-accent/20 border border-accent/40 px-4 py-3 backdrop-blur-md">
+                      <span className="block text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-white/60">
+                        Ahorro máximo
+                      </span>
+                      <span className="text-xs sm:text-sm font-mono font-black text-slate-950 dark:text-accent">
+                        Ahorras hasta {formatPrice(maxPrice - minPrice)} vs mayor precio
+                      </span>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {/* Description */}
               {shortDescription || fullDescription ? (
                 <ProductDescription short={shortDescription} full={displayDescription} />
               ) : null}
 
+              {/* Variant Selector */}
               {variants.length > 1 && (
                 <VariantSelector variants={variants} selectedVariant={selectedVariant} />
               )}
+              
+              {/* Metrics Summary Row */}
+              {(() => {
+                const isDev = process.env.NODE_ENV === "development";
+                const hasSavings = minPrice !== undefined && maxPrice !== undefined && maxPrice > minPrice;
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <SummaryCard label="Growshops" value={String(stores.length)} />
-                <SummaryCard label="Con precio" value={`${storesWithPrice.length}/${stores.length}`} />
-                <SummaryCard label="Coincidencias" value={String(suggestedMatchCount)} />
-              </div>
+                if (isDev) {
+                  return (
+                    <div className={`mt-8 grid gap-3.5 ${hasSavings ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+                      <SummaryCard label="Con precio" value={`${storesWithPrice.length}/${stores.length}`} />
+                      {hasSavings ? (
+                        <SummaryCard label="Ahorro Máximo" value={formatPrice(maxPrice - minPrice)} />
+                      ) : null}
+                      <SummaryCard label="Coincidencias (Dev)" value={String(suggestedMatchCount)} />
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className={`mt-8 grid gap-3.5 ${hasSavings ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+                    <SummaryCard label="Disponibilidad" value={`${storesWithPrice.length} de ${stores.length} tiendas`} />
+                    {hasSavings ? (
+                      <SummaryCard label="Ahorro Máximo" value={formatPrice(maxPrice - minPrice)} />
+                    ) : null}
+                    <SummaryCard label="Verificación" value="Precios al día" />
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Main Section: Sidebar + Comparison Matrix + Price History */}
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[320px_1fr] lg:px-10">
-        <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
-          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 shadow-xl dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors duration-300">
-            <h2 className="text-xl font-black font-mono text-zinc-900 dark:text-white/90 uppercase tracking-widest transition-colors">Cobertura por growshop</h2>
-            <div className="mt-5 space-y-3">
+        {/* Sidebar Column */}
+        <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
+          {/* Store Coverage List */}
+          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/80 p-5 shadow-xl dark:shadow-2xl backdrop-blur-md transition-colors duration-300">
+            <h2 className="text-base sm:text-lg font-black font-mono text-slate-900 dark:text-white uppercase tracking-widest">
+              Cobertura por growshop
+            </h2>
+            <div className="mt-4 space-y-2.5">
               {storePrices.map((row) => (
                 <StoreStatusRow key={row.store.id} row={row} />
               ))}
             </div>
           </div>
 
-          <div className="rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-5 transition-colors duration-300">
-            <h2 className="text-lg font-black font-mono text-zinc-900 dark:text-white/90 uppercase tracking-widest transition-colors">Datos del catalogo</h2>
-            <dl className="mt-4 space-y-3 text-sm">
+          {/* Catalog Metadata Panel */}
+          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/80 p-5 shadow-xl dark:shadow-2xl backdrop-blur-md transition-colors duration-300">
+            <h2 className="text-base font-black font-mono text-slate-900 dark:text-white uppercase tracking-widest">
+              Datos del catálogo
+            </h2>
+            <dl className="mt-4 space-y-2.5 text-sm">
               <SummaryCard label="Producto" value={`#${product.id}`} variant="light" />
               <SummaryCard label="Actualizado" value={formatDateTime(product.updatedAt)} variant="light" />
               <SummaryCard label="Cobertura" value={`${coverage}%`} variant="light" />
@@ -322,31 +425,18 @@ export default async function ProductDetail(props: ProductDetailProps) {
           </div>
         </aside>
 
-        <section>
-          <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-text font-mono transition-colors">
-                Todos los growshops incorporados
-              </p>
-              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
-                Visual de precios por tienda
-              </h2>
-            </div>
-              <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-white/50 transition-colors">
-              Mostramos solo growshops con una oferta asociada. La cobertura completa queda resumida en el panel lateral.
-            </p>
-          </div>
+        {/* Main Content Column */}
+        <section className="space-y-8">
+          {/* Store Comparison Matrix */}
+          <StoreComparisonMatrix
+            storePrices={storePrices}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            productId={product.id}
+            hasVisibleOffers={hasVisibleOffers}
+          />
 
-          {hasVisibleOffers ? (
-            <div className="grid gap-4 xl:grid-cols-2">
-              {storesWithPrice.map((row) => (
-                <StorePriceCard key={row.store.id} minPrice={minPrice} productId={product.id} row={row} />
-              ))}
-            </div>
-          ) : (
-            <NoComparableMatches />
-          )}
-
+          {/* Price History Chart */}
           {(() => {
             const chartStores = storesWithPrice
               .filter((row) => row.offer)
@@ -358,12 +448,11 @@ export default async function ProductDetail(props: ProductDetailProps) {
                 })),
                 currentPrice: row.offer!.price,
               }));
-            // Mismas condiciones con las que el chart devuelve null: si no hay
-            // nada que graficar, no montar el componente evita cargar recharts.
+
             const hasChartData =
               stores.length >= 2 && chartStores.some((s) => s.histories.length >= 1);
             return hasChartData ? (
-              <div className="mt-6">
+              <div className="mt-8">
                 <PriceHistoryChart onlyOnFullCoverage stores={chartStores} totalStores={stores.length} />
               </div>
             ) : null;
@@ -371,44 +460,8 @@ export default async function ProductDetail(props: ProductDetailProps) {
         </section>
       </section>
 
-      {relatedProducts.length > 0 ? (
-        <section className="mx-auto w-full max-w-7xl px-5 pb-14 sm:px-8 lg:px-10">
-          <div className="mb-5">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-text font-mono transition-colors">Sigue comparando</p>
-            <h2 className="mt-1 text-3xl font-black tracking-[-0.04em] sm:text-5xl text-zinc-900 dark:text-white transition-colors">
-              Otras comparaciones de {product.category.toLowerCase()}
-            </h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {relatedProducts.map((related) => (
-              <Link
-                className="group flex flex-col gap-3 rounded-xl border border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#18181b] p-4 transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1),0_4px_15px_rgba(192,255,0,0.15)] dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.3),0_4px_15px_rgba(192,255,0,0.15)]"
-                href={productPath(related.brandKey, related.modelSlug)}
-                key={related.id}
-              >
-                <div className="relative grid h-40 place-items-center overflow-hidden rounded-lg bg-black/5 dark:bg-white/5 transition-all duration-300 group-hover:bg-accent/5 dark:group-hover:bg-white/[0.06]">
-                  {related.imageUrl ? (
-                    <Image alt={related.name} className="object-contain p-3" src={related.imageUrl} fill sizes="(max-width: 768px) 50vw, 25vw" />
-                  ) : (
-                    <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-white dark:text-black opacity-50 font-mono">
-                      SW
-                    </div>
-                  )}
-                </div>
-                <span className="self-start rounded bg-black/5 dark:bg-white/5 px-3 py-1 text-xs font-bold text-zinc-600 dark:text-white/60 font-mono transition-colors">
-                  {related.storeCount} tiendas
-                </span>
-                <h3 className="text-base font-black leading-tight tracking-[-0.02em] text-zinc-900 dark:text-white group-hover:text-accent-text transition-colors">
-                  {related.name}
-                </h3>
-                <p className="mt-auto text-lg font-black tracking-[-0.03em] text-accent-text transition-colors">
-                  {related.minPrice > 0 ? `Desde ${formatPrice(related.minPrice)}` : "Sin stock detectado"}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
+      {/* Interactive Related Products Section */}
+      <RelatedProductsCarousel category={product.category} products={relatedProducts} />
     </main>
   );
 }
@@ -440,7 +493,7 @@ async function getProductData(slug: string[]) {
 }
 
 async function getRelatedProducts(category: string, excludeId: number) {
-  const result = await prisma.$queryRaw<Array<{ id: number; name: string; brandKey: string; modelSlug: string; imageUrl: string | null; storeCount: number; minPrice: number }>>`
+  const result = await prisma.$queryRaw<Array<{ id: number; name: string; brandKey: string; modelSlug: string; imageUrl: string | null; storeCount: number; minPrice: number; maxPrice: number }>>`
     SELECT 
       p."id", 
       p."name", 
@@ -448,7 +501,8 @@ async function getRelatedProducts(category: string, excludeId: number) {
       p."modelSlug", 
       COALESCE(p."imageUrl", MAX(o."imageUrl")) as "imageUrl", 
       COUNT(DISTINCT o."storeId") as "storeCount",
-      MIN(CASE WHEN o."inStock" AND o."price" > 0 THEN o."price" ELSE NULL END) as "minPrice"
+      MIN(CASE WHEN o."inStock" AND o."price" > 0 THEN o."price" ELSE NULL END) as "minPrice",
+      MAX(CASE WHEN o."inStock" AND o."price" > 0 THEN o."price" ELSE NULL END) as "maxPrice"
     FROM "Product" p
     LEFT JOIN "Offer" o ON o."productId" = p."id"
     WHERE p."category" = ${category}
@@ -458,13 +512,14 @@ async function getRelatedProducts(category: string, excludeId: number) {
     GROUP BY p."id"
     HAVING COUNT(DISTINCT o."storeId") >= 2
     ORDER BY "storeCount" DESC, "minPrice" ASC
-    LIMIT 4
+    LIMIT 10
   `;
 
   return result.map(row => ({
     brandKey: row.brandKey,
     id: row.id,
     imageUrl: row.imageUrl,
+    maxPrice: Number(row.maxPrice) || 0,
     minPrice: Number(row.minPrice) || 0,
     modelSlug: row.modelSlug,
     name: row.name,
@@ -853,22 +908,6 @@ const VARIANT_MATCH_KEYS = new Map([
 ]);
 
 const MATERIAL_VARIANT_KEYS = new Set(["acrilico", "carbon", "ceramic", "glass", "madera", "metal", "paper", "plastic", "silicone"]);
-
-const HARD_MODEL_TOKENS = new Set([
-  "diamond",
-  "giratorio",
-  "herb",
-  "lightning",
-  "lite",
-  "mars",
-  "model",
-  "pocket",
-  "pro",
-  "quartz",
-  "saver",
-  "square",
-  "swing",
-]);
 
 const BRAND_SIZE_MATCH_CATEGORIES = new Set([
   "accesorios de extraccion",
@@ -1260,11 +1299,6 @@ function canMatchWithoutCandidateSize(seed: ComparableProfile, candidate: Compar
   );
 }
 
-function getMillimeters(size: string) {
-  const match = size.match(/^(\d+)mm$/);
-  return match ? Number(match[1]) : undefined;
-}
-
 function isIdentifierToken(token: string) {
   return /^[a-z]+\d+[a-z0-9-]*$/.test(token) || /^\d+[a-z]+[a-z0-9-]*$/.test(token) || /^\d+u$/.test(token) || /^\d{2,}$/.test(token);
 }
@@ -1508,12 +1542,3 @@ function getDescriptorBonus(seed: ComparableProfile, candidate: ComparableProfil
 
   return 0;
 }
-
-
-
-function NoComparableMatches() {
-  return <EmptyState variant="product" />;
-}
-
-
-

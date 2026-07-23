@@ -36,7 +36,7 @@ export function ProductDescription({ short, full }: ProductDescriptionProps) {
     <div className="mt-5 max-w-2xl">
       <p
         ref={textRef}
-        className={`text-base leading-7 text-zinc-600 dark:text-white/70 sm:text-lg transition-colors ${
+        className={`text-base sm:text-lg leading-relaxed font-sans text-slate-700 dark:text-white/75 transition-colors ${
           clampFallback ? "line-clamp-3" : ""
         }`}
       >
@@ -46,7 +46,7 @@ export function ProductDescription({ short, full }: ProductDescriptionProps) {
         <button
           type="button"
           onClick={() => setExpanded((prev) => !prev)}
-          className="mt-2 text-sm font-bold uppercase tracking-[0.14em] text-zinc-500 hover:text-black dark:text-white/50 dark:hover:text-white font-mono transition-colors"
+          className="mt-2 text-xs font-bold uppercase tracking-wider text-slate-500 hover:text-slate-950 dark:text-white/50 dark:hover:text-accent font-mono transition-colors"
         >
           {expanded ? "Ver menos" : "Ver mas"}
         </button>

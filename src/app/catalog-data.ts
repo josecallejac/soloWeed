@@ -62,7 +62,7 @@ interface PageCacheEntry {
   categories: { category: string; count: number }[];
   brands: { brand: string; brandKey: string; count: number }[];
   catalogItems: CatalogItem[];
-  coverage: { full: number; high: number; mid: number };
+  coverage: { tier5: number; tier4: number; tier3: number; tier2: number; full: number; high: number; mid: number };
   expiresAt: number;
 }
 const PAGE_CACHE = new Map<string, PageCacheEntry>();
@@ -86,7 +86,13 @@ export async function getCatalogData(
     const queryWhere = buildSearchWhere(normalizedQuery);
     const page = options?.page ?? 1;
 
-    const cacheKey = `${normalizedQuery}|${selectedCategory}|${options?.storeFilter?.join(",")}|${options?.minPrice}|${options?.maxPrice}|${options?.sort}|${options?.brandFilter}`;
+    const normalizedStoreFilter = options?.storeFilter?.length ? options.storeFilter.slice().sort().join(",") : "";
+    const normalizedMinPrice = options?.minPrice !== undefined && !Number.isNaN(options.minPrice) ? options.minPrice : "";
+    const normalizedMaxPrice = options?.maxPrice !== undefined && !Number.isNaN(options.maxPrice) ? options.maxPrice : "";
+    const normalizedSort = options?.sort ?? "";
+    const normalizedBrandFilter = options?.brandFilter ?? "";
+
+    const cacheKey = `${normalizedQuery}|${selectedCategory}|${normalizedStoreFilter}|${normalizedMinPrice}|${normalizedMaxPrice}|${normalizedSort}|${normalizedBrandFilter}`;
     const cached = PAGE_CACHE.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
       const { items: pageItems, totalItems } = selectCatalogPageItems(cached.catalogItems, selectedCategory, options?.sort, page);
@@ -265,14 +271,29 @@ export async function getCatalogData(
       brands: [],
       page: 1,
       totalPages: 1,
-      coverage: { full: 0, high: 0, mid: 0 },
+      coverage: { tier5: 0, tier4: 0, tier3: 0, tier2: 0, full: 0, high: 0, mid: 0 },
     };
   }
 }
 
+function safeCache<Args extends unknown[], R>(
+  fn: (...args: Args) => Promise<R>,
+  keyParts?: string[],
+  options?: { revalidate?: number | false; tags?: string[] }
+): (...args: Args) => Promise<R> {
+  const cached = unstable_cache(fn, keyParts, options);
+  return async (...args: Args): Promise<R> => {
+    try {
+      return await cached(...args);
+    } catch {
+      return await fn(...args);
+    }
+  };
+}
+
 // Agregado global sobre toda la tabla Offer: cambia solo con scrapes/curación,
 // así que se cachea compartido (Next data cache) en vez de recalcularse por render.
-const getProductCoverage = unstable_cache(
+const getProductCoverage = safeCache(
   async () => {
     const covRows = await prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
       SELECT "productId", COUNT(DISTINCT "storeId") AS "cnt"
@@ -280,9 +301,14 @@ const getProductCoverage = unstable_cache(
       WHERE "productId" IS NOT NULL
       GROUP BY "productId"
     `;
-    const coverage = { full: 0, high: 0, mid: 0 };
+    const coverage = { tier5: 0, tier4: 0, tier3: 0, tier2: 0, full: 0, high: 0, mid: 0 };
     for (const row of covRows) {
       const cnt = Number(row.cnt);
+      if (cnt >= 5) coverage.tier5++;
+      if (cnt === 4) coverage.tier4++;
+      if (cnt === 3) coverage.tier3++;
+      if (cnt === 2) coverage.tier2++;
+
       if (cnt >= 4) coverage.full++;
       else if (cnt >= 3) coverage.high++;
       else if (cnt >= 2) coverage.mid++;
@@ -367,7 +393,7 @@ function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
 // Los counts solo dependen de la búsqueda (no de categoría/tienda/orden), y los
 // datos cambian con scrapes/curación: cache compartido de Next (la key incluye
 // los argumentos) en vez de Maps en memoria por instancia.
-const getComparableFiltersCounts = unstable_cache(
+const getComparableFiltersCounts = safeCache(
   async (normalizedQuery: string, where: Prisma.OfferWhereInput) => {
   void normalizedQuery;
   const baseOffers = await prisma.offer.findMany({
