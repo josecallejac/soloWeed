@@ -19,6 +19,7 @@ El scraper vive en `scripts/scrape.ts`. Ahi se concentran:
 - Piranha (PrestaShop)
 - GrowBarato Chile (PrestaShop)
 - Kushbreak (Jumpseller, agregada 17 jul 2026)
+- Friendly Grow (Jumpseller, agregada 24 jul 2026)
 
 ## URLs Permitidas
 

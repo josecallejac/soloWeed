@@ -34,7 +34,7 @@ SoloWeed es un comparador de precios de parafernalia en Chile. La app no vende p
 - `Product` debe representar identidad clara de producto: misma marca/modelo/variante/tamano.
 - `PriceHistory` solo se agrega cuando cambia precio, precio original o stock.
 - **REGLA ESTRICTA**: Los productos que han alcanzado 4 tiendas son **ESTRICTAMENTE INTOCABLES**. Ya están verificados. No modificar sus ofertas, ni URLs ni slugs. Todo esfuerzo y algoritmo debe enfocarse exclusivamente en mejorar o agrupar productos de 1, 2 y 3 tiendas.
-  - **Excepción "solo sumar" (aprobada 17 jul 2026, al agregar la 5ª tienda)**: un producto congelado de 4 tiendas SÍ puede recibir una oferta de una tienda NUEVA (ej. Kushbreak) y subir a 5. Lo prohibido sigue siendo quitar, cambiar o reasignar sus ofertas existentes y su URL. `protect --verify` debe mostrar solo esas adiciones intencionales.
+  - **Excepción "solo sumar" (aprobada 17 jul 2026, ampliada 24 jul 2026)**: un producto congelado de 4 tiendas SÍ puede recibir ofertas de tiendas NUEVAS (ej. Kushbreak la 5ª, Friendly Grow la 6ª) y subir a 5 o 6. Lo prohibido sigue siendo quitar, cambiar o reasignar sus ofertas existentes y su URL. `protect --verify` debe mostrar solo esas adiciones intencionales.
 
 ## No Cambiar Sin Permiso Explicito
 

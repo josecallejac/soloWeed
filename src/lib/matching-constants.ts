@@ -462,6 +462,8 @@ export const GENERIC_TOKENS = new Set([
   "fumadores",
   "filtro",
   "filtros",
+  "friendly",
+  "friendlygrow",
   "generico",
   "gb",
   "green",
