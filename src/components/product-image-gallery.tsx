@@ -33,28 +33,28 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/80 p-5 text-slate-900 dark:text-white shadow-xl dark:shadow-2xl backdrop-blur-md transition-all duration-300">
       {/* Primary Image Viewport */}
-      <div className="relative grid min-h-80 sm:min-h-96 place-items-center overflow-hidden rounded-xl bg-slate-100 dark:bg-white/5 group border border-slate-200/80 dark:border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(192,255,0,0.15),transparent_70%)] pointer-events-none" />
-        
-        {currentImage?.url ? (
-          <Image
-            alt={productName}
-            className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
-            src={currentImage.url}
-            fill
-            sizes="(max-width: 1024px) 100vw, 45vw"
-            priority
-            unoptimized
-          />
-        ) : (
-          <div className="grid size-full min-h-80 place-items-center text-6xl font-black opacity-40 font-mono">
-            SW
-          </div>
-        )}
+      <div className="relative grid min-h-80 sm:min-h-96 place-items-center overflow-hidden rounded-xl bg-slate-100 dark:bg-white/[0.04] p-3 sm:p-4 group border border-slate-200/80 dark:border-white/10">
+        <div className="relative size-full min-h-80 sm:min-h-96 rounded-xl bg-white dark:bg-white/[0.95] overflow-hidden p-4 flex items-center justify-center shadow-inner">
+          {currentImage?.url ? (
+            <Image
+              alt={productName}
+              className="object-contain p-4 sm:p-6 transition-transform duration-500 group-hover:scale-105 mix-blend-multiply"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              src={currentImage.url}
+              unoptimized
+            />
+          ) : (
+            <div className="grid size-full min-h-80 place-items-center text-6xl font-black opacity-40 font-mono">
+              SW
+            </div>
+          )}
+        </div>
 
         {/* Source Badge */}
         {currentImage?.source ? (
-          <div className="absolute bottom-3 left-3 z-10 rounded-md bg-slate-900/80 dark:bg-[#050507]/80 px-2.5 py-1 text-[11px] font-mono font-bold text-white backdrop-blur-md border border-white/20">
+          <div className="absolute bottom-5 left-5 z-10 rounded-md bg-slate-900/90 dark:bg-black/90 px-2.5 py-1 text-[11px] font-mono font-bold text-white backdrop-blur-md border border-white/20 shadow-sm">
             {currentImage.source}
           </div>
         ) : null}

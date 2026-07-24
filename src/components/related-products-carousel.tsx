@@ -145,24 +145,26 @@ export function RelatedProductsCarousel({ category, products }: RelatedProductsC
 
               <div>
                 {/* Image Stage */}
-                <div className="relative grid h-48 w-full place-items-center overflow-hidden rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5 transition-colors group-hover:bg-slate-200/50 dark:group-hover:bg-white/[0.06] mb-4">
-                  {related.imageUrl ? (
-                    <Image
-                      alt={related.name}
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-110"
-                      fill
-                      sizes="320px"
-                      src={related.imageUrl}
-                      unoptimized
-                    />
-                  ) : (
-                    <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-4xl font-black text-slate-900 dark:text-black opacity-40 font-mono">
-                      SW
-                    </div>
-                  )}
+                <div className="relative grid h-48 w-full place-items-center overflow-hidden rounded-xl bg-slate-100 dark:bg-white/[0.04] p-2 border border-slate-200/60 dark:border-white/10 transition-colors group-hover:bg-slate-200/50 dark:group-hover:bg-white/[0.08] mb-4">
+                  <div className="relative size-full rounded-lg bg-white dark:bg-white/[0.95] overflow-hidden p-2 flex items-center justify-center shadow-inner">
+                    {related.imageUrl ? (
+                      <Image
+                        alt={related.name}
+                        className="object-contain p-2 transition-transform duration-500 group-hover:scale-110 mix-blend-multiply"
+                        fill
+                        sizes="320px"
+                        src={related.imageUrl}
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-4xl font-black text-slate-900 dark:text-black opacity-40 font-mono">
+                        SW
+                      </div>
+                    )}
+                  </div>
 
                   {/* Floating Coverage Pill */}
-                  <div className="absolute top-3 left-3 z-10 rounded-lg bg-white/90 dark:bg-black/80 px-2.5 py-1 text-[10px] font-mono font-black text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm">
+                  <div className="absolute top-3 left-3 z-10 rounded-lg bg-slate-900/90 dark:bg-black/90 px-2.5 py-1 text-[10px] font-mono font-black text-white border border-white/20 backdrop-blur-md shadow-sm">
                     🏆 {related.storeCount} tiendas
                   </div>
 

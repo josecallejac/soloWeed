@@ -239,20 +239,22 @@ export function StorePriceCard({
 
         {/* Content Row: Image + Main Details */}
         <div className="mt-5 grid gap-4 sm:grid-cols-[120px_1fr]">
-          <div className="relative min-h-32 overflow-hidden rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 transition-colors group">
-            {offer.imageUrl ? (
-              <Image
-                alt={offer.title}
-                className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-110"
-                src={offer.imageUrl}
-                unoptimized
-                fill
-              />
-            ) : (
-              <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-slate-900 dark:text-black opacity-50 font-mono transition-colors">
-                SW
-              </div>
-            )}
+          <div className="relative min-h-32 overflow-hidden rounded-xl bg-slate-100 dark:bg-white/[0.04] p-1.5 border border-slate-200/60 dark:border-white/10 transition-colors group flex items-center justify-center">
+            <div className="relative size-full min-h-28 rounded-lg bg-white dark:bg-white/[0.95] overflow-hidden p-1 flex items-center justify-center shadow-inner">
+              {offer.imageUrl ? (
+                <Image
+                  alt={offer.title}
+                  className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-110 mix-blend-multiply"
+                  src={offer.imageUrl}
+                  unoptimized
+                  fill
+                />
+              ) : (
+                <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-slate-900 dark:text-black opacity-50 font-mono transition-colors">
+                  SW
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="min-w-0 flex flex-col justify-between">
