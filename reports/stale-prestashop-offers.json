@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-10T19:17:29.242Z",
+  "generatedAt": "2026-07-24T03:11:40.470Z",
   "stale": [
     {
       "offerId": 258,
@@ -72,6 +72,16 @@
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
+      "offerId": 848,
+      "store": "piranha",
+      "title": "Bandeja Enrolado Neon Tray LED",
+      "url": "https://piranha.cl/inicio/6072/bandeja-enrolado-neon-tray-led-bonglab-color-a-eleccion.html",
+      "productId": 5732,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
       "offerId": 862,
       "store": "piranha",
       "title": "Encendedor HS x Blazer Big Shot Torch V3",
@@ -92,12 +102,22 @@
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
+      "offerId": 1048,
+      "store": "piranha",
+      "title": "Papelillo 1 1/4 Blazy Susan Pink | PIRANHA",
+      "url": "https://piranha.cl/inicio/7411/papelillo-1-14-blazy-susan-pink.html",
+      "productId": 10067,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
       "offerId": 1064,
       "store": "piranha",
       "title": "Conos Bulldog Reefer 1 1/4 (6u)",
       "url": "https://piranha.cl/inicio/6502/conos-bulldog-reefer-1-1-4-6u.html",
       "productId": 5713,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -192,6 +212,16 @@
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
+      "offerId": 1356,
+      "store": "piranha",
+      "title": "Tubo Case Galaxy Porta Joint",
+      "url": "https://piranha.cl/inicio/6112/tubo-case-galaxy-porta-joint.html",
+      "productId": 10739,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
       "offerId": 3366,
       "store": "piranha",
       "title": "Banger Cuarzo Bonglab Simple 45° (14mm/10mm) | PIRANHA",
@@ -227,7 +257,7 @@
       "title": "Estuche Ywiwis Completo - OZeta | PIRANHA",
       "url": "https://piranha.cl/inicio/8475/estuche-anti-olor-ozeta-ywiwis-completo.html",
       "productId": 10574,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -246,7 +276,7 @@
       "store": "piranha",
       "title": "Hemp Wraps Blunt Soulblime | PIRANHA",
       "url": "https://piranha.cl/inicio/5981/hemp-wraps-blunt-soulblime-mango-2u.html",
-      "productId": 10623,
+      "productId": 10388,
       "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -257,6 +287,26 @@
       "title": "Bolsa RAW 200 Filtro Tips Pre-Enrolados | PIRANHA",
       "url": "https://piranha.cl/inicio/7280/filtros-raw-pre-enrolados-bolsa-200u.html",
       "productId": 10387,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 11216,
+      "store": "piranha",
+      "title": "Hemp Wraps Blunt Soulblime | PIRANHA",
+      "url": "https://piranha.cl/inicio/7599/hemp-wraps-blunt-soulblime-melon-2u.html",
+      "productId": 10388,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 11217,
+      "store": "piranha",
+      "title": "Hemp Wraps Blunt Soulblime | PIRANHA",
+      "url": "https://piranha.cl/inicio/7600/hemp-wraps-blunt-soulblime-banana-2u.html",
+      "productId": 10388,
       "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -267,7 +317,7 @@
       "title": "Vaporizador DynaVap The VonG (Titanium) | PIRANHA",
       "url": "https://piranha.cl/inicio/7346/vaporizador-dynavap-the-vong-titanium.html",
       "productId": 10327,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -287,7 +337,7 @@
       "title": "Batería Galaxy Cartridge Pen | PIRANHA",
       "url": "https://piranha.cl/inicio/8713/bateria-galaxy-cartridge-pen-color-a-eleccion.html",
       "productId": 10638,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -307,7 +357,7 @@
       "title": "Cotonitos Blazy Susan 300u (Pink/White) | PIRANHA",
       "url": "https://piranha.cl/inicio/7374/cotonitos-extractos-blazy-susan-300u-pinkwhite.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -337,7 +387,7 @@
       "title": "Hemper Smoke Fiends Filtro de Humo Trixx The Ghost | PIRANHA",
       "url": "https://piranha.cl/inicio/7884/hemper-smoke-fiends-filtro-de-aire-personal-ecologico-trixx-the-ghost.html",
       "productId": 10583,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -347,7 +397,7 @@
       "title": "Hemper Smoke Fiends Filtro de Humo Blaze The Cactus | PIRANHA",
       "url": "https://piranha.cl/inicio/7885/hemper-smoke-fiends-filtro-de-aire-personal-ecologico-blaze-the-cactus.html",
       "productId": 10540,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -357,7 +407,7 @@
       "title": "Bong Glycerin Black Ice",
       "url": "https://piranha.cl/inicio/6054/bong-glycerin-black-ice-bonglab.html",
       "productId": 10407,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -377,7 +427,7 @@
       "title": "Bong Kit Extractos Mini Beaker Bonglab | PIRANHA",
       "url": "https://piranha.cl/inicio/7159/bong-kit-extractos-mini-beaker-bonglab.html",
       "productId": 10457,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -397,7 +447,7 @@
       "title": "Vaper Airis Neo P8000 - Strawberry Watermelon | PIRANHA",
       "url": "https://piranha.cl/inicio/7031/vaper-airis-vape-neo-p8000-strawberry-watermelon.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -407,7 +457,7 @@
       "title": "Vaper Airis Neo P8000 - Kiwi Strawberry | PIRANHA",
       "url": "https://piranha.cl/inicio/7042/vaper-airis-vape-neo-p8000-kiwi-strawberry.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -417,6 +467,16 @@
       "title": "Recarga Vaporizador Life Pod P8000 Cherry Bomb 4,5% | PIRANHA",
       "url": "https://piranha.cl/inicio/8621/recarga-vaporizador-life-pod-p8000-cherry-bomb-45.html",
       "productId": 10821,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 38820,
+      "store": "piranha",
+      "title": "Vaper Airis Neo P8000 - Sakura Grape Ice | PIRANHA",
+      "url": "https://piranha.cl/inicio/7034/vaper-airis-vape-neo-p8000-sakura-grape-ice.html",
+      "productId": null,
       "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
@@ -432,22 +492,12 @@
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
     {
-      "offerId": 38820,
-      "store": "piranha",
-      "title": "Vaper Airis Neo P8000 - Sakura Grape Ice | PIRANHA",
-      "url": "https://piranha.cl/inicio/7034/vaper-airis-vape-neo-p8000-sakura-grape-ice.html",
-      "productId": null,
-      "inStock": true,
-      "status": "stale",
-      "detail": "301 -> https://piranha.cl/2-inicio"
-    },
-    {
       "offerId": 38822,
       "store": "piranha",
       "title": "Vaper Airis Neo P8000 - Mango Peach Ice| PIRANHA",
       "url": "https://piranha.cl/inicio/7036/vaper-airis-vape-neo-p8000-mango-peach-ice.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -457,7 +507,7 @@
       "title": "Vaper Airis Neo P8000 - Watermelon Ice | PIRANHA",
       "url": "https://piranha.cl/inicio/7028/vaper-airis-vape-neo-p8000-watermelon-ice.html",
       "productId": null,
-      "inStock": true,
+      "inStock": false,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
     },
@@ -467,6 +517,36 @@
       "title": "Vaporizador Oxbar Liso P28000 Grape Berries 5% | PIRANHA",
       "url": "https://piranha.cl/inicio/8310/oxbar-liso-p28000-grape-berries.html",
       "productId": null,
+      "inStock": false,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 53244,
+      "store": "piranha",
+      "title": "Recarga Vaporizador Life Pod P8000 Mocha Ice 4,5% | PIRANHA",
+      "url": "https://piranha.cl/inicio/8609/recarga-vaporizador-life-pod-p8000-mocha-ice-45.html",
+      "productId": 10823,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 53642,
+      "store": "piranha",
+      "title": "Deshumidificador 50 L/D Kasvi | PIRANHA",
+      "url": "https://piranha.cl/inicio/8677/deshumidificador-50-ld-kasvi.html",
+      "productId": null,
+      "inStock": true,
+      "status": "stale",
+      "detail": "301 -> https://piranha.cl/2-inicio"
+    },
+    {
+      "offerId": 67256,
+      "store": "piranha",
+      "title": "Recarga Vaporizador Life Pod P8000 Triple Berry 4,5% | PIRANHA",
+      "url": "https://piranha.cl/inicio/8611/recarga-vaporizador-life-pod-p8000-triple-berry-45.html",
+      "productId": 10836,
       "inStock": true,
       "status": "stale",
       "detail": "301 -> https://piranha.cl/2-inicio"
