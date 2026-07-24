@@ -43,7 +43,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
   const stores = offer.stores ?? [];
 
   return (
-    <article className="relative group grid min-w-0 gap-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-4 sm:p-5 shadow-sm dark:shadow-none transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:border-slate-300 dark:hover:border-accent/40 hover:bg-white dark:hover:bg-[#14141e]/90 backdrop-blur-xl dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(192,255,0,0.15)] sm:grid-cols-[190px_minmax(0,1fr)]">
+    <article className="relative group grid min-w-0 gap-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-4 sm:p-5 shadow-sm dark:shadow-none transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:border-slate-300 dark:hover:border-accent/40 hover:bg-white dark:hover:bg-[#14141e]/90 dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(192,255,0,0.15)] sm:grid-cols-[190px_minmax(0,1fr)]">
       {/* Visual Image Stage */}
       <div className="relative min-h-48 overflow-hidden rounded-xl bg-slate-100 dark:bg-white/[0.02] transition-colors duration-300 group-hover:bg-slate-50 dark:group-hover:bg-white/[0.04] border border-slate-200/60 dark:border-white/5">
         {offer.imageUrl ? (
@@ -59,7 +59,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
             SW
           </div>
         )}
-        <span className="absolute left-3 top-3 rounded-md bg-white/90 dark:bg-black/80 px-2.5 py-1 text-[10px] font-black tracking-widest text-slate-700 dark:text-white/70 font-mono border border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm">
+        <span className="absolute left-3 top-3 rounded-md bg-white/90 dark:bg-black/80 px-2.5 py-1 text-[10px] font-black tracking-widest text-slate-700 dark:text-white/70 font-mono border border-slate-200 dark:border-white/10 shadow-sm">
           #{rank}
         </span>
       </div>

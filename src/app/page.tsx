@@ -91,7 +91,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <SiteHeader subtitle="Compara parafernalia" />
 
       {/* Catalog Hero */}
-      <section className="relative border-b border-slate-200 dark:border-white/10 bg-slate-50/60 dark:bg-[#070709]/80 text-slate-900 dark:text-white transition-colors duration-300 backdrop-blur-3xl">
+      <section className="relative border-b border-slate-200 dark:border-white/10 bg-slate-50/60 dark:bg-[#070709]/80 text-slate-900 dark:text-white transition-colors duration-300 ">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(192,255,0,0.12)_0,transparent_40%),radial-gradient(circle_at_80%_20%,rgba(57,255,20,0.08)_0,transparent_40%)] opacity-30 pointer-events-none" />
         <div className="relative mx-auto flex w-full max-w-7xl flex-col px-5 py-10 sm:px-8 lg:px-10 gap-8">
           <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto text-center gap-8">
@@ -104,7 +104,7 @@ export default async function Home({ searchParams }: HomeProps) {
               {data.dbReady && (data.coverage.full > 0 || data.coverage.high > 0 || data.coverage.mid > 0) ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 text-left">
                   {/* 5 Stores Card */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5 backdrop-blur-xl shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_10px_30px_rgba(192,255,0,0.2)]">
+                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_10px_30px_rgba(192,255,0,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-accent/10 blur-xl group-hover:bg-accent/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 dark:bg-accent/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-slate-900 dark:text-accent-text border border-accent/30">
@@ -124,7 +124,7 @@ export default async function Home({ searchParams }: HomeProps) {
                   </div>
 
                   {/* 4 Stores Card */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5 backdrop-blur-xl shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
+                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/15 dark:bg-amber-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-amber-800 dark:text-amber-400 border border-amber-500/30">
@@ -144,7 +144,7 @@ export default async function Home({ searchParams }: HomeProps) {
                   </div>
 
                   {/* 3 Stores Card */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5 backdrop-blur-xl shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]">
+                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/15 dark:bg-emerald-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-emerald-800 dark:text-emerald-400 border border-emerald-500/30">
@@ -164,7 +164,7 @@ export default async function Home({ searchParams }: HomeProps) {
                   </div>
 
                   {/* 2 Stores Card */}
-                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5 backdrop-blur-xl shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
+                  <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-cyan-500/10 blur-xl group-hover:bg-cyan-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/15 dark:bg-cyan-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-cyan-800 dark:text-cyan-400 border border-cyan-500/30">
@@ -213,7 +213,7 @@ export default async function Home({ searchParams }: HomeProps) {
               maxPrice={params.maxPrice ?? ""}
             />
 
-            <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/90 p-5 backdrop-blur-xl shadow-md transition-colors duration-300">
+            <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/90 p-5  shadow-md transition-colors duration-300">
               <h2 className="text-base font-black uppercase tracking-widest font-mono text-slate-900 dark:text-white">Visitar tiendas</h2>
               <div className="mt-4 space-y-2.5">
                 {data.stores.map((store) => (
@@ -248,7 +248,7 @@ export default async function Home({ searchParams }: HomeProps) {
             </p>
           </div>
 
-          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-4 backdrop-blur-xl shadow-lg transition-colors duration-300">
+          <div className="mb-5 flex flex-wrap items-center gap-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-4  shadow-lg transition-colors duration-300">
             <SortControls
               sort={sort}
               minPrice={params.minPrice ?? ""}

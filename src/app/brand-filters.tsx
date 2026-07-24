@@ -46,7 +46,7 @@ export function BrandFilters({ brands, category, maxPrice, minPrice, query, sele
   if (!category || brands.length === 0) return null;
 
   return (
-    <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/90 p-5 backdrop-blur-xl shadow-md transition-colors duration-300">
+    <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0c0c10]/90 p-5  shadow-md transition-colors duration-300">
       <h2 className="text-base font-black uppercase tracking-widest font-mono text-slate-900 dark:text-white">Marcas</h2>
       <div className="mt-4 flex flex-col gap-1.5 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
         <Link

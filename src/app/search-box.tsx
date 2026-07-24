@@ -75,7 +75,7 @@ export function SearchBox({ query }: SearchBoxProps) {
 
   return (
     <form
-      className="grid gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-3.5 sm:p-4 shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-all hover:border-slate-300 dark:hover:border-white/20 focus-within:border-[#C0FF00] focus-within:ring-2 focus-within:ring-[#C0FF00]/50 focus-within:shadow-[0_0_35px_rgba(192,255,0,0.25)] md:grid-cols-[1fr_auto]"
+      className="grid gap-3 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-3.5 sm:p-4 shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)]  transition-all hover:border-slate-300 dark:hover:border-white/20 focus-within:border-[#C0FF00] focus-within:ring-2 focus-within:ring-[#C0FF00]/50 focus-within:shadow-[0_0_35px_rgba(192,255,0,0.25)] md:grid-cols-[1fr_auto]"
       onSubmit={handleSubmit}
       role="search"
     >

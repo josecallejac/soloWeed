@@ -49,7 +49,7 @@ export function StoreFilters({ stores, selectedStores, query, category, sort, mi
   }
 
   return (
-    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5 backdrop-blur-xl shadow-lg transition-colors duration-300">
+    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5  shadow-lg transition-colors duration-300">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Tiendas</h2>
         {isPending ? (

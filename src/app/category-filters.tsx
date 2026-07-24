@@ -41,7 +41,7 @@ function buildCategoryUrl(
 
 export function CategoryFilters({ categories, query, selectedCategory, sort, minPrice, maxPrice, stores }: CategoryFiltersProps) {
   return (
-    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5 backdrop-blur-xl shadow-lg transition-colors duration-300">
+    <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5  shadow-lg transition-colors duration-300">
       <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Categorias</h2>
       <div className="mt-4 flex flex-col gap-2">
         <FilterLink active={!selectedCategory} href={buildCategoryUrl("", query, sort, minPrice, maxPrice, stores)}>

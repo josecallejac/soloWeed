@@ -10,7 +10,7 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ subtitle, trailing }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#050507]/80 backdrop-blur-2xl shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-all">
+    <header className="sticky top-0 z-50 w-full border-b border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#050507]/80 backdrop-blur-md shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-all">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link className="flex items-center gap-3.5 group" href="/">
           <span className="grid size-10 place-items-center rounded-xl bg-[#C0FF00] font-mono text-base font-black text-[#050507] shadow-[0_0_20px_rgba(192,255,0,0.4)] transition-transform group-hover:scale-105">
