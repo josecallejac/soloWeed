@@ -76,6 +76,8 @@ reports/upgrades-run.txt
 /reports/catalog-audit/triage-*-candidates.csv
 /reports/catalog-audit/triage-*-orphan-orphan.csv
 /reports/catalog-audit/triage-orphan-groups-*.csv
+# raw diagnostic logs (match/prices/diagnose runs) — MB artifacts, keep out of git
+/reports/catalog-audit/*.log
 
 # Scaffolding de frameworks multi-agente (teamwork/antigravity) — no versionar
 /.agents/
