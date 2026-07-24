@@ -76,3 +76,10 @@ reports/upgrades-run.txt
 /reports/catalog-audit/triage-*-candidates.csv
 /reports/catalog-audit/triage-*-orphan-orphan.csv
 /reports/catalog-audit/triage-orphan-groups-*.csv
+
+# Scaffolding de frameworks multi-agente (teamwork/antigravity) — no versionar
+/.agents/
+/PROJECT.md
+/ORIGINAL_REQUEST.md
+/TEST_READY.md
+/build_*.log
