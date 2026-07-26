@@ -1,0 +1,2856 @@
+[
+  {
+    "group": "2",
+    "category": "Otros parafernalia",
+    "signal": "sim=99.3%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 30990,
+    "maxPrice": 34990,
+    "priceRatio": 1.13,
+    "rows": [
+      {
+        "offerId": "18028",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 34990,
+        "title": "Gorro Pescador Textura Black-Blazy Susan"
+      },
+      {
+        "offerId": "34323",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 30990,
+        "title": "Blazy Susan Gorro Bucket Fuzzy - Negro"
+      }
+    ]
+  },
+  {
+    "group": "3",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=99.1%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 6890,
+    "maxPrice": 6990,
+    "priceRatio": 1.01,
+    "rows": [
+      {
+        "offerId": "31349",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 6990,
+        "title": "Quemador Perlas Macho 18Mm-Calvo Glass - Verde azulado"
+      },
+      {
+        "offerId": "34777",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6890,
+        "title": "Calvo Glass Quemador Perlas - Macho 18mm - Turquesa"
+      },
+      {
+        "offerId": "34775",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6890,
+        "title": "Calvo Glass Quemador Perlas - Macho 18mm - Amarillo"
+      },
+      {
+        "offerId": "34779",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6890,
+        "title": "Calvo Glass Quemador Perlas - Macho 18mm - Azul Oscuro"
+      }
+    ]
+  },
+  {
+    "group": "4",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=98.9%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 7990,
+    "maxPrice": 8990,
+    "priceRatio": 1.13,
+    "rows": [
+      {
+        "offerId": "31275",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 8990,
+        "title": "Banger Cuarzo Simple 45 Grados -Bonglab - 14MM"
+      },
+      {
+        "offerId": "31274",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 7990,
+        "title": "Banger Cuarzo Simple 45 Grados -Bonglab - 10MM"
+      },
+      {
+        "offerId": "2001",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 8990,
+        "title": "Bonglab Banger Cuarzo 45° - Macho 10mm"
+      }
+    ]
+  },
+  {
+    "group": "5",
+    "category": "Pipas",
+    "signal": "sim=97.1%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 1990,
+    "maxPrice": 1990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "76839",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1990,
+        "title": "Hitter Signature- Calvo Glass - BLACK"
+      },
+      {
+        "offerId": "76840",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1990,
+        "title": "Hitter Signature- Calvo Glass - PINK"
+      },
+      {
+        "offerId": "35312",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 1990,
+        "title": "Calvo Pipa Hitter 12mm - Negro"
+      }
+    ]
+  },
+  {
+    "group": "6",
+    "category": "Bandejas y ceniceros",
+    "signal": "sim=96.6%",
+    "doble": "si",
+    "stores": [
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 3590,
+    "maxPrice": 3990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "36539",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 3590,
+        "title": "Soulblime bandejas pequeñas - Photography - Dientes"
+      },
+      {
+        "offerId": "16090",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 3990,
+        "title": "Bandeja Soulblime"
+      }
+    ]
+  },
+  {
+    "group": "7",
+    "category": "Otros parafernalia",
+    "signal": "sim=96.2%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 27990,
+    "maxPrice": 29742,
+    "priceRatio": 1.06,
+    "rows": [
+      {
+        "offerId": "78680",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 27990,
+        "title": "Terpenos 5Ml-Terps Usa - ZKITTLEZ"
+      },
+      {
+        "offerId": "80998",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 29742,
+        "title": "Terpeno Terps USA Zkittlez (5mL) | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "8",
+    "category": "Vaporizadores herbales",
+    "signal": "sim=95.2%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 149990,
+    "maxPrice": 159990,
+    "priceRatio": 1.07,
+    "rows": [
+      {
+        "offerId": "607",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 149990,
+        "title": "Glove Vaporizador Miqro Black-Da Vinc"
+      },
+      {
+        "offerId": "69153",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 159990,
+        "title": "Vaporizador Davinci Miqro"
+      }
+    ]
+  },
+  {
+    "group": "9",
+    "category": "Pipas",
+    "signal": "sim=94.3%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 21741,
+    "maxPrice": 27990,
+    "priceRatio": 1.29,
+    "rows": [
+      {
+        "offerId": "77428",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 27990,
+        "title": "Wig Wag Hammer Pipe-Calvo Glass - BLACK"
+      },
+      {
+        "offerId": "31775",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 27990,
+        "title": "Wig Wag Hammer Pipe-Calvo Glass - ORANGE"
+      },
+      {
+        "offerId": "35010",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 21741,
+        "title": "Calvo Glass Pipa Hammer WigWag 13cm - Verde"
+      },
+      {
+        "offerId": "35011",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 21741,
+        "title": "Calvo Glass Pipa Hammer WigWag 13cm - Azul"
+      }
+    ]
+  },
+  {
+    "group": "10",
+    "category": "Vaporizadores herbales",
+    "signal": "sim=93.8%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 244990,
+    "maxPrice": 319500,
+    "priceRatio": 1.3,
+    "rows": [
+      {
+        "offerId": "13518",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 244990,
+        "title": "Vaporizador PAX 3"
+      },
+      {
+        "offerId": "35382",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 244990,
+        "title": "Vaporizador PAX 3 - Basic Sand"
+      },
+      {
+        "offerId": "35383",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 289990,
+        "title": "Vaporizador PAX 3 - Complete Sand"
+      },
+      {
+        "offerId": "70905",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 319500,
+        "title": "Pax 3 vaporizador para marihuana y bho"
+      }
+    ]
+  },
+  {
+    "group": "11",
+    "category": "Otros parafernalia",
+    "signal": "sim=93.3%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 10990,
+    "maxPrice": 14990,
+    "priceRatio": 1.36,
+    "rows": [
+      {
+        "offerId": "73733",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 10990,
+        "title": "Blaze Gramera Digital Mini 600g/0.1g"
+      },
+      {
+        "offerId": "73732",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 12990,
+        "title": "Blaze Gramera Digital Mini 100g/0.01g"
+      },
+      {
+        "offerId": "70218",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 14990,
+        "title": "Pesa TRUWEIGH Blaze - 0.1 x 600g"
+      }
+    ]
+  },
+  {
+    "group": "12",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=93.2%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 5990,
+    "maxPrice": 5990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "32256",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 5990,
+        "title": "Boquilla Herbva 5G-Airistech"
+      },
+      {
+        "offerId": "37320",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 5990,
+        "title": "Boquillas Vaporizador Nokiva - Regular"
+      }
+    ]
+  },
+  {
+    "group": "13",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=92.9%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 4990,
+    "maxPrice": 4990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "78159",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 4990,
+        "title": "Luminous Terp Balls 4Mm Green (Glow In The Dark)"
+      },
+      {
+        "offerId": "35692",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4990,
+        "title": "Calvo Terp Balls Luminosas 4mm - Verde"
+      }
+    ]
+  },
+  {
+    "group": "14",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=92.9%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 7200,
+    "maxPrice": 8590,
+    "priceRatio": 1.19,
+    "rows": [
+      {
+        "offerId": "19571",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 8590,
+        "title": "BongLab Rosin Paper Light"
+      },
+      {
+        "offerId": "71238",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 7200,
+        "title": "Bonglab Papel de celulosa para Rosin"
+      }
+    ]
+  },
+  {
+    "group": "15",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=92.7%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 3,
+    "offerCount": 3,
+    "minPrice": 3190,
+    "maxPrice": 3990,
+    "priceRatio": 1.25,
+    "rows": [
+      {
+        "offerId": "31546",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 3990,
+        "title": "Quemador Macho 18Mm - CLEAR"
+      },
+      {
+        "offerId": "19338",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 3190,
+        "title": "Quemador Spair - Macho 18mm"
+      },
+      {
+        "offerId": "11566",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 3400,
+        "title": "Quemador Bowl Macho - GB The Green Brand"
+      }
+    ]
+  },
+  {
+    "group": "16",
+    "category": "Otros parafernalia",
+    "signal": "sim=92.6%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 23200,
+    "maxPrice": 25990,
+    "priceRatio": 1.12,
+    "rows": [
+      {
+        "offerId": "72130",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 25990,
+        "title": "Balanza Counter 5000 / 5000g-1.0g"
+      },
+      {
+        "offerId": "70944",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 23200,
+        "title": "Balanza Counter peso máximo 5 Kg. de Kenex"
+      }
+    ]
+  },
+  {
+    "group": "17",
+    "category": "Limpieza",
+    "signal": "sim=92.6%",
+    "doble": "",
+    "stores": [
+      "growbarato",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 10100,
+    "maxPrice": 11990,
+    "priceRatio": 1.19,
+    "rows": [
+      {
+        "offerId": "11531",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 10100,
+        "title": "Super Dab Cleaner Eco | Limpiador de bongs"
+      },
+      {
+        "offerId": "69076",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 11990,
+        "title": "Limpiador Dab cleaner ECO"
+      }
+    ]
+  },
+  {
+    "group": "19",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=92.3%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 6990,
+    "maxPrice": 8690,
+    "priceRatio": 1.24,
+    "rows": [
+      {
+        "offerId": "12195",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 8690,
+        "title": "MALLAS FINAS VOLCANO/PLENTY 6U-STORZ &amp; BICKEL"
+      },
+      {
+        "offerId": "820",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 8490,
+        "title": "MALLA PARA EXTRACTOS DE CÁPSULA MONODOSIS 4U-STORZ &amp; BICKEL"
+      },
+      {
+        "offerId": "20226",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6990,
+        "title": "Storz &amp; Bickel Juego de Mallas Finas Solid Valve"
+      }
+    ]
+  },
+  {
+    "group": "20",
+    "category": "Otros parafernalia",
+    "signal": "sim=92.2%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 1890,
+    "maxPrice": 2490,
+    "priceRatio": 1.32,
+    "rows": [
+      {
+        "offerId": "78369",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1890,
+        "title": "Regulador De Humedad 4G-Integra Boost - 0.65"
+      },
+      {
+        "offerId": "78375",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 2390,
+        "title": "Regulador De Humedad 8G -Integra Boost - 0.69"
+      },
+      {
+        "offerId": "78374",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 2490,
+        "title": "Regulador De Humedad 8G -Integra Boost - 0.62"
+      },
+      {
+        "offerId": "79898",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 1990,
+        "title": "Integra Boost Humedad 55% | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "21",
+    "category": "Contenedores y estuches",
+    "signal": "sim=92.2%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas",
+      "growbarato",
+      "kushbreak"
+    ],
+    "storeCount": 4,
+    "offerCount": 6,
+    "minPrice": 19990,
+    "maxPrice": 43990,
+    "priceRatio": 2.2,
+    "rows": [
+      {
+        "offerId": "77144",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 37990,
+        "title": "Bolso 4X4 Con Clave -Ozeta - BLACK"
+      },
+      {
+        "offerId": "12662",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 22990,
+        "title": "Bolso Clip Black-Ozeta"
+      },
+      {
+        "offerId": "19512",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43990,
+        "title": "Ozeta Bolso Cilíndrico con Clave - Anti-olor"
+      },
+      {
+        "offerId": "71013",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 39600,
+        "title": "Bolso Cilíndrico Anti-Olor de Ozeta grande"
+      },
+      {
+        "offerId": "69199",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 28990,
+        "title": "Bolso Ozeta Mediano"
+      },
+      {
+        "offerId": "69198",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 19990,
+        "title": "Bolso OZeta Clip Pequeño"
+      }
+    ]
+  },
+  {
+    "group": "23",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=92%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 6990,
+    "maxPrice": 6990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "31404",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 6990,
+        "title": "Quemador Macho 14Mm -Bonglab - MILK GREEN"
+      },
+      {
+        "offerId": "12842",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6990,
+        "title": "Bonglab Quemador - Hembra 14mm 2.0"
+      },
+      {
+        "offerId": "33969",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 6990,
+        "title": "Bonglab Quemador - Hembra 14mm 2.0 - Verde"
+      }
+    ]
+  },
+  {
+    "group": "25",
+    "category": "Vaporizadores herbales",
+    "signal": "sim=91.8%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 118800,
+    "maxPrice": 129990,
+    "priceRatio": 1.09,
+    "rows": [
+      {
+        "offerId": "36261",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 129990,
+        "title": "Vaporizador DaVinci Miqro C - Herbal - Rosado"
+      },
+      {
+        "offerId": "11524",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 118800,
+        "title": "DaVinci MIQRO ➤Vaporizador portátil"
+      }
+    ]
+  },
+  {
+    "group": "28",
+    "category": "Encendedores y sopletes",
+    "signal": "sim=91.5%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 33990,
+    "maxPrice": 35990,
+    "priceRatio": 1.06,
+    "rows": [
+      {
+        "offerId": "12610",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 33990,
+        "title": "Encendedor Classic Brick Logo - Zippo"
+      },
+      {
+        "offerId": "19914",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 35990,
+        "title": "Encendedor Zippo Merlot"
+      }
+    ]
+  },
+  {
+    "group": "29",
+    "category": "Encendedores y sopletes",
+    "signal": "sim=91.4%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 32990,
+    "maxPrice": 37990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "12611",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 37990,
+        "title": "Encendedor Rosado Logo Rojo-Zippo"
+      },
+      {
+        "offerId": "19465",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 32990,
+        "title": "Encendedor Classic Pink Matte Zippo"
+      }
+    ]
+  },
+  {
+    "group": "30",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=91.3%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 53990,
+    "maxPrice": 57990,
+    "priceRatio": 1.07,
+    "rows": [
+      {
+        "offerId": "12680",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 57990,
+        "title": "Double Dab Blue-Bonglab"
+      },
+      {
+        "offerId": "18492",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 53990,
+        "title": "Bonglab Double Circuit Bong 14 cm Kit Banger + Cap + Terp Balls"
+      }
+    ]
+  },
+  {
+    "group": "31",
+    "category": "Otros parafernalia",
+    "signal": "sim=91.2%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 26990,
+    "maxPrice": 39990,
+    "priceRatio": 1.48,
+    "rows": [
+      {
+        "offerId": "78165",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 39990,
+        "title": "Malla De Secado Prodry Modulable 95Cm V6-Garden Highpro"
+      },
+      {
+        "offerId": "78163",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 26990,
+        "title": "Malla De Secado Prodry Modulable 75Cm V6-Garden Highpro"
+      },
+      {
+        "offerId": "75081",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 29990,
+        "title": "Garden Highpro Malla de secado ProDry+"
+      }
+    ]
+  },
+  {
+    "group": "32",
+    "category": "Moledores",
+    "signal": "sim=91%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 43491,
+    "maxPrice": 49990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "31195",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 49990,
+        "title": "Moledor 5Cm -Slx - Amarillo"
+      },
+      {
+        "offerId": "33744",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Amarillo"
+      }
+    ]
+  },
+  {
+    "group": "33",
+    "category": "Encendedores y sopletes",
+    "signal": "sim=90.9%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 5,
+    "minPrice": 34990,
+    "maxPrice": 44990,
+    "priceRatio": 1.29,
+    "rows": [
+      {
+        "offerId": "12682",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 34990,
+        "title": "Encendedor Logo Negro - Zippo"
+      },
+      {
+        "offerId": "2594",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 37990,
+        "title": "Encendedor High Polish Rose-Zippo"
+      },
+      {
+        "offerId": "19738",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 41990,
+        "title": "Encendedor Zippo Black Ice"
+      },
+      {
+        "offerId": "19387",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 44990,
+        "title": "Encendedor Zippo Classic High Polish Purple"
+      },
+      {
+        "offerId": "12950",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 36990,
+        "title": "Encendedor Classic Black Matte Zippo"
+      }
+    ]
+  },
+  {
+    "group": "34",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=90.8%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 24990,
+    "maxPrice": 29990,
+    "priceRatio": 1.2,
+    "rows": [
+      {
+        "offerId": "78082",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 24990,
+        "title": "Atrapa Ceniza Perc 14Mm -Bonglab - CLEAR"
+      },
+      {
+        "offerId": "78081",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 24990,
+        "title": "Atrapa Ceniza Perc 14Mm -Bonglab - BLACK"
+      },
+      {
+        "offerId": "78083",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 24990,
+        "title": "Atrapa Ceniza Perc 14Mm -Bonglab - GREEN"
+      },
+      {
+        "offerId": "34946",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 29990,
+        "title": "Bonglab Atrapa cenizas 6 brazos 45° - 14mm"
+      }
+    ]
+  },
+  {
+    "group": "36",
+    "category": "Filtros y boquillas",
+    "signal": "sim=90.6%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 109990,
+    "maxPrice": 127100,
+    "priceRatio": 1.16,
+    "rows": [
+      {
+        "offerId": "33130",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 109990,
+        "title": "Filtro Carbon Eco -Prima Klima - 150/400Mm 630M3/H"
+      },
+      {
+        "offerId": "11534",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 127100,
+        "title": "Filtros Prima-Klima para eliminar los olores"
+      }
+    ]
+  },
+  {
+    "group": "37",
+    "category": "Moledores",
+    "signal": "sim=90.6%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 4990,
+    "maxPrice": 5300,
+    "priceRatio": 1.06,
+    "rows": [
+      {
+        "offerId": "4650",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4990,
+        "title": "LRC Moledor contenedor Tainer 40mm"
+      },
+      {
+        "offerId": "71294",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 5300,
+        "title": "Tainer Lion Rolling Circus | Contenedor con Moledor Hermético"
+      }
+    ]
+  },
+  {
+    "group": "39",
+    "category": "Otros parafernalia",
+    "signal": "sim=90.5%",
+    "doble": "",
+    "stores": [
+      "growbarato",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 10000,
+    "maxPrice": 10990,
+    "priceRatio": 1.1,
+    "rows": [
+      {
+        "offerId": "71117",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 10000,
+        "title": "\"Balanza GoldGram pesa de 0,01 a 100g\""
+      },
+      {
+        "offerId": "70180",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 10990,
+        "title": "Pesa digital"
+      }
+    ]
+  },
+  {
+    "group": "40",
+    "category": "Moledores",
+    "signal": "sim=90.4%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 17990,
+    "maxPrice": 17990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "31068",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 17990,
+        "title": "Moledor Lite 63Mm- Calvo Glass - Rosa"
+      },
+      {
+        "offerId": "33672",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 17990,
+        "title": "Moledor Calvo Lite Aluminio 63mm - Azul"
+      },
+      {
+        "offerId": "33664",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 17990,
+        "title": "Moledor Calvo Lite Aluminio 63mm - Turquesa"
+      },
+      {
+        "offerId": "33669",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 17990,
+        "title": "Moledor Calvo Lite Aluminio 63mm - Morado"
+      }
+    ]
+  },
+  {
+    "group": "41",
+    "category": "Moledores",
+    "signal": "sim=90.4%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 43491,
+    "maxPrice": 49990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "31189",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 49990,
+        "title": "Moledor 5Cm -Slx - verde"
+      },
+      {
+        "offerId": "33745",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Verde"
+      }
+    ]
+  },
+  {
+    "group": "42",
+    "category": "Otros parafernalia",
+    "signal": "sim=90.3%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 15900,
+    "maxPrice": 20990,
+    "priceRatio": 1.32,
+    "rows": [
+      {
+        "offerId": "13634",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 20990,
+        "title": "Cookies Original Mint Socks Black and White - Calcetines Largos"
+      },
+      {
+        "offerId": "13636",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 20990,
+        "title": "Cookies Original Mint Socks White and Black - Calcetines Largos"
+      },
+      {
+        "offerId": "71041",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 15900,
+        "title": "Calcetines Cookies Original Mint Socks Black & White | Calcetines Larg"
+      }
+    ]
+  },
+  {
+    "group": "43",
+    "category": "Moledores",
+    "signal": "sim=90.3%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 43491,
+    "maxPrice": 49990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "31197",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 49990,
+        "title": "Moledor 5Cm -Slx - Rosa"
+      },
+      {
+        "offerId": "33742",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Rosado"
+      }
+    ]
+  },
+  {
+    "group": "44",
+    "category": "Otros parafernalia",
+    "signal": "d=10",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 9990,
+    "maxPrice": 9990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "77351",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 9990,
+        "title": "\"Pesa Gramera 0,01G-Presize\""
+      },
+      {
+        "offerId": "73791",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 9990,
+        "title": "Presize Gramera Digital 200g - 0.01g"
+      }
+    ]
+  },
+  {
+    "group": "45",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=89.8%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 2990,
+    "maxPrice": 3300,
+    "priceRatio": 1.1,
+    "rows": [
+      {
+        "offerId": "20302",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 2990,
+        "title": "Dabber"
+      },
+      {
+        "offerId": "11554",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 3300,
+        "title": "Dabber Espátula Lecron Acero Inoxidable | Herramienta para BHO y Dabbi"
+      }
+    ]
+  },
+  {
+    "group": "46",
+    "category": "Moledores",
+    "signal": "sim=89.7%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 43491,
+    "maxPrice": 49990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "31194",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 49990,
+        "title": "Moledor 5Cm -Slx - Morado"
+      },
+      {
+        "offerId": "33741",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Morado"
+      }
+    ]
+  },
+  {
+    "group": "47",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=89.6%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 3990,
+    "maxPrice": 4990,
+    "priceRatio": 1.25,
+    "rows": [
+      {
+        "offerId": "31541",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 3990,
+        "title": "Quemador Macho 18Mm - azul"
+      },
+      {
+        "offerId": "31539",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 3990,
+        "title": "Quemador Macho 18Mm - Azul oscuro"
+      },
+      {
+        "offerId": "12902",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4990,
+        "title": "Quemador Macho 18mm - Diferentes Colores"
+      },
+      {
+        "offerId": "34102",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4990,
+        "title": "Quemador Macho 18mm - Diferentes Colores - Azul2"
+      }
+    ]
+  },
+  {
+    "group": "49",
+    "category": "Bandejas y ceniceros",
+    "signal": "sim=89.5%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 7200,
+    "maxPrice": 7690,
+    "priceRatio": 1.07,
+    "rows": [
+      {
+        "offerId": "19557",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 7690,
+        "title": "Bandeja Raw Dark Mediana"
+      },
+      {
+        "offerId": "71040",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 7200,
+        "title": "Bandeja RAW Dark mediana"
+      }
+    ]
+  },
+  {
+    "group": "50",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=89.4%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 617490,
+    "maxPrice": 617491,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "77688",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 617490,
+        "title": "New Peak Pro Plasma + 3Dxl Chamber - Puffco"
+      },
+      {
+        "offerId": "80224",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 617491,
+        "title": "Vaporizador Puffco New Peak Pro Plasma + 3DXL Chamber | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "51",
+    "category": "Otros parafernalia",
+    "signal": "sim=89.4%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 7990,
+    "maxPrice": 7990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "73851",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 7990,
+        "title": "Boveda Size 67 58%/62% - 58%"
+      },
+      {
+        "offerId": "70195",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 7990,
+        "title": "Boveda 67gr 62% controlador de humedad"
+      }
+    ]
+  },
+  {
+    "group": "53",
+    "category": "Encendedores y sopletes",
+    "signal": "sim=89.4%",
+    "doble": "",
+    "stores": [
+      "growbarato",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 690,
+    "maxPrice": 700,
+    "priceRatio": 1.01,
+    "rows": [
+      {
+        "offerId": "1426",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 700,
+        "title": "Encendedor Ronson Electrolite【recargable】"
+      },
+      {
+        "offerId": "69260",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 690,
+        "title": "Encendedor Ronson"
+      }
+    ]
+  },
+  {
+    "group": "54",
+    "category": "Contenedores y estuches",
+    "signal": "sim=89.3%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 29990,
+    "maxPrice": 39500,
+    "priceRatio": 1.32,
+    "rows": [
+      {
+        "offerId": "34869",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 29990,
+        "title": "Ozeta Estuche mediano 2023 - Anti-olor - Gris"
+      },
+      {
+        "offerId": "3225",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 39500,
+        "title": "Kit Fumeta OZeta Case XL antiolor"
+      }
+    ]
+  },
+  {
+    "group": "55",
+    "category": "Otros parafernalia",
+    "signal": "sim=89.2%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 19990,
+    "maxPrice": 23970,
+    "priceRatio": 1.2,
+    "rows": [
+      {
+        "offerId": "74970",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 19990,
+        "title": "Boveda Size 1 58%/62% - 20 Pack - 58%"
+      },
+      {
+        "offerId": "74971",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 19990,
+        "title": "Boveda Size 1 58%/62% - 20 Pack - 62%"
+      },
+      {
+        "offerId": "70264",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 23970,
+        "title": "Pack 3 Boveda 67gr 62% controlador de humedad"
+      }
+    ]
+  },
+  {
+    "group": "56",
+    "category": "Pipas",
+    "signal": "sim=89%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 9990,
+    "maxPrice": 9990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "35799",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 9990,
+        "title": "Ryot Hitter de Aluminio Anodizado 6mm - Azul"
+      },
+      {
+        "offerId": "69010",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 9990,
+        "title": "RYOT Hitter de Aluminio Anodizado"
+      }
+    ]
+  },
+  {
+    "group": "57",
+    "category": "Pipas",
+    "signal": "sim=89%",
+    "doble": "",
+    "stores": [
+      "growbarato",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 5990,
+    "maxPrice": 6300,
+    "priceRatio": 1.05,
+    "rows": [
+      {
+        "offerId": "3212",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 6300,
+        "title": "Pipas de Pirex Pequeñas | Pipas de Vidrio Resistentes en Chile"
+      },
+      {
+        "offerId": "69078",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 5990,
+        "title": "Pipa Pyrex"
+      }
+    ]
+  },
+  {
+    "group": "59",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=88.9%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 3,
+    "offerCount": 3,
+    "minPrice": 34791,
+    "maxPrice": 39990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "17210",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 39990,
+        "title": "Proxy Joystick Cap Black-Puffco"
+      },
+      {
+        "offerId": "34366",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 39990,
+        "title": "Peak Pro Joystick Cap Puffco - Onyx"
+      },
+      {
+        "offerId": "16162",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 34791,
+        "title": "Puffco Proxy Joystick Cap | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "61",
+    "category": "Bandejas y ceniceros",
+    "signal": "sim=88.9%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 7990,
+    "maxPrice": 8790,
+    "priceRatio": 1.1,
+    "rows": [
+      {
+        "offerId": "19858",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 8790,
+        "title": "Bandeja OCB Mediana"
+      },
+      {
+        "offerId": "36706",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 8790,
+        "title": "Bandeja OCB Mediana - Negro"
+      },
+      {
+        "offerId": "16117",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 7990,
+        "title": "Bandeja OCB (Diseño aleatorio)"
+      }
+    ]
+  },
+  {
+    "group": "62",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.8%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 4890,
+    "maxPrice": 5990,
+    "priceRatio": 1.22,
+    "rows": [
+      {
+        "offerId": "31339",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 5990,
+        "title": "Quemador Perlas Macho 18 Mm -Bonglab - Azul oscuro"
+      },
+      {
+        "offerId": "33992",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4890,
+        "title": "Bonglab Quemador Perlas - Macho 18mm - Rosado"
+      },
+      {
+        "offerId": "33997",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4890,
+        "title": "Bonglab Quemador Perlas - Macho 18mm - Turquesa"
+      }
+    ]
+  },
+  {
+    "group": "63",
+    "category": "Conos y blunts",
+    "signal": "sim=88.8%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 1390,
+    "maxPrice": 1400,
+    "priceRatio": 1.01,
+    "rows": [
+      {
+        "offerId": "17946",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1390,
+        "title": "Blunt Hemp Wrap Terpenes Rolling Stones Lemon Haze- Lion Rolling Circu"
+      },
+      {
+        "offerId": "11538",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 1400,
+        "title": "Hemp Wraps Rolling Stones Lion Rolling Circus | Diferentes sabores"
+      }
+    ]
+  },
+  {
+    "group": "64",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=88.7%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 170990,
+    "maxPrice": 199990,
+    "priceRatio": 1.17,
+    "rows": [
+      {
+        "offerId": "79566",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 199990,
+        "title": "Puffco Pivot Sapphire - Dab Pen"
+      },
+      {
+        "offerId": "69339",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 170990,
+        "title": "Puffco Pivot"
+      }
+    ]
+  },
+  {
+    "group": "65",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.7%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 5990,
+    "maxPrice": 6990,
+    "priceRatio": 1.17,
+    "rows": [
+      {
+        "offerId": "31331",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 6990,
+        "title": "Quemador Honeycomb Macho 14Mm -Bonglab - Morado"
+      },
+      {
+        "offerId": "32077",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 5990,
+        "title": "Quemador Rejilla Pyrex 14Mm Cono-Bonglab - Rosa"
+      },
+      {
+        "offerId": "33974",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 5990,
+        "title": "BongLab Quemador HoneyComb Macho 14mm - Morado"
+      }
+    ]
+  },
+  {
+    "group": "66",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.5%",
+    "doble": "si",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 22990,
+    "maxPrice": 23990,
+    "priceRatio": 1.04,
+    "rows": [
+      {
+        "offerId": "32104",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 23990,
+        "title": "Atrapa Ceniza Panal Triple 14Mm-Bonglab - Azul"
+      },
+      {
+        "offerId": "78017",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 23990,
+        "title": "Atrapa Ceniza Panal Triple 14Mm-Bonglab - BLUE"
+      },
+      {
+        "offerId": "34642",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 22990,
+        "title": "BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - Azul"
+      },
+      {
+        "offerId": "60843",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 22990,
+        "title": "BongLab AtrapaCenizas Triple HoneyComb - Macho 14mm - Transparente"
+      }
+    ]
+  },
+  {
+    "group": "67",
+    "category": "Otros parafernalia",
+    "signal": "sim=88.5%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 28990,
+    "maxPrice": 39990,
+    "priceRatio": 1.38,
+    "rows": [
+      {
+        "offerId": "18144",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 39990,
+        "title": "Piper Negro-Ryot"
+      },
+      {
+        "offerId": "69148",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 28990,
+        "title": "RYOT SmellSafe HeadCase Black"
+      }
+    ]
+  },
+  {
+    "group": "68",
+    "category": "Otros parafernalia",
+    "signal": "sim=88.4%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 18000,
+    "maxPrice": 19990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "78580",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 19990,
+        "title": "Malla Piramidal 220 Micras"
+      },
+      {
+        "offerId": "71237",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 18000,
+        "title": "Malla Pirámide para lavadora Secret Smoke"
+      }
+    ]
+  },
+  {
+    "group": "69",
+    "category": "Papelillos",
+    "signal": "sim=88.4%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 990,
+    "maxPrice": 1300,
+    "priceRatio": 1.31,
+    "rows": [
+      {
+        "offerId": "2139",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 990,
+        "title": "Papelillos Vibes Ultra Finos 1 1/4"
+      },
+      {
+        "offerId": "2291",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 1300,
+        "title": "Papelillos Vibes 1.¼ Organic Hemp"
+      }
+    ]
+  },
+  {
+    "group": "70",
+    "category": "Encendedores y sopletes",
+    "signal": "sim=88.4%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 990,
+    "maxPrice": 1000,
+    "priceRatio": 1.01,
+    "rows": [
+      {
+        "offerId": "19604",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 990,
+        "title": "Encendedor Clipper Casino Nights"
+      },
+      {
+        "offerId": "69169",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 1000,
+        "title": "Encendedor Clipper® Geometric"
+      }
+    ]
+  },
+  {
+    "group": "71",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.4%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 4990,
+    "maxPrice": 4990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "32076",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 4990,
+        "title": "Quemador Rejilla Pyrex 14Mm Cono-Bonglab - Ámbar"
+      },
+      {
+        "offerId": "12843",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 4990,
+        "title": "Bonglab Quemador Hembra 14mm Clear"
+      }
+    ]
+  },
+  {
+    "group": "72",
+    "category": "Vaporizadores herbales",
+    "signal": "sim=88.3%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 45990,
+    "maxPrice": 59990,
+    "priceRatio": 1.3,
+    "rows": [
+      {
+        "offerId": "31356",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 59990,
+        "title": "Vaporizador Herbva 5G White-Airistech"
+      },
+      {
+        "offerId": "36195",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 45990,
+        "title": "Airistech Vaporizador Herbva Viva - Blanco"
+      }
+    ]
+  },
+  {
+    "group": "73",
+    "category": "Moledores",
+    "signal": "sim=88.2%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 43491,
+    "maxPrice": 49990,
+    "priceRatio": 1.15,
+    "rows": [
+      {
+        "offerId": "31192",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 49990,
+        "title": "Moledor 5Cm -Slx - CHARCOAL"
+      },
+      {
+        "offerId": "33739",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Carbón"
+      },
+      {
+        "offerId": "33743",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 43491,
+        "title": "Moledor SLX 50mm - Plateado"
+      }
+    ]
+  },
+  {
+    "group": "74",
+    "category": "Contenedores y estuches",
+    "signal": "sim=88.2%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 2290,
+    "maxPrice": 2990,
+    "priceRatio": 1.31,
+    "rows": [
+      {
+        "offerId": "12298",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 2990,
+        "title": "Contenedor Pyrex 5Ml Circular Black"
+      },
+      {
+        "offerId": "20080",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 2290,
+        "title": "Contenedor vidrio"
+      }
+    ]
+  },
+  {
+    "group": "75",
+    "category": "Contenedores y estuches",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 9000,
+    "maxPrice": 11990,
+    "priceRatio": 1.33,
+    "rows": [
+      {
+        "offerId": "37353",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 11990,
+        "title": "Case Galaxy Contenedor Pre-roll - Rosado"
+      },
+      {
+        "offerId": "37356",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 11990,
+        "title": "Case Galaxy Contenedor Pre-roll - Oro"
+      },
+      {
+        "offerId": "147",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 9000,
+        "title": "Porta Pitos - Galaxy【guarda caños】en Growbarato Chile"
+      }
+    ]
+  },
+  {
+    "group": "76",
+    "category": "Filtros y boquillas",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 10990,
+    "maxPrice": 12990,
+    "priceRatio": 1.18,
+    "rows": [
+      {
+        "offerId": "19953",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 12990,
+        "title": "Shine® X ROOR Glass Tip Plus"
+      },
+      {
+        "offerId": "69224",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 10990,
+        "title": "Shine Glass tip"
+      }
+    ]
+  },
+  {
+    "group": "77",
+    "category": "Conos y blunts",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 1000,
+    "maxPrice": 1000,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "36234",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 1000,
+        "title": "Blunt Soulblime Hemp Wrap x2 - Miel"
+      },
+      {
+        "offerId": "79859",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 1000,
+        "title": "Hemp Wraps Blunt Soulblime | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "78",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 4990,
+    "maxPrice": 5990,
+    "priceRatio": 1.2,
+    "rows": [
+      {
+        "offerId": "31270",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 4990,
+        "title": "Quemador Bowl Chico Hembra 14 Mm -Bonglab - CLEAR"
+      },
+      {
+        "offerId": "13176",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 5990,
+        "title": "BongLab Quemador Large Bowl - Macho 14mm"
+      }
+    ]
+  },
+  {
+    "group": "79",
+    "category": "Repuestos para bongs y vaporizadores",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 4500,
+    "maxPrice": 5990,
+    "priceRatio": 1.33,
+    "rows": [
+      {
+        "offerId": "33859",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 5990,
+        "title": "Bonglab Quemador con rejilla - Macho 14mm - Azul"
+      },
+      {
+        "offerId": "70917",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 4500,
+        "title": "Quemador Bowl Macho Azul 14mm - Growbarato"
+      }
+    ]
+  },
+  {
+    "group": "80",
+    "category": "Pipas",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 18990,
+    "maxPrice": 21990,
+    "priceRatio": 1.16,
+    "rows": [
+      {
+        "offerId": "8172",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 21990,
+        "title": "Grav Pipa Rocker Steamroller 12cm"
+      },
+      {
+        "offerId": "37554",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 21990,
+        "title": "Grav Pipa Rocker Steamroller 12cm - Rosado"
+      },
+      {
+        "offerId": "69270",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 18990,
+        "title": "Pioneer Glass Hand Pipe - MJ Arsenal"
+      }
+    ]
+  },
+  {
+    "group": "81",
+    "category": "Accesorios de extraccion",
+    "signal": "sim=88.1%",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 269990,
+    "maxPrice": 349990,
+    "priceRatio": 1.3,
+    "rows": [
+      {
+        "offerId": "79509",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 349990,
+        "title": "Puffco Peak Zest - Vaporizador E-Rig"
+      },
+      {
+        "offerId": "37815",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 269990,
+        "title": "Vaporizador Puffco Peak 2024 - Negro"
+      }
+    ]
+  },
+  {
+    "group": "82",
+    "category": "Bongs",
+    "signal": "d=15",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 98991,
+    "maxPrice": 109990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "19753",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 109990,
+        "title": "Focus V Aeris Bubbler"
+      },
+      {
+        "offerId": "36436",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 109990,
+        "title": "Focus V Aeris Bubbler - Negro"
+      },
+      {
+        "offerId": "80741",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 98991,
+        "title": "Bubbler (Burbujeador) Aeris Focus V | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "83",
+    "category": "Otros parafernalia",
+    "signal": "d=15",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 27990,
+    "maxPrice": 29742,
+    "priceRatio": 1.06,
+    "rows": [
+      {
+        "offerId": "78673",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 27990,
+        "title": "Terpenos 5Ml-Terps Usa - FRUITY CERAL"
+      },
+      {
+        "offerId": "80707",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 29742,
+        "title": "Terpeno Terps USA Fruity Cereal (5mL) | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "84",
+    "category": "Otros parafernalia",
+    "signal": "d=33",
+    "doble": "",
+    "stores": [
+      "piranha",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 2490,
+    "maxPrice": 2990,
+    "priceRatio": 1.2,
+    "rows": [
+      {
+        "offerId": "80192",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 2490,
+        "title": "Iso Alcohol 99% Thievery (30mL/50mL/500mL/3L) | PIRANHA"
+      },
+      {
+        "offerId": "70313",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 2990,
+        "title": "Alcohol Isopropílico 99%"
+      }
+    ]
+  },
+  {
+    "group": "86",
+    "category": "Conos y blunts",
+    "signal": "d=80",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 1490,
+    "maxPrice": 1490,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "18083",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1490,
+        "title": "Kush Hemps Wraps Sweet"
+      },
+      {
+        "offerId": "18084",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 1490,
+        "title": "Kush Hemps Wraps Zero"
+      },
+      {
+        "offerId": "37537",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 1490,
+        "title": "Conos Blunt Kush Hemp x2 - Sabores - Grape"
+      }
+    ]
+  },
+  {
+    "group": "87",
+    "category": "Papelillos",
+    "signal": "d=88",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 590,
+    "maxPrice": 590,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "1229",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 590,
+        "title": "Papelillos Gizeh Pure Cañamo Orgánico 1 1/4"
+      },
+      {
+        "offerId": "69343",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 590,
+        "title": "Papelillos Pure 1 1/4 Gizeh"
+      }
+    ]
+  },
+  {
+    "group": "89",
+    "category": "Pipas",
+    "signal": "d=104",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 4,
+    "minPrice": 14990,
+    "maxPrice": 17990,
+    "priceRatio": 1.2,
+    "rows": [
+      {
+        "offerId": "12093",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 17990,
+        "title": "Pipa Pyrex Phantomix 94- Top Smoke"
+      },
+      {
+        "offerId": "2719",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 17990,
+        "title": "Pipa Pyrex Hellstorm 112- Top Smoke"
+      },
+      {
+        "offerId": "2705",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 17990,
+        "title": "Pipa Pyrex Dominionx 96- Top Smoke"
+      },
+      {
+        "offerId": "15553",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 14990,
+        "title": "Pipa Pyrex Top Smoke | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "90",
+    "category": "Pipas",
+    "signal": "d=123",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 6990,
+    "maxPrice": 8990,
+    "priceRatio": 1.29,
+    "rows": [
+      {
+        "offerId": "1181",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 8990,
+        "title": "Pipa Pyrex Venator Max 73- Top Smoke"
+      },
+      {
+        "offerId": "1353",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 6990,
+        "title": "Pipa Pyrex Top Smoke | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "91",
+    "category": "Otros parafernalia",
+    "signal": "d=125",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 3,
+    "minPrice": 29990,
+    "maxPrice": 29990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "75402",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 29990,
+        "title": "Boveda Size 320 58%/62% - 62%"
+      },
+      {
+        "offerId": "75401",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 29990,
+        "title": "Boveda Size 320 58%/62% - 58%"
+      },
+      {
+        "offerId": "70194",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 29990,
+        "title": "Boveda 320 gr 62% controlador de humedad"
+      }
+    ]
+  },
+  {
+    "group": "92",
+    "category": "Pipas",
+    "signal": "d=135",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 8990,
+    "maxPrice": 9990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "2734",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 9990,
+        "title": "Pipa Pyrex Neonix 65- Top Smoke"
+      },
+      {
+        "offerId": "490",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 8990,
+        "title": "Pipa Pyrex Top Smoke | PIRANHA"
+      }
+    ]
+  },
+  {
+    "group": "93",
+    "category": "Vaporizadores herbales",
+    "signal": "d=136",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "kushbreak"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 224990,
+    "maxPrice": 249990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "35042",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 249990,
+        "title": "Vaporizador DaVinci IQ2 - Grey"
+      },
+      {
+        "offerId": "69152",
+        "storeId": "8",
+        "store": "kushbreak",
+        "price": 224990,
+        "title": "Vaporizador Davinci IQC"
+      }
+    ]
+  },
+  {
+    "group": "95",
+    "category": "Encendedores y sopletes",
+    "signal": "d=139",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "growbarato"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 2300,
+    "maxPrice": 2990,
+    "priceRatio": 1.3,
+    "rows": [
+      {
+        "offerId": "36157",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 2990,
+        "title": "Special Blue Encendedor Soplete Mini Clear - Naranjo"
+      },
+      {
+        "offerId": "154",
+        "storeId": "4",
+        "store": "growbarato",
+        "price": 2300,
+        "title": "Soplete Pequeño | Encendedor de gas recargable portátil"
+      }
+    ]
+  },
+  {
+    "group": "96",
+    "category": "Encendedores y sopletes",
+    "signal": "d=139",
+    "doble": "",
+    "stores": [
+      "astrogrowshop",
+      "fumetas"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 990,
+    "maxPrice": 990,
+    "priceRatio": 1,
+    "rows": [
+      {
+        "offerId": "18014",
+        "storeId": "1",
+        "store": "astrogrowshop",
+        "price": 990,
+        "title": "Variedades Encendedores-Clipper"
+      },
+      {
+        "offerId": "19675",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 990,
+        "title": "Encendedor Clipper Party Skulls"
+      }
+    ]
+  },
+  {
+    "group": "97",
+    "category": "Pipas",
+    "signal": "d=139",
+    "doble": "",
+    "stores": [
+      "fumetas",
+      "piranha"
+    ],
+    "storeCount": 2,
+    "offerCount": 2,
+    "minPrice": 19752,
+    "maxPrice": 21990,
+    "priceRatio": 1.11,
+    "rows": [
+      {
+        "offerId": "33599",
+        "storeId": "2",
+        "store": "fumetas",
+        "price": 21990,
+        "title": "PieceMaker Pipa Kuban 11 cm - Maduro"
+      },
+      {
+        "offerId": "1317",
+        "storeId": "3",
+        "store": "piranha",
+        "price": 19752,
+        "title": "Hitter Oro 22K Manchas"
+      }
+    ]
+  }
+]
