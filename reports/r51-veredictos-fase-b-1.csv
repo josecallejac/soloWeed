@@ -1,0 +1,101 @@
+offerId;productId;veredicto;congelado;motivo
+1151;10734;NO-VINCULAR;no;fantasma - el scraper ya no la ve en Astro (no-2026-06-30)
+31025;10734;VINCULAR;no;color cosmético azul al mismo precio 34990
+31028;10734;VINCULAR;no;color cosmético Rojo al mismo precio 34990
+31026;10734;VINCULAR;no;color cosmético verde al mismo precio 32990
+31024;10734;VINCULAR;no;color cosmético Rosa al mismo precio 34990
+31027;10734;VINCULAR;no;color cosmético Morado al mismo precio 32990
+31192;5999;VINCULAR;si;color cosmético CHARCOAL al mismo precio 49990
+31194;5999;VINCULAR;si;color cosmético Morado al mismo precio 49990
+31190;5999;VINCULAR;si;color cosmético azul al mismo precio 49990
+31191;5999;VINCULAR;si;color cosmético Negro al mismo precio 49990
+31193;5999;VINCULAR;si;color cosmético CHAMPAGNE al mismo precio 49990
+31195;5999;VINCULAR;si;color cosmético Amarillo al mismo precio 49990
+31196;5999;VINCULAR;si;color cosmético Plata al mismo precio 49990
+31197;5999;VINCULAR;si;color cosmético Rosa al mismo precio 49990
+32562;10289;VINCULAR;si;color cosmético Naranjo al mismo precio 65990
+32564;10289;VINCULAR;si;color cosmético Verde azulado al mismo precio 69990
+32563;10289;VINCULAR;si;color cosmético Morado al mismo precio 65990
+31210;5356;VINCULAR;si;color cosmético Dorado al mismo precio 28990
+31214;5356;VINCULAR;si;color cosmético Morado al mismo precio 31990
+31211;5356;VINCULAR;si;color cosmético Oro rosa al mismo precio 28990
+31212;5356;VINCULAR;si;color cosmético Plata al mismo precio 28990
+31208;5356;VINCULAR;si;color cosmético azul al mismo precio 31990
+31213;5356;VINCULAR;si;color cosmético Rojo al mismo precio 28990
+31209;5356;VINCULAR;si;color cosmético verde al mismo precio 31990
+32200;10359;NO-VINCULAR;no;medida 12 CM es producto distinto del 14 CM del producto curado
+77155;10333;VINCULAR;no;color cosmético PINK-WHITE al mismo precio 9990
+77156;10333;VINCULAR;no;color cosmético PINK-MULTICOLOR al mismo precio 9990
+31312;10333;VINCULAR;no;color cosmético ANIMAL PRINT al mismo precio 9990
+77158;10333;VINCULAR;no;gemela viva de of31309 Azul (fantasma); vincula la oferta que Astro sigue publicando
+31330;5746;VINCULAR;si;color cosmético Rosa al mismo precio 6990
+31329;5746;VINCULAR;si;color cosmético verde al mismo precio 6990
+31331;5746;VINCULAR;si;color cosmético Morado al mismo precio 6990
+31499;5746;VINCULAR;si;color cosmético GOLDEN al mismo precio 4990
+31497;5746;VINCULAR;si;color cosmético verde al mismo precio 4990
+31503;5746;VINCULAR;si;color cosmético Verde azulado al mismo precio 4990
+31504;5746;VINCULAR;si;color cosmético CLEAR al mismo precio 4990
+31498;5746;VINCULAR;si;color cosmético Azul oscuro al mismo precio 4990
+31502;5746;VINCULAR;si;color cosmético Rosa al mismo precio 4990
+31505;5746;VINCULAR;si;color cosmético SMOKEY GRAY al mismo precio 4990
+31500;5746;VINCULAR;si;color cosmético AMBAR al mismo precio 4990
+31501;5746;VINCULAR;si;color cosmético Morado al mismo precio 4990
+31406;6020;VINCULAR;no;color cosmético Negro al mismo precio 6990
+31404;6020;VINCULAR;no;color cosmético MILK GREEN al mismo precio 6990
+31405;6020;VINCULAR;no;color cosmético Rosa al mismo precio 5990
+31408;6020;NO-VINCULAR;no;variante GENERICO a $3990 es modelo base sin color; duplica la oferta base
+31450;5529;VINCULAR;si;color cosmético Negro al mismo precio 23990
+31448;5529;VINCULAR;si;color cosmético Verde azulado al mismo precio 27990
+31449;5529;VINCULAR;si;color cosmético Ámbar al mismo precio 27990
+31447;5529;VINCULAR;si;color cosmético azul al mismo precio 27990
+31451;5529;VINCULAR;si;color cosmético CLEAR al mismo precio 27990
+31452;5529;VINCULAR;si;color cosmético Rosa al mismo precio 27990
+31467;5733;NO-VINCULAR;no;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+31464;5733;NO-VINCULAR;no;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+31736;5778;VINCULAR;si;color cosmético Rosa al mismo precio 15990
+31642;5764;VINCULAR;no;color cosmético CYAN al mismo precio 27990
+77549;5764;VINCULAR;no;gemela viva de of31643 Rosa (fantasma); vincula la oferta que Astro sigue publicando
+31740;10466;VINCULAR;no;color cosmético Rosa al mismo precio 29990
+32233;9244;VINCULAR;no;color cosmético Gris al mismo precio 228990
+32234;9244;VINCULAR;no;color cosmético Morado al mismo precio 228990
+32235;9244;VINCULAR;no;color cosmético azul al mismo precio 228990
+32105;10309;NO-VINCULAR;si;gemela espanola de 78018 (GREEN ingles)
+32106;10309;NO-VINCULAR;si;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+78018;10309;VINCULAR;si;color cosmético GREEN al mismo precio 22990
+78019;10309;VINCULAR;si;color cosmético CLEAR al mismo precio 24990
+32164;10718;NO-VINCULAR;si;gemela espanola de 78088 (PINK ingles)
+78088;10718;VINCULAR;si;color cosmético PINK al mismo precio 24990
+32165;10718;VINCULAR;si;color cosmético CLEAR 45 al mismo precio 24990
+78218;10384;VINCULAR;no;color cosmético PINK al mismo precio 2390
+32258;10384;NO-VINCULAR;no;gemela espanola de 78218 (PINK ingles)
+32326;5712;NO-VINCULAR;no;gemela espanola de 78339 (PURPLE ingles)
+12352;5712;NO-VINCULAR;no;oferta base vacia a $4990 duplica la ficha; variantes de color a $5990 ya cubren el producto
+78339;5712;VINCULAR;no;color cosmético PURPLE al mismo precio 5990
+32387;10388;NO-VINCULAR;si;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+32383;10388;VINCULAR;si;color cosmético DULCE MIX al mismo precio 1490
+32385;10388;VINCULAR;si;color cosmético DULCE MIX CHOCOLATE al mismo precio 1490
+32386;10388;VINCULAR;si;color cosmético DULCE MIX VAINILLA al mismo precio 1490
+78432;10388;VINCULAR;si;color cosmético ESTRA DULCES ALGODON DE AZUCAR al mismo precio 1490
+32393;10388;VINCULAR;si;color cosmético FRUTALES UVA al mismo precio 1490
+32394;10388;VINCULAR;si;color cosmético FRUTALES ARANDANO al mismo precio 1490
+32381;10388;NO-VINCULAR;si;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+32382;10388;NO-VINCULAR;si;fantasma - el scraper ya no la ve en Astro (no-2026-07-10)
+32389;10388;VINCULAR;si;color cosmético EXTRA DULCES MIEL al mismo precio 1490
+32390;10388;VINCULAR;si;color cosmético TROPICAL PIÑA al mismo precio 1490
+32391;10388;VINCULAR;si;color cosmético TROPICAL MANGO al mismo precio 1490
+32395;10388;VINCULAR;si;color cosmético FRUTALES FRUTILLA al mismo precio 1490
+32388;10388;VINCULAR;si;color cosmético EXTRA DULCES CHERRY al mismo precio 1490
+32392;10388;VINCULAR;si;color cosmético TROPICAL SANDIA al mismo precio 1490
+78426;10388;VINCULAR;si;color cosmético CLASICO MENTA al mismo precio 1490
+78427;10388;VINCULAR;si;color cosmético CLASICO ORIGINAL al mismo precio 1490
+32384;10388;VINCULAR;si;color cosmético DULCE MIX CHICLE al mismo precio 1490
+79380;10884;VINCULAR;no;color cosmético Azul al mismo precio 10990
+79381;10884;VINCULAR;no;color cosmético MACARON WHITE al mismo precio 10990
+79383;10884;VINCULAR;no;color cosmético Plata al mismo precio 10990
+78542;10371;VINCULAR;no;color cosmético PINK al mismo precio 12990
+32488;10371;NO-VINCULAR;no;gemela espanola de 78542 (PINK ingles)
+32493;5731;NO-VINCULAR;no;gemela espanola de 78547 (RED ingles)
+78544;5731;VINCULAR;no;color cosmético BLUE al mismo precio 13990
+78545;5731;VINCULAR;no;color cosmético GREEN al mismo precio 13990
+78547;5731;VINCULAR;no;color cosmético RED al mismo precio 14990
+32490;5731;NO-VINCULAR;no;gemela espanola de 78544 (BLUE ingles)

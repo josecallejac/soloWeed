@@ -1,0 +1,101 @@
+offerId;productId;veredicto;congelado;motivo
+32492;5731;VINCULAR;no;color cosmético ORANGE al mismo precio 14990
+32765;10713;VINCULAR;no;color cosmético Naranjo al mismo precio 39990
+32819;8651;VINCULAR;si;color cosmético Verde al mismo precio 129990
+32820;8651;VINCULAR;si;color cosmético Rosa al mismo precio 129990
+77503;10664;VINCULAR;no;color cosmético GREEN al mismo precio 16990
+77506;10664;VINCULAR;no;color cosmético RED al mismo precio 16990
+77631;10665;VINCULAR;si;color cosmético YELLOW al mismo precio 21990
+33037;10665;VINCULAR;si;color cosmético ORANGE al mismo precio 21990
+32617;10830;NO-VINCULAR;no;sabor GRAPE ICE es producto distinto del tropical-mint curado
+32619;10830;NO-VINCULAR;no;sabor BLUE RAZZ ICE es producto distinto del tropical-mint curado
+32622;10830;NO-VINCULAR;no;sabor TRIPLE MANGO ICE es producto distinto del tropical-mint curado
+32624;10830;NO-VINCULAR;no;sabor WATERMELON ICE es producto distinto del tropical-mint curado
+32625;10830;NO-VINCULAR;no;sabor WATERMELON STRAWBERRY KIWI es producto distinto del tropical-mint curado
+32618;10830;NO-VINCULAR;no;sabor GREEN APPLE SOUR es producto distinto del tropical-mint curado
+32620;10830;NO-VINCULAR;no;sabor GRAPE BERRIES es producto distinto del tropical-mint curado
+32621;10830;NO-VINCULAR;no;sabor MIXED BERRIES es producto distinto del tropical-mint curado
+76840;6010;VINCULAR;no;color cosmético PINK al mismo precio 1990
+31911;5965;VINCULAR;si;color cosmético NATURAL al mismo precio 1490
+31624;5773;VINCULAR;si;color cosmético Negro al mismo precio 20990
+31625;5773;VINCULAR;si;color cosmético Rosa al mismo precio 20990
+31623;5773;VINCULAR;si;color cosmético verde al mismo precio 20990
+31622;5773;VINCULAR;si;color cosmético azul al mismo precio 20990
+31656;5774;VINCULAR;no;color cosmético Verde azulado al mismo precio 74990
+31658;5774;VINCULAR;no;color cosmético Negro Humo al mismo precio 74990
+31671;5777;VINCULAR;si;color cosmético verde al mismo precio 20990
+31672;5777;VINCULAR;si;color cosmético Rosa al mismo precio 20990
+31673;5777;VINCULAR;si;color cosmético Ámbar al mismo precio 20990
+31670;5777;VINCULAR;si;color cosmético azul al mismo precio 20990
+32378;10531;VINCULAR;no;color cosmético RED BLACK al mismo precio 15990
+31421;10256;VINCULAR;no;color cosmético CLEAR al mismo precio 5990
+31415;10256;VINCULAR;no;color cosmético Azul oscuro al mismo precio 5990
+31416;10256;VINCULAR;no;color cosmético GOLDEN al mismo precio 5990
+31435;5520;VINCULAR;si;color cosmético Negro al mismo precio 51990
+31434;5520;VINCULAR;si;color cosmético azul al mismo precio 51990
+31436;5520;VINCULAR;si;color cosmético Esmeralda al mismo precio 51990
+31437;5520;VINCULAR;si;color cosmético Verde azulado al mismo precio 51990
+31848;10312;VINCULAR;si;color cosmético GEMSTONED BLUERPLE al mismo precio 71990
+31849;10312;VINCULAR;si;color cosmético GEMSTONED GREAL al mismo precio 71990
+31850;10312;VINCULAR;si;color cosmético GEMSTONED RING al mismo precio 71990
+31851;10312;VINCULAR;si;color cosmético HORIZON RED al mismo precio 71990
+31852;10312;VINCULAR;si;color cosmético ONYX al mismo precio 80990
+31854;10312;VINCULAR;si;color cosmético HORIZON ORANGE al mismo precio 71990
+31853;10312;VINCULAR;si;color cosmético PEARL al mismo precio 84990
+32959;10217;VINCULAR;no;color cosmético ESMERALD al mismo precio 65990
+32957;10217;VINCULAR;no;color cosmético Verde azulado al mismo precio 65990
+31006;5502;VINCULAR;si;color cosmético OCEAN al mismo precio 30990
+31000;5502;VINCULAR;si;color cosmético Oro rosa al mismo precio 30990
+31001;5502;VINCULAR;si;color cosmético FIRE al mismo precio 30990
+31002;5502;VINCULAR;si;color cosmético LAVANDER al mismo precio 29990
+31003;5502;VINCULAR;si;color cosmético LEAF al mismo precio 30990
+31004;5502;VINCULAR;si;color cosmético STEEL al mismo precio 30990
+31005;5502;VINCULAR;si;color cosmético Dorado al mismo precio 30990
+31008;5502;VINCULAR;si;color cosmético Morado al mismo precio 30990
+30999;5502;VINCULAR;si;color cosmético Plata al mismo precio 30990
+31007;5502;VINCULAR;si;color cosmético CANDY al mismo precio 30990
+31178;5512;VINCULAR;no;color cosmético Oro rosa al mismo precio 15990
+31172;5512;VINCULAR;no;color cosmético azul al mismo precio 15990
+31174;5512;VINCULAR;no;color cosmético Dorado al mismo precio 15990
+31173;5512;VINCULAR;no;color cosmético verde al mismo precio 15990
+31175;5512;VINCULAR;no;color cosmético Rosa al mismo precio 15990
+31176;5512;VINCULAR;no;color cosmético Morado al mismo precio 15990
+31177;5512;VINCULAR;no;color cosmético Rojo al mismo precio 15990
+31179;5512;VINCULAR;no;color cosmético Plata al mismo precio 15990
+31182;5507;VINCULAR;no;color cosmético verde al mismo precio 18990
+31185;5507;VINCULAR;no;color cosmético Morado al mismo precio 18990
+31186;5507;VINCULAR;no;color cosmético Rojo al mismo precio 18990
+31181;5507;VINCULAR;no;color cosmético azul al mismo precio 18990
+31183;5507;VINCULAR;no;color cosmético Dorado al mismo precio 18990
+31184;5507;VINCULAR;no;color cosmético Rosa al mismo precio 18990
+31187;5507;VINCULAR;no;color cosmético Oro rosa al mismo precio 18990
+31188;5507;VINCULAR;no;color cosmético Plata al mismo precio 18990
+33066;10493;VINCULAR;no;color cosmético verde al mismo precio 32990
+33067;10493;VINCULAR;no;color cosmético IVORY al mismo precio 32990
+33068;10493;VINCULAR;no;color cosmético CARMINE al mismo precio 32990
+33070;10493;VINCULAR;no;color cosmético Negro al mismo precio 34990
+33072;10493;VINCULAR;no;color cosmético TURQOISE al mismo precio 32990
+33071;10493;VINCULAR;no;color cosmético LEMON al mismo precio 32990
+33073;10493;VINCULAR;no;color cosmético LILAC al mismo precio 32990
+33069;10493;VINCULAR;no;color cosmético Naranjo al mismo precio 32990
+31199;5499;VINCULAR;no;color cosmético azul al mismo precio 21990
+31200;5499;VINCULAR;no;color cosmético verde al mismo precio 21990
+31201;5499;VINCULAR;no;color cosmético Rojo al mismo precio 21990
+31202;5499;VINCULAR;no;color cosmético Morado al mismo precio 21990
+31204;5499;VINCULAR;no;color cosmético Plata al mismo precio 21990
+31205;5499;VINCULAR;no;color cosmético Negro al mismo precio 21990
+31206;5499;VINCULAR;no;color cosmético Dorado al mismo precio 21990
+31511;5747;VINCULAR;si;color cosmético Morado al mismo precio 4990
+31508;5747;VINCULAR;si;color cosmético Azul oscuro al mismo precio 4990
+31512;5747;VINCULAR;si;color cosmético Rosa al mismo precio 4990
+31507;5747;VINCULAR;si;color cosmético verde al mismo precio 4990
+31513;5747;VINCULAR;si;color cosmético Verde azulado al mismo precio 4990
+31514;5747;VINCULAR;si;color cosmético CLEAR al mismo precio 4990
+31515;5747;VINCULAR;si;color cosmético SMOKEY GRAY al mismo precio 4990
+31510;5747;VINCULAR;si;color cosmético AMBAR al mismo precio 4990
+31509;5747;VINCULAR;si;color cosmético GOLDEN al mismo precio 4990
+31271;5749;VINCULAR;no;color cosmético verde al mismo precio 6990
+31275;5768;NO-VINCULAR;si;variante 14MM es medida del banger; producto sin otras variantes de talla
+31333;5747;VINCULAR;si;color cosmético verde al mismo precio 6990
+31334;5747;VINCULAR;si;color cosmético SMOKE al mismo precio 6990
+31335;5747;VINCULAR;si;color cosmético Rosa al mismo precio 6990

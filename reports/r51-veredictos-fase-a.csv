@@ -1,0 +1,11 @@
+offerId;productId;veredicto;congelado;motivo
+31752;10725;NO-VINCULAR;si;variante 250X600 MM a $217990 es otra medida no pertenece al 125x400 ni a ningún producto existente en la ficha
+32240;10674;DUDA;no;color azul del vidrio de repuesto
+32243;10674;DUDA;no;color Negro del vidrio de repuesto
+91501;10710;VINCULAR;no;color cosmético PINK al mismo precio 24990
+33263;10840;VINCULAR;no;variante MANGO es sabor del lemon-mint al mismo precio 16990
+32597;10815;DUDA;no;sabor SWEET TABACCO a $18990 no coincide con ninguno de los 9 sabores curados
+56216;10843;VINCULAR;no;variante GOLD BLEND es sabor del salt a mismo precio 15990
+77545;5761;VINCULAR;si;color cosmético PINK
+32845;10572;VINCULAR;no;fuera-de-ficha estampado PAPA FRITA = estuche-felpudo-papas-fritas P10572
+78127;5706;NO-VINCULAR;no;SKU AYPBSCOPUKS3U es PURPLE color que no corresponde a P5706 (pre-roll-pink)
