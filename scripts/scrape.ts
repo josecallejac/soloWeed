@@ -1809,6 +1809,11 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return null;
   }
 
+  // Desechables de nicotina con sabores: fuera del catalogo (ver isFlavourDisposableVape).
+  if (isFlavourDisposableVape(titleOnly, text)) {
+    return null;
+  }
+
   // Comestible vs parafernalia con ese sabor (ver FLAVOUR_TERMS).
   if (
     FLAVOUR_TERMS.some((term) => text.includes(term)) &&
@@ -1950,6 +1955,32 @@ function isVaporizerAccessory(titleOnly: string, text: string) {
 
 function isDisposableVape(titleOnly: string) {
   return /\b(?:vaper|vape|recarga\s+vaporizador)\b/.test(titleOnly) || /\b(?:oxbar|svopp|p\d{4,5}|neo\s+p8000)\b/.test(titleOnly);
+}
+
+// SoloWeed compara parafernalia cannabica: los desechables de nicotina con sabores
+// quedan FUERA del catalogo (decision del usuario, 27 jul 2026). Se excluyen al
+// clasificar para que un scrape nuevo no los reintroduzca despues de despublicarlos.
+//
+// La lista blanca va PRIMERO y es la parte critica: "puff" matchea dentro de
+// "Puffco", que vaporiza concentrados de cannabis y si pertenece al catalogo (~40
+// productos). Lo mismo con Focus V, DynaVap, Storz & Bickel, DaVinci, Yocan y
+// Airistech: vaporizadores herbales o de extractos, todos dentro.
+const HERBAL_VAPE_BRANDS = /\b(?:puffco|focus\s*v|dynavap|storz|bickel|davinci|yocan|airistech|volcano|mighty|crafty|arizer|pax|xvape|fenix|herbva|veazy|naar)\b/;
+const FLAVOUR_VAPE_BRANDS = /\b(?:oxbar|svopp|trifusion|nasty|fume|life\s*pod|innobar|fly\s+is)\b/;
+const FLAVOUR_VAPE_SIGNALS = /\b(?:\d{1,3}[.,]?\d{3}\s*puffs?|\d{4,5}\s*puffs?|vaporizador\s+desechable|nicotina|\d+\s*mg\/ml|e-?liquid|esencia\s+salt)\b/;
+
+function isFlavourDisposableVape(titleOnly: string, text: string) {
+  // Las senales duras mandan sobre la lista blanca: hay desechables que llevan en el
+  // nombre comercial una palabra de marca herbal ("Fume Vaporizador Desechable Nicky
+  // Jam 15.000 Puffs - Fenix"). Si el titulo dice desechable, puffs, nicotina o mg/ml,
+  // no hay ambiguedad posible.
+  if (FLAVOUR_VAPE_SIGNALS.test(titleOnly)) {
+    return true;
+  }
+  if (HERBAL_VAPE_BRANDS.test(text)) {
+    return false;
+  }
+  return FLAVOUR_VAPE_BRANDS.test(titleOnly);
 }
 
 function isExtractVape(titleOnly: string) {
