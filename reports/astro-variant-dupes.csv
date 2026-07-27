@@ -1,0 +1,116 @@
+﻿productId;tiendas;producto;slug;staleOfferId;variante;stalePrice;staleStock;twin;twinOfferId;twinPrice;mismoPrecio
+10376;5;Ozeta Banano con Clave Anti-Olor;ozeta/banano-con-clave;32832;Rojo;33990;true;gemela-huerfana;78937;33990;true
+10376;5;Ozeta Banano con Clave Anti-Olor;ozeta/banano-con-clave;32833;Morado;36990;true;gemela-huerfana;78938;36990;true
+10376;5;Ozeta Banano con Clave Anti-Olor;ozeta/banano-con-clave;32829;Amarillo;44990;false;gemela-huerfana;78935;44990;true
+10376;5;Ozeta Banano con Clave Anti-Olor;ozeta/banano-con-clave;32830;Negro;36990;true;gemela-huerfana;78938;36990;true
+10376;5;Ozeta Banano con Clave Anti-Olor;ozeta/banano-con-clave;32831;Rosa;36990;true;gemela-huerfana;78938;36990;true
+10665;4;Ignite Soplete Compact;ignite/compact;33034;Negro;21990;true;gemela-huerfana;77636;21990;true
+10665;4;Ignite Soplete Compact;ignite/compact;33035;Azul;21990;true;gemela-huerfana;77636;21990;true
+10665;4;Ignite Soplete Compact;ignite/compact;33036;Verde;21990;true;gemela-huerfana;77636;21990;true
+10665;4;Ignite Soplete Compact;ignite/compact;33038;Rosa;21990;true;gemela-huerfana;77636;21990;true
+10665;4;Ignite Soplete Compact;ignite/compact;33039;Blanco;21990;true;gemela-huerfana;77636;21990;true
+10718;4;Bonglab Atrapa Cenizas Slits Macho 18mm 90°;bonglab/atrapa-cenizas-slits-18mm;32161;Morado;24990;true;gemela-huerfana;78085;24990;true
+10718;4;Bonglab Atrapa Cenizas Slits Macho 18mm 90°;bonglab/atrapa-cenizas-slits-18mm;32162;Negro;24990;true;gemela-huerfana;78085;24990;true
+10718;4;Bonglab Atrapa Cenizas Slits Macho 18mm 90°;bonglab/atrapa-cenizas-slits-18mm;32163;Transparente;24990;true;gemela-huerfana;78085;24990;true
+10718;4;Bonglab Atrapa Cenizas Slits Macho 18mm 90°;bonglab/atrapa-cenizas-slits-18mm;32166;Verde;24990;true;gemela-huerfana;78085;24990;true
+10790;4;Oxbar Svopp Batería;oxbar/svopp-bateria;47703;Negro;14990;true;gemela-en-el-mismo-producto;47705;14990;true
+10790;4;Oxbar Svopp Batería;oxbar/svopp-bateria;47704;Plata;14990;false;gemela-en-el-mismo-producto;47705;14990;true
+5705;3;Conos Pre Roll 1 1/4 Pack 6U-Blazy Susan;blazy-susan/pre-roll-pink-1-1-4-6u;32180;ROSADO;3990;true;gemela-huerfana;78122;3990;true
+5706;3;Conos Pre-Enrolados Blazy Susan King Size 3u Pink | PIRANHA;blazy-susan/pre-roll-pink-king-size-3u;32186;Rosa;3990;true;gemela-huerfana;78128;3990;true
+5712;3;Blazy Susan Conos Pre-enrolados Shorty 12 uds.;blazy-susan/pre-roll-shorty-53mm-12u;32327;Rosa;4990;true;gemela-huerfana;78340;4990;true
+5731;3;Blazy Susan Cenicero Deluxe;blazy-susan/ashtray-deluxe;32489;Amarillo;13990;false;gemela-huerfana;78543;13990;true
+5732;3;Bandeja Enrolado Neon Tray LED;bonglab/neon-led;32694;Blanco;29990;false;gemela-huerfana;78787;29990;true
+5732;3;Bandeja Enrolado Neon Tray LED;bonglab/neon-led;32696;Verde;29990;false;gemela-huerfana;78787;29990;true
+5732;3;Bandeja Enrolado Neon Tray LED;bonglab/neon-led;32693;Azul;23990;true;gemela-huerfana;78790;23990;true
+5732;3;Bandeja Enrolado Neon Tray LED;bonglab/neon-led;32695;Morado;23990;true;gemela-huerfana;78790;23990;true
+5732;3;Bandeja Enrolado Neon Tray LED;bonglab/neon-led;32697;Rosa;23990;false;gemela-huerfana;78790;23990;true
+5760;3;CONTENEDOR EXTRACTOS AL VACIO REDONDO NEGRO 4ML-BONGLAB;bonglab/extract-container-extracts-4ml;32124;TAPA BLANCA;3490;true;gemela-huerfana;78045;3490;true
+5760;3;CONTENEDOR EXTRACTOS AL VACIO REDONDO NEGRO 4ML-BONGLAB;bonglab/extract-container-extracts-4ml;32125;TAPA NEGRA;3490;true;gemela-huerfana;78045;3490;true
+5764;3;Estuche Anti Olor OZeta Mediano (Color a elección);ozeta/case-antiolor-medium;31641;Negro;30990;true;gemela-huerfana;77547;30990;true
+5764;3;Estuche Anti Olor OZeta Mediano (Color a elección);ozeta/case-antiolor-medium;31640;Morado;27990;true;gemela-huerfana;31642;27990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;31295;Morado;37990;true;gemela-huerfana;77141;37990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;31296;Rosa;44990;false;gemela-huerfana;77142;44990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;31297;Rojo;44990;false;gemela-huerfana;77142;44990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;31298;Negro;37990;true;gemela-huerfana;77141;37990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;32116;Morado;36990;true;gemela-huerfana;78037;36990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;32117;Rosa;36990;true;gemela-huerfana;78037;36990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;32118;Rojo;36990;true;gemela-huerfana;78037;36990;true
+5780;3;Ozeta Chestbag 4x4 con clave - Anti-olor;ozeta/bag-chestbag-4x4-4x4;32119;Negro;44990;false;gemela-huerfana;78039;44990;true
+5781;3;Muslera XL c/clave;ozeta/bag-legbag-xl;31528;Negro;49990;false;gemela-huerfana;77389;49990;true
+6774;3;Calvo Glass Pipa Hammer WigWag 13cm;calvo/hammer-wag-wig;31774;Negro;27990;false;gemela-huerfana;77427;27990;true
+10246;3;Bonglab Limpiador Glass Cleaner 250 ml;bonglab/cleaner-250ml;31593;250 ml;6990;true;gemela-huerfana;77489;6990;true
+10310;3;Special Blue Encendedor Soplete Mini Rubber 2.0;special-blue/mini-rubber-2-0;32147;Azul;2990;true;gemela-en-el-mismo-producto;32149;2990;true
+10310;3;Special Blue Encendedor Soplete Mini Rubber 2.0;special-blue/mini-rubber-2-0;32150;Rojo;2990;true;gemela-en-el-mismo-producto;32149;2990;true
+10310;3;Special Blue Encendedor Soplete Mini Rubber 2.0;special-blue/mini-rubber-2-0;32148;Verde;2990;true;gemela-en-el-mismo-producto;32149;2990;true
+10316;3;BongLab AtrapaCenizas Triple HoneyComb - Macho 18mm;bonglab/atrapa-cenizas-triple-honeycomb-18mm;32108;Verde;22990;true;gemela-huerfana;78020;22990;true
+10316;3;BongLab AtrapaCenizas Triple HoneyComb - Macho 18mm;bonglab/atrapa-cenizas-triple-honeycomb-18mm;32107;Azul;22990;true;gemela-huerfana;78020;22990;true
+10316;3;BongLab AtrapaCenizas Triple HoneyComb - Macho 18mm;bonglab/atrapa-cenizas-triple-honeycomb-18mm;32109;Transparente;22990;true;gemela-huerfana;78020;22990;true
+10441;3;DynaVap Soplete Honest;dynavap/honest-torch;31724;Transparente;10990;true;gemela-huerfana;91114;10990;true
+10441;3;DynaVap Soplete Honest;dynavap/honest-torch;31725;Verde;10990;false;gemela-huerfana;91114;10990;true
+10446;3;Calvo Glass Marble Set;calvo/marble-set;33318;Morado;9990;false;gemela-huerfana;79400;9990;true
+10446;3;Calvo Glass Marble Set;calvo/marble-set;33320;Transparente;8990;true;gemela-huerfana;79401;8990;true
+10446;3;Calvo Glass Marble Set;calvo/marble-set;33319;Negro;8990;false;gemela-huerfana;79401;8990;true
+10446;3;Calvo Glass Marble Set;calvo/marble-set;33321;Rosa;9990;true;gemela-huerfana;79400;9990;true
+10453;3;Calvo Glass Batería Cartridge 510;calvo/bateria-cartridge-510;32479;Negro;11990;false;gemela-huerfana;32478;11990;true
+10453;3;Calvo Glass Batería Cartridge 510;calvo/bateria-cartridge-510;32481;Verde;11990;false;gemela-huerfana;32478;11990;true
+10453;3;Calvo Glass Batería Cartridge 510;calvo/bateria-cartridge-510;32482;Morado;11990;true;gemela-huerfana;32478;11990;true
+10497;3;Hightrip Pin Pizzannabica;hightrip/pin-pizzannabica;33427;PIZZANNABICA;7990;false;gemela-en-otro-producto;33424;7990;true
+10664;3;Ignite Soplete X-Mini;ignite/x-mini;32896;Blanco;16990;false;gemela-en-el-mismo-producto;32902;16990;true
+10664;3;Ignite Soplete X-Mini;ignite/x-mini;32897;Negro;16990;true;gemela-en-el-mismo-producto;32902;16990;true
+10664;3;Ignite Soplete X-Mini;ignite/x-mini;32900;Rosa;16990;true;gemela-en-el-mismo-producto;32902;16990;true
+10666;3;Ignite Soplete Flex;ignite/flex;33041;Negro;20990;true;gemela-huerfana;77639;20990;true
+10666;3;Ignite Soplete Flex;ignite/flex;33040;Azul;21990;true;gemela-huerfana;77638;21990;true
+10666;3;Ignite Soplete Flex;ignite/flex;33042;Blanco;21990;true;gemela-huerfana;77638;21990;true
+10667;3;Ignite Soplete Phantom;ignite/phantom;33044;Negro;19990;true;gemela-huerfana;77644;19990;true
+10667;3;Ignite Soplete Phantom;ignite/phantom;33045;Rojo;19990;false;gemela-huerfana;77644;19990;true
+10680;3;Airistech Vaporizador Herbva Nokiva;airistech/herbva-nokiva;33397;Negro;69990;false;gemela-huerfana;92896;69990;true
+10680;3;Airistech Vaporizador Herbva Nokiva;airistech/herbva-nokiva;33396;Blanco;69990;false;gemela-huerfana;92896;69990;true
+10680;3;Airistech Vaporizador Herbva Nokiva;airistech/herbva-nokiva;33398;Rojo;69990;false;gemela-huerfana;92896;69990;true
+10717;3;Bonglab Atrapa Cenizas Slits Macho 14mm 90°;bonglab/atrapa-cenizas-slits-14mm;32157;Negro;24990;true;gemela-huerfana;78081;24990;true
+10717;3;Bonglab Atrapa Cenizas Slits Macho 14mm 90°;bonglab/atrapa-cenizas-slits-14mm;32156;Morado;24990;true;gemela-huerfana;78081;24990;true
+10717;3;Bonglab Atrapa Cenizas Slits Macho 14mm 90°;bonglab/atrapa-cenizas-slits-14mm;32158;Transparente;24990;true;gemela-huerfana;78081;24990;true
+10717;3;Bonglab Atrapa Cenizas Slits Macho 14mm 90°;bonglab/atrapa-cenizas-slits-14mm;32159;Verde;24990;true;gemela-huerfana;78081;24990;true
+10717;3;Bonglab Atrapa Cenizas Slits Macho 14mm 90°;bonglab/atrapa-cenizas-slits-14mm;32160;Rosa;24990;true;gemela-huerfana;78081;24990;true
+5733;2;CENICERO ASH HOLDER GLOW IN THE DARK - GALAXY;galaxy/ashtray-ash-holder;31463;Rojo;2840;true;sin-gemela;;;false
+5733;2;CENICERO ASH HOLDER GLOW IN THE DARK - GALAXY;galaxy/ashtray-ash-holder;31465;Negro;2840;true;sin-gemela;;;false
+5733;2;CENICERO ASH HOLDER GLOW IN THE DARK - GALAXY;galaxy/ashtray-ash-holder;31462;Verde;2840;true;sin-gemela;;;false
+5733;2;CENICERO ASH HOLDER GLOW IN THE DARK - GALAXY;galaxy/ashtray-ash-holder;31466;Azul;2840;true;sin-gemela;;;false
+10114;2;CABO Heavy Gear 20mm (Clear/Black) - CABO | PIRANHA;cabo/clear-gear-heavy;28670;Transparente;9990;true;gemela-huerfana;76819;9990;true
+10152;2;Blazy Susan Conos Pre-enrolados King Size 50 uds.;blazy-susan/pre-roll-pink-king-size-50u;32182;Rosa;26990;true;gemela-huerfana;78124;26990;true
+10232;2;Blazy Susan Conos Pre-enrolados Pink 98mm 50 uds.;blazy-susan/pre-roll-pink-98mm-50u;32322;Rosa;29990;false;gemela-huerfana;78335;29990;true
+10242;2;Blazy Susan Filtros de carbón activado Xtra Slim 50 uds.;blazy-susan/carbon-slim-50u;32344;Morado;14990;false;gemela-huerfana;78364;14990;true
+10242;2;Blazy Susan Filtros de carbón activado Xtra Slim 50 uds.;blazy-susan/carbon-slim-50u;32345;Rosa;14990;false;gemela-huerfana;78364;14990;true
+10247;2;Bonglab Limpiador Glass Cleaner 500 ml;bonglab/cleaner-500ml;31594;500 ml;11990;true;gemela-huerfana;77490;11990;true
+10301;2;Boquillas Carbón Activo Calvo Black 6mm 50 Uds.;calvo/carbon-activo-black-6mm-50u;32687;Rosa;9490;true;gemela-huerfana;78776;9490;true
+10301;2;Boquillas Carbón Activo Calvo Black 6mm 50 Uds.;calvo/carbon-activo-black-6mm-50u;32686;Negro;9490;false;gemela-huerfana;78776;9490;true
+10401;2;Difusor Bonglab Logo Negro 14mm 12cm;bonglab/difusor-negro-14mm-12cm;32198;12CM;3990;true;gemela-huerfana;78139;3790;false
+10404;2;Calvo Glass Flat Bucket Banger 45° Macho 10mm;calvo/flat-bucket-banger-45-10mm;32872;45° 14Mm;7990;false;gemela-en-el-mismo-producto;32871;7990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31692;Negro;9990;false;gemela-huerfana;77603;9990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31696;Rojo;9990;false;gemela-huerfana;77603;9990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31691;ROSADO;12990;false;gemela-huerfana;77598;12990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31693;Verde;11990;false;gemela-huerfana;77600;11990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31694;Naranjo;9990;false;gemela-huerfana;77603;9990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31695;Morado;9990;false;gemela-huerfana;77603;9990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31697;CELESTE;9990;false;gemela-huerfana;77603;9990;true
+10440;2;PMG Munchie Bowl;piecemaker/munchie-bowl;31699;VERDE/ROJO;9990;false;gemela-huerfana;77603;9990;true
+10443;2;Puffco Vaporizador Proxy;puffco/proxy;31772;PROXY;349990;false;gemela-huerfana;31768;349990;true
+10445;2;Blazy Susan Rolling Tray Acero Inoxidable;blazy-susan/rolling-tray-acero-inoxidable;33226;Morado;31990;false;gemela-huerfana;79321;31990;true
+10445;2;Blazy Susan Rolling Tray Acero Inoxidable;blazy-susan/rolling-tray-acero-inoxidable;33228;Oro rosa;26990;true;gemela-huerfana;79323;26990;true
+10447;2;Ryot Estuche Roller Wallet;ryot/roller-wallet;31799;Negro;23990;true;gemela-huerfana;77704;23990;true
+10570;2;Bolso Cruzado Smellproof Blazy Susan;blazy-susan/bolso-cruzado-smellproof;33187;Negro;50990;true;gemela-huerfana;79282;50990;true
+10570;2;Bolso Cruzado Smellproof Blazy Susan;blazy-susan/bolso-cruzado-smellproof;33188;Rosa;48990;true;gemela-huerfana;79283;48990;true
+10662;2;Puffco Proxy Storm;puffco/proxy-storm;31771;STORM;399990;false;gemela-huerfana;91155;399990;true
+10663;2;Ignite Soplete Phantom Mini;ignite/phantom-mini;32895;Rojo;14990;true;gemela-huerfana;77499;14990;true
+10663;2;Ignite Soplete Phantom Mini;ignite/phantom-mini;32893;Blanco;14990;true;gemela-huerfana;77499;14990;true
+10663;2;Ignite Soplete Phantom Mini;ignite/phantom-mini;32894;Negro;14990;true;gemela-huerfana;77499;14990;true
+10698;2;Ozeta Estuche Grande 2023 Anti-Olor;ozeta/case-grande-2023;31636;Morado;30990;true;gemela-huerfana;31638;30990;true
+10698;2;Ozeta Estuche Grande 2023 Anti-Olor;ozeta/case-grande-2023;31637;Negro;36990;true;gemela-huerfana;77543;36990;true
+10699;2;Ozeta Estuche Pequeño 2023 Anti-Olor;ozeta/case-pequeno-2023;31644;Morado;28990;true;gemela-huerfana;77550;28990;true
+10699;2;Ozeta Estuche Pequeño 2023 Anti-Olor;ozeta/case-pequeno-2023;31645;Negro;28990;true;gemela-huerfana;77550;28990;true
+10706;2;Bonglab Limpiador Glass Cleaner 1 L;bonglab/cleaner-1l;31595;1 L;15990;true;gemela-huerfana;77491;15990;true
+10710;2;Calvo Batería Hide Cartridge 510 650mAh;calvo/bateria-hide-510;32373;Verde;24990;true;gemela-huerfana;91500;24990;true
+10719;2;Blazy Susan Conos Pre-enrolados Purple King Size 50 uds.;blazy-susan/pre-roll-purple-king-size-50u;32183;Morado;29990;false;gemela-huerfana;78125;29990;true
+10762;2;Dime Bags Mochila The Don con Clave Anti-Olor;dime-bags/the-don-con-clave;32953;Negro;46990;false;gemela-huerfana;79084;46990;true
+10762;2;Dime Bags Mochila The Don con Clave Anti-Olor;dime-bags/the-don-con-clave;32954;Verde;46990;true;gemela-huerfana;79084;46990;true
+10826;2;Oxbar Mini 2200 Triple Mango Ice;oxbar/mini-2200-triple-mango-ice;32634;TRIPLE MANGO ICE;7990;false;gemela-en-otro-producto;32628;7990;true
+10873;2;Hightrip Pin HighSkulls 2;hightrip/pin-highskulls-2;33422;HIGH SKULLS 2;7990;true;gemela-en-otro-producto;33424;7990;true
