@@ -66,7 +66,10 @@ describe("E2E Requirement Tier 1: Navigation Header & Layout System", () => {
     assert.ok(headerElement, "SiteHeader should produce a valid React element");
     
     const headerProps = headerElement.props;
-    assert.match(headerProps.className, /backdrop-blur-(xl|2xl)/);
+    // El header baja a blur `md` a propósito desde d3b968d (perf de scroll: un blur
+    // fuerte sobre fondo casi opaco se re-rasteriza en cada frame sin ganancia visual).
+    // Lo que el test protege es que el header conserve el efecto glass, no su radio.
+    assert.match(headerProps.className, /backdrop-blur-(md|lg|xl|2xl)/);
     assert.match(headerProps.className, /border-black\/10 dark:border-white\/10/);
     assert.match(headerProps.className, /dark:bg-\[#(0d0d12|050507)\]\/80/);
   });
