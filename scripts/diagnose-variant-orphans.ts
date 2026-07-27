@@ -29,9 +29,11 @@ const STORE_SLUG = process.env.VARIANT_STORE ?? "astrogrowshop";
 const baseOf = (url: string) => url.split("?variant=")[0];
 const variantOf = (url: string) => decodeURIComponent(url.split("?variant=")[1] ?? "");
 
+const MARGEN_HORAS = Number(process.env.VARIANT_FRESH_HOURS ?? 24);
+
 type Offer = {
   id: number; url: string; inStock: boolean; price: number; title: string;
-  productId: number | null; sku: string | null; updatedAt: Date;
+  productId: number | null; sku: string | null; updatedAt: Date; lastSeenAt: Date;
 };
 
 async function main() {
@@ -40,8 +42,18 @@ async function main() {
 
   const offers: Offer[] = await prisma.offer.findMany({
     where: { storeId: store.id },
-    select: { id: true, url: true, inStock: true, price: true, title: true, productId: true, sku: true, updatedAt: true },
+    select: { id: true, url: true, inStock: true, price: true, title: true, productId: true, sku: true, updatedAt: true, lastSeenAt: true },
   });
+
+  // Frescura: `inStock` solo es confiable si el scraper vio la oferta en la ultima
+  // corrida. Una variante que dejo de existir (renombre) o que vive en una ficha que
+  // el scrape no visito conserva el inStock=true del dia que se vio por ultima vez.
+  // Ese dato viejo es veneno para el bloque A: "arreglar" una ficha vinculandole una
+  // oferta con stock de hace tres semanas la lleva de un falso "sin stock" a un falso
+  // "con stock", que es peor -- el usuario hace clic y no hay producto.
+  const ultimoScrape = new Date(Math.max(...offers.map((o) => o.lastSeenAt.getTime())));
+  const corte = new Date(ultimoScrape.getTime() - MARGEN_HORAS * 3600_000);
+  const vista = (o: Offer) => o.lastSeenAt >= corte;
 
   // Indices por URL base.
   const linkedByBase = new Map<string, Offer[]>();
@@ -75,7 +87,10 @@ async function main() {
   for (const [pid, own] of linkedByProduct) {
     if (own.some((o) => o.inStock)) continue;
     const bases = new Set(own.map((o) => baseOf(o.url)));
-    const live = [...bases].flatMap((b) => (orphansByBase.get(b) ?? []).filter((o) => o.inStock));
+    // Solo cuenta como "la tienda si vende" una huerfana con stock QUE ADEMAS vio el
+    // ultimo scrape. Sin este filtro, 11 de las 21 candidatas del bloque A eran
+    // fantasmas arrastrando un inStock=true de junio o del 10 de julio.
+    const live = [...bases].flatMap((b) => (orphansByBase.get(b) ?? []).filter((o) => o.inStock && vista(o)));
     if (live.length === 0) continue;
     const meta = products.get(pid)!;
     falseOOS.push({ pid, slug: meta.slug, stores: meta.stores, base: [...bases][0], live });
@@ -83,7 +98,8 @@ async function main() {
   falseOOS.sort((a, b) => b.stores - a.stores || b.live.length - a.live.length);
 
   console.log(`Tienda: ${store.name} (${STORE_SLUG})`);
-  console.log(`\nA) FICHAS CON LA TIENDA FALSAMENTE SIN STOCK: ${falseOOS.length} productos`);
+  console.log(`Último scrape ${ultimoScrape.toISOString().slice(0, 16)}; se considera vista si lastSeenAt >= ${corte.toISOString().slice(0, 16)}`);
+  console.log(`\nA) FICHAS CON LA TIENDA FALSAMENTE SIN STOCK: ${falseOOS.length} productos (solo con huérfana viva y con stock)`);
   console.log(`   por numero de tiendas: ${[5, 4, 3, 2, 1].map((n) => `${n}t=${falseOOS.filter((r) => r.stores === n).length}`).join(" ")}`);
   for (const r of falseOOS.slice(0, 20)) {
     console.log(`   P${r.pid} (${r.stores}t) ${r.slug} <- ${r.live.length} viva(s): ${r.live.slice(0, 3).map((o) => `of${o.id}[${variantOf(o.url)}] $${o.price}`).join(", ")}`);
@@ -127,6 +143,7 @@ async function main() {
           pids.length > 1 ? "WILDCARD-necesita-juicio" : "unico-destino",
           falseOOSOffers.has(o.id) ? "si" : "no",
           skuYaEnDestino,
+          vista(o) ? "si" : `no-${o.lastSeenAt.toISOString().slice(0, 10)}`,
           o.title.replace(/;/g, ","),
           o.url,
         ].join(";"),
@@ -142,7 +159,7 @@ async function main() {
   const out = path.join(__dirname, "..", "reports", `variant-orphans-${STORE_SLUG}.csv`);
   fs.writeFileSync(
     out,
-    "﻿offerId;variante;conStock;precio;productIds;slugs;tiendas;tipo;arreglaFalsoSinStock;skuYaEnDestino;titulo;url\n" + rows.join("\n") + "\n",
+    "﻿offerId;variante;conStock;precio;productIds;slugs;tiendas;tipo;arreglaFalsoSinStock;skuYaEnDestino;vistaUltimoScrape;titulo;url\n" + rows.join("\n") + "\n",
     "utf8",
   );
   console.log(`\nCSV: ${path.relative(path.join(__dirname, ".."), out)}`);
