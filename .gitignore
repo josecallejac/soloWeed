@@ -80,6 +80,9 @@ reports/upgrades-run.txt
 /reports/catalog-audit/*.log
 /reports/store-coverage-*.csv
 
+# previews de inspeccion visual de la marca (se regeneran con generate-icons.ts)
+/assets/brand/preview-*.png
+
 # Scaffolding de frameworks multi-agente (teamwork/antigravity) — no versionar
 /.agents/
 /PROJECT.md

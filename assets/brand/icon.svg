@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#C0FF00"/>
+  <text x="32" y="33" fill="#050507"
+        font-family="Consolas, 'DejaVu Sans Mono', monospace"
+        font-size="31" font-weight="bold"
+        letter-spacing="0"
+        text-anchor="middle" dominant-baseline="central">SW</text>
+</svg>
