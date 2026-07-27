@@ -1,0 +1,22 @@
+productA;slugA;tiendasA;productB;slugB;tiendasB;skuCompartido;offerIdEnA;offerIdEnB;cualDeclaraElSku;perderiaTiendaA;perderiaTiendaB
+P5503;galaxy/quartz;3;P10694;galaxy/quartz-63mm;2;MLGANDGBLK;4711;30957;NECESITA-FOTO;si;no
+P5503;galaxy/quartz;3;P10694;galaxy/quartz-63mm;2;GLXY-QUPL;1235;33612;P10694;si;no
+P5525;bonglab/dream-rig;4;P10288;bonglab/dream-rig-x4;2;BLAB-DREX4GR;34681;13171;P10288;no;no
+P5525;bonglab/dream-rig;4;P10288;bonglab/dream-rig-x4;2;BGBLX4AMBER;2606;31630;P10288;no;no
+P5532;bonglab/tiny-bell-extended;3;P5778;bonglab/tiny-bell;4;67992374748205;3498;846;NECESITA-FOTO (mismo barcode en tienda, URLs distintas);si;si
+P5761;ozeta/case-antiolor-large;5;P10698;ozeta/case-grande-2023;2;TXOZESGPU;17964;77542;P10698;no;no
+P5761;ozeta/case-antiolor-large;5;P10698;ozeta/case-grande-2023;2;OZTA-EGB23;13243;34849;P10698;no;no
+P5765;ozeta/case-antiolor-small;5;P10699;ozeta/case-pequeno-2023;2;OZTA-EPB23;13247;34873;NECESITA-FOTO;no;no
+P5765;ozeta/case-antiolor-small;5;P10699;ozeta/case-pequeno-2023;2;TXOZESPPU;17966;77550;P10699;si;no
+P5799;raw/rolling-machine-ecoplastic-1-1-4;4;P10144;raw/rolling-machine-ecoplastic-ajustable-1-1-4;3;AYPRAWMQERA11U4BLK;2613;31688;NECESITA-FOTO;si;si
+P7885;ozeta/case-ywiwis;4;P10198;ozeta/case-ywiwis-carboncin;4;TXOZIWCA;740;32841;P10198;no;si
+P10105;calvo/banger-flat-bucket-macho-90-14mm;4;P10404;calvo/flat-bucket-banger-45-10mm;2;BGCGFBB9014MM;32874;32872;P10105;si;no
+P10105;calvo/banger-flat-bucket-macho-90-14mm;4;P10404;calvo/flat-bucket-banger-45-10mm;2;BGCGFBB9014MM;32874;12689;P10105;si;no
+P10260;bonglab/diffuser-14mm-14cm;4;P10359;bonglab/difusor-logo-14mm-morado;3;BLAB-DIF-14N;12854;34005;NECESITA-FOTO;si;no
+P10325;focus-v/vidrio-carta-sport;3;P10674;focus-v/vidrio-carta-2-sport;2;FCUSV-RC2CSVT;13227;34813;NECESITA-FOTO;si;si
+P10481;clipper/metalico-green-gradient;2;P10721;clipper/metalico-demon-gradient;2;CLIPP-MDEGO;19294;34112;P10721;no;no
+P10560;puffco/new-peak-pro-onyx-3dxl;3;P10653;puffco/new-peak-pro;3;PUFF-NPPROON;2086;34355;P10560;si;si
+P10648;puffco/new-peak-onyx;3;P10735;puffco/new-peak-bliss;2;VPPFNPBSS;31842;17216;P10735;no;si
+P10648;puffco/new-peak-onyx;3;P10677;puffco/new-peak-cloud;2;VPPFNPCLO;31843;17217;P10677;no;si
+P10648;puffco/new-peak-onyx;3;P10678;puffco/new-peak-sky;2;VPPFNPSKY;31841;17219;P10678;no;si
+P10659;cookies/stundenglass-gravity-hookah;3;P10722;stundenglass/gravity-hookah;2;BGGRHOOKCO;31801;23150;P10659;si;no
