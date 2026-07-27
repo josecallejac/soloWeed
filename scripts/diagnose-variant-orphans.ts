@@ -86,6 +86,7 @@ async function main() {
   }
 
   // B) Lote mecanico completo, marcando las bases wildcard (varios productos).
+  const falseOOSOffers = new Set(falseOOS.flatMap((r) => r.live.map((o) => o.id)));
   let totalOrphans = 0;
   const rows: string[] = [];
   const wildcardBases: string[] = [];
@@ -106,6 +107,7 @@ async function main() {
           pids.map((p) => products.get(p)?.slug ?? "?").join("|"),
           pids.map((p) => products.get(p)?.stores ?? 0).join("|"),
           pids.length > 1 ? "WILDCARD-necesita-juicio" : "unico-destino",
+          falseOOSOffers.has(o.id) ? "si" : "no",
           o.title.replace(/;/g, ","),
           o.url,
         ].join(";"),
@@ -119,7 +121,7 @@ async function main() {
   const out = path.join(__dirname, "..", "reports", `variant-orphans-${STORE_SLUG}.csv`);
   fs.writeFileSync(
     out,
-    "﻿offerId;variante;conStock;precio;productIds;slugs;tiendas;tipo;titulo;url\n" + rows.join("\n") + "\n",
+    "﻿offerId;variante;conStock;precio;productIds;slugs;tiendas;tipo;arreglaFalsoSinStock;titulo;url\n" + rows.join("\n") + "\n",
     "utf8",
   );
   console.log(`\nCSV: ${path.relative(path.join(__dirname, ".."), out)}`);
