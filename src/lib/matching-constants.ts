@@ -16,6 +16,14 @@ export const KNOWN_BRAND_PHRASES = [
   "airis",
   "aku",
   "american helix",
+  // r53: marcas que Friendly Grow trae y el catalogo no conocia. Van como FRASE
+  // completa a proposito: "phoenix" solo colisiona con la "Pipa Pyrex Phoenix 71"
+  // de Top Smoke, y "gorilla" con otros modelos. Descartadas en la misma revision:
+  // "tornasol" (es un acabado; lo usan Gizeh, Clipper, The Bulldog y Cobra) y
+  // "vaporesso" (pod kits de e-liquido, fuera del alcance del catalogo).
+  "baked bunny",
+  "gorilla rolling star",
+  "phoenix star",
   "actitube",
   "arizer",
   "blazy susan",

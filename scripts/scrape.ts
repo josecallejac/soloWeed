@@ -1851,8 +1851,9 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return null;
   }
 
-  // Desechables de nicotina con sabores: fuera del catalogo (ver isFlavourDisposableVape).
-  if (isFlavourDisposableVape(titleOnly, text)) {
+  // Vapeo de nicotina fuera del catalogo: desechables de sabores y pod kits
+  // recargables de e-liquido (ver isOutOfScopeVape).
+  if (isOutOfScopeVape(titleOnly, text)) {
     return null;
   }
 
@@ -2023,9 +2024,23 @@ function isDisposableVape(titleOnly: string) {
 // Airistech: vaporizadores herbales o de extractos, todos dentro.
 const HERBAL_VAPE_BRANDS = /\b(?:puffco|focus\s*v|dynavap|storz|bickel|davinci|yocan|airistech|volcano|mighty|crafty|arizer|pax|xvape|fenix|herbva|veazy|naar)\b/;
 const FLAVOUR_VAPE_BRANDS = /\b(?:oxbar|svopp|trifusion|nasty|fume|life\s*pod|innobar|fly\s+is)\b/;
+
+/**
+ * Hardware de vapeo de e-liquido RECARGABLE (pod kits, pod mods). No son
+ * desechables, asi que las senales duras no los agarran, pero tampoco son
+ * herbales ni de concentrados: fuera del catalogo por la misma decision del
+ * usuario (ampliada el 27 jul 2026 tras encontrar 71 ofertas Vaporesso).
+ *
+ * Van DESPUES de la lista blanca herbal a proposito: una bateria 510 para
+ * cartuchos de concentrado si pertenece al catalogo, y varias las venden marcas
+ * que tambien hacen pods. Medido antes de aplicar: 112 ofertas afectadas, 0
+ * curadas y 0 con senal de "510 / cartridge / concentrado / wax / dab".
+ */
+const ELIQUID_HARDWARE_BRANDS = /\b(?:vaporesso|smok|voopoo|geekvape|uwell|vaporlax|elf\s*bar|wotofo|nexpod|nexbar)\b/;
+const ELIQUID_HARDWARE_SIGNALS = /\b(?:pod\s*kit|pod\s*system|pod\s*mod|e-?liquids?)\b/;
 const FLAVOUR_VAPE_SIGNALS = /\b(?:\d{1,3}[.,]?\d{3}\s*puffs?|\d{4,5}\s*puffs?|vaporizador\s+desechable|nicotina|\d+\s*mg\/ml|e-?liquid|esencia\s+salt)\b/;
 
-function isFlavourDisposableVape(titleOnly: string, text: string) {
+function isOutOfScopeVape(titleOnly: string, text: string) {
   // Las senales duras mandan sobre la lista blanca: hay desechables que llevan en el
   // nombre comercial una palabra de marca herbal ("Fume Vaporizador Desechable Nicky
   // Jam 15.000 Puffs - Fenix"). Si el titulo dice desechable, puffs, nicotina o mg/ml,
@@ -2036,7 +2051,11 @@ function isFlavourDisposableVape(titleOnly: string, text: string) {
   if (HERBAL_VAPE_BRANDS.test(text)) {
     return false;
   }
-  return FLAVOUR_VAPE_BRANDS.test(titleOnly);
+  return (
+    FLAVOUR_VAPE_BRANDS.test(titleOnly) ||
+    ELIQUID_HARDWARE_BRANDS.test(text) ||
+    ELIQUID_HARDWARE_SIGNALS.test(titleOnly)
+  );
 }
 
 function isExtractVape(titleOnly: string) {

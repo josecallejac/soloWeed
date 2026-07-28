@@ -100,4 +100,23 @@ describe("classifyProduct: desechables de sabores fuera de alcance", () => {
     assert.ok(classifyProduct("Vaporizador Storz & Bickel Volcano Classic", "https://fumetas.cl/volcano-classic"));
     assert.ok(classifyProduct("Puffco Proxy 3D Chamber", "https://astrogrowshop.cl/puffco-proxy-3d-chamber"));
   });
+
+  /**
+   * r53: los pod kits RECARGABLES de e-liquido no son desechables, asi que las
+   * senales duras no los agarraban. El usuario los dejo fuera igual (no son
+   * herbales ni de concentrados). El limite delicado es la bateria 510 para
+   * cartuchos de concentrado, que SI pertenece al catalogo.
+   */
+  it("deja fuera el hardware recargable de e-liquido", () => {
+    assert.equal(classifyProduct("Vaporizador Xros 5 Nano -Vaporesso", "https://astrogrowshop.cl/vaporizador-xros-5-nano-vaporesso"), null);
+    assert.equal(classifyProduct("Vaporizador Vaporesso Xros Nano 3 Pod Kit Original.", "https://www.friendlygrow.cl/vaporizador-vaporesso-xros-nano-3"), null);
+    assert.equal(classifyProduct("Vaporizador Scar 18 Kit -Smok", "https://astrogrowshop.cl/vaporizador-scar-18-kit-smok"), null);
+    assert.equal(classifyProduct("Batería Nexpod -Wotofo - Rojo", "https://astrogrowshop.cl/bateria-nexpod-wotofo"), null);
+  });
+
+  it("mantiene dentro las baterias 510 para cartuchos de concentrado", () => {
+    assert.ok(classifyProduct("Vaporizador Bateria Alien Doteco Et500 Para Cartridges 510", "https://www.friendlygrow.cl/vaporizador-bateria-alien-doteco-et500"));
+    assert.ok(classifyProduct("Bateria 510 Puffco Plus", "https://astrogrowshop.cl/bateria-510-puffco-plus"));
+    assert.ok(classifyProduct("Vaporizador Brass Knuckles 900mah Rosca 510 Original.", "https://www.friendlygrow.cl/vaporizador-brass-knuckles-900mah-510"));
+  });
 });
