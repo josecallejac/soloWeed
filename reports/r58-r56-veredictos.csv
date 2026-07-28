@@ -1,0 +1,30 @@
+offerId,productId,senal,veredicto,sumaTienda,motivo
+513,P10519,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Easy Valve Starter Set (of497 sku=4260248820174). Dos SKUs distintos: Solid Valve ≠ Easy Valve.
+3530,P10272,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende RAW Black Classic King Size (of15766). Organic Hemp ≠ Classic: variantes distintas del mismo papelillo.
+11070,P10513,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Cajita RAW tipo cigarrera tapa deslizante (of15814). Rectangular ≠ cigarrera: diseños distintos.
+11107,P10263,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Cámara de Hierbas Volcano Hybrid (of11072). Cámara simple ≠ cámara con reductor para dosing capsules.
+11209,P10589,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Jockey RAW con Spot Secreto flat snap back (of15767). Jockey ≠ flat snap back: modelos distintos.
+14380,P10467,TIENDA-AUSENTE,PRODUCTO-NUEVO-CANDIDATO,si,Focus V Aeris charger es un producto único sin par conocido. Piranha no está en P10467. Necesita exploración de catálogo para confirmar si existe en otra tienda.
+15815,P10448,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Bolso cruzado anti olor Blazy Susan (of15967). Banano/fanny pack ≠ mochila clásica: modelos distintos. Ratio 1.74 confirma precio diferente.
+15843,P10570,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Bolso cruzado Blazy Susan black/pink (of1291). Mochila Logos ≠ bolso cruzado: modelos distintos.
+15848,P10490,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Dime Bags The Boss 25cm (of11261). The Don ≠ The Boss: modelos distintos de la misma marca.
+15863,P10308,TIENDA-AUSENTE,NO-VINCULAR,no,Zippo Leaf Design Engraved es un diseño específico. No hay evidencia de otro Zippo cannabis en el catálogo. Piranha no vende este modelo.
+16103,P10287,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Mighty/Crafty estuche rígido (of16092) y otros accesorios Storz-Bickel. La huérfana es un estuche específico para Crafty/Crafty+, no el mismo producto.
+16131,P10461,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Kit extractos Cobra Rig Bonglab (of16132). Doble circuit ≠ Cobra Rig: kits distintos.
+16137,P10733,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Blunt Wrap Lion Rolling Circus Terpenes Gelato (of15985). Misma SKU base (1564784066737 vs 1654029152738): son variantes del mismo blunt wrap, NO un producto distinto. VINCULAR sería correcto pero no es OTRA-FICHA.
+16175,P10275,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Mighty kit de repuestos (of16174 sku=4260248821140). Crafty kit ≠ Mighty kit: SKUs distintos.
+71166,P10466,TIENDA-AUSENTE,NO-VINCULAR,no,Bonglab Pocket Twister 23cm es un modelo diferente a Tough Beaker 23cm. URL confirma: bong-pocket-twister ≠ tough-beaker. GrowBarato vende Pocket Twister, no Tough Beaker.
+80305,P10639,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Puffco Chamber 3DXL Onyx (of16018). Plasma Edition ≠ Onyx: SKUs distintos (78460139552085 vs 77466273258117). Posible producto nuevo si la diferencia es real.
+87651,P10214,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,FG ya vende Yocan Hit 2 (of87529-87534 a $54990). La huérfana es Yocan Hit Kit original ($30990) en URL diferente (/vaporizador-para-hierbas-yocan-hit-kit-100-original). Modelo anterior ≠ modelo nuevo.
+87652,P10214,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Mismo caso que of87651: Yocan Hit Kit dorado ($30990) vs Yocan Hit 2 ($54990). URLs distintas confirman modelos diferentes.
+87653,P10214,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Mismo caso que of87651: Yocan Hit Kit azul ($30990) vs Yocan Hit 2 ($54990). URLs distintas confirman modelos diferentes.
+87657,P10312,TIENDA-AUSENTE,PRODUCTO-NUEVO-CANDIDATO,si,Yocan Blade ($29990) ≠ Puffco Hot Knife ($71990-$84990). URL confirma: /hot-knife-dabber-electrico-para-extracciones-yocan-blade. P10312 no tiene FG. Producto nuevo: Yocan Blade hot knife.
+87658,P10312,TIENDA-AUSENTE,PRODUCTO-NUEVO-CANDIDATO,si,Yocan Blade morado ($29990) ≠ Puffco Hot Knife. Mismo análisis que of87657.
+87659,P10312,TIENDA-AUSENTE,PRODUCTO-NUEVO-CANDIDATO,si,Yocan Blade rojo ($29990) ≠ Puffco Hot Knife. Mismo análisis que of87657.
+87660,P10312,TIENDA-AUSENTE,PRODUCTO-NUEVO-CANDIDATO,si,Yocan Blade silver ($29990) ≠ Puffco Hot Knife. Mismo análisis que of87657.
+87948,P10214,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Boquilla de enfriamiento Yocan Hit ($5990) es un accesorio, no el vaporizador. Ratio 0.09 confirma precio completamente diferente. Accesorio ≠ dispositivo principal.
+88413,P10493,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,FG ya vende Yocan Dirk Hot Knife (of87513-87519 a $24990). La huérfana es repuesto/tip ($10990) en URL diferente (/yocan-dirk-tip). Accesorio ≠ dispositivo. Ratio 0.33.
+88911,P10548,TIENDA-AUSENTE,NECESITA-FOTO,no,Yocan Iris ($25990) es un modelo diferente al Yocan Flat (P10548). Ratio 2.60 es extremo. URL (/yocan-iris) sugiere producto distinto. Sin foto no se puede confirmar si es el mismo dispositivo o uno diferente.
+93658,P10589,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Jockey RAW con Spot Secreto (of15767). Trucker camuflado con beige ≠ flat snap back: modelos distintos.
+93698,P10589,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Jockey RAW con Spot Secreto (of15767). Camuflado ≠ flat snap back: modelos distintos.
+93936,P10186,OTRA-FICHA-MISMA-TIENDA,NO-VINCULAR,no,Piranha ya vende Papelillo RAW Black Connoisseur 1 1/4 con boquilla (of93294). Cajita porta-papelillos ≠ papelillo con boquilla: productos distintos.

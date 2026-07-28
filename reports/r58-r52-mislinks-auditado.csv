@@ -1,0 +1,22 @@
+productA,productB,skuCompartido,offerIdEnA,offerIdEnB,vigente,cualEsElCorrecto,sumaTienda,tocaCongelado,veredicto,motivo
+P5503,P10694,MLGANDGBLK,4711,30957,no,,,,,,,,P10694 ya no existe (eliminado/fusionado). Fila obsoleta.
+P5503,P10694,GLXY-QUPL,1235,33612,no,,,,,,,,P10694 ya no existe. Fila obsoleta.
+P5525,P10288,BLAB-DREX4GR,34681,13171,no,,,,,,,,P10288 ya no existe. Fila obsoleta.
+P5525,P10288,BGBLX4AMBER,2606,31630,no,,,,,,,,P10288 ya no existe. Fila obsoleta.
+P5532,P5778,67992374748205,3498,846,si,,no,si,NECESITA-FOTO,"Ambos productos son congelados (P5532 3t, P5778 4t) y ambos tienen Piranha. Barcode compartido (67992374748205). P5532 es Tiny Bell Extended ($14442), P5778 es Tiny Bell standard ($16990). Sin foto no se puede determinar si of3498 es extended o standard."
+P5761,P10698,TXOZESGPU,17964,77542,no,,,,,,,,P10698 ya no existe. Fila obsoleta.
+P5761,P10698,OZTA-EGB23,13243,34849,no,,,,,,,,P10698 ya no existe. Fila obsoleta.
+P5765,P10699,OZTA-EPB23,13247,34873,no,,,,,,,,P10699 ya no existe. of34873 ya fue reasignado a P5765. Sin mislink activo.
+P5765,P10699,TXOZESPPU,17966,77550,no,,,,,,,,P10699 ya no existe. of77550 ya fue reasignado a P5765. Sin mislink activo.
+P5799,P10144,AYPRAWMQERA11U4BLK,2613,31688,si,P10144,pierde,si,MOVER-A-B,"of2613 (Astro $3290 'MAQUINA ENROLADORA RAW') está en P5799 (no-ajustable 4t) pero comparte SKU con P10144 (ajustable 3t). of31688 ya está correctamente en P10144. Mover of2613 a P10144: P5799 pierde Astro (4→3t, pierde congelado). Producto congelado — requiere OK explícito."
+P7885,P10198,TXOZIWCA,740,32841,si,,no,si,DEJAR,"Ambos productos congelados (5t cada uno). SKU TXOZIWCA pertenece al Ywiwis base (P7885). of740 está en P10198 (Carboncin) pero es Bolso Ywiwis genérico. of32841 está en P10198 y es Carboncin explícito. Mover of740 a P7885 no cambia tiendas (ambos 5t, mismas tiendas). Mejor dejar."
+P10105,P10404,BGCGFBB9014MM,32874,32872,si,,no,si,DEJAR,"Ambas ofertas (of32874 90° y of32872 45°) ya están en P10105. SKU compartido con P10404 (of12689) es el mismo banger multi-ángulo. No hay mislink activo."
+P10105,P10404,BGCGFBB9014MM,32874,12689,si,,no,si,DEJAR,"of12689 (Astro $7990) está en P10404 pero SKU es el mismo banger. P10105 congelado (5t). Producto multi-ángulo: todos losángulos comparten SKU. No hay mislink claro."
+P10260,P10359,BLAB-DIF-14N,12854,34005,si,P10359,no,si,MOVER-A-B,"of34005 (Fumetas $3790 'Difusor 14cm Negro') está en P10260 (genérico 14t) pero debería estar en P10359 (morado 3t). Mismo SKU. P10260 no pierde tienda (ya tiene Fumetas via of12854). P10359 gana Fumetas (3→4t, se congela). Producto congelado — requiere OK explícito."
+P10325,P10674,FCUSV-RC2CSVT,13227,34813,no,,,,,,,,P10674 ya no existe. of34813 ya fue reasignado a P10325. Sin mislink activo.
+P10481,P10721,CLIPP-MDEGO,19294,34112,si,P10481,si,no,MOVER-A-A,"of19294 (Fumetas $6990 'Demon Gradient') está en P10721 (Demon 2t) pero debería estar en P10481 (Green 2t). Mismo SKU CLIPP-MDEGO. P10481 gana Fumetas (2→3t). No toca congelado."
+P10560,P10653,PUFF-NPPROON,2086,34355,si,,no,si,DEJAR,"of2086 y of34355 ambas en P10560 (Fumetas $539990). P10560 congelado (3t). P10653 tiene SKU PUFF-NPPROON en of17207/17208 (Astro) y of11109 (Piranha) — producto diferente (Peak Pro sin 3DXL). No hay mislink activo entre estas ofertas."
+P10648,P10735,VPPFNPBSS,31842,17216,si,P10648,pierde,si,MOVER-A-A,"of17216 (Astro $314990 'New Peak Bliss') está en P10735 (Bliss 2t) pero Bliss es variante de color del New Peak Onyx (P10648 3t). Mover a P10648: P10735 pierde Astro (2→1t). Producto congelado — requiere OK explícito. Todas las variantes de color (Bliss/Cloud/Sky) deberían unificarse en P10648."
+P10648,P10677,VPPFNPCLO,31843,17217,si,P10648,pierde,si,MOVER-A-A,"of17217 (Astro $258990 'New Peak Cloud') está en P10677 (Cloud 2t) pero Cloud es variante de color del New Peak Onyx (P10648 3t). Mover a P10648: P10677 pierde Astro (2→1t). Mismo análisis que Bliss."
+P10648,P10678,VPPFNPSKY,31841,17219,si,P10648,pierde,si,MOVER-A-A,"of17219 (Astro $258990 'New Peak Sky') está en P10678 (Sky 2t) pero Sky es variante de color del New Peak Onyx (P10648 3t). Mover a P10648: P10678 pierde Astro (2→1t). Mismo análisis que Bliss."
+P10659,P10722,BGGRHOOKCO,31801,23150,si,P10659,no,si,MOVER-A-A,"of23150 (Astro $424990 'Gravity Hookah' sin edición) está en P10722 (Stundenglass 2t) pero debería estar en P10659 (Gravity Hookah Cookies 3t). Mismo SKU BGGRHOOKCO. P10722 pierde Astro (2→1t). P10659 ya tiene Astro. Producto congelado — requiere OK explícito."
