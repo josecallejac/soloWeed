@@ -1899,6 +1899,21 @@
     ]
   },
   {
+    "id": 10764,
+    "name": "Kleaner Spray Detox 30ml",
+    "brandKey": "kleaner",
+    "modelKey": "detox-kleaner-30ml",
+    "modelSlug": "spray-detox-30ml",
+    "category": "Limpieza",
+    "storeCount": 4,
+    "offerIds": [
+      555,
+      1170,
+      50124,
+      69321
+    ]
+  },
+  {
     "id": 5460,
     "name": "Blazy Susan Papelillos Purple 1 1/4",
     "brandKey": "blazy-susan",
@@ -5558,20 +5573,6 @@
       300,
       798,
       13126
-    ]
-  },
-  {
-    "id": 10764,
-    "name": "Kleaner Spray Detox 30ml",
-    "brandKey": "kleaner",
-    "modelKey": "detox-kleaner-30ml",
-    "modelSlug": "spray-detox-30ml",
-    "category": "Limpieza",
-    "storeCount": 3,
-    "offerIds": [
-      555,
-      1170,
-      50124
     ]
   },
   {

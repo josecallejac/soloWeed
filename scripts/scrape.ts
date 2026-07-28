@@ -586,7 +586,6 @@ const EXCLUDED_PRODUCT_TERMS = [
   "balastro",
   "reflector",
   "plaga",
-  "hongos",
   "espora",
   "lubricante",
   "condon",
@@ -602,8 +601,18 @@ const EXCLUDED_PRODUCT_TERMS = [
   "ata organics",
   // Test de drogas y afines: no son parafernalia. "screeny weeny" entraba por
   // la keyword "screen" (de los screen kit de moledor).
+  //
+  // r53 (27 jul 2026): "detox" salio de esta lista por decision del usuario. Era
+  // demasiado ancho: dejaba fuera el Kleaner (spray limpiador de saliva que
+  // venden 4 de las 6 tiendas y que ya estaba curado en P10764), y encima lo
+  // hacia de forma inconsistente -- la oferta de GrowBarato pasaba solo porque su
+  // titulo dice "Limpiador de Toxinas" sin la palabra "detox". Los productos que
+  // esta regla si queria dejar fuera se nombran ahora de forma directa: eran los
+  // CleanU, que ademas se estaban colando igual porque ninguno dice "orina".
   "orina",
-  "detox",
+  "screeny weeny",
+  "screenurin",
+  "urine",
   "protesis",
   // Secado/curado de cosecha (cultivo) y servicios, no productos.
   "secador",
@@ -627,6 +636,39 @@ const PARAPHERNALIA_FLAVOUR_CONTEXT = [
   "cigarrillo",
   "filtro",
   "boquilla",
+];
+
+/**
+ * Terminos de cultivo que NO excluyen cuando nombran el DISENO estampado en una
+ * pieza de parafernalia. Misma clase de bug que "tabaco" (r42) y "chocolate":
+ * "hongos" estaba en la lista general y dejaba fuera el "Soulblime Contenedor
+ * tapa deslizable - Disenos - Hongos", que es una cajita metalica. La prueba de
+ * que era inconsistente: su variante hermana "Fungi" si pasaba el filtro.
+ *
+ * El cultivo real de hongos (kits, esporas, micelio) no trae ninguna de estas
+ * palabras de contexto, y "espora" sigue excluyendo por su cuenta.
+ */
+const DESIGN_TERMS = ["hongos"];
+const PARAPHERNALIA_DESIGN_CONTEXT = [
+  "diseno",
+  "disenos",
+  "contenedor",
+  "caja",
+  "cajita",
+  "bandeja",
+  "estuche",
+  "moledor",
+  "grinder",
+  "papelillo",
+  "papel",
+  "cono",
+  "filtro",
+  "boquilla",
+  "pipa",
+  "bong",
+  "cenicero",
+  "mouse pad",
+  "mousepad",
 ];
 
 /**
@@ -1822,6 +1864,14 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return null;
   }
 
+  // Cultivo vs parafernalia con ese diseno estampado (ver DESIGN_TERMS).
+  if (
+    DESIGN_TERMS.some((term) => text.includes(term)) &&
+    !PARAPHERNALIA_DESIGN_CONTEXT.some((term) => text.includes(term))
+  ) {
+    return null;
+  }
+
   // Estuches y Bolsos Ozeta específicos (por encima de moledores genéricos)
   if (hasAny(titleOnly, ["chestbag", "shoulderbag", "crossbag", "lonchera", "muslera", "estuche antiolor", "bolso antiolor", "anti-olor ozeta", "tubo case", "porta joint"]) ||
       (hasAny(titleOnly, ["porta papelillo", "porta papelillos"]) && !hasAny(titleOnly, ["filtro", "filtros", "tip", "tips", "boquilla", "boquillas"])) ||
@@ -1857,7 +1907,13 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return "Accesorios de extraccion";
   }
 
-  if (hasAny(titleOnly, ["limpia", "limpieza", "cleaner", "escobilla"])) {
+  // "kleaner" es la marca, escrita con K: sin ella, "Kleaner Detox Saliva" y
+  // "Kleaner Spray Detox 30ml" caian en "Otros parafernalia" mientras sus dos
+  // hermanas (las que dicen "Limpiador" en el titulo) caian en "Limpieza". Esa
+  // grieta era peligrosa, no cosmetica: la reclasificacion post-scrape DESVINCULA
+  // la oferta cuando le cambia la categoria, asi que el proximo scrape de Fumetas
+  // o Kushbreak habria sacado esas dos ofertas de P10764 en silencio.
+  if (hasAny(titleOnly, ["limpia", "limpieza", "cleaner", "kleaner", "escobilla"])) {
     return "Limpieza";
   }
 

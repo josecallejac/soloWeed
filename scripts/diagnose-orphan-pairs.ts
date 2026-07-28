@@ -1,4 +1,5 @@
 import { prisma } from "../src/lib/prisma";
+import { classifyProduct } from "./scrape";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -43,11 +44,20 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 async function main() {
   console.log(`=== Pares huérfano-huérfano Jaccard [${MIN_SIM}, ${MAX_SIM}) ===\n`);
 
-  const orphans = await prisma.offer.findMany({
+  const allOrphans = await prisma.offer.findMany({
     where: { productId: null },
     include: { store: true },
   });
-  console.log(`${orphans.length} ofertas huérfanas\n`);
+  // Las ofertas fuera de alcance (desechables de sabores, cultivo, comestibles)
+  // siguen en la BD a proposito: despublicar es reversible y nunca se borra una
+  // Offer. Pero como grupo son casi identicas entre si, generan pares de
+  // similitud altisima y valor cero -- 653 al 27 jul 2026. Se filtran aqui con
+  // el MISMO clasificador del scraper, no con una lista aparte que se desincronice.
+  const orphans = allOrphans.filter(
+    (o) => classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) !== null,
+  );
+  const fueraDeAlcance = allOrphans.length - orphans.length;
+  console.log(`${orphans.length} ofertas huérfanas (${fueraDeAlcance} descartadas por estar fuera de alcance)\n`);
 
   const withTokens = orphans.map((o) => ({ o, tokens: tokenize(o.title) }));
 
