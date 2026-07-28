@@ -4857,6 +4857,20 @@
     ]
   },
   {
+    "id": 10365,
+    "name": "Weecke Fenix 2 Max",
+    "brandKey": "weecke",
+    "modelKey": "vaporizadores-fenix-max",
+    "modelSlug": "fenix-2-max",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      11040,
+      12462,
+      87668
+    ]
+  },
+  {
     "id": 10367,
     "name": "Storz & Bickel Juego de Herramientas",
     "brandKey": "storz-bickel",

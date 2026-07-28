@@ -100,6 +100,61 @@ y `perderiaTiendaB` (8 en `si`), y 5 filas vienen como `NECESITA-FOTO`.
 - **Los que tocan congelados y los que hacen perder tienda van en un bloque aparte**: requieren
   OK explícito del usuario caso por caso y no se aplican con el resto.
 
+## 3-bis. TAREA D — Huérfanas de FG sin `brandKey` que SÍ son de marca conocida
+
+**Añadida el 28 jul, y es la de mayor rendimiento esperado.** Nació de un caso real:
+`of87668` "Vaporizador Para Hierbas Fenix 2.0" era el **Weecke Fenix 2 Max** (P10365) y
+llevaba meses invisible, porque el título no dice "Weecke" y "fenix" no está en
+`KNOWN_BRAND_PHRASES`. Ni el matcher por texto ni el barrido por imagen lo levantaron. Lo
+encontró un cruce manual. Se aplicó por URL: Astro publica `/vaporizador-hierba-fenix-20-weecke`
+y FG `/vaporizador-para-hierbas-fenix-20`. **P10365 pasó de 2 a 3 tiendas.**
+
+Si se escapó uno, se escapan más.
+
+**Universo medido hoy:** 462 huérfanas de FG con stock y sin `brandKey`, de las cuales
+**353 están dentro de alcance**.
+
+**AVISO — ya probé el camino ingenuo y no sirve.** Cruzar contra todas las palabras de
+`modelSlug` da **343 de 353**, porque matchea genéricos: `silicona`, `pipa`, `bong`, `metal`,
+`partes`, `50mm`, `diseno`, `premium`. Inútil.
+
+Lo que hay que cruzar son **nombres propios de modelo**: fenix, nokiva, herbva, vane, kodo,
+dirk, mystica, volcano, crafty, mighty, proxy, peak, miqro, plenty, venty, dynavap, falcon,
+evolve, phaser, orbit, cloud… Construí esa lista a partir de los `modelSlug` del catálogo
+**descartando las palabras que aparecen en más de N productos** (los genéricos), no a mano.
+
+**Entregable D** → `reports/r58-fg-sin-marca.csv`:
+`offerId,titulo,precio,modeloDetectado,productIdDestino,slugDestino,tiendasDestino,sumaTienda,evidenciaUrl,veredicto`
+
+- `evidenciaUrl`: la URL base de la huérfana y la del destino, que es lo que desempata.
+- `veredicto`: `VINCULAR` | `NO-VINCULAR` | `PRODUCTO-NUEVO-CANDIDATO` | `NECESITA-FOTO`.
+- Verificá el ratio de precio y decilo en el CSV. El Fenix 2.0 tenía 1.03; cualquier cosa
+  por encima de 1.40 necesita evidencia extra.
+
+## 3-ter. TAREA E — Mapa de boquillas y unidades de enfriamiento
+
+Salió del mismo cruce: FG vende **"Boquilla de Enfriamiento"** para Fenix Neo, Pro y Mini+ a
+$19.990-24.990, y **no son** las boquillas simples que ya tenemos curadas a $4.490-10.990.
+Rechacé tres vínculos por eso (ratios 4.01 y 3.64). Pero sus pares reales parecen estar
+huérfanos en Fumetas:
+
+- FG `of88236` Cámara Fenix Pro $19.990 ↔ Fumetas `of13540` "Cámara de Enfriamiento Fenix Pro
+  7th Gen" $14.990
+- FG `of88230` Fenix Mini+ $19.990 ↔ Fumetas `of20070` "Unidad de enfriamiento Fenix Mini" $10.990
+
+**Además hay un mislink que sanear**: `P10506 weecke/boquilla-fenix-neo` mezcla `of19829`
+"Boquilla Fenix Neo" $10.990 con `of19201` "Unidad de Enfriamiento Fenix Neo" $25.990 —
+ratio interno 2.36, son dos piezas distintas. Hasta que eso se resuelva no se le cuelga nada
+más (FG `of88232` $24.990 encajaría con la unidad, no con la boquilla).
+
+**Entregable E** → `reports/r58-boquillas-enfriamiento.csv`:
+`offerIds,tiendas,pieza,modeloVaporizador,productoActual,precios,ratio,propuesta`
+
+- `pieza`: `boquilla-simple` | `unidad-enfriamiento` | `oil-cup` | `otra`. Es la distinción
+  que todo esto necesita y que hoy no existe.
+- `propuesta`: `PRODUCTO-NUEVO` | `VINCULAR-A-EXISTENTE` | `SEPARAR-P10506` | `DEJAR`.
+- Cubrí las 6 tiendas, no solo FG y Fumetas.
+
 ## 4. Trampas que ya nos mordieron
 
 - **Agregado vs individual**: si evaluás ofertas de un mismo lote una por una contra el estado
