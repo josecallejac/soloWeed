@@ -2297,6 +2297,28 @@
     ]
   },
   {
+    "id": 10680,
+    "name": "Airistech Vaporizador Herbva Nokiva",
+    "brandKey": "airistech",
+    "modelKey": "vaporizadores-vaporizador-herbva-nokiva",
+    "modelSlug": "herbva-nokiva",
+    "category": "Vaporizadores herbales",
+    "storeCount": 4,
+    "offerIds": [
+      36191,
+      36192,
+      36193,
+      39787,
+      87586,
+      87587,
+      87588,
+      87589,
+      92896,
+      92897,
+      92898
+    ]
+  },
+  {
     "id": 10703,
     "name": "Filtro de Carbón Activado Kasvi 100x300mm",
     "brandKey": "kasvi",
@@ -6033,24 +6055,6 @@
     ]
   },
   {
-    "id": 10680,
-    "name": "Airistech Vaporizador Herbva Nokiva",
-    "brandKey": "airistech",
-    "modelKey": "vaporizadores-vaporizador-herbva-nokiva",
-    "modelSlug": "herbva-nokiva",
-    "category": "Vaporizadores herbales",
-    "storeCount": 3,
-    "offerIds": [
-      36191,
-      36192,
-      36193,
-      39787,
-      92896,
-      92897,
-      92898
-    ]
-  },
-  {
     "id": 10681,
     "name": "Airistech Batería Mystica Max",
     "brandKey": "airistech",
@@ -6401,6 +6405,25 @@
       87537,
       87538,
       87539
+    ]
+  },
+  {
+    "id": 10992,
+    "name": "Airistech Herbva 5G",
+    "brandKey": "airistech",
+    "modelKey": "herbva-5g",
+    "modelSlug": "herbva-5g",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      13619,
+      31354,
+      31355,
+      31356,
+      33916,
+      33917,
+      33918,
+      87585
     ]
   }
 ]

@@ -59,6 +59,7 @@ export const KNOWN_BRAND_PHRASES = [
   "kasvi",
   "kema",
   "kleaner",
+  "lady hornet",
   "life pod",
   "lion rolling circus",
   "mj arsenal",
