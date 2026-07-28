@@ -1375,6 +1375,32 @@
     ]
   },
   {
+    "id": 10214,
+    "name": "VAPORIZADOR YOCAN HIT 2",
+    "brandKey": "yocan",
+    "modelKey": null,
+    "modelSlug": "vaporizer-hit-2",
+    "category": "Accesorios de extraccion",
+    "storeCount": 4,
+    "offerIds": [
+      12335,
+      12885,
+      15715,
+      31426,
+      31427,
+      31428,
+      31429,
+      31430,
+      34063,
+      87529,
+      87530,
+      87531,
+      87532,
+      87533,
+      87534
+    ]
+  },
+  {
     "id": 10215,
     "name": "Cenicero Raw Metálico",
     "brandKey": "raw",
@@ -3545,26 +3571,6 @@
     ]
   },
   {
-    "id": 10214,
-    "name": "VAPORIZADOR YOCAN HIT 2",
-    "brandKey": "yocan",
-    "modelKey": null,
-    "modelSlug": "vaporizer-hit-2",
-    "category": "Accesorios de extraccion",
-    "storeCount": 3,
-    "offerIds": [
-      12335,
-      12885,
-      15715,
-      31426,
-      31427,
-      31428,
-      31429,
-      31430,
-      34063
-    ]
-  },
-  {
     "id": 10219,
     "name": "Bong Pyrex KM1 Prisma 10cm Clear Bonglab | Mini Bong de Vidrio",
     "brandKey": "bonglab",
@@ -4867,6 +4873,34 @@
     ]
   },
   {
+    "id": 10493,
+    "name": "Yocan Dirk Hot Knife",
+    "brandKey": "yocan",
+    "modelKey": null,
+    "modelSlug": "dirk-hot-knife",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      15904,
+      18008,
+      33066,
+      33067,
+      33068,
+      33069,
+      33070,
+      33071,
+      33072,
+      33073,
+      87513,
+      87514,
+      87515,
+      87516,
+      87517,
+      87518,
+      87519
+    ]
+  },
+  {
     "id": 10496,
     "name": "Hightrip Pin Pipazo",
     "brandKey": "hightrip",
@@ -5199,6 +5233,20 @@
     ]
   },
   {
+    "id": 10642,
+    "name": "Yocan Vaporizador Vane",
+    "brandKey": "yocan",
+    "modelKey": null,
+    "modelSlug": "vaporizer-vane",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      12638,
+      19833,
+      87535
+    ]
+  },
+  {
     "id": 10648,
     "name": "Puffco New Peak Onyx (2024)",
     "brandKey": "puffco",
@@ -5395,6 +5443,27 @@
     ]
   },
   {
+    "id": 10679,
+    "name": "Yocan Vaporizador Vane 2",
+    "brandKey": "yocan",
+    "modelKey": null,
+    "modelSlug": "vaporizer-vane-2",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      13536,
+      32808,
+      32810,
+      35427,
+      35428,
+      87540,
+      87541,
+      87542,
+      87543,
+      87544
+    ]
+  },
+  {
     "id": 10680,
     "name": "Airistech Vaporizador Herbva Nokiva",
     "brandKey": "airistech",
@@ -5410,6 +5479,29 @@
       92896,
       92897,
       92898
+    ]
+  },
+  {
+    "id": 10681,
+    "name": "Airistech Batería Mystica Max",
+    "brandKey": "airistech",
+    "modelKey": null,
+    "modelSlug": "bateria-mystica-max",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      33293,
+      33294,
+      33295,
+      33296,
+      33297,
+      33298,
+      38603,
+      38604,
+      39257,
+      88826,
+      88828,
+      90944
     ]
   },
   {
@@ -5503,6 +5595,26 @@
       78082,
       78083,
       78084
+    ]
+  },
+  {
+    "id": 10720,
+    "name": "Airistech Batería Mystica Ace",
+    "brandKey": "airistech",
+    "modelKey": null,
+    "modelSlug": "bateria-mystica-ace",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      33288,
+      33289,
+      33290,
+      33291,
+      33292,
+      39374,
+      88201,
+      88205,
+      88206
     ]
   },
   {
