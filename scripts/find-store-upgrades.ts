@@ -16,20 +16,25 @@
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { prisma } from "../src/lib/prisma";
+import { classifyProduct } from "./scrape";
 import { scoreSuggestion, type ReviewOfferInput } from "../src/lib/matching";
 
 const MIN_SCORE = Number(process.env.UPGRADE_MIN_SCORE ?? "0.62");
 const PRICE_BAND = Number(process.env.UPGRADE_PRICE_BAND ?? "0.5"); // +-50% del precio del seed
 const TOP_PER_PRODUCT = Number(process.env.UPGRADE_TOP ?? "3");
-// Niveles de producto a incluir como objetivo. Los de 4 tiendas estan
-// congelados pero pueden RECIBIR la oferta de una tienda nueva y subir a 5
-// (regla "solo sumar", 2026-07-17): UPGRADE_LEVELS="4" + UPGRADE_STORES con
-// la tienda nueva. Jamas tocar/cambiar sus ofertas existentes.
+// Niveles de producto a incluir como objetivo. Los productos ya protegidos
+// pueden RECIBIR la oferta de una tienda nueva y subir un escalon (regla
+// "solo sumar", 2026-07-17): UPGRADE_LEVELS="5" + UPGRADE_STORES con la
+// tienda nueva. Jamas tocar/cambiar sus ofertas existentes.
+//
+// El tope se calcula contra el numero real de tiendas (main lo valida): con 6
+// tiendas el nivel maximo util es 5. Antes estaba cableado a 4, asi que los
+// productos de 5 tiendas se descartaban en silencio y nunca fueron objetivo.
 const LEVELS = new Set(
   (process.env.UPGRADE_LEVELS ?? "2,3")
     .split(",")
     .map((n) => Number(n.trim()))
-    .filter((n) => n >= 1 && n <= 4),
+    .filter((n) => Number.isFinite(n) && n >= 1),
 );
 // Restringe las tiendas donde buscar la oferta faltante (slugs separados por
 // coma); vacio = todas las que le falten al producto.
@@ -92,6 +97,22 @@ async function main() {
   const storeName = new Map(stores.map((s) => [s.id, s.slug]));
   const allStoreIds = stores.map((s) => s.id);
 
+  // Un producto solo puede subir si le falta al menos una tienda.
+  const maxLevel = stores.length - 1;
+  const tooHigh = [...LEVELS].filter((n) => n > maxLevel);
+  if (tooHigh.length) {
+    console.warn(
+      `Aviso: niveles ${tooHigh.join(",")} ignorados — con ${stores.length} tiendas el maximo util es ${maxLevel}.`,
+    );
+    for (const n of tooHigh) LEVELS.delete(n);
+  }
+  if (!LEVELS.size) {
+    console.error("Sin niveles validos que buscar. Revisa UPGRADE_LEVELS.");
+    await prisma.$disconnect();
+    process.exitCode = 1;
+    return;
+  }
+
   // Productos de 2-3 tiendas (excluye 4 = congelados y 1 = sin par).
   const products = await prisma.product.findMany({
     include: { offers: true },
@@ -103,9 +124,20 @@ async function main() {
   });
 
   // Indice de huerfanas por tienda+categoria para acotar la busqueda.
-  const orphans = await prisma.offer.findMany({
+  //
+  // Las ofertas fuera de alcance (desechables de sabores, pod kits de e-liquido)
+  // siguen en la BD a proposito, pero su `category` almacenada quedo obsoleta:
+  // se persistio antes de que el alcance se acotara y reclassifyExistingOffers
+  // SALTA las que clasifican null, asi que ni un re-scrape las repara. Se filtran
+  // con el MISMO clasificador del scraper -- nunca con una lista aparte que se
+  // desincronice (mismo criterio que diagnose-orphan-pairs.ts).
+  const allOrphans = await prisma.offer.findMany({
     where: { productId: null, inStock: true },
   });
+  const orphans = allOrphans.filter(
+    (o) => classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) !== null,
+  );
+  const fueraDeAlcance = allOrphans.length - orphans.length;
   const orphanIndex = new Map<string, typeof orphans>();
   for (const o of orphans) {
     const key = `${o.storeId}|${o.category}`;
@@ -114,7 +146,8 @@ async function main() {
   }
 
   console.log(
-    `Productos objetivo (2-3 tiendas): ${targets.length} | huerfanas en stock: ${orphans.length} | umbral ${MIN_SCORE}`,
+    `Productos objetivo (niveles ${[...LEVELS].sort().join(",")}): ${targets.length} | ` +
+      `huerfanas en stock: ${orphans.length} (${fueraDeAlcance} descartadas por estar fuera de alcance) | umbral ${MIN_SCORE}`,
   );
 
   const candidates: Candidate[] = [];

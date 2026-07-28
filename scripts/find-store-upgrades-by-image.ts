@@ -58,6 +58,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 import { prisma } from "../src/lib/prisma";
+import { classifyProduct } from "./scrape";
 import { scoreSuggestion, type ReviewOfferInput } from "../src/lib/matching";
 import { computeHash, fetchImage, hammingDistance, type OfferRow } from "./match-by-image";
 import { computeEmbeddings, cosineSimilarity } from "./match-by-embedding";
@@ -201,7 +202,15 @@ async function main() {
   });
 
   // Cada producto solo compite contra huerfanas de las tiendas que le faltan.
-  const orphans = await prisma.offer.findMany({
+  //
+  // Se descartan las que estan fuera de alcance (desechables de sabores, pod kits
+  // de e-liquido) con el MISMO clasificador del scraper, no con una lista aparte
+  // que se desincronice -- mismo criterio que diagnose-orphan-pairs.ts. Su
+  // `category` almacenada no sirve: quedo obsoleta y reclassifyExistingOffers
+  // salta las que clasifican null, asi que ni un re-scrape la repara. Hashearlas
+  // era puro gasto: descarga de imagen + dHash + CLIP sobre ofertas que ningun
+  // producto del catalogo puede reclamar.
+  const allOrphans = await prisma.offer.findMany({
     where: {
       productId: null,
       storeId: { in: [...wantedIds] },
@@ -209,13 +218,18 @@ async function main() {
       ...(INCLUDE_OOS ? {} : { inStock: true }),
     },
   });
+  const orphans = allOrphans.filter(
+    (o) => classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) !== null,
+  );
+  const fueraDeAlcance = allOrphans.length - orphans.length;
 
   const seedOffers = targets.flatMap((p) => p.offers.filter((o) => o.imageUrl));
   console.log(
     `Objetivo: ${targets.length} productos de ${LEVELS} tiendas` +
       `${REQUIRE_STORE ? ` CON ${REQUIRE_STORE}` : ""} a los que falta ${wanted.join("/")} ` +
       `| ${seedOffers.length} ofertas seed | ${orphans.length} huerfanas ` +
-      `(${orphans.filter((o) => o.inStock).length} en stock) | dist<=${MAX_DIST} sim>=${MIN_SIM}`,
+      `(${orphans.filter((o) => o.inStock).length} en stock, ${fueraDeAlcance} fuera de alcance descartadas) ` +
+      `| dist<=${MAX_DIST} sim>=${MIN_SIM}`,
   );
 
   // Las imagenes se descargan siempre (CLIP lee de la misma cache de .bin y NO

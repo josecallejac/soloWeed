@@ -79,6 +79,8 @@ reports/upgrades-run.txt
 # raw diagnostic logs (match/prices/diagnose runs) — MB artifacts, keep out of git
 /reports/catalog-audit/*.log
 /reports/store-coverage-*.csv
+# barridos por imagen: miles de filas regenerables, 1 producto util de cada 3.400
+/reports/fg-imgup-nivel*.csv
 
 # previews de inspeccion visual de la marca (se regeneran con generate-icons.ts)
 /assets/brand/preview-*.png
