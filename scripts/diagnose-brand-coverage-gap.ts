@@ -28,6 +28,7 @@ import path from "node:path";
 
 import { prisma } from "../src/lib/prisma";
 import { normalizeText } from "../src/lib/matching";
+import { classifyProduct } from "./scrape";
 
 const STORES = (process.env.GAP_STORES ?? "fumetas,astrogrowshop")
   .split(",")
@@ -144,6 +145,7 @@ async function main() {
       title: true,
       price: true,
       category: true,
+      sourceCategory: true,
       lastSeenAt: true,
       url: true,
     },
@@ -154,12 +156,20 @@ async function main() {
   const rows: string[][] = [];
   let sinDestino = 0;
   let excluidasEnVuelo = 0;
+  let fueraDeAlcance = 0;
   const porTienda = new Map<string, number>();
   const porMarcaCount = new Map<string, number>();
 
   for (const o of orphans) {
     if (excluidos.has(o.id)) {
       excluidasEnVuelo++;
+      continue;
+    }
+    // El alcance lo define SOLO el clasificador: `Offer.category` se queda stale cuando
+    // una oferta sale de alcance (reclassifyExistingOffers salta los null), asi que
+    // filtrar por la columna arrastraria vapes de sabores y pod kits al universo.
+    if (classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) === null) {
+      fueraDeAlcance++;
       continue;
     }
     const marca = o.brandKey!;
@@ -226,6 +236,7 @@ async function main() {
   console.log(`Tiendas: ${STORES.join(", ")}`);
   console.log(`Huerfanas con stock y marca: ${orphans.length}`);
   if (excluidos.size) console.log(`  excluidas por ronda en vuelo (GAP_EXCLUDE): ${excluidasEnVuelo}`);
+  console.log(`  fuera de alcance segun classifyProduct: ${fueraDeAlcance}`);
   console.log(`  sin ningun producto de su marca al que le falte la tienda: ${sinDestino}`);
   console.log(`  en el CSV (upgrade posible por definicion): ${rows.length}`);
   console.log(
