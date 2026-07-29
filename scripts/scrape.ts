@@ -2038,7 +2038,21 @@ const FLAVOUR_VAPE_BRANDS = /\b(?:oxbar|svopp|trifusion|nasty|fume|life\s*pod|in
  */
 const ELIQUID_HARDWARE_BRANDS = /\b(?:vaporesso|smok|voopoo|geekvape|uwell|vaporlax|elf\s*bar|wotofo|nexpod|nexbar)\b/;
 const ELIQUID_HARDWARE_SIGNALS = /\b(?:pod\s*kit|pod\s*system|pod\s*mod|e-?liquids?)\b/;
-const FLAVOUR_VAPE_SIGNALS = /\b(?:\d{1,3}[.,]?\d{3}\s*puffs?|\d{4,5}\s*puffs?|vaporizador\s+desechable|nicotina|\d+\s*mg\/ml|e-?liquid|esencia\s+salt)\b/;
+/**
+ * `\bp\s?\d{4,5}\b` es el CODIGO DE MODELO que trae el recuento de puffs sin la
+ * palabra "puffs": P8000, P20000, P28000, P30000, P45000. Sin el, la lista blanca
+ * herbal dejaba entrar toda la linea "Airis Neo P8000 <sabor>" porque el titulo
+ * dice "Airistech", que si vende herbales legitimos (Herbva, Nokiva, ambos
+ * curados). El caso lo destapo r59: el ejecutor propuso 5 productos nuevos de
+ * sabores (Strawberry Banana, Black Ice 5%, Sakura Grape Ice) siguiendo la regla
+ * correcta -- preguntarle al clasificador -- y el clasificador dijo que si.
+ *
+ * Medido antes de aplicar (28 jul 2026): 94 ofertas con el codigo en el titulo,
+ * **0 curadas**; delta real dentro->fuera = **26 ofertas, 0 curadas**
+ * (Airis Neo P8000 en piranha/growbarato/astro + 2 WiWi Plus P32000). Cero
+ * falsos positivos sobre vaporizadores herbales o de concentrados.
+ */
+const FLAVOUR_VAPE_SIGNALS = /\b(?:\d{1,3}[.,]?\d{3}\s*puffs?|\d{4,5}\s*puffs?|p\s?\d{4,5}|vaporizador\s+desechable|nicotina|\d+\s*mg\/ml|e-?liquid|esencia\s+salt)\b/;
 
 function isOutOfScopeVape(titleOnly: string, text: string) {
   // Las senales duras mandan sobre la lista blanca: hay desechables que llevan en el
