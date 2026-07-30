@@ -13,7 +13,29 @@ estan aqui como referencia de que esperar.
 
 ---
 
-## Fase 0 — Antes de barrer
+## Resumen: 8 pasos
+
+**1 de preparacion + 6 barridos + 1 de cierre.** Los 6 barridos son
+independientes y cada uno ve algo que los otros no: corrolos todos, en este
+orden, que es el de rendimiento observado.
+
+| # | paso | que busca | rindio en |
+|---|---|---|---|
+| 0 | Preparar marcas | que los barridos no queden ciegos | imprescindible |
+| 1 | Mapa de marcas | marcas SIN ningun producto curado | r64, r65, **r69** |
+| 2 | Worklist por marca | huerfana -> producto de su misma marca | r67 |
+| 3 | Tokens IDF | huerfana -> producto, sin filtros | (cubre las sin marca) |
+| 4 | Upgrades texto/imagen | producto -> tienda que le falta | r48, r53 |
+| 5 | Huerfana ↔ huerfana | productos que aun no existen | r37, r41 |
+| 6 | Identidad dura | SKU/EAN y variantes sueltas | **r70, r71** |
+| 7 | Cierre | higiene y verificacion | siempre |
+
+El paso 6 es el ultimo que encontro algo en Friendly Grow, despues de que los
+cinco anteriores dieran cero. **No saltarselo por ir a lo grande.**
+
+---
+
+## Paso 0 — Preparar las marcas antes de barrer
 
 ```powershell
 npx tsx scripts/protect-multistore-links.ts --verify   # debe salir limpio
@@ -48,11 +70,9 @@ Sin ese fix, 3 de los 4 productos de r69 no habrian existido.
 
 ---
 
-## Las 5 palancas, en orden de rendimiento observado
+## Los 6 barridos
 
-Corrolas todas: son independientes y cada una ve algo que las otras no.
-
-### 1. Mapa de marcas — la que mas rinde
+### Paso 1. Mapa de marcas — el que mas rinde
 
 Cruza cada marca de la tienda nueva contra **todas** las ofertas de las demas,
 vinculadas o no, con stock o sin el. Clasifica cada marca en:
@@ -62,14 +82,14 @@ vinculadas o no, con stock o sin el. Clasifica cada marca en:
   el worklist solo mira "huerfana -> producto de esa marca" y aqui no hay
   producto que mirar. Asi salieron r64 (Brass Knuckles), r65 (Honeypuff) y r69
   (MJ Arsenal: **62 ofertas en el catalogo y cero productos**).
-- `producto existe sin la tienda` — va a la palanca 2.
+- `producto existe sin la tienda` — va al paso 2.
 - `CERRADA` — nadie mas vende la marca. No volver a barrerla.
 
 No hay script unico todavia; se arma cruzando `Offer.brandKey` por tienda contra
 `Product.brandKey` (ver la cabecera de `link-r69` para el detalle). **Candidato a
 convertirse en script commiteado la proxima vez que se use.**
 
-### 2. Worklist por marca
+### Paso 2. Worklist por marca
 
 ```powershell
 $env:WORKLIST_STORE="<slug>"; npx tsx scripts/find-store-brand-worklist.ts
@@ -83,7 +103,7 @@ y la foto deciden.
 de filas con solape 1, donde el unico token comun es la marca. Con el filtro:
 FG paso de 410 filas a 3, Kushbreak de 427 a 4.
 
-### 3. Cruce por tokens IDF
+### Paso 3. Cruce por tokens IDF
 
 ```powershell
 $env:TOKENS_STORE="<slug>"; npx tsx scripts/find-store-upgrades-by-tokens.ts
@@ -102,7 +122,7 @@ marca**. Cubre los huecos de las otras dos:
 Poder medido: **46% en el puesto 1, 96% en el top 5**. Por eso emite varios
 candidatos por huerfana y no solo el mejor.
 
-### 4. Upgrades por texto y por imagen
+### Paso 4. Upgrades por texto y por imagen
 
 ```powershell
 $env:UPGRADE_STORES="<slug>"; $env:UPGRADE_LEVELS="2,3,4,5"; npx tsx scripts/find-store-upgrades.ts
@@ -119,9 +139,9 @@ En FG dio **14% de recall** porque fotografia sus propios productos en vez de
 reusar el arte del proveedor —y ademas mezcla renders generados por IA, con
 filename `ChatGPT_*.png`, inservibles como evidencia—. Con 14% el cero no
 significa nada. **Con el recall bajo, saltarse el barrido por imagen y confiar en
-las otras palancas.**
+los otros barridos.**
 
-### 5. Huerfana ↔ huerfana (productos que aun no existen)
+### Paso 5. Huerfana ↔ huerfana (productos que aun no existen)
 
 ```powershell
 $env:PAIR_STORE="<slug>"; $env:PAIR_REQUIRE_CATEGORY="0"; npx tsx scripts/diagnose-orphan-pairs.ts
@@ -134,7 +154,7 @@ exigirla escondia el 67% de los pares de FG.
 
 ---
 
-## Señales de identidad dura, antes de mirar fotos
+### Paso 6. Identidad dura — el ultimo que encuentra algo
 
 ```powershell
 $env:EV_PAIRS="offerId:productId,..."; npx tsx scripts/diagnose-identity-evidence.ts
@@ -149,7 +169,15 @@ Por orden de fuerza:
 2. **SKU o URL base compartida DENTRO de una tienda** = las dos ofertas son el
    mismo producto (es lo contrario de un mislink). Detecta las **variantes
    sueltas**: una ficha cuyas hermanas ya estan vinculadas y a la que le quedo
-   un color huerfano. En FG aparecieron 2 asi.
+   un color huerfano. En FG aparecieron 2 asi (r70 y r71).
+
+   **Hay que cruzar por URL BASE ademas de por SKU.** `diagnose-sku-identity.ts`
+   cubre este caso con su reporte `GEMELA`, pero se apoya en `sku`/`ean`/URL de
+   imagen, y en Jumpseller esos campos vienen vacios a menudo: las 8 ofertas del
+   Yocan Dirk de FG tienen `sku` vacio, asi que r70 NO habria aparecido por esa
+   via. Se encontro agrupando por `url.split("?")[0]` y quedandose con las
+   fichas donde conviven ofertas vinculadas y huerfanas. **Las dos señales son
+   complementarias: correr las dos.**
 3. **La URL zanja antes que la foto**: si la tienda ya vende el producto destino
    bajo OTRA URL base, son dos modelos y no hace falta foto. El script lo emite
    como `MISMA-FICHA` / `SKU-COMPARTIDO` / `OTRA-FICHA-MISMA-TIENDA` /
@@ -175,7 +203,7 @@ Por orden de fuerza:
 
 ---
 
-## Cierre de ronda
+## Paso 7. Cierre de ronda
 
 ```powershell
 npx tsx scripts/protect-multistore-links.ts --verify   # limpio antes Y despues
