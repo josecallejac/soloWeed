@@ -170,6 +170,10 @@ export const BRAND_ALIASES = new Map<string, string>([
   // alimenta el mismo string que el titulo, la unica palanca es el orden.
   ["phoenix star", "phoenix-star"],    // 'Bong ... Phoenix "AKU Tribal"' -> le ganaba "aku", que esta en la posicion 1
   ["dazzleaf", "dazzleaf"],            // "Dazzleaf Spaceman" con brand=GALAXY -> le ganaba galaxy
+  // r69: mismo patron, ahora en Kushbreak. Declara brand="GRAV®" en 5 ofertas
+  // cuyo titulo Y url dicen MJ Arsenal, y "grav" le ganaba por orden. Escondia
+  // 5 ofertas de una marca con 62 ofertas en el catalogo y ningun producto.
+  ["mj arsenal", "mj-arsenal"],
   // ────────────────────────────────────────────────────────────────────────────
   ["the bulldog amsterdam", "the-bulldog"],
   ["the bulldog", "the-bulldog"],
