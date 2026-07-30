@@ -68,6 +68,12 @@ $env:TRIAGE_FROZEN="7"; npx tsx scripts/triage-matches.ts <log>   # = store coun
 $env:UPGRADE_STORES="friendlygrow"; $env:UPGRADE_LEVELS="2,3,4,5"; npx tsx scripts/find-store-upgrades.ts
 $env:IMGUP_STORE="friendlygrow"; $env:IMGUP_LEVELS="4"; npx tsx scripts/find-store-upgrades-by-image.ts
 
+# Orphan <-> orphan by image: finds products that don't exist as a `Product` row
+# yet. ALWAYS measure the signal first — it reports recall on human-verified
+# pairs, which is what makes an empty sweep mean anything (FG: only 14%).
+$env:SIGNAL_STORE="friendlygrow"; npx tsx scripts/measure-image-signal-power.ts
+$env:ORPHIMG_STORE="friendlygrow"; npx tsx scripts/find-orphan-pairs-by-image.ts
+
 npm run catalog:audit:export   # export catalog audit
 npm run brand:backfill         # backfill brandKey
 npm run model:backfill         # backfill modelKey/modelSlug
