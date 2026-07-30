@@ -143,8 +143,52 @@ async function main() {
     );
   };
 
-  report(`Pares verdaderos CON ${STORE}`, focusPairs);
+  report(`Pares verdaderos CON ${STORE} (par a par = cruce huerfana<->huerfana)`, focusPairs);
   report("Muestra del resto del catalogo", sample);
+
+  // SEGUNDA MEDICION, la que corresponde al OTRO uso de la senal: huerfana ->
+  // producto ya curado. Ahi el producto aporta UNA FOTO POR TIENDA y el barrido
+  // se queda con la mejor de todas, asi que el recall no es el de un par suelto.
+  // Se simula exactamente eso: cada oferta de la tienda foco contra TODAS las
+  // ofertas de otras tiendas de su propio producto.
+  const porProducto = new Map<number, Row[]>();
+  for (const p of products) if (p.offers.length) porProducto.set(p.id, p.offers as Row[]);
+  let mejorables = 0;
+  let cubiertosMulti = 0;
+  const mejoresDist: number[] = [];
+  const mejoresSim: number[] = [];
+  for (const [productId, rows] of porProducto) {
+    const delFoco = rows.filter((r) => r.storeId === focus.id);
+    const deOtras = rows.filter((r) => r.storeId !== focus.id);
+    if (!delFoco.length || !deOtras.length) continue;
+    for (const o of delFoco) {
+      const ho = hashes.get(o.id);
+      const vo = embeddings.get(o.id);
+      if (!ho && !vo) continue;
+      mejorables++;
+      let bestD = Infinity;
+      let bestS = 0;
+      for (const seed of deOtras) {
+        const hs = hashes.get(seed.id);
+        const vs = embeddings.get(seed.id);
+        if (ho && hs) bestD = Math.min(bestD, hammingDistance(ho, hs));
+        if (vo && vs) bestS = Math.max(bestS, cosineSimilarity(vo, vs));
+      }
+      if (bestD !== Infinity) mejoresDist.push(bestD);
+      mejoresSim.push(bestS);
+      if (bestD <= DIST_THRESHOLD || bestS >= SIM_THRESHOLD) cubiertosMulti++;
+      void productId;
+    }
+  }
+  mejoresDist.sort((a, b) => a - b);
+  mejoresSim.sort((a, b) => a - b);
+  console.log(`\n=== Direccion UPGRADE (${STORE} -> producto curado, mejor de todas sus fotos): ${mejorables} ofertas ===`);
+  console.log(`  mejor dHash  p10=${pct(mejoresDist, 0.1)} mediana=${pct(mejoresDist, 0.5)} p90=${pct(mejoresDist, 0.9)}`);
+  console.log(`  mejor CLIP   p10=${pct(mejoresSim, 0.1)?.toFixed(3)} mediana=${pct(mejoresSim, 0.5)?.toFixed(3)} p90=${pct(mejoresSim, 0.9)?.toFixed(3)}`);
+  console.log(
+    `  RECALL con d<=${DIST_THRESHOLD} o sim>=${SIM_THRESHOLD}: ${cubiertosMulti}/${mejorables} ` +
+      `(${((100 * cubiertosMulti) / (mejorables || 1)).toFixed(0)}%)`,
+  );
 
   console.log(`\nLos 15 pares de ${STORE} con mejor dHash (donde SI comparten arte de fabricante):`);
   const conDist = focusPairs
