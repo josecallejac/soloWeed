@@ -30,6 +30,12 @@ export const KNOWN_BRAND_PHRASES = [
   // producto que su propio titulo llama Dazzleaf. Dentro de alcance: es una
   // bateria 510 para cartuchos, no un pod kit de e-liquido.
   "dazzleaf",
+  // r74: la "TOQI Blunt Box" de Fumetas caia en "boveda" SIN que su titulo, su
+  // URL ni su campo `brand` dijeran boveda -- los tres dicen TOQI. Entraba por el
+  // FALLBACK POR DESCRIPTION, que solo se usa cuando ninguna marca conocida
+  // calza: al no estar registrada, el humidificador se llevaba la marca de los
+  // sachets que su propio texto menciona. Registrarla cierra el fallback.
+  "toqi",
   "actitube",
   "arizer",
   "blazy susan",
@@ -174,6 +180,15 @@ export const BRAND_ALIASES = new Map<string, string>([
   // cuyo titulo Y url dicen MJ Arsenal, y "grav" le ganaba por orden. Escondia
   // 5 ofertas de una marca con 62 ofertas en el catalogo y ningun producto.
   ["mj arsenal", "mj-arsenal"],
+  // r74 (2026-07-30, 5a sesion): EL MISMO PATRON PERO AL REVES -- aca la fuente
+  // que miente es la URL, y el campo `brand` de la tienda es el que acierta.
+  // Fumetas publica el Integra Boost 320g bajo la URL
+  // "fumetas.cl/boveda-size-320g-55": le dejo el slug de la marca COMPETIDORA.
+  // El titulo dice "Integra Boost" y el campo brand tambien, pero "boveda" esta
+  // antes que "integra boost" en KNOWN_BRAND_PHRASES y gana por orden.
+  // Lo encontro el mapa de marcas y de paso lo ensuciaba: boveda figuraba con 6
+  // huerfanas en 3 tiendas cuando en realidad solo tiene 2 ofertas reales.
+  ["integra boost", "integra-boost"],
   // ────────────────────────────────────────────────────────────────────────────
   ["the bulldog amsterdam", "the-bulldog"],
   ["the bulldog", "the-bulldog"],
