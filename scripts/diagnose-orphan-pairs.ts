@@ -9,10 +9,20 @@ import { join } from "node:path";
 // Aplicar solo via script revisado estilo apply-orphan-pairs-r*.ts.
 //
 // Uso: $env:PAIR_MIN_SIM="0.45"; $env:PAIR_MAX_SIM="0.55"; npx tsx scripts/diagnose-orphan-pairs.ts
+//      $env:PAIR_STORE="friendlygrow"; $env:PAIR_REQUIRE_CATEGORY="0"; npx tsx scripts/diagnose-orphan-pairs.ts
 
 const MIN_SIM = Number(process.env.PAIR_MIN_SIM ?? 0.45);
 const MAX_SIM = Number(process.env.PAIR_MAX_SIM ?? 0.55);
 const MAX_PRICE_RATIO = Number(process.env.PAIR_MAX_PRICE_RATIO ?? 3);
+// `Offer.category` se queda STALE (reclassifyExistingOffers salta las filas cuyo
+// clasificador devuelve null, ver CLAUDE.md), asi que exigir que ambas puntas
+// coincidan esconde pares legitimos: medido el 30 jul 2026, ocultaba el 67% de
+// los pares de Friendly Grow con sim>=0.35. Se deja exigida por defecto porque
+// acota el ruido, pero se puede soltar para barrer un frente concreto.
+const REQUIRE_CATEGORY = (process.env.PAIR_REQUIRE_CATEGORY ?? "1") !== "0";
+// Acota el barrido a los pares donde AL MENOS UNA punta es de esta tienda
+// (slug). Vacio = todas contra todas.
+const STORE_SLUG = (process.env.PAIR_STORE ?? "").trim();
 
 const GENERIC_WORDS = new Set([
   "pipa", "pipas", "pipe", "moledor", "grinder", "bong", "bongs", "rig",
@@ -57,7 +67,16 @@ async function main() {
     (o) => classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) !== null,
   );
   const fueraDeAlcance = allOrphans.length - orphans.length;
-  console.log(`${orphans.length} ofertas huérfanas (${fueraDeAlcance} descartadas por estar fuera de alcance)\n`);
+  console.log(`${orphans.length} ofertas huérfanas (${fueraDeAlcance} descartadas por estar fuera de alcance)`);
+
+  let storeId: number | null = null;
+  if (STORE_SLUG) {
+    const store = await prisma.store.findFirst({ where: { slug: STORE_SLUG } });
+    if (!store) throw new Error(`PAIR_STORE="${STORE_SLUG}" no corresponde a ninguna tienda`);
+    storeId = store.id;
+    console.log(`Acotado a pares que toquen ${store.name} (id=${store.id})`);
+  }
+  console.log(`Misma categoría exigida: ${REQUIRE_CATEGORY ? "sí" : "NO (columna stale)"}\n`);
 
   const withTokens = orphans.map((o) => ({ o, tokens: tokenize(o.title) }));
 
@@ -73,7 +92,8 @@ async function main() {
     for (let j = i + 1; j < withTokens.length; j++) {
       const A = withTokens[i], B = withTokens[j];
       if (A.o.storeId === B.o.storeId) continue;
-      if (A.o.category !== B.o.category) continue;
+      if (storeId !== null && A.o.storeId !== storeId && B.o.storeId !== storeId) continue;
+      if (REQUIRE_CATEGORY && A.o.category !== B.o.category) continue;
       if (A.o.brandKey && B.o.brandKey && A.o.brandKey !== B.o.brandKey) continue;
       const sim = jaccard(A.tokens, B.tokens);
       if (sim < MIN_SIM || sim >= MAX_SIM) continue;
@@ -99,7 +119,8 @@ async function main() {
 
   const dir = join(process.cwd(), "reports", "catalog-audit");
   mkdirSync(dir, { recursive: true });
-  const file = join(dir, `orphan-pairs-${MIN_SIM}-${MAX_SIM}.csv`);
+  const sufijo = `${STORE_SLUG ? `-${STORE_SLUG}` : ""}${REQUIRE_CATEGORY ? "" : "-sincat"}`;
+  const file = join(dir, `orphan-pairs-${MIN_SIM}-${MAX_SIM}${sufijo}.csv`);
   const esc = (s: string) => `"${s.replace(/"/g, '""')}"`;
   const rows = pairs.map((p) =>
     [

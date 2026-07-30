@@ -6783,6 +6783,20 @@
     ]
   },
   {
+    "id": 10886,
+    "name": "Airistech Boquilla Glass Herbva 5G",
+    "brandKey": "airistech",
+    "modelKey": null,
+    "modelSlug": "boquilla-herbva-5g-glass",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      32177,
+      35844,
+      87560
+    ]
+  },
+  {
     "id": 10891,
     "name": "Vaporizador DaVinci Miqro",
     "brandKey": "davinci",
