@@ -1,5 +1,42 @@
 [
   {
+    "id": 11004,
+    "name": "Airistech Batería Vertex 2.0",
+    "brandKey": "airistech",
+    "modelKey": "bateria-vertex-2-0",
+    "modelSlug": "bateria-vertex-2-0",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 6,
+    "offerIds": [
+      32302,
+      32303,
+      32304,
+      32305,
+      32306,
+      32307,
+      35978,
+      35979,
+      35980,
+      35981,
+      35982,
+      35983,
+      39077,
+      39805,
+      69156,
+      87985,
+      87986,
+      87988,
+      87989,
+      87991,
+      87993,
+      91782,
+      91783,
+      91785,
+      91786,
+      91787
+    ]
+  },
+  {
     "id": 5458,
     "name": "RAW Classic 1.1/4 producto de la marca RAW",
     "brandKey": "raw",
@@ -726,6 +763,21 @@
     ]
   },
   {
+    "id": 5521,
+    "name": "Bong Glycerin Thicc",
+    "brandKey": "bonglab",
+    "modelKey": "bong-glycerin-thicc",
+    "modelSlug": "glycerin-thicc",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      839,
+      2005,
+      2245,
+      33136
+    ]
+  },
+  {
     "id": 5522,
     "name": "Bong Mad Professor de Bonglab - GB The Green Brand",
     "brandKey": "bonglab",
@@ -788,6 +840,21 @@
       34683,
       34684,
       34685
+    ]
+  },
+  {
+    "id": 5526,
+    "name": "Bonglab Bong Glycerin The Yeti 35cm",
+    "brandKey": "bonglab",
+    "modelKey": "bong-glycerin-yeti-35cm-35cm",
+    "modelSlug": "glycerin-yeti",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      2335,
+      2419,
+      15990,
+      33138
     ]
   },
   {
@@ -1594,6 +1661,21 @@
     ]
   },
   {
+    "id": 10224,
+    "name": "Calvo Glass Bong Big Eye Recycler Rig 24cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-big-eye-24cm",
+    "modelSlug": "big-eye-24cm",
+    "category": "Bongs",
+    "storeCount": 4,
+    "offerIds": [
+      1058,
+      1400,
+      13198,
+      18059
+    ]
+  },
+  {
     "id": 10239,
     "name": "Gas Butano Ronson 300 ML",
     "brandKey": "ronson",
@@ -2305,6 +2387,9 @@
     "category": "Vaporizadores herbales",
     "storeCount": 4,
     "offerIds": [
+      33396,
+      33397,
+      33398,
       36191,
       36192,
       36193,
@@ -2316,6 +2401,36 @@
       92896,
       92897,
       92898
+    ]
+  },
+  {
+    "id": 10681,
+    "name": "Airistech Batería Mystica Max",
+    "brandKey": "airistech",
+    "modelKey": null,
+    "modelSlug": "bateria-mystica-max",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      33293,
+      33294,
+      33295,
+      33296,
+      33297,
+      33298,
+      37832,
+      37833,
+      37834,
+      37835,
+      37836,
+      37837,
+      38603,
+      38604,
+      39257,
+      88826,
+      88828,
+      88829,
+      90944
     ]
   },
   {
@@ -2371,6 +2486,30 @@
       78087,
       78088,
       78089
+    ]
+  },
+  {
+    "id": 10720,
+    "name": "Airistech Batería Mystica Ace",
+    "brandKey": "airistech",
+    "modelKey": null,
+    "modelSlug": "bateria-mystica-ace",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 4,
+    "offerIds": [
+      33288,
+      33289,
+      33290,
+      33291,
+      33292,
+      39374,
+      71225,
+      88197,
+      88199,
+      88201,
+      88203,
+      88205,
+      88206
     ]
   },
   {
@@ -2701,34 +2840,6 @@
       519,
       5051,
       13589
-    ]
-  },
-  {
-    "id": 5521,
-    "name": "Bong Glycerin Thicc",
-    "brandKey": "bonglab",
-    "modelKey": "bong-glycerin-thicc",
-    "modelSlug": "glycerin-thicc",
-    "category": "Bongs",
-    "storeCount": 3,
-    "offerIds": [
-      839,
-      2005,
-      2245
-    ]
-  },
-  {
-    "id": 5526,
-    "name": "Bonglab Bong Glycerin The Yeti 35cm",
-    "brandKey": "bonglab",
-    "modelKey": "bong-glycerin-yeti-35cm-35cm",
-    "modelSlug": "glycerin-yeti",
-    "category": "Bongs",
-    "storeCount": 3,
-    "offerIds": [
-      2335,
-      2419,
-      15990
     ]
   },
   {
@@ -4067,6 +4178,34 @@
     ]
   },
   {
+    "id": 10194,
+    "name": "Bong Space Opera Rig Ambar 22cm",
+    "brandKey": "calvo",
+    "modelKey": "bong-space-opera-22cm",
+    "modelSlug": "space-opera",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      1060,
+      2590,
+      13213
+    ]
+  },
+  {
+    "id": 10196,
+    "name": "Cono de Oro Gold 24K Kush Hemp Wraps | PIRANHA",
+    "brandKey": "kush-hemp",
+    "modelKey": null,
+    "modelSlug": "gold-cone-1u",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      449,
+      809,
+      11171
+    ]
+  },
+  {
     "id": 10200,
     "name": "Limpiador Parafernalia Silicona Thievery 250Ml",
     "brandKey": "thievery",
@@ -4172,20 +4311,6 @@
       11485,
       11859,
       12878
-    ]
-  },
-  {
-    "id": 10224,
-    "name": "Calvo Glass Bong Big Eye Recycler Rig 24cm",
-    "brandKey": "calvo",
-    "modelKey": "bong-big-eye-24cm",
-    "modelSlug": "big-eye-24cm",
-    "category": "Bongs",
-    "storeCount": 3,
-    "offerIds": [
-      1058,
-      1400,
-      13198
     ]
   },
   {
@@ -4486,7 +4611,7 @@
     "offerIds": [
       12615,
       12966,
-      16056
+      16095
     ]
   },
   {
@@ -4994,6 +5119,21 @@
     ]
   },
   {
+    "id": 10400,
+    "name": "The Bulldog Pipa Metálica con Rejillas",
+    "brandKey": "the-bulldog",
+    "modelKey": "pipe-pipa-metalica-rejillas",
+    "modelSlug": "pipa-metalica-rejillas",
+    "category": "Pipas",
+    "storeCount": 3,
+    "offerIds": [
+      8140,
+      8155,
+      11450,
+      16091
+    ]
+  },
+  {
     "id": 10405,
     "name": "Ispire The Wand + Adaptador DynaVap",
     "brandKey": "ispire",
@@ -5047,6 +5187,20 @@
       1434,
       15921,
       18532
+    ]
+  },
+  {
+    "id": 10414,
+    "name": "Focus V Atomizador Intelli-Core para Hierba Carta 2",
+    "brandKey": "focus-v",
+    "modelKey": "vaporizadores-atomizador-intelli-core-hierba",
+    "modelSlug": "intelli-core-hierba-carta-2",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      12654,
+      12971,
+      15821
     ]
   },
   {
@@ -5248,6 +5402,25 @@
     ]
   },
   {
+    "id": 10460,
+    "name": "Focus V Batería Intercambiable Aeris",
+    "brandKey": "focus-v",
+    "modelKey": null,
+    "modelSlug": "bateria-intercambiable-aeris",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      15896,
+      17184,
+      19753,
+      31777,
+      31778,
+      31779,
+      31780,
+      31781
+    ]
+  },
+  {
     "id": 10464,
     "name": "Bandeja RAW Zombie Grande",
     "brandKey": "raw",
@@ -5392,6 +5565,20 @@
     ]
   },
   {
+    "id": 10486,
+    "name": "Storz & Bickel Dosing Capsule Filling Set",
+    "brandKey": "storz-bickel",
+    "modelKey": "vaporizadores-dosing-capsule-filling-set",
+    "modelSlug": "dosing-capsule-filling-set",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      12549,
+      15992,
+      20125
+    ]
+  },
+  {
     "id": 10487,
     "name": "Bonglab Bong Saucer Rig 13cm",
     "brandKey": "bonglab",
@@ -5415,6 +5602,37 @@
     ]
   },
   {
+    "id": 10488,
+    "name": "Dime Bags Estuche The Collector con Clave 22cm",
+    "brandKey": "dime-bags",
+    "modelKey": "container-estuche-22cm",
+    "modelSlug": "the-collector-22cm",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      13472,
+      15944,
+      22981,
+      34571,
+      34572
+    ]
+  },
+  {
+    "id": 10489,
+    "name": "Dime Bags Estuche The Collector con Clave 30cm",
+    "brandKey": "dime-bags",
+    "modelKey": "container-estuche-30cm",
+    "modelSlug": "the-collector-30cm",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      13473,
+      15846,
+      22982,
+      34575
+    ]
+  },
+  {
     "id": 10490,
     "name": "Dime Bags Bolso The Boss con Clave 25cm",
     "brandKey": "dime-bags",
@@ -5429,6 +5647,23 @@
       32293,
       32294,
       34457
+    ]
+  },
+  {
+    "id": 10491,
+    "name": "Dime Bags Bolso The Boss con Clave 20cm",
+    "brandKey": "dime-bags",
+    "modelKey": "container-bolso-20cm",
+    "modelSlug": "the-boss-20cm",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      13317,
+      15850,
+      23561,
+      32289,
+      32290,
+      78257
     ]
   },
   {
@@ -5585,6 +5820,21 @@
     ]
   },
   {
+    "id": 10525,
+    "name": "Calvo Glass Nectar Wax Pen 400mAh",
+    "brandKey": "calvo",
+    "modelKey": null,
+    "modelSlug": "nectar-wax-pen",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      1070,
+      18039,
+      18040,
+      20149
+    ]
+  },
+  {
     "id": 10531,
     "name": "Calvo Glass Batería LED Cartridge 510",
     "brandKey": "calvo",
@@ -5623,6 +5873,37 @@
       36148,
       36149,
       36150
+    ]
+  },
+  {
+    "id": 10536,
+    "name": "Dime Bags Estuche The Soldier con Clave 22cm",
+    "brandKey": "dime-bags",
+    "modelKey": "container-estuche-22cm",
+    "modelSlug": "the-soldier-22cm",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      13320,
+      15884,
+      23565
+    ]
+  },
+  {
+    "id": 10541,
+    "name": "Vaporizador G Pen Roam",
+    "brandKey": "g-pen",
+    "modelKey": "vaporizadores-vaporizador-roam",
+    "modelSlug": "roam",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      15833,
+      18103,
+      19756,
+      19922,
+      32911,
+      92466
     ]
   },
   {
@@ -5712,6 +5993,20 @@
       19775,
       69160,
       69197
+    ]
+  },
+  {
+    "id": 10567,
+    "name": "Blunt Hemp Wrap Lion Rolling Circus Rolling Stones Electric Grape",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": null,
+    "modelSlug": "hemp-wrap-electric-grape",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      16014,
+      17945,
+      37209
     ]
   },
   {
@@ -5814,35 +6109,17 @@
     ]
   },
   {
-    "id": 10593,
-    "name": "Gorro Pescador Fuzzy Blazy Susan",
-    "brandKey": "blazy-susan",
+    "id": 10595,
+    "name": "Batería Galaxy Cartridge Escondida Black",
+    "brandKey": "galaxy",
     "modelKey": null,
-    "modelSlug": "gorro-pescador-fuzzy",
+    "modelSlug": "bateria-escondida-black",
     "category": "Otros parafernalia",
     "storeCount": 3,
     "offerIds": [
-      15664,
-      18029,
-      18030,
-      18563,
-      34324,
-      34325
-    ]
-  },
-  {
-    "id": 10597,
-    "name": "Gorra Dad Hats Blazy Susan",
-    "brandKey": "blazy-susan",
-    "modelKey": null,
-    "modelSlug": "dad-hats",
-    "category": "Otros parafernalia",
-    "storeCount": 3,
-    "offerIds": [
-      15585,
-      18072,
-      18562,
-      34321
+      14396,
+      18169,
+      19924
     ]
   },
   {
@@ -5906,6 +6183,22 @@
     ]
   },
   {
+    "id": 10622,
+    "name": "Bandeja Metálica RAW Camo | PIRANHA",
+    "brandKey": "raw",
+    "modelKey": "tray-metalica-camo",
+    "modelSlug": "metal-metal-large",
+    "category": "Bandejas y ceniceros",
+    "storeCount": 3,
+    "offerIds": [
+      12174,
+      12221,
+      15877,
+      19360,
+      19556
+    ]
+  },
+  {
     "id": 10642,
     "name": "Yocan Vaporizador Vane",
     "brandKey": "yocan",
@@ -5917,6 +6210,41 @@
       12638,
       19833,
       87535
+    ]
+  },
+  {
+    "id": 10645,
+    "name": "Bong Kirby",
+    "brandKey": "piecemaker",
+    "modelKey": null,
+    "modelSlug": "kirby",
+    "category": "Bongs",
+    "storeCount": 3,
+    "offerIds": [
+      886,
+      18165,
+      18576
+    ]
+  },
+  {
+    "id": 10646,
+    "name": "Papelillos Lion Rolling Circus Sabores 1 1/4",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": "flavored-1-1-4",
+    "modelSlug": "flavored-1-1-4",
+    "category": "Papelillos",
+    "storeCount": 3,
+    "offerIds": [
+      377,
+      378,
+      380,
+      12273,
+      12274,
+      15733,
+      35145,
+      35147,
+      35149,
+      35153
     ]
   },
   {
@@ -5934,6 +6262,20 @@
       31840,
       31844,
       69335
+    ]
+  },
+  {
+    "id": 10649,
+    "name": "Puffco Peak Pro",
+    "brandKey": "puffco",
+    "modelKey": "vaporizer-peak-pro",
+    "modelSlug": "peak-pro",
+    "category": "Accesorios de extraccion",
+    "storeCount": 3,
+    "offerIds": [
+      2263,
+      2481,
+      17204
     ]
   },
   {
@@ -5987,6 +6329,20 @@
       17201,
       18583,
       34367
+    ]
+  },
+  {
+    "id": 10654,
+    "name": "Lion Rolling Circus Hemp Wraps Terpenes Strawberry Shortcake x2",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": null,
+    "modelSlug": "terpenes-strawberry-shortcake",
+    "category": "Conos y blunts",
+    "storeCount": 3,
+    "offerIds": [
+      15867,
+      17943,
+      37204
     ]
   },
   {
@@ -6070,27 +6426,17 @@
     ]
   },
   {
-    "id": 10681,
-    "name": "Airistech Batería Mystica Max",
-    "brandKey": "airistech",
-    "modelKey": null,
-    "modelSlug": "bateria-mystica-max",
-    "category": "Repuestos para bongs y vaporizadores",
+    "id": 10686,
+    "name": "RAW Reserva Contenedor Hermético y Armador de Conos",
+    "brandKey": "raw",
+    "modelKey": "cone-contenedor",
+    "modelSlug": "reserva-contenedor",
+    "category": "Contenedores y estuches",
     "storeCount": 3,
     "offerIds": [
-      33293,
-      33294,
-      33295,
-      33296,
-      33297,
-      33298,
-      38603,
-      38604,
-      39257,
-      88826,
-      88828,
-      88829,
-      90944
+      12452,
+      14286,
+      19342
     ]
   },
   {
@@ -6192,28 +6538,6 @@
     ]
   },
   {
-    "id": 10720,
-    "name": "Airistech Batería Mystica Ace",
-    "brandKey": "airistech",
-    "modelKey": null,
-    "modelSlug": "bateria-mystica-ace",
-    "category": "Repuestos para bongs y vaporizadores",
-    "storeCount": 3,
-    "offerIds": [
-      33288,
-      33289,
-      33290,
-      33291,
-      33292,
-      39374,
-      88197,
-      88201,
-      88203,
-      88205,
-      88206
-    ]
-  },
-  {
     "id": 10725,
     "name": "Filtro de Carbón Activado Kasvi 125x400mm",
     "brandKey": "kasvi",
@@ -6225,6 +6549,24 @@
       13412,
       31749,
       52592
+    ]
+  },
+  {
+    "id": 10736,
+    "name": "Soulblime Contenedor Tapa Desmontable - Diseños",
+    "brandKey": "soulblime",
+    "modelKey": "container-contenedor",
+    "modelSlug": "desmontable",
+    "category": "Contenedores y estuches",
+    "storeCount": 3,
+    "offerIds": [
+      16062,
+      19816,
+      36555,
+      36556,
+      36557,
+      36558,
+      78744
     ]
   },
   {
@@ -6371,6 +6713,29 @@
     ]
   },
   {
+    "id": 10845,
+    "name": "Naar One Encendedor Soplete",
+    "brandKey": "naar",
+    "modelKey": "lighter-one-encendedor-soplete",
+    "modelSlug": "one",
+    "category": "Encendedores y sopletes",
+    "storeCount": 3,
+    "offerIds": [
+      13592,
+      16122,
+      19509,
+      20025,
+      20026,
+      20027,
+      20028,
+      20029,
+      20030,
+      20031,
+      20106,
+      55227
+    ]
+  },
+  {
     "id": 10853,
     "name": "RAW Cajita Metálica para Pre-Enrolados 1 1/4",
     "brandKey": "raw",
@@ -6382,6 +6747,25 @@
       797,
       825,
       1207
+    ]
+  },
+  {
+    "id": 10882,
+    "name": "Vaporizador Airis Dabble",
+    "brandKey": "airistech",
+    "modelKey": "vaporizadores-vaporizador-airis-dabble",
+    "modelSlug": "dabble",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      33353,
+      36911,
+      36912,
+      87907,
+      87909,
+      87910,
+      87911,
+      87913
     ]
   },
   {
@@ -6439,6 +6823,36 @@
       33917,
       33918,
       87585
+    ]
+  },
+  {
+    "id": 11005,
+    "name": "Vaporizador Airis Quaser",
+    "brandKey": "airistech",
+    "modelKey": "quaser",
+    "modelSlug": "quaser",
+    "category": "Vaporizadores herbales",
+    "storeCount": 3,
+    "offerIds": [
+      33078,
+      33079,
+      33080,
+      33081,
+      33082,
+      37498,
+      37499,
+      37500,
+      37501,
+      37502,
+      87601,
+      87602,
+      87603,
+      87604,
+      87605,
+      92617,
+      92618,
+      92620,
+      92621
     ]
   }
 ]
