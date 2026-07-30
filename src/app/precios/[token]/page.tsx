@@ -5,7 +5,14 @@ import { prisma } from "@/lib/prisma";
 import { formatPrice, formatShortDate } from "@/lib/format";
 import { CONTACT_EMAIL, mailtoUrl, whatsappUrl } from "@/lib/contact";
 import { SITE_NAME } from "@/lib/site";
-import { ALERT_WINDOW_DAYS, getPriceIntelligence, positionStatus } from "../../interno/inteligencia-precios/data";
+import {
+  ALERT_WINDOW_DAYS,
+  GAP_MIN_STORES,
+  getAssortmentGap,
+  getPriceIntelligence,
+  positionStatus,
+  summarizeCategories,
+} from "../../interno/inteligencia-precios/data";
 
 export const dynamic = "force-dynamic";
 
@@ -30,9 +37,10 @@ export default async function PublicPricingPage({ params }: PublicPricingPagePro
 
   if (!store) notFound();
 
-  const data = await getPriceIntelligence(store.id);
+  const [data, gap] = await Promise.all([getPriceIntelligence(store.id), getAssortmentGap(store.id)]);
   // Los sospechosos (ratio >2x) son casi siempre mislinks: fuera de la vista pública.
   const positions = data.positions.filter((row) => !row.suspect);
+  const gapProducts = gap.products.slice(0, 60);
 
   const pitchMessage = `Hola, vi la demo de inteligencia de precios de ${SITE_NAME} para ${store.name} y me interesa saber más.`;
   const wa = whatsappUrl(pitchMessage);
@@ -51,8 +59,9 @@ export default async function PublicPricingPage({ params }: PublicPricingPagePro
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#f8f4df]/70">
             Comparamos automáticamente los precios de {store.name} con los de las otras growshops
             que seguimos en Chile. Abajo ves en qué productos estás más barata, empatada o por
-            sobre el mercado, y cuándo un competidor te bajó el precio en los últimos{" "}
-            {ALERT_WINDOW_DAYS} días.
+            sobre el mercado, cuándo un competidor te bajó el precio en los últimos{" "}
+            {ALERT_WINDOW_DAYS} días, y qué productos vende el resto del mercado que tú todavía
+            no tienes.
           </p>
         </header>
 
@@ -174,6 +183,106 @@ export default async function PublicPricingPage({ params }: PublicPricingPagePro
             <p className="mt-4 text-sm text-black/55">Ningún competidor te bajó el precio en los últimos {ALERT_WINDOW_DAYS} días.</p>
           )}
         </section>
+
+        {gap.summary.total > 0 ? (
+          <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[8px_8px_0_#17150f]">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">Oportunidad de catálogo</p>
+                <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Brecha de surtido</h2>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center text-sm sm:min-w-72">
+                <Stat label={`En ${GAP_MIN_STORES}+ tiendas`} value={gap.summary.total} />
+                <Stat label="En 4+ tiendas" value={gap.summary.wide} />
+                <Stat label="Marcas ausentes" value={gap.summary.missingBrands} />
+              </div>
+            </div>
+            <p className="mt-4 text-sm leading-6 text-black/60">
+              Son productos que al menos {GAP_MIN_STORES} de las otras growshops que seguimos tienen{" "}
+              <strong>con stock ahora mismo</strong> y que no encontramos en {store.name}. Cuantas más tiendas lo
+              vendan, más probada está su demanda.
+            </p>
+
+            {gap.brands.length > 0 ? (
+              <div className="mt-5 max-h-[60vh] overflow-auto rounded-2xl border border-black/10">
+                <table className="min-w-full border-collapse text-left text-sm">
+                  <thead className="sticky top-0 z-10 bg-[#17150f] text-[#f8f4df]">
+                    <tr>
+                      <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Marca</th>
+                      <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Productos</th>
+                      <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">En 4+ tiendas</th>
+                      <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Desde</th>
+                      <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Categorías</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {gap.brands.map((brand) => (
+                      <tr className="border-t border-black/10 odd:bg-black/[0.02]" key={brand.brandKey}>
+                        <td className="px-3 py-2 align-top font-bold text-black/80">
+                          {brand.brandName}
+                          {!brand.carriedByStore ? (
+                            <span className="ml-2 whitespace-nowrap rounded-full border border-[#bddf57] bg-[#bddf57]/30 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.1em] text-[#17150f]">
+                              No la vendes
+                            </span>
+                          ) : null}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-2 align-top font-bold text-black/70">{brand.products}</td>
+                        <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">{brand.wideProducts}</td>
+                        <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">{formatPrice(brand.minPrice)}</td>
+                        <td className="px-3 py-2 align-top text-xs text-black/50">{summarizeCategories(brand.categories)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+
+            <h3 className="mt-6 text-xs font-black uppercase tracking-[0.2em] text-black/40">
+              Los {gapProducts.length} con más cobertura
+            </h3>
+            <div className="mt-3 max-h-[60vh] overflow-auto rounded-2xl border border-black/10">
+              <table className="min-w-full border-collapse text-left text-sm">
+                <thead className="sticky top-0 z-10 bg-[#17150f] text-[#f8f4df]">
+                  <tr>
+                    <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Producto</th>
+                    <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Lo venden</th>
+                    <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Más barato hoy</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gapProducts.map((row) => (
+                    <tr className="border-t border-black/10 odd:bg-black/[0.02]" key={row.productId}>
+                      <td className="max-w-[360px] whitespace-normal break-words px-3 py-2 align-top text-black/70">
+                        {row.productPath ? (
+                          <a
+                            className="underline decoration-black/20 underline-offset-2 hover:text-black hover:decoration-[#bddf57]"
+                            href={row.productPath}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            {row.productName}
+                          </a>
+                        ) : (
+                          row.productName
+                        )}
+                        <span className="block text-xs text-black/40">{row.category}</span>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-2 align-top font-bold text-black/70">{row.storeCount} tiendas</td>
+                      <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">
+                        {formatPrice(row.minPrice)} <span className="text-black/40">({row.minPriceStore})</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-4 text-xs leading-5 text-black/45">
+              Calculado sobre nuestro catálogo curado: si vendes alguno de estos y no lo detectamos, avísanos y lo
+              corregimos. La etiqueta &ldquo;No la vendes&rdquo; sí es firme — significa que no encontramos ninguna
+              publicación tuya de esa marca.
+            </p>
+          </section>
+        ) : null}
 
         <section className="mt-6 rounded-[2rem] bg-[#17150f] p-6 text-[#f8f4df] shadow-[10px_10px_0_#bddf57]">
           <h2 className="text-3xl font-black tracking-[-0.04em]">¿Hablamos?</h2>

@@ -7,7 +7,15 @@ import { formatPrice, formatShortDate } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
 import { LogoutButton } from "../logout-button";
 import { ShareLink } from "./share-link";
-import { ALERT_WINDOW_DAYS, OUTLIER_RATIO, getPriceIntelligence, positionStatus } from "./data";
+import {
+  ALERT_WINDOW_DAYS,
+  GAP_MIN_STORES,
+  OUTLIER_RATIO,
+  getAssortmentGap,
+  getPriceIntelligence,
+  positionStatus,
+  summarizeCategories,
+} from "./data";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +59,10 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
   const params = (await searchParams) ?? {};
   const selectedStore = stores.find((s) => s.slug === params.store) ?? stores[0];
 
-  const data = selectedStore ? await getPriceIntelligence(selectedStore.id) : null;
+  // en paralelo: las dos consultas cuestan parecido y son independientes
+  const [data, gap] = selectedStore
+    ? await Promise.all([getPriceIntelligence(selectedStore.id), getAssortmentGap(selectedStore.id)])
+    : [null, null];
 
   return (
     <main className="min-h-screen bg-[#f4f1e8] px-5 py-6 text-[#17150f] sm:px-8 lg:px-10">
@@ -268,6 +279,61 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                 </p>
               )}
             </section>
+
+            {gap ? (
+              <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[8px_8px_0_#17150f]">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">
+                      Lo que vende el mercado y esta tienda no
+                    </p>
+                    <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Brecha de surtido</h2>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center text-sm sm:min-w-72">
+                    <Stat label={`En ${GAP_MIN_STORES}+ tiendas`} value={gap.summary.total} />
+                    <Stat label="En 4+ tiendas" value={gap.summary.wide} />
+                    <Stat label="Marcas ausentes" value={gap.summary.missingBrands} />
+                  </div>
+                </div>
+                {gap.brands.length > 0 ? (
+                  <div className="mt-5 max-h-[60vh] overflow-auto rounded-2xl border border-black/10">
+                    <table className="min-w-full border-collapse text-left text-sm">
+                      <thead className="sticky top-0 z-10 bg-[#17150f] text-[#f8f4df]">
+                        <tr>
+                          <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Marca</th>
+                          <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Productos</th>
+                          <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">En 4+</th>
+                          <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Desde</th>
+                          <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Categorias</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gap.brands.map((brand) => (
+                          <tr className="border-t border-black/10 odd:bg-black/[0.02]" key={brand.brandKey}>
+                            <td className="px-3 py-2 align-top font-bold text-black/80">
+                              {brand.brandName}
+                              {!brand.carriedByStore ? (
+                                <span className="ml-2 whitespace-nowrap rounded-full border border-[#bddf57] bg-[#bddf57]/30 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.1em]">
+                                  no la vende
+                                </span>
+                              ) : null}
+                            </td>
+                            <td className="whitespace-nowrap px-3 py-2 align-top font-bold text-black/70">{brand.products}</td>
+                            <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">{brand.wideProducts}</td>
+                            <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">{formatPrice(brand.minPrice)}</td>
+                            <td className="px-3 py-2 align-top text-xs text-black/50">{summarizeCategories(brand.categories)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm text-black/55">
+                    Esta tienda no tiene brecha: vende todo lo que venden {GAP_MIN_STORES}+ competidores.
+                  </p>
+                )}
+              </section>
+            ) : null}
           </>
         )}
       </section>
