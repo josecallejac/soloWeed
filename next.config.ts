@@ -17,6 +17,27 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "piranha.cl" },
     ],
   },
+  // `Product.brandKey` es parte de la URL publica, asi que corregir una marca mal
+  // puesta mueve una pagina viva. Cada correccion deja su redirect permanente aqui:
+  // sin el, la URL vieja cae en not-found (que ademas responde 200 + noindex por la
+  // limitacion de Next con searchParams, o sea un soft-404 silencioso).
+  // Ver scripts/fix-product-brandkeys.ts para el porque de cada una.
+  async redirects() {
+    return [
+      {
+        // "astro" es una TIENDA, no una marca; el producto es de Fórmula Secreta.
+        source: "/productos/astro/cleaner-vaporizer-250ml",
+        destination: "/productos/formula-secreta/cleaner-vaporizer-250ml",
+        permanent: true,
+      },
+      {
+        // "unknown" no es una marca; sus 4 ofertas son Galaxy.
+        source: "/productos/unknown/bateria-galaxy-510",
+        destination: "/productos/galaxy/bateria-510",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
