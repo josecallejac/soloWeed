@@ -1,0 +1,6 @@
+parA;parB;senal;distancia;canonicoSugerido;motivoCanonico;ofertasA;ofertasB;huerfanasStockA;huerfanasStockB;vinculadasA;vinculadasB;productosA;productosB;tiendasA;tiendasB;compartenTienda;tiendasSoloA;tiendasSoloB
+cabo;calvo;EDICION-2;2;calvo;tiene 44 productos contra 6 (Product.brandKey es URL publica);27;685;2;174;18;221;6;44;growbarato:7 fumetas:12 kushbreak:1 astrogrowshop:6 piranha:1;piranha:28 astrogrowshop:142 fumetas:481 growbarato:33 kushbreak:1;si;-;-
+calvo;calvo-glass;PREFIJO;-1;calvo;tiene 44 productos contra 2 (Product.brandKey es URL publica);685;0;174;0;221;0;44;2;piranha:28 astrogrowshop:142 fumetas:481 growbarato:33 kushbreak:1;;no;piranha,astrogrowshop,fumetas,growbarato,kushbreak;-
+empire;empire-rolling-papers;PREFIJO;-1;empire-rolling-papers;tiene 1 productos contra 0 (Product.brandKey es URL publica);7;0;3;0;2;0;0;1;fumetas:1 astrogrowshop:1 kushbreak:5;;no;fumetas,astrogrowshop,kushbreak;-
+empire;ispire;EDICION-2;2;ispire;tiene 1 productos contra 0 (Product.brandKey es URL publica);7;0;3;0;2;0;0;1;fumetas:1 astrogrowshop:1 kushbreak:5;;no;fumetas,astrogrowshop,kushbreak;-
+kema;khemo;EDICION-2;2;khemo;tiene 5 productos contra 0 (Product.brandKey es URL publica);6;17;6;4;0;9;0;5;growbarato:6;growbarato:6 kushbreak:9 astrogrowshop:2;si;-;kushbreak,astrogrowshop

@@ -18,8 +18,12 @@ import { cleanDescription } from "../src/lib/format";
 //   SHORT_DESC_LIMIT=50                   limita cuantos productos procesar
 //   SHORT_DESC_CATEGORIES=Bongs,Pipas     restringe a categorias (coma-separadas)
 //   SHORT_DESC_DRY_SAMPLE=10              en dry-run, cuantos resumir para revisar
+//   SHORT_DESC_TIMEOUT_MS=120000          corte por producto (subilo en CPU lenta:
+//                                         llama3 no alcanza los 120s con las
+//                                         descripciones largas de ~2.000 chars)
 
 const APPLY = process.argv.includes("--apply");
+const TIMEOUT_MS = Number(process.env.SHORT_DESC_TIMEOUT_MS ?? "120000");
 const MODEL = process.env.SHORT_DESC_MODEL ?? "llama3";
 const OLLAMA_HOST = (process.env.OLLAMA_HOST ?? "http://localhost:11434").replace(/\/$/, "");
 const LIMIT = process.env.SHORT_DESC_LIMIT ? Number(process.env.SHORT_DESC_LIMIT) : undefined;
@@ -125,7 +129,7 @@ async function summarize(product: ProductRow): Promise<string> {
         { role: "user", content: userContent },
       ],
     }),
-    signal: AbortSignal.timeout(120000),
+    signal: AbortSignal.timeout(TIMEOUT_MS),
   });
 
   if (!res.ok) {

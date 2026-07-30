@@ -149,6 +149,14 @@ export const BRAND_ALIASES = new Map<string, string>([
   ["crafty", "storz-bickel"],
   ["lightning grinder", "galaxy"],
   ["papelillo celulosa transparente", "c-thru"],
+  // Huecos de alias: la misma marca escrita distinto segun la tienda. Sin estas
+  // entradas, KNOWN_BRAND_PHRASES resuelve cada forma a su propio brandKey y toda
+  // herramienta que agrupe por marca queda ciega al cruce (medido el 29 jul 2026:
+  // 0 productos con brandKey=airis contra 8 con airistech). El canonico es el que
+  // ya usan los Product existentes, porque Product.brandKey es URL publica.
+  ["airis", "airistech"],
+  ["da vinci", "davinci"],
+  ["santa cruz", "santa-cruz-shredder"],
 ]);
 
 export const KNOWN_BRANDS = [
