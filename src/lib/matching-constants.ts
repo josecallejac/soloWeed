@@ -24,6 +24,12 @@ export const KNOWN_BRAND_PHRASES = [
   "baked bunny",
   "gorilla rolling star",
   "phoenix star",
+  // r68: 7 ofertas de Friendly Grow (bateria 510 Dazzleaf Alien en 6 colores +
+  // la Spaceman). Estaba sin registrar, asi que 6 quedaban SIN marca y la
+  // Spaceman caia en "galaxy" porque la tienda declara brand=GALAXY en un
+  // producto que su propio titulo llama Dazzleaf. Dentro de alcance: es una
+  // bateria 510 para cartuchos, no un pod kit de e-liquido.
+  "dazzleaf",
   "actitube",
   "arizer",
   "blazy susan",
@@ -157,6 +163,13 @@ export const BRAND_ALIASES = new Map<string, string>([
   ["clipper", "clipper"],              // "Encendedor Clipper Metalico Volcano" -> le ganaba el alias volcano
   ["lion rolling circus", "lion-rolling-circus"], // -> le ganaba el alias papelillo celulosa transparente
   ["bongalab", "bonglab"],             // typo de GrowBarato; sin esto cae al fallback gb-the-green-brand
+  // r68 (2026-07-30). Los dos casos siguientes NO venian del fallback por
+  // description sino del campo `brand` que declara la propia tienda, que en
+  // Friendly Grow es poco fiable: declara GALAXY en un Dazzleaf y PHOENIX STAR
+  // en una ficha cuyo titulo lleva otra marca entre comillas. Como ese campo
+  // alimenta el mismo string que el titulo, la unica palanca es el orden.
+  ["phoenix star", "phoenix-star"],    // 'Bong ... Phoenix "AKU Tribal"' -> le ganaba "aku", que esta en la posicion 1
+  ["dazzleaf", "dazzleaf"],            // "Dazzleaf Spaceman" con brand=GALAXY -> le ganaba galaxy
   // ────────────────────────────────────────────────────────────────────────────
   ["the bulldog amsterdam", "the-bulldog"],
   ["the bulldog", "the-bulldog"],
