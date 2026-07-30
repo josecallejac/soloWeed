@@ -1,0 +1,2129 @@
+[
+  {
+    "offerId": "1204",
+    "tienda": "fumetas",
+    "brandKey": "blazy-susan",
+    "titulo": "Blazy Susan Blunt King Size Cono Natural Wraps x2 - Tea Leaf",
+    "precio": 3490,
+    "categoria": "Conos y blunts",
+    "url": "https://fumetas.cl/blazy-susan-blunt-king-size-cono-natural-wraps-x2-tea-leaf",
+    "candidates": [
+      {
+        "productId": "10350",
+        "slug": "tea-cones-king-size",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.42,
+        "ratio": 1.27
+      }
+    ]
+  },
+  {
+    "offerId": "17736",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Pack Bong Bonglab Classic Ice KS11",
+    "precio": 33990,
+    "categoria": "Bongs",
+    "url": "https://astrogrowshop.cl/pack-bong-bonglab-classic-ice-ks11",
+    "candidates": [
+      {
+        "productId": "10407",
+        "slug": "glycerin-black-ice",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.34
+      }
+    ]
+  },
+  {
+    "offerId": "19862",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Polera Prisma",
+    "precio": 21990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/bonglab-polera-prisma",
+    "candidates": [
+      {
+        "productId": "10108",
+        "slug": "prisma",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.67,
+        "ratio": 1.28
+      }
+    ]
+  },
+  {
+    "offerId": "20035",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Pins BongLab",
+    "precio": 4990,
+    "categoria": "Otros parafernalia",
+    "url": "https://fumetas.cl/pins-bonglab",
+    "candidates": [
+      {
+        "productId": "10108",
+        "slug": "prisma",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.29
+      }
+    ]
+  },
+  {
+    "offerId": "33136",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Glycerin -Bonglab - THICC MINT",
+    "precio": 109990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/glycerin-bonglab?variant=THICC%20MINT",
+    "candidates": [
+      {
+        "productId": "5521",
+        "slug": "glycerin-thicc",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.14
+      }
+    ]
+  },
+  {
+    "offerId": "33138",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Glycerin -Bonglab - THE YETI",
+    "precio": 109990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/glycerin-bonglab?variant=THE%20YETI",
+    "candidates": [
+      {
+        "productId": "5526",
+        "slug": "glycerin-yeti",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 1.05
+      }
+    ]
+  },
+  {
+    "offerId": "36717",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Polera Prisma - XL",
+    "precio": 21990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/bonglab-polera-prisma?variant=XL",
+    "candidates": [
+      {
+        "productId": "10108",
+        "slug": "prisma",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 1.28
+      }
+    ]
+  },
+  {
+    "offerId": "37077",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Pins BongLab - Pin Prisma",
+    "precio": 4990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/pins-bonglab?variant=Pin%20Prisma",
+    "candidates": [
+      {
+        "productId": "10108",
+        "slug": "prisma",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.67,
+        "ratio": 0.29
+      }
+    ]
+  },
+  {
+    "offerId": "13092",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Atrapa cenizas 45° - Macho 14mm",
+    "precio": 24990,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-atrapa-cenizas-macho-14mm-45",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 3.34
+      }
+    ]
+  },
+  {
+    "offerId": "13093",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Atrapa cenizas 90° - Macho 14mm",
+    "precio": 24990,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-atrapa-cenizas-macho-14mm-90",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 3.34
+      }
+    ]
+  },
+  {
+    "offerId": "13193",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 35cm",
+    "precio": 44990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-35cm",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 6.01
+      }
+    ]
+  },
+  {
+    "offerId": "13194",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 40cm",
+    "precio": 49990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-40cm",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 6.67
+      }
+    ]
+  },
+  {
+    "offerId": "13195",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 45cm",
+    "precio": 54990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-45cm",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 7.34
+      }
+    ]
+  },
+  {
+    "offerId": "13213",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo G l a s s Bong Space Horn Rig 21cm",
+    "precio": 39990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-space-horn-rig-23cm",
+    "candidates": [
+      {
+        "productId": "10194",
+        "slug": "space-opera",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.79
+      }
+    ]
+  },
+  {
+    "offerId": "18059",
+    "tienda": "astrogrowshop",
+    "brandKey": "calvo",
+    "titulo": "Big Eye Recycler-Calvo Glass",
+    "precio": 70990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/big-eye-recycler-calvo-glass",
+    "candidates": [
+      {
+        "productId": "10224",
+        "slug": "big-eye-24cm",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 1.26
+      }
+    ]
+  },
+  {
+    "offerId": "20149",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Repuesto Nectar Pen",
+    "precio": 4990,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-repuesto-nectar-pen",
+    "candidates": [
+      {
+        "productId": "10525",
+        "slug": "nectar-wax-pen",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 0.18
+      }
+    ]
+  },
+  {
+    "offerId": "34444",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Quemador Pyrex - Macho 14mm - Azul",
+    "precio": 3490,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-quemador-pyrex-macho-14mm?variant=Azul",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.47
+      }
+    ]
+  },
+  {
+    "offerId": "34445",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Quemador Pyrex - Macho 14mm - Turquesa",
+    "precio": 3490,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-quemador-pyrex-macho-14mm?variant=Turquesa",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.47
+      }
+    ]
+  },
+  {
+    "offerId": "34447",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Quemador Pyrex - Macho 14mm - Rosado",
+    "precio": 3490,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-quemador-pyrex-macho-14mm?variant=Rosado",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.47
+      }
+    ]
+  },
+  {
+    "offerId": "34448",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Quemador Pyrex - Macho 14mm - Morado",
+    "precio": 3490,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-quemador-pyrex-macho-14mm?variant=Morado",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.47
+      }
+    ]
+  },
+  {
+    "offerId": "34725",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 35cm - Rojo",
+    "precio": 44990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-35cm?variant=Rojo",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.01
+      }
+    ]
+  },
+  {
+    "offerId": "34726",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 35cm - Verde",
+    "precio": 44990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-35cm?variant=Verde",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.01
+      }
+    ]
+  },
+  {
+    "offerId": "34728",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 35cm - Naranjo",
+    "precio": 44990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-35cm?variant=Naranjo",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.01
+      }
+    ]
+  },
+  {
+    "offerId": "34733",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 40cm - Turquesa",
+    "precio": 49990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-40cm?variant=Turquesa",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.67
+      }
+    ]
+  },
+  {
+    "offerId": "34734",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 40cm - Rojo",
+    "precio": 49990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-40cm?variant=Rojo",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.67
+      }
+    ]
+  },
+  {
+    "offerId": "34735",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 40cm - Verde",
+    "precio": 49990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-40cm?variant=Verde",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 6.67
+      }
+    ]
+  },
+  {
+    "offerId": "34737",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 45cm - Verde",
+    "precio": 54990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-45cm?variant=Verde",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 7.34
+      }
+    ]
+  },
+  {
+    "offerId": "34738",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Bong Beaker Premium 45cm - Naranja",
+    "precio": 54990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/calvo-glass-bong-beaker-lite-45cm?variant=Naranja",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 7.34
+      }
+    ]
+  },
+  {
+    "offerId": "35021",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Glass Quemador cuerno - Macho 14mm - Amarillo",
+    "precio": 8990,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "url": "https://fumetas.cl/calvo-glass-quemador-cuerno-14mm?variant=Amarillo",
+    "candidates": [
+      {
+        "productId": "10375",
+        "slug": "difusor-premium-14mm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 1.2
+      }
+    ]
+  },
+  {
+    "offerId": "22981",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "Collector Con Candado 22Cm Smell Proof Camo-Dime Bags",
+    "precio": 27990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/collector-con-candado-22cm-smell-proof-dime-bags",
+    "candidates": [
+      {
+        "productId": "10488",
+        "slug": "the-collector-22cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 1.08
+      }
+    ]
+  },
+  {
+    "offerId": "22982",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "Collector Con Candado 30Cm Smell Proof Camo-Dime Bags",
+    "precio": 32990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/collector-con-candado-30cm-smell-proof-dime-bags",
+    "candidates": [
+      {
+        "productId": "10489",
+        "slug": "the-collector-30cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 1.1
+      }
+    ]
+  },
+  {
+    "offerId": "23561",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "The Boss Con Candado Clave 20 Cm -Dime Bags",
+    "precio": 34990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/the-boss-con-candado-clave-20-cm-dime-bags",
+    "candidates": [
+      {
+        "productId": "10491",
+        "slug": "the-boss-20cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.55,
+        "ratio": 1.29
+      },
+      {
+        "productId": "10488",
+        "slug": "the-collector-22cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 1.35
+      },
+      {
+        "productId": "10489",
+        "slug": "the-collector-30cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 1.17
+      }
+    ]
+  },
+  {
+    "offerId": "23565",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "The Soldier Con Lock 22 Cm Black-Dime Bags",
+    "precio": 51990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/the-soldier-con-lock-22-cm-black-dime-bags",
+    "candidates": [
+      {
+        "productId": "10536",
+        "slug": "the-soldier-22cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.45,
+        "ratio": 1.15
+      },
+      {
+        "productId": "10488",
+        "slug": "the-collector-22cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 2
+      }
+    ]
+  },
+  {
+    "offerId": "32289",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "The Boss Con Candado Clave 20 Cm -Dime Bags - Verde",
+    "precio": 32990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/the-boss-con-candado-clave-20-cm-dime-bags?variant=Verde",
+    "candidates": [
+      {
+        "productId": "10491",
+        "slug": "the-boss-20cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 1.21
+      }
+    ]
+  },
+  {
+    "offerId": "32290",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "The Boss Con Candado Clave 20 Cm -Dime Bags - Rojo",
+    "precio": 32990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/the-boss-con-candado-clave-20-cm-dime-bags?variant=Rojo",
+    "candidates": [
+      {
+        "productId": "10491",
+        "slug": "the-boss-20cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 1.21
+      }
+    ]
+  },
+  {
+    "offerId": "78257",
+    "tienda": "astrogrowshop",
+    "brandKey": "dime-bags",
+    "titulo": "The Boss Con Candado Clave 20 Cm -Dime Bags - RED",
+    "precio": 32990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/the-boss-con-candado-clave-20-cm-dime-bags?variant=RED",
+    "candidates": [
+      {
+        "productId": "10491",
+        "slug": "the-boss-20cm",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 1.21
+      }
+    ]
+  },
+  {
+    "offerId": "12971",
+    "tienda": "fumetas",
+    "brandKey": "focus-v",
+    "titulo": "Atomizador Focus V Intelli-Core Para Hierba Seca",
+    "precio": 39990,
+    "categoria": "Otros parafernalia",
+    "url": "https://fumetas.cl/atomizador-focus-v-intelli-core-para-hierba-seca",
+    "candidates": [
+      {
+        "productId": "10414",
+        "slug": "intelli-core-hierba-carta-2",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.63,
+        "ratio": 0.91
+      }
+    ]
+  },
+  {
+    "offerId": "12988",
+    "tienda": "fumetas",
+    "brandKey": "focus-v",
+    "titulo": "Focus V Atomizador Intelli-Core Max",
+    "precio": 119990,
+    "categoria": "Otros parafernalia",
+    "url": "https://fumetas.cl/focus-v-atomizador-intelli-core-max",
+    "candidates": [
+      {
+        "productId": "10414",
+        "slug": "intelli-core-hierba-carta-2",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 2.74
+      }
+    ]
+  },
+  {
+    "offerId": "19753",
+    "tienda": "fumetas",
+    "brandKey": "focus-v",
+    "titulo": "Focus V Aeris Bubbler",
+    "precio": 109990,
+    "categoria": "Bongs",
+    "url": "https://fumetas.cl/focus-v-aeris-bubbler",
+    "candidates": [
+      {
+        "productId": "10460",
+        "slug": "bateria-intercambiable-aeris",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.1
+      }
+    ]
+  },
+  {
+    "offerId": "12989",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Galaxy Batería Cartridge 510",
+    "precio": 11490,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/galaxy-bateria-cartridge-18v",
+    "candidates": [
+      {
+        "productId": "10595",
+        "slug": "bateria-escondida-black",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.43,
+        "ratio": 0.52
+      }
+    ]
+  },
+  {
+    "offerId": "19924",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Galaxy Batería Hide Cartridge 510",
+    "precio": 24990,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/galaxy-bateria-hide-cartridge-510",
+    "candidates": [
+      {
+        "productId": "10595",
+        "slug": "bateria-escondida-black",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 1.14
+      }
+    ]
+  },
+  {
+    "offerId": "34317",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Galaxy Batería Cartridge 510 - Negro",
+    "precio": 11490,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/galaxy-bateria-cartridge-18v?variant=Negro",
+    "candidates": [
+      {
+        "productId": "10595",
+        "slug": "bateria-escondida-black",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 0.52
+      }
+    ]
+  },
+  {
+    "offerId": "34318",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Galaxy Batería Cartridge 510 - Blanco",
+    "precio": 11490,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/galaxy-bateria-cartridge-18v?variant=Blanco",
+    "candidates": [
+      {
+        "productId": "10595",
+        "slug": "bateria-escondida-black",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 0.52
+      }
+    ]
+  },
+  {
+    "offerId": "34319",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Galaxy Batería Cartridge 510 - Azul",
+    "precio": 11490,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/galaxy-bateria-cartridge-18v?variant=Azul",
+    "candidates": [
+      {
+        "productId": "10595",
+        "slug": "bateria-escondida-black",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 0.52
+      }
+    ]
+  },
+  {
+    "offerId": "18103",
+    "tienda": "astrogrowshop",
+    "brandKey": "g-pen",
+    "titulo": "Vaporizador para extractos Roam -G Pen",
+    "precio": 239990,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://astrogrowshop.cl/vaporizador-roam-g-pen",
+    "candidates": [
+      {
+        "productId": "10541",
+        "slug": "roam",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "32911",
+    "tienda": "astrogrowshop",
+    "brandKey": "g-pen",
+    "titulo": "Vaporizador para extractos Roam -G Pen - Negro",
+    "precio": 179990,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://astrogrowshop.cl/vaporizador-roam-g-pen?variant=Negro",
+    "candidates": [
+      {
+        "productId": "10541",
+        "slug": "roam",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.43,
+        "ratio": 0.75
+      }
+    ]
+  },
+  {
+    "offerId": "92466",
+    "tienda": "astrogrowshop",
+    "brandKey": "g-pen",
+    "titulo": "Vaporizador para extractos Roam -G Pen - BLACK",
+    "precio": 179990,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://astrogrowshop.cl/vaporizador-roam-g-pen?variant=BLACK",
+    "candidates": [
+      {
+        "productId": "10541",
+        "slug": "roam",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.43,
+        "ratio": 0.75
+      }
+    ]
+  },
+  {
+    "offerId": "12560",
+    "tienda": "astrogrowshop",
+    "brandKey": "hemper",
+    "titulo": "Filtro De Reemplazo Blaze The Cactus Pack X3",
+    "precio": 32990,
+    "categoria": "Filtros y boquillas",
+    "url": "https://astrogrowshop.cl/filtro-de-reemplazo-blaze-the-cactus-pack-x3",
+    "candidates": [
+      {
+        "productId": "10540",
+        "slug": "smoke-fiends-blaze-the-cactus",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 1.23
+      }
+    ]
+  },
+  {
+    "offerId": "19393",
+    "tienda": "fumetas",
+    "brandKey": "hightrip",
+    "titulo": "HighTrip Pin Trascendence",
+    "precio": 8990,
+    "categoria": "Otros parafernalia",
+    "url": "https://fumetas.cl/hightrip-pin-transcendence-1",
+    "candidates": [
+      {
+        "productId": "10682",
+        "slug": "pin-joint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 1.12
+      },
+      {
+        "productId": "10683",
+        "slug": "pin-crossjoint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 0.99
+      },
+      {
+        "productId": "10873",
+        "slug": "pin-highskulls-2",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 1.12
+      }
+    ]
+  },
+  {
+    "offerId": "20223",
+    "tienda": "fumetas",
+    "brandKey": "hightrip",
+    "titulo": "HighTrip Pin Highfries",
+    "precio": 8091,
+    "categoria": "Otros parafernalia",
+    "url": "https://fumetas.cl/hightrip-pin-highfries",
+    "candidates": [
+      {
+        "productId": "10682",
+        "slug": "pin-joint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 1.01
+      },
+      {
+        "productId": "10683",
+        "slug": "pin-crossjoint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 0.89
+      },
+      {
+        "productId": "10873",
+        "slug": "pin-highskulls-2",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 1.01
+      }
+    ]
+  },
+  {
+    "offerId": "20224",
+    "tienda": "fumetas",
+    "brandKey": "hightrip",
+    "titulo": "HighTrip Pin Cenicero 420",
+    "precio": 8991,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://fumetas.cl/hightrip-pin-transcendence",
+    "candidates": [
+      {
+        "productId": "10682",
+        "slug": "pin-joint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.12
+      },
+      {
+        "productId": "10683",
+        "slug": "pin-crossjoint",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.99
+      },
+      {
+        "productId": "10873",
+        "slug": "pin-highskulls-2",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.12
+      }
+    ]
+  },
+  {
+    "offerId": "449",
+    "tienda": "fumetas",
+    "brandKey": "kush-hemp",
+    "titulo": "Kush Cono de Oro Hemp Preenrolado King Size 24K",
+    "precio": 11990,
+    "categoria": "Conos y blunts",
+    "url": "https://fumetas.cl/kush-cono-de-oro-hemp-preenrolado-king-size-24k",
+    "candidates": [
+      {
+        "productId": "10196",
+        "slug": "gold-cone-1u",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.46,
+        "ratio": 0.8
+      }
+    ]
+  },
+  {
+    "offerId": "12273",
+    "tienda": "astrogrowshop",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "Paper Flavour 1 1/4 Crazy Coco- Lion Rolling Circus",
+    "precio": 1290,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/paper-flavour-1-14-crazy-coco-lion-rolling-circus",
+    "candidates": [
+      {
+        "productId": "10646",
+        "slug": "flavored-1-1-4",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.36,
+        "ratio": 0.99
+      },
+      {
+        "productId": "10234",
+        "slug": "case-1-1-4",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.36,
+        "ratio": 0.52
+      },
+      {
+        "productId": "10707",
+        "slug": "celulosa-transparente-1-1-4",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.72
+      }
+    ]
+  },
+  {
+    "offerId": "12274",
+    "tienda": "astrogrowshop",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "Paper Flavour 1 1/4 Electric Grape- Lion Rolling Circus",
+    "precio": 1290,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/paper-flavour-1-14-electric-grape-lion-rolling-circus",
+    "candidates": [
+      {
+        "productId": "10646",
+        "slug": "flavored-1-1-4",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.36,
+        "ratio": 0.99
+      },
+      {
+        "productId": "10234",
+        "slug": "case-1-1-4",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.36,
+        "ratio": 0.52
+      },
+      {
+        "productId": "10707",
+        "slug": "celulosa-transparente-1-1-4",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.72
+      }
+    ]
+  },
+  {
+    "offerId": "12622",
+    "tienda": "astrogrowshop",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "Papel Ultra Thin King Size Silver- Lion Rolling Circus",
+    "precio": 1990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/papel-ultra-thin-king-size-silver-lion-rolling-circus",
+    "candidates": [
+      {
+        "productId": "10655",
+        "slug": "silver-big-smoke",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 2.21
+      },
+      {
+        "productId": "10732",
+        "slug": "flavored-big-smoke",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 0.83
+      },
+      {
+        "productId": "10620",
+        "slug": "small",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.37
+      }
+    ]
+  },
+  {
+    "offerId": "20013",
+    "tienda": "fumetas",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "\"LRC Bandeja Silverfuck &amp",
+    "precio": null,
+    "categoria": "7390",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "20100",
+    "tienda": "fumetas",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "\"Bandeja LRC SIlverfuck &amp",
+    "precio": null,
+    "categoria": "5490",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "37204",
+    "tienda": "fumetas",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "LRC Blunt Hemp Wrap x2 - Sabores - Strawberry",
+    "precio": 1290,
+    "categoria": "Conos y blunts",
+    "url": "https://fumetas.cl/lrc-blunt-hemp-wrap-sabores-surtidos?variant=Strawberry",
+    "candidates": [
+      {
+        "productId": "10654",
+        "slug": "terpenes-strawberry-shortcake",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 0.74
+      }
+    ]
+  },
+  {
+    "offerId": "37209",
+    "tienda": "fumetas",
+    "brandKey": "lion-rolling-circus",
+    "titulo": "LRC Blunt Hemp Wrap x2 - Sabores - Grape",
+    "precio": 1290,
+    "categoria": "Conos y blunts",
+    "url": "https://fumetas.cl/lrc-blunt-hemp-wrap-sabores-surtidos?variant=Grape",
+    "candidates": [
+      {
+        "productId": "10567",
+        "slug": "hemp-wrap-electric-grape",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.31,
+        "ratio": 0.76
+      }
+    ]
+  },
+  {
+    "offerId": "13592",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Up On Cloud9",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-up-on-cloud9",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.43,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "19509",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete The S*x Is Out Of This World",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-the-sx-is-out-of-this-world",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20025",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Bong Blast",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-bong-blast",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20026",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Brain Fried",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-brain-fried",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20027",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Cheesy Descovery",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-cheesy-descovery",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20028",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "\"Naar Encendedor Soplete Fries &amp",
+    "precio": null,
+    "categoria": "12990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "20029",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "\"Naar Encendedor Soplete Goin&#39",
+    "precio": null,
+    "categoria": "12990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "20030",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Moo B*tch!",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-moo-btch",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20031",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Wild Side",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-wild-side",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.5,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "20106",
+    "tienda": "fumetas",
+    "brandKey": "naar",
+    "titulo": "Naar Encendedor Soplete Eyeconic",
+    "precio": 12990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/naar-encendedor-soplete-eyeconic",
+    "candidates": [
+      {
+        "productId": "10845",
+        "slug": "one",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.6,
+        "ratio": 0.96
+      }
+    ]
+  },
+  {
+    "offerId": "19789",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Techbag - Anti Olor",
+    "precio": 54990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-techbag-anti-olor",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 1.08
+      }
+    ]
+  },
+  {
+    "offerId": "34291",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche grande - Anti-olor - Rosado",
+    "precio": 36990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-grande?variant=Rosado",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.73
+      }
+    ]
+  },
+  {
+    "offerId": "34292",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche grande - Anti-olor - Cian",
+    "precio": 36990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-grande?variant=Cian",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.73
+      }
+    ]
+  },
+  {
+    "offerId": "34296",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche mediano - Anti-olor - Rosado",
+    "precio": 32990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-mediano?variant=Rosado",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.65
+      }
+    ]
+  },
+  {
+    "offerId": "34297",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche mediano - Anti-olor - Cian",
+    "precio": 32990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-mediano?variant=Cian",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.65
+      }
+    ]
+  },
+  {
+    "offerId": "34299",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche pequeño - Anti-olor - Morado",
+    "precio": 28990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-pequeno?variant=Morado",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.57
+      }
+    ]
+  },
+  {
+    "offerId": "34300",
+    "tienda": "fumetas",
+    "brandKey": "ozeta",
+    "titulo": "Ozeta Estuche pequeño - Anti-olor - Rosado",
+    "precio": 28990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/ozeta-estuche-pequeno?variant=Rosado",
+    "candidates": [
+      {
+        "productId": "10547",
+        "slug": "techbag",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.57
+      }
+    ]
+  },
+  {
+    "offerId": "18165",
+    "tienda": "astrogrowshop",
+    "brandKey": "piecemaker",
+    "titulo": "Kirby - Pmg",
+    "precio": 44990,
+    "categoria": "Otros parafernalia",
+    "url": "https://astrogrowshop.cl/kirby-pmg",
+    "candidates": [
+      {
+        "productId": "10645",
+        "slug": "kirby",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.21
+      }
+    ]
+  },
+  {
+    "offerId": "17204",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "New Peak Pro Dessert-Puffco",
+    "precio": 467490,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://astrogrowshop.cl/new-peak-pro-dessert-puffco",
+    "candidates": [
+      {
+        "productId": "10649",
+        "slug": "peak-pro",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.93
+      }
+    ]
+  },
+  {
+    "offerId": "1143",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Bandeja Rolado Metalica 18X12Cm Raw 2",
+    "precio": 1490,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://astrogrowshop.cl/bandeja-rolado-metalica-18x12cm-raw-2",
+    "candidates": [
+      {
+        "productId": "10622",
+        "slug": "metal-metal-large",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.14
+      },
+      {
+        "productId": "10617",
+        "slug": "metal-metal-medium",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.19
+      }
+    ]
+  },
+  {
+    "offerId": "2525",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Papelillos Classic King Size Slim 50 Ud-Raw",
+    "precio": 49990,
+    "categoria": "Papelillos",
+    "url": "https://astrogrowshop.cl/papelillos-classic-king-size-slim-50-ud-raw",
+    "candidates": []
+  },
+  {
+    "offerId": "12172",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Bandeja Rolado Metalica 18X12Cm Raw Girl",
+    "precio": 1490,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://astrogrowshop.cl/bandeja-rolado-metalica-18x12cm-raw-girl",
+    "candidates": [
+      {
+        "productId": "10622",
+        "slug": "metal-metal-large",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.14
+      },
+      {
+        "productId": "10617",
+        "slug": "metal-metal-medium",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.19
+      }
+    ]
+  },
+  {
+    "offerId": "12174",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Bandeja Rolado Metalica 28X18Cm Raw Mix",
+    "precio": 2990,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://astrogrowshop.cl/bandeja-rolado-metalica-28x18cm-raw-mix",
+    "candidates": [
+      {
+        "productId": "10622",
+        "slug": "metal-metal-large",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.27
+      },
+      {
+        "productId": "10617",
+        "slug": "metal-metal-medium",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.39
+      }
+    ]
+  },
+  {
+    "offerId": "12220",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Bandeja Rolado Metalica 18X12Cm Raw",
+    "precio": 1490,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://astrogrowshop.cl/bandeja-rolado-metalica-18x12cm-raw",
+    "candidates": [
+      {
+        "productId": "10622",
+        "slug": "metal-metal-large",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.14
+      },
+      {
+        "productId": "10617",
+        "slug": "metal-metal-medium",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.19
+      }
+    ]
+  },
+  {
+    "offerId": "12221",
+    "tienda": "astrogrowshop",
+    "brandKey": "raw",
+    "titulo": "Bandeja Rolado Metalica 28X18Cm Raw",
+    "precio": 2990,
+    "categoria": "Bandejas y ceniceros",
+    "url": "https://astrogrowshop.cl/bandeja-rolado-metalica-28x18cm-raw",
+    "candidates": [
+      {
+        "productId": "10622",
+        "slug": "metal-metal-large",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.27
+      },
+      {
+        "productId": "10617",
+        "slug": "metal-metal-medium",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.39
+      }
+    ]
+  },
+  {
+    "offerId": "19342",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "Raw Tubo Contenedor de Aluminio",
+    "precio": 4990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://fumetas.cl/raw-tubo-contenedor-de-aluminio",
+    "candidates": [
+      {
+        "productId": "10686",
+        "slug": "reserva-contenedor",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 0.5
+      }
+    ]
+  },
+  {
+    "offerId": "730",
+    "tienda": "astrogrowshop",
+    "brandKey": "soulblime",
+    "titulo": "Contenedor Con Tapa Diseños Mix Display 9 Und-Soulblime",
+    "precio": 39990,
+    "categoria": "Contenedores y estuches",
+    "url": "https://astrogrowshop.cl/contenedor-con-tapa-disenos-mix-display-9-und-soulblime",
+    "candidates": [
+      {
+        "productId": "10736",
+        "slug": "desmontable",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.3,
+        "ratio": 16.06
+      }
+    ]
+  },
+  {
+    "offerId": "78744",
+    "tienda": "astrogrowshop",
+    "brandKey": "soulblime",
+    "titulo": "CONTENEDORA TAPA DESMONTABLE (COLORES VARIADOS) - SOULBLIME",
+    "precio": 2490,
+    "categoria": "Contenedores y estuches",
+    "url": "https://astrogrowshop.cl/contenedora-tapa-desmontable-colores-variados-soulblime",
+    "candidates": [
+      {
+        "productId": "10736",
+        "slug": "desmontable",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.38,
+        "ratio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "736",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Bolsa Volcano 3 Metros-Storz &amp",
+    "precio": null,
+    "categoria": "6990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "799",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Almohadillas De Relleno Volcano Y Plenty 2Pcs-Storz &amp",
+    "precio": null,
+    "categoria": "9990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "806",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Capsulas Monodosis 40 Unidades Con Tampon-Storz &amp",
+    "precio": null,
+    "categoria": "99990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "808",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"CIERRES DE LA TAPA PARA MIGHTY+/CRAFTY+ 3U-STORZ &amp",
+    "precio": null,
+    "categoria": "13690",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "2592",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Volcano Hybrid Starter Set-Storz &amp",
+    "precio": null,
+    "categoria": "199990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "12149",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Bolsa De Repuesto Volcano 1X3Mt-Storz &amp",
+    "precio": null,
+    "categoria": "12990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "12158",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"MALLAS GRUESAS PARA VENTY/VEAZY/CRAFTY+/MIGHTY+ 6U-STORZ &amp",
+    "precio": null,
+    "categoria": "8990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "12434",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Juego De Anillo De Sellado Para Venty-Storz &amp",
+    "precio": null,
+    "categoria": "14990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "12551",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"EMPUJADOR PARA CÁPSULAS MONODOSIS-STORZ &amp",
+    "precio": null,
+    "categoria": "12190",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "18126",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Solid Valve Camara Llenado Para Liquidos + Almohadillas-Storz &amp",
+    "precio": null,
+    "categoria": "69990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "18168",
+    "tienda": "astrogrowshop",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Almohadillas Para Liquidos -Storz &amp",
+    "precio": null,
+    "categoria": "6990",
+    "url": "2026-07-27",
+    "candidates": []
+  },
+  {
+    "offerId": "19533",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "9990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "19537",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "5990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "19930",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Juego de Piezas de Desgastes Volcano Storz &amp",
+    "precio": null,
+    "categoria": "75990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "20125",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "79990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "20226",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "6990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "36163",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "25990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "49934",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "28990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "49935",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "28990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "49936",
+    "tienda": "fumetas",
+    "brandKey": "storz-bickel",
+    "titulo": "\"Storz &amp",
+    "precio": null,
+    "categoria": "28990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "8140",
+    "tienda": "fumetas",
+    "brandKey": "the-bulldog",
+    "titulo": "Pipa Set Metalica The Bulldog Amsterdam Tornasol",
+    "precio": 7990,
+    "categoria": "Pipas",
+    "url": "https://fumetas.cl/pipa-set-metalica-the-bulldog-amsterdam-tornasol",
+    "candidates": [
+      {
+        "productId": "10400",
+        "slug": "pipa-metalica-rejillas",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.4,
+        "ratio": 2.08
+      }
+    ]
+  },
+  {
+    "offerId": "8155",
+    "tienda": "fumetas",
+    "brandKey": "the-bulldog",
+    "titulo": "Pipa Set The Bulldog Amsterdam",
+    "precio": 4790,
+    "categoria": "Pipas",
+    "url": "https://fumetas.cl/pipa-set-the-bulldog-amsterdam",
+    "candidates": [
+      {
+        "productId": "10400",
+        "slug": "pipa-metalica-rejillas",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.25
+      }
+    ]
+  },
+  {
+    "offerId": "19577",
+    "tienda": "fumetas",
+    "brandKey": "the-bulldog",
+    "titulo": "\"Cenicero Bulldog Black &amp",
+    "precio": null,
+    "categoria": "7990",
+    "url": "2026-07-21",
+    "candidates": []
+  },
+  {
+    "offerId": "19969",
+    "tienda": "fumetas",
+    "brandKey": "yocan",
+    "titulo": "Yocan Vaporizador Batería Ziva - Cartridges",
+    "precio": 21990,
+    "categoria": "Accesorios de extraccion",
+    "url": "https://fumetas.cl/yocan-vaporizador-ziva",
+    "candidates": [
+      {
+        "productId": "10548",
+        "slug": "flat",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.43,
+        "ratio": 2.2
+      },
+      {
+        "productId": "10521",
+        "slug": "kodo-pro",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1.47
+      }
+    ]
+  },
+  {
+    "offerId": "12956",
+    "tienda": "fumetas",
+    "brandKey": "zippo",
+    "titulo": "Encendedor Zippo Classic Black Crackle",
+    "precio": 39990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/encendedor-zippo-classic-black-crackle",
+    "candidates": [
+      {
+        "productId": "10737",
+        "slug": "classic-high-polish-green",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "19387",
+    "tienda": "fumetas",
+    "brandKey": "zippo",
+    "titulo": "Encendedor Zippo Classic High Polish Purple",
+    "precio": 44990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/encendedor-zippo-classic-high-polish-purple",
+    "candidates": [
+      {
+        "productId": "10737",
+        "slug": "classic-high-polish-green",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.63,
+        "ratio": 1.13
+      }
+    ]
+  },
+  {
+    "offerId": "19483",
+    "tienda": "fumetas",
+    "brandKey": "zippo",
+    "titulo": "Encendedor Zippo Classic Purple Matte",
+    "precio": 36990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/encendedor-zippo-classic-purple-matte",
+    "candidates": [
+      {
+        "productId": "10737",
+        "slug": "classic-high-polish-green",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.92
+      }
+    ]
+  },
+  {
+    "offerId": "19914",
+    "tienda": "fumetas",
+    "brandKey": "zippo",
+    "titulo": "Encendedor Zippo Merlot",
+    "precio": 35990,
+    "categoria": "Encendedores y sopletes",
+    "url": "https://fumetas.cl/encendedor-zippo-merlot",
+    "candidates": [
+      {
+        "productId": "10426",
+        "slug": "santa-cruz-design",
+        "storeCount": 2,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 0.78
+      },
+      {
+        "productId": "10362",
+        "slug": "piedras-encendedor-6u",
+        "storeCount": 3,
+        "frozen": false,
+        "sim": 0.33,
+        "ratio": 19.99
+      }
+    ]
+  }
+]

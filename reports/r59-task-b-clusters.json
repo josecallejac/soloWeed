@@ -1,0 +1,516 @@
+[
+  {
+    "brandKey": "bonglab",
+    "categoria": "Bongs",
+    "offers": [
+      {
+        "offerId": "17737",
+        "tienda": "astrogrowshop",
+        "titulo": "Pack Bong Bonglab Little Buchner KS10",
+        "precio": 33990
+      },
+      {
+        "offerId": "37482",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Rosado",
+        "precio": 22990
+      },
+      {
+        "offerId": "37483",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Negro",
+        "precio": 22990
+      },
+      {
+        "offerId": "37486",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Ámbar",
+        "precio": 22990
+      },
+      {
+        "offerId": "37484",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Azul",
+        "precio": 22990
+      },
+      {
+        "offerId": "37485",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Verde",
+        "precio": 22990
+      },
+      {
+        "offerId": "32526",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Little Buchner KS10 - azul",
+        "precio": 24990
+      },
+      {
+        "offerId": "32527",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Little Buchner KS10 - verde",
+        "precio": 24990
+      },
+      {
+        "offerId": "32529",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Little Buchner KS10 - Ámbar",
+        "precio": 24990
+      }
+    ],
+    "storeCount": 3
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Bongs",
+    "offers": [
+      {
+        "offerId": "34672",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong KS11 Classic Ice 26cm - Rosado",
+        "precio": 22990
+      },
+      {
+        "offerId": "17736",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Classic Ice KS11",
+        "precio": 33990
+      },
+      {
+        "offerId": "32522",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Classic Ice KS11 - verde",
+        "precio": 24990
+      },
+      {
+        "offerId": "32524",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Classic Ice KS11 - AMBAR",
+        "precio": 24990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "galaxy",
+    "categoria": "Moledores",
+    "offers": [
+      {
+        "offerId": "33674",
+        "tienda": "fumetas",
+        "titulo": "Moledor Galaxy Aluminio 73 mm - Azul",
+        "precio": 31990
+      },
+      {
+        "offerId": "31156",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 55 mm de Aluminio - azul",
+        "precio": 19990
+      },
+      {
+        "offerId": "31150",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 38 mm de Aluminio - azul",
+        "precio": 17990
+      },
+      {
+        "offerId": "31165",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 63 mm de Aluminio - azul",
+        "precio": 22990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "galaxy",
+    "categoria": "Moledores",
+    "offers": [
+      {
+        "offerId": "33678",
+        "tienda": "fumetas",
+        "titulo": "Moledor Galaxy Aluminio 73 mm - Dorado",
+        "precio": 31990
+      },
+      {
+        "offerId": "31152",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 38 mm de Aluminio - Dorado",
+        "precio": 17990
+      },
+      {
+        "offerId": "31169",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 63 mm de Aluminio - Dorado",
+        "precio": 22990
+      },
+      {
+        "offerId": "31160",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 55 mm de Aluminio - Dorado",
+        "precio": 19990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "galaxy",
+    "categoria": "Moledores",
+    "offers": [
+      {
+        "offerId": "33679",
+        "tienda": "fumetas",
+        "titulo": "Moledor Galaxy Aluminio 73 mm - Verde",
+        "precio": 31990
+      },
+      {
+        "offerId": "31164",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 63 mm de Aluminio - verde",
+        "precio": 22990
+      },
+      {
+        "offerId": "31157",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 55 mm de Aluminio - verde",
+        "precio": 19990
+      },
+      {
+        "offerId": "31149",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Galaxy 38 mm de Aluminio - verde",
+        "precio": 17990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "sploofy",
+    "categoria": "Filtros y boquillas",
+    "offers": [
+      {
+        "offerId": "18024",
+        "tienda": "astrogrowshop",
+        "titulo": "Filtro Personal Pro II -Sploofy",
+        "precio": 34990
+      },
+      {
+        "offerId": "36571",
+        "tienda": "fumetas",
+        "titulo": "Sploofy Pro Filtro Personal - Rojo",
+        "precio": 29990
+      },
+      {
+        "offerId": "36572",
+        "tienda": "fumetas",
+        "titulo": "Sploofy Pro Filtro Personal - Negro",
+        "precio": 29990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Accesorios de extraccion",
+    "offers": [
+      {
+        "offerId": "12621",
+        "tienda": "astrogrowshop",
+        "titulo": "Papel Para Rosin Tradicional- Bonglab",
+        "precio": 7990
+      },
+      {
+        "offerId": "70529",
+        "tienda": "kushbreak",
+        "titulo": "Papel rosin tradicional",
+        "precio": 7990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "offers": [
+      {
+        "offerId": "33997",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Quemador Perlas - Macho 18mm - Turquesa",
+        "precio": 4890
+      },
+      {
+        "offerId": "31409",
+        "tienda": "astro growshop",
+        "titulo": "Quemador Macho 18Mm -Bonglab - Morado",
+        "precio": 5990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Bongs",
+    "offers": [
+      {
+        "offerId": "34505",
+        "tienda": "fumetas",
+        "titulo": "BongLab Bong W06 Fat Candy 25cm - Verde",
+        "precio": 30990
+      },
+      {
+        "offerId": "33322",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Fat Candy - verde",
+        "precio": 32990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Bongs",
+    "offers": [
+      {
+        "offerId": "34506",
+        "tienda": "fumetas",
+        "titulo": "BongLab Bong W06 Fat Candy 25cm - Ámbar",
+        "precio": 30990
+      },
+      {
+        "offerId": "33325",
+        "tienda": "astro growshop",
+        "titulo": "Pack Bong Bonglab Fat Candy - Ámbar",
+        "precio": 32990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "bonglab",
+    "categoria": "Bongs",
+    "offers": [
+      {
+        "offerId": "34959",
+        "tienda": "fumetas",
+        "titulo": "Bonglab Bong The Sheikh 42cm - Azul",
+        "precio": 75990
+      },
+      {
+        "offerId": "31726",
+        "tienda": "astro growshop",
+        "titulo": "The Sheikh 42Cm -Bonglab - Morado",
+        "precio": 55990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "calvo",
+    "categoria": "Accesorios de extraccion",
+    "offers": [
+      {
+        "offerId": "19283",
+        "tienda": "fumetas",
+        "titulo": "Calvo Terp Balls Luminosas 4mm",
+        "precio": 4990
+      },
+      {
+        "offerId": "70870",
+        "tienda": "growbarato chile",
+        "titulo": "Calvo Terp Balls Luminosas 4mm | Perlas para Banger y Dabs",
+        "precio": 4500
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "dynavap",
+    "categoria": "Vaporizadores herbales",
+    "offers": [
+      {
+        "offerId": "35561",
+        "tienda": "fumetas",
+        "titulo": "Vaporizador DynaVap Kit G3",
+        "precio": 44990
+      },
+      {
+        "offerId": "78694",
+        "tienda": "astro growshop",
+        "titulo": "Vaporizador DynaVap Kit G3 Black- Black",
+        "precio": 44990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "galaxy",
+    "categoria": "Moledores",
+    "offers": [
+      {
+        "offerId": "33554",
+        "tienda": "fumetas",
+        "titulo": "Moledor Galaxy Aluminio 63mm - Oro rosa",
+        "precio": 20990
+      },
+      {
+        "offerId": "31203",
+        "tienda": "astro growshop",
+        "titulo": "Moledor 63MM -Galaxy - Oro rosa",
+        "precio": 21990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "galaxy",
+    "categoria": "Moledores",
+    "offers": [
+      {
+        "offerId": "33556",
+        "tienda": "fumetas",
+        "titulo": "Moledor Galaxy Aluminio 63mm - Azul",
+        "precio": 20990
+      },
+      {
+        "offerId": "4266",
+        "tienda": "astro growshop",
+        "titulo": "Pack Moledor Aluminio Case Azul 63Mm - Galaxy",
+        "precio": 36990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "ocb",
+    "categoria": "Otros parafernalia",
+    "offers": [
+      {
+        "offerId": "19750",
+        "tienda": "fumetas",
+        "titulo": "Enroladora Automática OCB Metálica",
+        "precio": 12990
+      },
+      {
+        "offerId": "11244",
+        "tienda": "piranha",
+        "titulo": "Máquina Enroladora Metálica OCB Nº1",
+        "precio": 6490
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "ocb",
+    "categoria": "Filtros y boquillas",
+    "offers": [
+      {
+        "offerId": "20108",
+        "tienda": "fumetas",
+        "titulo": "OCB Virgin Rolled Tips – Boquillas Preenrroladas",
+        "precio": 2750
+      },
+      {
+        "offerId": "69946",
+        "tienda": "kushbreak",
+        "titulo": "Rolled tips OCB®",
+        "precio": 2500
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "puffco",
+    "categoria": "Accesorios de extraccion",
+    "offers": [
+      {
+        "offerId": "18194",
+        "tienda": "astrogrowshop",
+        "titulo": "ACCESORIO CORE PARA NEW PROXY - PUFFCO",
+        "precio": 89990
+      },
+      {
+        "offerId": "16170",
+        "tienda": "piranha",
+        "titulo": "Accesorio Puffco Proxy Core | PIRANHA",
+        "precio": 104491
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "raw",
+    "categoria": "Otros parafernalia",
+    "offers": [
+      {
+        "offerId": "19563",
+        "tienda": "fumetas",
+        "titulo": "Bolsa RAW Tote Bag",
+        "precio": 7990
+      },
+      {
+        "offerId": "93353",
+        "tienda": "piranha",
+        "titulo": "Bolsa RAW Tote Bag 40x60cm | PIRANHA",
+        "precio": 7990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "raw",
+    "categoria": "Bandejas y ceniceros",
+    "offers": [
+      {
+        "offerId": "19769",
+        "tienda": "fumetas",
+        "titulo": "Llavero Raw Bandeja Miniatura",
+        "precio": 3990
+      },
+      {
+        "offerId": "93721",
+        "tienda": "piranha",
+        "titulo": "Llavero RAW Bandeja Miniatura Silver | PIRANHA",
+        "precio": 3990
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "raw",
+    "categoria": "Otros parafernalia",
+    "offers": [
+      {
+        "offerId": "37085",
+        "tienda": "fumetas",
+        "titulo": "Polera Raw - Beige M",
+        "precio": 23990
+      },
+      {
+        "offerId": "15965",
+        "tienda": "piranha",
+        "titulo": "Polera RAW Beige (S/M/L/XL) | PIRANHA",
+        "precio": 14993
+      }
+    ],
+    "storeCount": 2
+  },
+  {
+    "brandKey": "soulblime",
+    "categoria": "Conos y blunts",
+    "offers": [
+      {
+        "offerId": "31785",
+        "tienda": "astrogrowshop",
+        "titulo": "BLUNT HEMP WRAPS SABORES - SOULBLIME - CHOCOMINT",
+        "precio": 1000
+      },
+      {
+        "offerId": "79859",
+        "tienda": "piranha",
+        "titulo": "Hemp Wraps Blunt Soulblime | PIRANHA",
+        "precio": 1000
+      }
+    ],
+    "storeCount": 2
+  }
+]

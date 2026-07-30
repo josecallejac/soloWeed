@@ -1,0 +1,938 @@
+[
+  {
+    "offerId": "181",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Mallas de Rosin 25/90/120/160 Micras-Bonglab",
+    "precio": 8990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "71151",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Mallas Rosin 25, 90, 120 y 160 Micras Bonglab | Extracción Rosin",
+        "partnerPrice": 7200,
+        "sim": 0.89,
+        "priceRatio": 1.25
+      }
+    ]
+  },
+  {
+    "offerId": "12621",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Papel Para Rosin Tradicional- Bonglab",
+    "precio": 7990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "70529",
+        "partnerStore": "Kushbreak",
+        "partnerTitle": "Papel rosin tradicional",
+        "partnerPrice": 7990,
+        "sim": 0.75,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "17737",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Pack Bong Bonglab Little Buchner KS10",
+    "precio": 33990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "37482",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Bonglab Bong KS10 Little Buchner 25cm - Rosado",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      },
+      {
+        "partnerId": "37483",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Bonglab Bong KS10 Little Buchner 25cm - Negro",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      },
+      {
+        "partnerId": "37486",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Bonglab Bong KS10 Little Buchner 25cm - Ámbar",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      },
+      {
+        "partnerId": "37484",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Bonglab Bong KS10 Little Buchner 25cm - Azul",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      },
+      {
+        "partnerId": "37485",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Bonglab Bong KS10 Little Buchner 25cm - Verde",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "33013",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Mallas de Rosin 25/90/120/160 Micras-Bonglab - 160 micras",
+    "precio": 9990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "71151",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Mallas Rosin 25, 90, 120 y 160 Micras Bonglab | Extracción Rosin",
+        "partnerPrice": 7200,
+        "sim": 0.89,
+        "priceRatio": 1.39
+      }
+    ]
+  },
+  {
+    "offerId": "33014",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Mallas de Rosin 25/90/120/160 Micras-Bonglab - 120 micras",
+    "precio": 8990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "71151",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Mallas Rosin 25, 90, 120 y 160 Micras Bonglab | Extracción Rosin",
+        "partnerPrice": 7200,
+        "sim": 0.89,
+        "priceRatio": 1.25
+      }
+    ]
+  },
+  {
+    "offerId": "33015",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Mallas de Rosin 25/90/120/160 Micras-Bonglab - 90 micras",
+    "precio": 8990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "71151",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Mallas Rosin 25, 90, 120 y 160 Micras Bonglab | Extracción Rosin",
+        "partnerPrice": 7200,
+        "sim": 0.89,
+        "priceRatio": 1.25
+      }
+    ]
+  },
+  {
+    "offerId": "33016",
+    "tienda": "astrogrowshop",
+    "brandKey": "bonglab",
+    "titulo": "Mallas de Rosin 25/90/120/160 Micras-Bonglab - 25 micras",
+    "precio": 8990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "71151",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Mallas Rosin 25, 90, 120 y 160 Micras Bonglab | Extracción Rosin",
+        "partnerPrice": 7200,
+        "sim": 0.89,
+        "priceRatio": 1.25
+      }
+    ]
+  },
+  {
+    "offerId": "33997",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Quemador Perlas - Macho 18mm - Turquesa",
+    "precio": 4890,
+    "categoria": "Repuestos para bongs y vaporizadores",
+    "pairs": [
+      {
+        "partnerId": "31409",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Quemador Macho 18Mm -Bonglab - Morado",
+        "partnerPrice": 5990,
+        "sim": 0.57,
+        "priceRatio": 1.22
+      }
+    ]
+  },
+  {
+    "offerId": "34505",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "BongLab Bong W06 Fat Candy 25cm - Verde",
+    "precio": 30990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "33322",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Fat Candy - verde",
+        "partnerPrice": 32990,
+        "sim": 0.57,
+        "priceRatio": 1.06
+      }
+    ]
+  },
+  {
+    "offerId": "34506",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "BongLab Bong W06 Fat Candy 25cm - Ámbar",
+    "precio": 30990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "33325",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Fat Candy - Ámbar",
+        "partnerPrice": 32990,
+        "sim": 0.57,
+        "priceRatio": 1.06
+      }
+    ]
+  },
+  {
+    "offerId": "34672",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS11 Classic Ice 26cm - Rosado",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "17736",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Classic Ice KS11",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "34673",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS11 Classic Ice 26cm - Verde",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "32522",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Classic Ice KS11 - verde",
+        "partnerPrice": 24990,
+        "sim": 0.71,
+        "priceRatio": 1.09
+      },
+      {
+        "partnerId": "17736",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Classic Ice KS11",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "34675",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS11 Classic Ice 26cm - Ámbar",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "32524",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Classic Ice KS11 - AMBAR",
+        "partnerPrice": 24990,
+        "sim": 0.71,
+        "priceRatio": 1.09
+      },
+      {
+        "partnerId": "17736",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Classic Ice KS11",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "34959",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong The Sheikh 42cm - Azul",
+    "precio": 75990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "31726",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "The Sheikh 42Cm -Bonglab - Morado",
+        "partnerPrice": 55990,
+        "sim": 0.6,
+        "priceRatio": 1.36
+      }
+    ]
+  },
+  {
+    "offerId": "34960",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong The Sheikh 42cm - Verde",
+    "precio": 75990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "31726",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "The Sheikh 42Cm -Bonglab - Morado",
+        "partnerPrice": 55990,
+        "sim": 0.6,
+        "priceRatio": 1.36
+      }
+    ]
+  },
+  {
+    "offerId": "34964",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong The Sheikh 42cm - Turquesa",
+    "precio": 75990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "31726",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "The Sheikh 42Cm -Bonglab - Morado",
+        "partnerPrice": 55990,
+        "sim": 0.6,
+        "priceRatio": 1.36
+      }
+    ]
+  },
+  {
+    "offerId": "37484",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Azul",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "32526",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10 - azul",
+        "partnerPrice": 24990,
+        "sim": 0.71,
+        "priceRatio": 1.09
+      },
+      {
+        "partnerId": "17737",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "37485",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Verde",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "32527",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10 - verde",
+        "partnerPrice": 24990,
+        "sim": 0.71,
+        "priceRatio": 1.09
+      },
+      {
+        "partnerId": "17737",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "37486",
+    "tienda": "fumetas",
+    "brandKey": "bonglab",
+    "titulo": "Bonglab Bong KS10 Little Buchner 25cm - Ámbar",
+    "precio": 22990,
+    "categoria": "Bongs",
+    "pairs": [
+      {
+        "partnerId": "32529",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10 - Ámbar",
+        "partnerPrice": 24990,
+        "sim": 0.71,
+        "priceRatio": 1.09
+      },
+      {
+        "partnerId": "17737",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Bong Bonglab Little Buchner KS10",
+        "partnerPrice": 33990,
+        "sim": 0.57,
+        "priceRatio": 1.48
+      }
+    ]
+  },
+  {
+    "offerId": "19283",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Terp Balls Luminosas 4mm",
+    "precio": 4990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "70870",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Calvo Terp Balls Luminosas 4mm | Perlas para Banger y Dabs",
+        "partnerPrice": 4500,
+        "sim": 0.63,
+        "priceRatio": 1.11
+      }
+    ]
+  },
+  {
+    "offerId": "35692",
+    "tienda": "fumetas",
+    "brandKey": "calvo",
+    "titulo": "Calvo Terp Balls Luminosas 4mm - Verde",
+    "precio": 4990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "70870",
+        "partnerStore": "GrowBarato Chile",
+        "partnerTitle": "Calvo Terp Balls Luminosas 4mm | Perlas para Banger y Dabs",
+        "partnerPrice": 4500,
+        "sim": 0.56,
+        "priceRatio": 1.11
+      }
+    ]
+  },
+  {
+    "offerId": "35561",
+    "tienda": "fumetas",
+    "brandKey": "dynavap",
+    "titulo": "Vaporizador DynaVap Kit G3",
+    "precio": 44990,
+    "categoria": "Vaporizadores herbales",
+    "pairs": [
+      {
+        "partnerId": "78694",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Vaporizador DynaVap Kit G3 Black- Black",
+        "partnerPrice": 44990,
+        "sim": 0.75,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "33554",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Moledor Galaxy Aluminio 63mm - Oro rosa",
+    "precio": 20990,
+    "categoria": "Moledores",
+    "pairs": [
+      {
+        "partnerId": "31203",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Moledor 63MM -Galaxy - Oro rosa",
+        "partnerPrice": 21990,
+        "sim": 0.8,
+        "priceRatio": 1.05
+      }
+    ]
+  },
+  {
+    "offerId": "33556",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Moledor Galaxy Aluminio 63mm - Azul",
+    "precio": 20990,
+    "categoria": "Moledores",
+    "pairs": [
+      {
+        "partnerId": "4266",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Aluminio Case Azul 63Mm - Galaxy",
+        "partnerPrice": 36990,
+        "sim": 0.67,
+        "priceRatio": 1.76
+      },
+      {
+        "partnerId": "31080",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Lightning Grinder 63Mm-Galaxy - azul",
+        "partnerPrice": 23990,
+        "sim": 0.6,
+        "priceRatio": 1.14
+      }
+    ]
+  },
+  {
+    "offerId": "33674",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Moledor Galaxy Aluminio 73 mm - Azul",
+    "precio": 31990,
+    "categoria": "Moledores",
+    "pairs": [
+      {
+        "partnerId": "31156",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 55 mm de Aluminio - azul",
+        "partnerPrice": 19990,
+        "sim": 0.57,
+        "priceRatio": 1.6
+      },
+      {
+        "partnerId": "31150",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 38 mm de Aluminio - azul",
+        "partnerPrice": 17990,
+        "sim": 0.57,
+        "priceRatio": 1.78
+      },
+      {
+        "partnerId": "31165",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 63 mm de Aluminio - azul",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.39
+      }
+    ]
+  },
+  {
+    "offerId": "33678",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Moledor Galaxy Aluminio 73 mm - Dorado",
+    "precio": 31990,
+    "categoria": "Moledores",
+    "pairs": [
+      {
+        "partnerId": "31152",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 38 mm de Aluminio - Dorado",
+        "partnerPrice": 17990,
+        "sim": 0.57,
+        "priceRatio": 1.78
+      },
+      {
+        "partnerId": "31169",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 63 mm de Aluminio - Dorado",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.39
+      },
+      {
+        "partnerId": "31160",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 55 mm de Aluminio - Dorado",
+        "partnerPrice": 19990,
+        "sim": 0.57,
+        "priceRatio": 1.6
+      }
+    ]
+  },
+  {
+    "offerId": "33679",
+    "tienda": "fumetas",
+    "brandKey": "galaxy",
+    "titulo": "Moledor Galaxy Aluminio 73 mm - Verde",
+    "precio": 31990,
+    "categoria": "Moledores",
+    "pairs": [
+      {
+        "partnerId": "31164",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 63 mm de Aluminio - verde",
+        "partnerPrice": 22990,
+        "sim": 0.57,
+        "priceRatio": 1.39
+      },
+      {
+        "partnerId": "31157",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 55 mm de Aluminio - verde",
+        "partnerPrice": 19990,
+        "sim": 0.57,
+        "priceRatio": 1.6
+      },
+      {
+        "partnerId": "31149",
+        "partnerStore": "Astro Growshop",
+        "partnerTitle": "Pack Moledor Galaxy 38 mm de Aluminio - verde",
+        "partnerPrice": 17990,
+        "sim": 0.57,
+        "priceRatio": 1.78
+      }
+    ]
+  },
+  {
+    "offerId": "19750",
+    "tienda": "fumetas",
+    "brandKey": "ocb",
+    "titulo": "Enroladora Automática OCB Metálica",
+    "precio": 12990,
+    "categoria": "Otros parafernalia",
+    "pairs": [
+      {
+        "partnerId": "11244",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Máquina Enroladora Metálica OCB Nº1",
+        "partnerPrice": 6490,
+        "sim": 0.6,
+        "priceRatio": 2
+      }
+    ]
+  },
+  {
+    "offerId": "20108",
+    "tienda": "fumetas",
+    "brandKey": "ocb",
+    "titulo": "OCB Virgin Rolled Tips – Boquillas Preenrroladas",
+    "precio": 2750,
+    "categoria": "Filtros y boquillas",
+    "pairs": [
+      {
+        "partnerId": "69946",
+        "partnerStore": "Kushbreak",
+        "partnerTitle": "Rolled tips OCB®",
+        "partnerPrice": 2500,
+        "sim": 0.6,
+        "priceRatio": 1.1
+      }
+    ]
+  },
+  {
+    "offerId": "32791",
+    "tienda": "astrogrowshop",
+    "brandKey": "ocb",
+    "titulo": "ROLLED TIPS X25 - OCB",
+    "precio": 1990,
+    "categoria": "Filtros y boquillas",
+    "pairs": [
+      {
+        "partnerId": "69946",
+        "partnerStore": "Kushbreak",
+        "partnerTitle": "Rolled tips OCB®",
+        "partnerPrice": 2500,
+        "sim": 0.75,
+        "priceRatio": 1.26
+      }
+    ]
+  },
+  {
+    "offerId": "18194",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "ACCESORIO CORE PARA NEW PROXY - PUFFCO",
+    "precio": 89990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "16170",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Accesorio Puffco Proxy Core | PIRANHA",
+        "partnerPrice": 104491,
+        "sim": 0.6,
+        "priceRatio": 1.16
+      }
+    ]
+  },
+  {
+    "offerId": "18202",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "NEW HOT KNIFE-PUFFCO",
+    "precio": 89990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "16172",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Accesorio Puffco New Hot Knife | PIRANHA",
+        "partnerPrice": 85491,
+        "sim": 0.8,
+        "priceRatio": 1.05
+      }
+    ]
+  },
+  {
+    "offerId": "33467",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "NEW HOT KNIFE-PUFFCO - ONYX",
+    "precio": 84990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "16172",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Accesorio Puffco New Hot Knife | PIRANHA",
+        "partnerPrice": 85491,
+        "sim": 0.67,
+        "priceRatio": 1.01
+      },
+      {
+        "partnerId": "34374",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Puffco Hot Knife - Dabber eléctronico - Onyx",
+        "partnerPrice": 79990,
+        "sim": 0.57,
+        "priceRatio": 1.06
+      }
+    ]
+  },
+  {
+    "offerId": "79508",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "Puffco Peak Sapphire - Vaporizador E-Rig",
+    "precio": 349990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "69333",
+        "partnerStore": "Kushbreak",
+        "partnerTitle": "Puffco Peak",
+        "partnerPrice": 349990,
+        "sim": 0.67,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "79509",
+    "tienda": "astrogrowshop",
+    "brandKey": "puffco",
+    "titulo": "Puffco Peak Zest - Vaporizador E-Rig",
+    "precio": 349990,
+    "categoria": "Accesorios de extraccion",
+    "pairs": [
+      {
+        "partnerId": "69333",
+        "partnerStore": "Kushbreak",
+        "partnerTitle": "Puffco Peak",
+        "partnerPrice": 349990,
+        "sim": 0.67,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "2074",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "RAW Cajita Metálica Black Mediana",
+    "precio": 2990,
+    "categoria": "Contenedores y estuches",
+    "pairs": [
+      {
+        "partnerId": "93936",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Cajita Metálica Porta Papelillos RAW Black 1 1/4 | PIRANHA",
+        "partnerPrice": 1990,
+        "sim": 0.57,
+        "priceRatio": 1.5
+      }
+    ]
+  },
+  {
+    "offerId": "19563",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "Bolsa RAW Tote Bag",
+    "precio": 7990,
+    "categoria": "Otros parafernalia",
+    "pairs": [
+      {
+        "partnerId": "93353",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Bolsa RAW Tote Bag 40x60cm | PIRANHA",
+        "partnerPrice": 7990,
+        "sim": 0.67,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "19769",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "Llavero Raw Bandeja Miniatura",
+    "precio": 3990,
+    "categoria": "Bandejas y ceniceros",
+    "pairs": [
+      {
+        "partnerId": "93721",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Llavero RAW Bandeja Miniatura Silver | PIRANHA",
+        "partnerPrice": 3990,
+        "sim": 0.6,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "37085",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "Polera Raw - Beige M",
+    "precio": 23990,
+    "categoria": "Otros parafernalia",
+    "pairs": [
+      {
+        "partnerId": "15965",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Polera RAW Beige (S/M/L/XL) | PIRANHA",
+        "partnerPrice": 14993,
+        "sim": 0.6,
+        "priceRatio": 1.6
+      }
+    ]
+  },
+  {
+    "offerId": "37088",
+    "tienda": "fumetas",
+    "brandKey": "raw",
+    "titulo": "Polera Raw - Beige S",
+    "precio": 23990,
+    "categoria": "Otros parafernalia",
+    "pairs": [
+      {
+        "partnerId": "15965",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Polera RAW Beige (S/M/L/XL) | PIRANHA",
+        "partnerPrice": 14993,
+        "sim": 0.6,
+        "priceRatio": 1.6
+      }
+    ]
+  },
+  {
+    "offerId": "31785",
+    "tienda": "astrogrowshop",
+    "brandKey": "soulblime",
+    "titulo": "BLUNT HEMP WRAPS SABORES - SOULBLIME - CHOCOMINT",
+    "precio": 1000,
+    "categoria": "Conos y blunts",
+    "pairs": [
+      {
+        "partnerId": "79859",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Hemp Wraps Blunt Soulblime | PIRANHA",
+        "partnerPrice": 1000,
+        "sim": 0.57,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "31786",
+    "tienda": "astrogrowshop",
+    "brandKey": "soulblime",
+    "titulo": "BLUNT HEMP WRAPS SABORES - SOULBLIME - FAVORITES",
+    "precio": 1000,
+    "categoria": "Conos y blunts",
+    "pairs": [
+      {
+        "partnerId": "79859",
+        "partnerStore": "Piranha",
+        "partnerTitle": "Hemp Wraps Blunt Soulblime | PIRANHA",
+        "partnerPrice": 1000,
+        "sim": 0.57,
+        "priceRatio": 1
+      }
+    ]
+  },
+  {
+    "offerId": "18024",
+    "tienda": "astrogrowshop",
+    "brandKey": "sploofy",
+    "titulo": "Filtro Personal Pro II -Sploofy",
+    "precio": 34990,
+    "categoria": "Filtros y boquillas",
+    "pairs": [
+      {
+        "partnerId": "36571",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Sploofy Pro Filtro Personal - Rojo",
+        "partnerPrice": 29990,
+        "sim": 0.6,
+        "priceRatio": 1.17
+      },
+      {
+        "partnerId": "36572",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Sploofy Pro Filtro Personal - Negro",
+        "partnerPrice": 29990,
+        "sim": 0.6,
+        "priceRatio": 1.17
+      }
+    ]
+  },
+  {
+    "offerId": "32770",
+    "tienda": "astrogrowshop",
+    "brandKey": "sploofy",
+    "titulo": "Filtro Personal Pro II -Sploofy - Negro",
+    "precio": 34990,
+    "categoria": "Filtros y boquillas",
+    "pairs": [
+      {
+        "partnerId": "36572",
+        "partnerStore": "Fumetas",
+        "partnerTitle": "Sploofy Pro Filtro Personal - Negro",
+        "partnerPrice": 29990,
+        "sim": 0.8,
+        "priceRatio": 1.17
+      }
+    ]
+  }
+]

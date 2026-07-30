@@ -1,0 +1,90 @@
+offerId;tienda;brandKey;productIdDestino;slugDestino;tiendasDestino;congelado;senalIdentidad;ratioPrecio;sumaTienda;veredicto;motivo
+1204;fumetas;blazy-susan;P10350;tea-cones-king-size;;no;titulo;1.27;no;NO-VINCULAR;Blunt wrap ≠ tea cones (tipo de artículo distinto)
+17736;astrogrowshop;bonglab;P10407;glycerin-black-ice;;no;titulo;0.34;no;NO-VINCULAR;Pack Bong Classic Ice ≠ Glycerin Black Ice (productos distintos)
+19862;fumetas;bonglab;P10108;prisma;;no;titulo;1.28;no;NO-VINCULAR;Polera ≠ bong (tipo de artículo distinto)
+20035;fumetas;bonglab;P10108;prisma;;no;titulo;0.29;no;NO-VINCULAR;Pin ≠ bong (tipo de artículo distinto)
+33136;astrogrowshop;bonglab;P5521;glycerin-thicc;;no;titulo;1.14;si;VINCULAR;Mismo producto: Bonglab Glycerin Thicc Mint
+33138;astrogrowshop;bonglab;P5526;glycerin-yeti;;no;titulo;1.05;si;VINCULAR;Mismo producto: Bonglab Glycerin The Yeti
+36717;fumetas;bonglab;P10108;prisma;;no;titulo;1.28;no;NO-VINCULAR;Polera ≠ bong (tipo de artículo distinto)
+37077;fumetas;bonglab;P10108;prisma;;no;titulo;0.29;no;NO-VINCULAR;Pin ≠ bong (tipo de artículo distinto)
+13092;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;3.34;no;NO-VINCULAR;Atrapa cenizas ≠ difusor (tipo de artículo distinto)
+13093;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;3.34;no;NO-VINCULAR;Atrapa cenizas ≠ difusor (tipo de artículo distinto)
+13193;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.01;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+13194;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.67;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+13195;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;7.34;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+13213;fumetas;calvo;P10194;space-opera;;no;titulo;0.79;si;VINCULAR;Mismo producto: Calvo Space Horn Rig
+18059;astrogrowshop;calvo;P10224;big-eye-24cm;;no;titulo;1.26;si;VINCULAR;Mismo producto: Calvo Big Eye Recycler 24cm
+20149;fumetas;calvo;P10525;nectar-wax-pen;;no;titulo;0.18;si;VINCULAR;Mismo producto: Calvo Nectar Wax Pen repuesto
+34444;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;0.47;no;NO-VINCULAR;Quemador Pyrex ≠ difusor (tipo de artículo distinto)
+34445;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;0.47;no;NO-VINCULAR;Quemador Pyrex ≠ difusor (tipo de artículo distinto)
+34447;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;0.47;no;NO-VINCULAR;Quemador Pyrex ≠ difusor (tipo de artículo distinto)
+34448;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;0.47;no;NO-VINCULAR;Quemador Pyrex ≠ difusor (tipo de artículo distinto)
+34725;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.01;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34726;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.01;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34728;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.01;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34733;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.67;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34734;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.67;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34735;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;6.67;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34737;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;7.34;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+34738;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;7.34;no;NO-VINCULAR;Bong Beaker Premium ≠ difusor (tipo de artículo distinto)
+35021;fumetas;calvo;P10375;difusor-premium-14mm;;si;titulo;1.20;no;NO-VINCULAR;Quemador cuerno ≠ difusor (tipo de artículo distinto)
+22981;astrogrowshop;dime-bags;P10488;the-collector-22cm;;si;titulo;1.08;si;VINCULAR;Mismo producto: Dime Bags The Collector 22cm [CONGELADO — solo sumar]
+22982;astrogrowshop;dime-bags;P10489;the-collector-30cm;;no;titulo;1.10;si;VINCULAR;Mismo producto: Dime Bags The Collector 30cm
+23561;astrogrowshop;dime-bags;P10491;the-boss-20cm;;no;titulo;1.29;si;VINCULAR;Mismo producto: Dime Bags The Boss 20cm (primera de Astro)
+23565;astrogrowshop;dime-bags;P10536;the-soldier-22cm;;no;titulo;1.15;si;VINCULAR;Mismo producto: Dime Bags The Soldier 22cm
+32289;astrogrowshop;dime-bags;P10491;the-boss-20cm;;no;titulo;1.21;no (misma ficha);VINCULAR;Mismo producto: Dime Bags The Boss 20cm (misma ficha, variante color)
+32290;astrogrowshop;dime-bags;P10491;the-boss-20cm;;no;titulo;1.21;no (misma ficha);VINCULAR;Mismo producto: Dime Bags The Boss 20cm (misma ficha, variante color)
+78257;astrogrowshop;dime-bags;P10491;the-boss-20cm;;no;titulo;1.21;no (misma ficha);VINCULAR;Mismo producto: Dime Bags The Boss 20cm (misma ficha, variante color)
+12971;fumetas;focus-v;P10414;intelli-core-hierba-carta-2;;no;titulo;0.91;si;VINCULAR;Mismo producto: Focus V Intelli-Core hierba seca
+12988;fumetas;focus-v;P10414;intelli-core-hierba-carta-2;;no;titulo;2.74;no;NO-VINCULAR;Intelli-Core Max ≠ Intelli-Core (modelos distintos)
+19753;fumetas;focus-v;P10460;bateria-intercambiable-aeris;;si;titulo;1.10;si;VINCULAR;Mismo producto: Focus V Aeris Bubbler [CONGELADO — solo sumar]
+12989;fumetas;galaxy;P10595;bateria-escondida-black;;no;titulo;0.52;no;NO-VINCULAR;Galaxy Cartridge 510 ($11490) ≠ Escondida ($23990) — modelos distintos
+19924;fumetas;galaxy;P10595;bateria-escondida-black;;no;titulo;1.14;si;VINCULAR;Mismo producto: Galaxy Batería Hide Cartridge Escondida
+34317;fumetas;galaxy;P10595;bateria-escondida-black;;no;titulo;0.52;no;NO-VINCULAR;Galaxy Cartridge 510 ($11490) ≠ Escondida ($23990) — modelos distintos
+34318;fumetas;galaxy;P10595;bateria-escondida-black;;no;titulo;0.52;no;NO-VINCULAR;Galaxy Cartridge 510 ($11490) ≠ Escondida ($23990) — modelos distintos
+34319;fumetas;galaxy;P10595;bateria-escondida-black;;no;titulo;0.52;no;NO-VINCULAR;Galaxy Cartridge 510 ($11490) ≠ Escondida ($23990) — modelos distintos
+18103;astrogrowshop;g-pen;P10541;roam;;no;titulo;1.00;si;VINCULAR;Mismo producto: G Pen Roam (mismo precio base $239990)
+32911;astrogrowshop;g-pen;P10541;roam;;no;titulo;0.75;si;VINCULAR;Mismo producto: G Pen Roam (variante color Negro)
+92466;astrogrowshop;g-pen;P10541;roam;;no;titulo;0.75;si;VINCULAR;Mismo producto: G Pen Roam (variante color BLACK)
+12560;astrogrowshop;hemper;P10540;smoke-fiends-blaze-the-cactus;;no;titulo;1.23;no;NO-VINCULAR;Filtro de repuesto ≠ accesorio completo Blaze The Cactus
+19393;fumetas;hightrip;P10682;pin-joint;;no;titulo;1.12;no;NO-VINCULAR;Pin Trascendence ≠ Pin Joint (diseños distintos)
+20223;fumetas;hightrip;P10682;pin-joint;;no;titulo;1.01;no;NO-VINCULAR;Pin Highfries ≠ Pin Joint (diseños distintos)
+20224;fumetas;hightrip;P10682;pin-joint;;no;titulo;1.12;no;NO-VINCULAR;Pin Cenicero 420 ≠ Pin Joint (diseños distintos)
+449;fumetas;kush-hemp;P10196;gold-cone-1u;;no;titulo;0.80;si;VINCULAR;Mismo producto: Kush Cono de Oro Hemp King Size 24K
+12273;astrogrowshop;lion-rolling-circus;P10646;flavored-1-1-4;;si;titulo;0.99;si;VINCULAR;Mismo producto: LRC Papelillos Flavour 1 1/4 Crazy Coco [CONGELADO — solo sumar]
+12274;astrogrowshop;lion-rolling-circus;P10646;flavored-1-1-4;;si;titulo;0.99;si;VINCULAR;Mismo producto: LRC Papelillos Flavour 1 1/4 Electric Grape [CONGELADO — solo sumar]
+12622;astrogrowshop;lion-rolling-circus;P10655;silver-big-smoke;;no;titulo;2.21;no;NECESITA-FOTO;Ultra Thin Silver Big Smoke KS: ratio 2.21 — verificar si es mismo producto o variante premium
+37204;fumetas;lion-rolling-circus;P10654;terpenes-strawberry-shortcake;;no;titulo;0.74;si;VINCULAR;Mismo producto: LRC Hemp Wrap Terpenes Strawberry Shortcake
+37209;fumetas;lion-rolling-circus;P10567;hemp-wrap-electric-grape;;no;titulo;0.76;si;VINCULAR;Mismo producto: LRC Hemp Wrap Electric Grape
+13592;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Up On Cloud9)
+19509;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante The S*x)
+20025;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Bong Blast)
+20026;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Brain Fried)
+20027;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Cheesy Descovery)
+20030;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Moo B*tch!)
+20031;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Wild Side)
+20106;fumetas;naar;P10845;one;;no;titulo;0.96;si;VINCULAR;Mismo producto: Naar One encendedor soplete (variante Eyeconic)
+19789;fumetas;ozeta;P10547;techbag;;no;titulo;1.08;no;NO-VINCULAR;Ozeta Techbag ≠ Estuche grande (línea de producto distinta)
+34291;fumetas;ozeta;P10547;techbag;;no;titulo;0.73;no;NO-VINCULAR;Ozeta Estuche grande ≠ Techbag (línea de producto distinta)
+34292;fumetas;ozeta;P10547;techbag;;no;titulo;0.73;no;NO-VINCULAR;Ozeta Estuche grande ≠ Techbag (línea de producto distinta)
+34296;fumetas;ozeta;P10547;techbag;;no;titulo;0.65;no;NO-VINCULAR;Ozeta Estuche mediano ≠ Techbag (línea de producto distinta)
+34297;fumetas;ozeta;P10547;techbag;;no;titulo;0.65;no;NO-VINCULAR;Ozeta Estuche mediano ≠ Techbag (línea de producto distinta)
+34299;fumetas;ozeta;P10547;techbag;;no;titulo;0.57;no;NO-VINCULAR;Ozeta Estuche pequeño ≠ Techbag (línea de producto distinta)
+34300;fumetas;ozeta;P10547;techbag;;no;titulo;0.57;no;NO-VINCULAR;Ozeta Estuche pequeño ≠ Techbag (línea de producto distinta)
+18165;astrogrowshop;piecemaker;P10645;kirby;;no;titulo;1.21;si;VINCULAR;Mismo producto: PieceMaker Kirby Bong 37cm
+17204;astrogrowshop;puffco;P10649;peak-pro;;no;titulo;0.93;si;VINCULAR;Mismo producto: Puffco Peak Pro (New Peak Pro Dessert)
+1143;astrogrowshop;raw;P10622;metal-metal-large;;no;titulo;0.14;no;NO-VINCULAR;Bandeja 18x12cm (medium) ≠ large (tamaño distinto)
+12172;astrogrowshop;raw;P10622;metal-metal-large;;no;titulo;0.14;no;NO-VINCULAR;Bandeja 18x12cm (medium) ≠ large (tamaño distinto)
+12174;astrogrowshop;raw;P10622;metal-metal-large;;no;titulo;0.27;si;VINCULAR;Mismo producto: Raw bandeja metalica large 28x18cm
+12220;astrogrowshop;raw;P10622;metal-metal-large;;no;titulo;0.14;no;NO-VINCULAR;Bandeja 18x12cm (medium) ≠ large (tamaño distinto)
+12221;astrogrowshop;raw;P10622;metal-metal-large;;no;titulo;0.27;si;VINCULAR;Mismo producto: Raw bandeja metalica large 28x18cm
+19342;fumetas;raw;P10686;reserva-contenedor;;no;titulo;0.50;si;VINCULAR;Mismo producto: RAW Reserva Contenedor Hermético
+730;astrogrowshop;soulblime;P10736;desmontable;;si;titulo;16.06;no;NO-VINCULAR;Display9unidades ($39990) ≠ unidad suelta ($2490) — pack vs producto individual
+78744;astrogrowshop;soulblime;P10736;desmontable;;si;titulo;1.00;si;VINCULAR;Mismo producto: Soulblime Contenedora Tapa Desmontable [CONGELADO — solo sumar]
+8140;fumetas;the-bulldog;P10400;pipa-metalica-rejillas;;no;titulo;2.08;si;VINCULAR;Mismo producto: The Bulldog Pipa Metálica con Rejillas (variante tornasol)
+8155;fumetas;the-bulldog;P10400;pipa-metalica-rejillas;;no;titulo;1.25;si;VINCULAR;Mismo producto: The Bulldog Pipa Metálica con Rejillas
+19969;fumetas;yocan;P10548;flat;;si;titulo;2.20;no;NO-VINCULAR;Yocan Ziva ≠ Flat ≠ Kodo Pro (modelos distintos)
+12956;fumetas;zippo;P10737;classic-high-polish-green;;no;titulo;1.00;no;NO-VINCULAR;Zippo Black Crackle ≠ High Polish Green (modelo distinto)
+19387;fumetas;zippo;P10737;classic-high-polish-green;;no;titulo;1.13;no;NO-VINCULAR;Zippo High Polish Purple ≠ High Polish Green (modelo distinto)
+19483;fumetas;zippo;P10737;classic-high-polish-green;;no;titulo;0.92;no;NO-VINCULAR;Zippo Purple Matte ≠ High Polish Green (modelo distinto)
+19914;fumetas;zippo;P10426;santa-cruz-design;;no;titulo;0.78;no;NO-VINCULAR;Zippo Merlot ≠ Santa Cruz / Piedras (modelo distinto)

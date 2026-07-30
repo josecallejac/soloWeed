@@ -78,6 +78,9 @@ reports/upgrades-run.txt
 /reports/catalog-audit/triage-orphan-groups-*.csv
 # raw diagnostic logs (match/prices/diagnose runs) — MB artifacts, keep out of git
 /reports/catalog-audit/*.log
+# idem para los logs crudos que quedan en reports/ (diagnose-orphan-pairs imprime cada
+# par por consola: el de r60 pesaba 481 KB). El CSV que sale del log si se commitea.
+/reports/*-log.txt
 /reports/store-coverage-*.csv
 # barridos por imagen: miles de filas regenerables, 1 producto util de cada 3.400
 /reports/fg-imgup-nivel*.csv
