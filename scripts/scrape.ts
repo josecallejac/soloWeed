@@ -683,6 +683,71 @@ const PARAPHERNALIA_DESIGN_CONTEXT = [
  */
 const EXCLUDED_TITLE_TERMS = ["tabaco"];
 
+/**
+ * ROPA FUERA DEL CATALOGO (decision del usuario, 29 jul 2026): SoloWeed compara
+ * parafernalia, y una polera no lo es. Solo salen las PRENDAS — lo que se viste.
+ * Se QUEDAN dentro, porque cumplen funcion de parafernalia: las bolsas y mochilas
+ * antiolor (Ozeta, Dime Bags), los llaveros que son pipas, las bandejas y los
+ * llaveros-bandeja.
+ *
+ * Se mide con limite de palabra sobre el TITULO, no sobre titulo+url+categoria: una
+ * tienda puede tener una categoria llamada "ropa" con accesorios legitimos dentro.
+ *
+ * SIETE FALSOS POSITIVOS MEDIDOS antes de fijar esta lista, que por eso NO estan aca.
+ * Cuatro salieron del barrido de verificacion final (29 jul), buscando ropa por vias
+ * independientes de esta lista — categoria de la tienda, tallas en el titulo y
+ * vocabulario textil nuevo — que dio CERO prendas dentro de alcance:
+ *   "sujetador" -> en parafernalia es SOPORTE: "Bonglab Sujetador difusor 14mm" (10
+ *                  ofertas, una curada en P10530) y "Disco Volador RAW con Sujetador".
+ *   "uniforme"  -> aparece en descripciones como "distribucion de calor uniforme"
+ *                  (banger Calvo of1410, curado en P10105).
+ *   "correa"    -> "Correa para bolsos" de Piranha es accesorio de contenedor.
+ *   "bata"      -> como prefijo se come "Batazo", que es un PIN de HighTrip
+ *                  (/pin-batazo.html), hermano de Bongazo y Pipazo ya curados.
+ * Y los tres originales:
+ *   "cap"    -> el peor: 80 ofertas, 21 de ellas CURADAS. En parafernalia "cap" es
+ *               TAPA, no gorra: carb cap, Puffco Ball Cap (P10449), Joystick Cap
+ *               (P10652), Bubbler Cap (P10643), Cap Strip de Calvo. Para la gorra real
+ *               se usa "snapback", que da 1 sola oferta y es ropa.
+ *   "short"  -> los "Conos Pre Roll SHORTYS" de Blazy Susan (curados en P5712) y el
+ *               blunt wrap "Strawberry SHORTcake" (P10654, vinculado en r59).
+ *   "guante" -> "Guantes Para Limpieza X3 - Thievery" es accesorio de limpieza.
+ * Terminos con ocurrencias reales al fijarla: polera 112, gorro 21, poleron 19,
+ * jockey 16, hoodie 15, calcetines 7, hat 7, traje 4 (RAW Spacesuit), shirt 2,
+ * gorra 1, snapback 1.
+ *
+ * Los cinco productos que al principio quedaban MIXTOS (una oferta dentro y el resto
+ * fuera) eran ropa nombrada en INGLES — "Dad Hats", "Pompom Hat", "White Shirt",
+ * "Baseball Cap Flat Brim Snapback". Sin "hat", "shirt" y "snapback" esas ofertas se
+ * quedaban en alcance y el matching las habria vuelto a curar.
+ */
+const APPAREL_TERMS = [
+  "polera", "poleron", "hoodie", "sudadera", "camiseta", "camisa", "tshirt", "t-shirt",
+  "jockey", "gorro", "gorra", "beanie", "sombrero", "visera", "snapback",
+  "calcetin", "calcetines", "socks",
+  "traje", "chaqueta", "pantalon", "jeans", "vestido", "falda", "pijama", "bikini",
+  "zapatilla",
+  // Preventivos: hoy dan CERO ocurrencias en las 6 tiendas, pero el usuario pidio que
+  // nada de ropa entre, y una prenda nueva no deberia colarse en el proximo scrape.
+  // Se comprobo uno por uno que ninguno matchea parafernalia existente.
+  "sweater", "jersey", "crewneck", "cardigan", "bomber", "parka", "abrigo", "chaleco",
+  "windbreaker", "jogger", "legging", "bandana", "bufanda", "buzo", "overol",
+  "apparel", "clothing", "streetwear", "hoody",
+];
+
+// Estos exigen PALABRA COMPLETA (admitiendo el plural): como prefijo se comerian
+// "hatchet" o cualquier compuesto, y el margen no vale el riesgo.
+const APPAREL_WHOLE_WORDS = ["hat", "shirt"];
+
+const APPAREL_RE = new RegExp(
+  `\\b(${APPAREL_TERMS.join("|")})|\\b(${APPAREL_WHOLE_WORDS.join("|")})s?\\b`,
+  "i",
+);
+
+function isApparel(titleOnly: string) {
+  return APPAREL_RE.test(titleOnly);
+}
+
 const VAPE_EXCLUDED_TERMS = [
   "desechable",
   "puff",
@@ -1854,6 +1919,11 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
   // Vapeo de nicotina fuera del catalogo: desechables de sabores y pod kits
   // recargables de e-liquido (ver isOutOfScopeVape).
   if (isOutOfScopeVape(titleOnly, text)) {
+    return null;
+  }
+
+  // Merch textil fuera del catalogo: solo prendas (ver APPAREL_TERMS).
+  if (isApparel(titleOnly)) {
     return null;
   }
 
