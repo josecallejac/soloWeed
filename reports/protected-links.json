@@ -4817,6 +4817,20 @@
     ]
   },
   {
+    "id": 10323,
+    "name": "Difusor Calvo Classic 18mm - 14mm - 14cm",
+    "brandKey": "calvo",
+    "modelKey": "repuestos-difusor-14cm-14mm-18mm",
+    "modelSlug": "difusor-classic-14cm",
+    "category": "Repuestos para bongs y vaporizadores",
+    "storeCount": 3,
+    "offerIds": [
+      13220,
+      15603,
+      69223
+    ]
+  },
+  {
     "id": 10324,
     "name": "Weecke Vaporizador Fenix Pro 7th Gen",
     "brandKey": "weecke",
