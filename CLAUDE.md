@@ -19,6 +19,8 @@ Store IDs are not contiguous — hardcode them from this table, never assume:
 
 **The detailed operational docs are in Spanish and are the source of truth.** Read in this order when touching the corresponding area: `AGENTS.md` (summary), `docs/PROJECT_RULES.md` (invariants), `docs/RUNBOOK.md` (exact commands), `docs/SCRAPER_RULES.md`, `docs/MATCHING_AND_SLUGS.md`, `docs/DATA_MODEL.md`, `docs/HANDOFF.md`.
 
+**Adding a store? `docs/NUEVA_TIENDA.md` is the standard procedure** — the 5 sweeps to run so its offers get linked to the catalog, in order of measured yield, plus what each one is blind to. Consolidated after applying it end to end to Friendly Grow and Kushbreak.
+
 ## Commands
 
 The primary environment is Windows / PowerShell, so env vars are set with `$env:NAME="value"; npm run ...`.
