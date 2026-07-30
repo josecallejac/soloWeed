@@ -1,5 +1,6 @@
 import { pathToFileURL } from "node:url";
 import { load } from "cheerio";
+import { decodeHtmlEntities } from "../src/lib/format";
 import { BRAND_ALIASES, KNOWN_BRAND_PHRASES } from "../src/lib/matching-constants";
 import { prisma } from "../src/lib/prisma";
 
@@ -2424,7 +2425,9 @@ function slugify(value: string) {
   return slug || "producto";
 }
 
-function normalizeForSearch(value: string) {
+// Exportada para que el backfill de entidades recalcule `normalizedTitle` /
+// `normalizedName` con EXACTAMENTE la misma funcion que usa el scraper.
+export function normalizeForSearch(value: string) {
   return value
     .replace(/¼/g, "1/4")
     .normalize("NFD")
@@ -2443,11 +2446,15 @@ function sanitizeText(value: string) {
     .decode(new TextEncoder().encode(value));
 }
 
+// Las entidades se decodifican AL GUARDAR (no solo al renderizar): un `&amp;`
+// persistido se re-escapa en el render -> "Storz &amp; Bickel" en la ficha, y
+// ademas contamina todo consumidor que no sea el render (CSV, matching, IA).
+// decodeHtmlEntities decodifica dos veces, que es lo que hace falta para los
+// titulos doble-escapados de Fumetas ("Wake &amp;amp; Bake").
 function cleanText(value: unknown) {
   return sanitizeText(
-    String(value ?? "")
+    decodeHtmlEntities(String(value ?? ""))
       .replace(/\s+/g, " ")
-      .replace(/&nbsp;/g, " ")
       .trim(),
   );
 }

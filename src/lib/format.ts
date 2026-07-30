@@ -62,12 +62,22 @@ function decodeEntitiesOnce(text: string) {
     .replace(/&([a-zA-Z]+);/g, (match, name) => NAMED_ENTITIES[name.toLowerCase()] ?? match);
 }
 
-// Las descripciones scrapeadas traen entidades HTML, a veces doble-escapadas
-// (`&amp;nbsp;`). Decodificamos dos veces para deshacer ese doble escape y
-// normalizamos los espacios en blanco.
+// Los textos scrapeados traen entidades HTML, a veces doble-escapadas
+// (`&amp;nbsp;`, `Wake &amp;amp; Bake`). Decodificamos dos veces para deshacer
+// ese doble escape.
+//
+// Aplicarlo AL GUARDAR y no solo al renderizar: un `&amp;` que entra a la BD se
+// vuelve a escapar en el render y la ficha titula "Storz &amp; Bickel" (bug
+// visible en produccion hasta el 2026-07-30). Ademas rompe todo consumidor que
+// no sea el render: le partio el parser de CSV al ejecutor en r59.
+export function decodeHtmlEntities(text: string) {
+  return decodeEntitiesOnce(decodeEntitiesOnce(text));
+}
+
+// Idem para descripciones, que ademas normalizan espacios y separan frases.
 export function cleanDescription(text: string | null | undefined) {
   if (!text) return "";
-  const decoded = decodeEntitiesOnce(decodeEntitiesOnce(text));
+  const decoded = decodeHtmlEntities(text);
   return decoded
     .replace(/\s+/g, " ")
     .replace(/([.!?])(?=[A-ZÁÉÍÓÚÑ])/g, "$1 ")
