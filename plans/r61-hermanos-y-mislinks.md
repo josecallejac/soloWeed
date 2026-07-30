@@ -1,13 +1,18 @@
 # r61 — Encargo al ejecutor: fusión de hermanos, mislinks viejos y el rescate de r59-C
 
-**Fecha:** 29 jul 2026 · **Orquestador:** Claude · **BD:** PostgreSQL Railway (producción)
-**Estado del catálogo (medido después de aplicar r61 y r59, es el estado real de ahora):**
-**830 productos** (28×5t + 107×4t + 257×3t + 416×2t + 22×1t), protección **392**.
-11.404 ofertas, **3.821 vinculadas**, **3.322 huérfanas con stock**.
+**Fecha:** 29 jul 2026 · **Revisado:** 30 jul 2026 · **Orquestador:** Claude · **BD:** PostgreSQL
+Railway (producción)
+**Estado del catálogo (re-medido contra la BD viva el 30 jul, es el estado real de ahora):**
+**820 productos** (**1×6t** + 27×5t + 107×4t + 255×3t + 408×2t + 22×1t), protección **390**.
+11.406 ofertas, **3.793 vinculadas**, **3.347 huérfanas con stock**.
+
+> Los números del encabezado original (830 productos, 28×5t, protección 392) eran una proyección
+> equivocada y quedaron obsoletos: los de arriba salen de `scripts/count-by-stores.ts` contra la BD.
+> Si tu medición no da 820, **decilo y averiguá por qué antes de seguir**.
 
 ---
 
-## 0. Contexto: qué cambió hoy, antes de que empieces
+## 0. Contexto: qué cambió antes de que empieces
 
 **Cerré el hueco de alias de marca** que destapó r60. `src/lib/matching-constants.ts` tiene 3
 entradas nuevas en `BRAND_ALIASES`: `airis → airistech`, `da vinci → davinci`,
@@ -34,6 +39,27 @@ disponible:
 - **Se dividió P10281** (Capsule Caddy): la versión de Concentrados salió a `P11019` y P10281
   conservó sus 3 tiendas recibiendo la oferta normal de Piranha que estaba huérfana.
 
+**Y lo que pasó DESPUÉS de escribirte este brief (30 jul), que también te cambia el terreno:**
+
+- **r62 y r63 aplicadas.** r63 creó **el primer producto de 6 tiendas** del catálogo:
+  `airistech/bateria-vertex-2-0` (P11004). Consecuencia práctica para vos: **el umbral de
+  "congelado" ya no es 4-y-tope** — un producto puede tener 5 o 6 tiendas. Nunca asumas que 4 es el
+  máximo al contar.
+- **La ropa YA SALIÓ** (no está "saliendo"): `classifyProduct` endurecido, 32 ofertas desvinculadas,
+  10 productos borrados. Sigue en pie la instrucción: no propongas prendas. Pero **ojo con los
+  falsos positivos ya medidos**, que costaron caro: en parafernalia **`cap` es tapa** (80 ofertas,
+  21 curadas), `short` es la línea "Shortys", `sujetador` es un soporte. No los toques.
+- **Las entidades HTML se limpiaron de raíz** (20 `Product.name` + 241 `Offer.title`) y el scraper
+  ya decodifica al guardar. O sea que **el `&amp;` que te rompió el parser en r59 ya no está en los
+  títulos de la BD** — pero la regla 5 de abajo sigue vigente igual, porque el problema era el
+  parser, no el dato.
+- **Friendly Grow hacia productos existentes: FRENTE CERRADO**, medido con 3 métodos (texto, imagen
+  y marca) sobre 671 huérfanas contra los 795 productos que no la tienen. No lo reabras.
+- **La Tarea C de r60 (cruce huérfana↔huérfana por imagen en FG) ya no está bloqueada: está MEDIDA
+  Y DESCARTADA.** El medidor de señal (`measure-image-signal-power.ts`) sobre 630 pares ya
+  verificados por humano da **dHash mediana 221** y **CLIP mediana 0,799** → **recall 14%**: FG
+  fotografía sus propios productos en vez de reusar el arte del proveedor. **No la rehagas.**
+
 **Aun así, revalidá:** si una oferta que ibas a proponer ya tiene `productId`, **saltala**
 (`YA-VINCULADA`), no la re-juzgues ni la muevas.
 
@@ -42,11 +68,12 @@ disponible:
 - **Las CUATRO tareas de este brief son paralelas. Podés empezar las cuatro ya.** Ninguna espera
   nada mío. (En r60 contestaste "listo para revisar resultados cuando lleguen" a tareas que no
   dependían de nada — no vuelvas a esperar.)
-- **La Tarea C de r60 (cruce por imagen FG) sigue bloqueada** y sigue siendo mía. No la toques.
-- **La ropa está saliendo del catálogo** (decisión del usuario, 29 jul): son 180 ofertas de prendas
-  y 10 productos ya curados. Lo hago yo con un cambio de `classifyProduct`. **No propongas nada que
-  sea una prenda** (polera, polerón, jockey, gorro, calcetines, hoodie…), en ninguna de las cuatro
-  tareas.
+- **La Tarea C de r60 (cruce por imagen FG) está descartada con medición**, ver arriba. No la toques.
+- **La ronda Brass Knuckles + Honeypuff es mía**, no tuya: son las dos vetas que sobrevivieron al
+  análisis de FG del 30 jul y las trabajo yo por foto. No las incluyas en ninguna tarea.
+- **La ropa ya salió del catálogo** (decisión del usuario, 29-30 jul, aplicada). **No propongas nada
+  que sea una prenda** (polera, polerón, jockey, gorro, calcetines, hoodie…), en ninguna de las
+  cuatro tareas.
 
 ---
 
@@ -257,32 +284,47 @@ mueren**, con el criterio. Esperá una mortalidad alta; eso es la tarea saliendo
 
 ---
 
-## 4-bis. TAREA D — Las 76 ofertas cuya marca contradice a su producto (prioridad 2, empatada con B)
+## 4-bis. TAREA D — Las 104 ofertas cuya marca contradice a su producto (prioridad 2, empatada con B)
 
-Señal **nueva**, que salió auditando el backfill de hoy. Hay **92 ofertas vinculadas cuyo
-`brandKey` no coincide con el `brandKey` del producto del que cuelgan**. Re-medido **después** de
-aplicar r59 y r61, con los productos concretos, así que es el estado real de ahora (cuando lo medí
-antes de esas rondas eran 76: subió porque el backfill unificó marcas y r59 vinculó 70 ofertas):
+Señal **nueva**, que salió auditando el backfill de marcas. Hay **104 ofertas vinculadas cuyo
+`brandKey` no coincide con el `brandKey` del producto del que cuelgan**, en **27 pares de marca**.
+**Re-medido contra la BD viva el 30 jul**, después de r59, r61, r62, r63 y el retiro de la ropa, así
+que es el estado real de ahora. Universo total de referencia: **3.705 ofertas vinculadas con
+`brandKey`**.
 
 | oferta != producto | ofertas | productos |
 |---|---|---|
 | `bonglab` != `re-stash` | **30** | P10292, P10293, P10294, P10295 |
 | `calvo` != `special-blue` | 12 | P10310, P10311, P10483, P10661, P10754 |
 | `cabo` != `yocan` | 6 | P10892 |
+| `calvo` != `dime-bags` | 4 | P10491 |
 | `storz-bickel` != `clipper` | 4 | P10747 |
 | `calvo` != `calvo-glass` | 4 | P10605, P10637 |
-| `stundenglass` != `cookies` | 4 | P10659, P10670 |
+| `bukket` != `sploofy` | 4 | P10528, P11007 |
 | `galaxy` != `unknown` | 4 | P10638 |
 | `c-thru` != `lion-rolling-circus` | 3 | P10707, P10708, P10709 |
 | `clipper` != `hemper` | 3 | P10229, P10230, P10231 |
+| `cookies` != `stundenglass` | 3 | P10722, P10723, P10724 |
 | `integra-boost` != `puffco` | 3 | P10494 |
 | `dynavap` != `ispire` | 3 | P10405 |
+| `cookies` != `g-pen` | 3 | P10541 |
+| `stundenglass` != `cookies` | 2 | P10659, P10670 |
 | `santa-cruz-shredder` != `zippo` | 2 | P10426 |
 | `blunt-wrap` != `platinum` | 2 | P10402 |
 | `blunt-wrap` != `lion-rolling-circus` | 2 | P10567, P10568 |
 | `empire` != `empire-rolling-papers` | 2 | P10641 |
-| `bukket` != `sploofy` | 2 | P10528 |
-| 6 pares de 1 oferta | 6 | P5802, P10137, P10311, P10614, P10765, P10999 |
+| 8 pares de 1 oferta | 8 | P5802, P10137, P10311, P10558, P10614, P10765, P10999, P11012 |
+
+**Historia del número, porque te va a servir para auditarte**: cuando lo medí por primera vez eran
+**76**; después de r59+r61 dieron **92**; hoy son **104**. Sube porque el backfill unificó marcas y
+porque **las rondas nuevas crean vínculos nuevos** — P11007 y P11012 son productos que nacieron en
+r59 y ya aportan filas. O sea: **esta señal se regenera**, no es un pozo que se agote.
+
+**Un caso que exige cuidado especial**: `cookies != stundenglass` (3) y `stundenglass != cookies`
+(2) aparecen **en los dos sentidos**. Es la colaboración Cookies × Stündenglass, que es
+genuinamente de dos marcas: ahí el veredicto probable es `AMBOS-BIEN-SON-ALIAS` o `NO-TOCAR`, no un
+mislink. Decidí y justificá cuál es la marca canónica del producto colaborativo antes de proponer
+mover nada.
 
 **Son dos cosas distintas mezcladas, y separarlas ES la tarea:**
 
@@ -312,9 +354,9 @@ offerId;tienda;titulo;brandKeyOferta;productId;brandKeyProducto;modelSlug;lado;t
   (si cambia una URL pública o toca un producto de ≥4 tiendas) | `NO-TOCAR`.
 
 Sacá el universo con una consulta propia read-only en `scratch/` (es un `findMany` de ofertas con
-`productId` y comparar los dos `brandKey`); no hay script commiteado todavía para esto. Si el
-resultado te da distinto de **92**, **decilo y averiguá por qué antes de seguir** — no lo expliques
-con una hipótesis, medilo.
+`productId` y `brandKey` no nulo, comparando los dos `brandKey`); no hay script commiteado todavía
+para esto. Si el resultado te da distinto de **104 ofertas / 27 pares / 3.705 vinculadas con
+marca**, **decilo y averiguá por qué antes de seguir** — no lo expliques con una hipótesis, medilo.
 
 ---
 
@@ -322,9 +364,19 @@ con una hipótesis, medilo.
 
 - **No aplicar nada.** Ni vincular, ni crear, ni fusionar, ni borrar, ni editar
   `matching-constants.ts`, ni `git`, ni scrapes.
-- **No reabrir el frente 5t→6t.** Cerrado con 5 métodos independientes el 28 jul.
-- **No re-barrer las marcas exclusivas de Friendly Grow**: honeypuff, phoenix-star, baked-bunny,
-  brass-knuckles, gorilla, doteco. ~277 ofertas ya medidas, sin par posible.
+- **No reabrir el frente de los 27 productos de 5 tiendas.** A 26 les falta exactamente Friendly
+  Grow, que no vende esas marcas; el bloqueo estructural es GrowBarato. Cerrado con 5 métodos el
+  28 jul. (El producto de 6 tiendas del 30 jul **no desmiente esto**: apareció porque **no existía
+  como fila `Product`**, no porque a un 5t le faltara una tienda.)
+- **No re-barrer estas marcas de Friendly Grow, que sí están cerradas y medidas**: `phoenix-star`,
+  `gorilla-rolling-star`, `baked-bunny` y `doteco`.
+  **CORRECCIÓN al brief original:** decía también honeypuff y brass-knuckles y **era falso** —
+  verificado marca por marca el 30 jul, brass-knuckles tiene la batería 900mAh 510 en FG, Piranha y
+  Kushbreak, y honeypuff tiene los papelillos "100 Dólares" en FG y GrowBarato. Están **fuera de tu
+  encargo porque las trabajo yo**, no porque no haya nada. Si en otra tarea te cruzás con una marca
+  marcada como "sin par", **tratá esa etiqueta como una hipótesis, no como un hecho**.
+- **No asumas que 4 tiendas es el techo** al contar cobertura o al detectar congelados: existen
+  productos de 5 y uno de 6.
 - **No re-cruzar las 353 huérfanas de FG sin marca contra los `modelSlug` del catálogo**: es la
   Tarea D de r58, dio cero y **el cero es correcto** (lo verifiqué por otro camino).
 - **No propongas productos de una sola tienda.**

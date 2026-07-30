@@ -1751,7 +1751,7 @@
   },
   {
     "id": 10302,
-    "name": "Storz &amp; Bickel Vaporizador Volcano Classic Gold 24K",
+    "name": "Storz & Bickel Vaporizador Volcano Classic Gold 24K",
     "brandKey": "storz-bickel",
     "modelKey": "vaporizadores-volcano-classic",
     "modelSlug": "volcano-classic-gold-24k",
@@ -2446,6 +2446,21 @@
       13411,
       31748,
       52591
+    ]
+  },
+  {
+    "id": 10708,
+    "name": "Lion Rolling Circus 4:20 Papelillos Celulosa Transparente 1 1/4 Block",
+    "brandKey": "lion-rolling-circus",
+    "modelKey": null,
+    "modelSlug": "celulosa-transparente-4-20-block",
+    "category": "Papelillos",
+    "storeCount": 4,
+    "offerIds": [
+      11594,
+      13234,
+      15776,
+      69098
     ]
   },
   {
@@ -3311,7 +3326,7 @@
   },
   {
     "id": 5754,
-    "name": "Storz &amp; Bickel Cargador Crafty para auto 12V",
+    "name": "Storz & Bickel Cargador Crafty para auto 12V",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-crafty",
     "modelSlug": "charger-crafty-car-charger",
@@ -3325,7 +3340,7 @@
   },
   {
     "id": 5755,
-    "name": "Cargador Mighty Plus Usb-C Supercharger-Storz &amp; Bickel",
+    "name": "Cargador Mighty Plus Usb-C Supercharger-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-mighty-plus",
     "modelSlug": "charger-mighty-plus-usb-c-supercharger",
@@ -3339,7 +3354,7 @@
   },
   {
     "id": 5756,
-    "name": "Unidad De Enfriamiento Crafty-Storz &amp; Bickel",
+    "name": "Unidad De Enfriamiento Crafty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-unidad-de-enfriamiento-crafty",
     "modelSlug": "cooling-unit-crafty",
@@ -3353,7 +3368,7 @@
   },
   {
     "id": 5758,
-    "name": "Juego De Mallas Pequeño Mighty-Storz &amp; Bickel",
+    "name": "Juego De Mallas Pequeño Mighty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-mighty",
     "modelSlug": "screen-set-small",
@@ -3367,7 +3382,7 @@
   },
   {
     "id": 5759,
-    "name": "Storz &amp; Bickel Juego de Mallas Venty",
+    "name": "Storz & Bickel Juego de Mallas Venty",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-juego-de-mallas-venty",
     "modelSlug": "screen-set-venty",
@@ -3927,7 +3942,7 @@
   },
   {
     "id": 10127,
-    "name": "Storz &amp; Bickel Moledor acrilico 59mm",
+    "name": "Storz & Bickel Moledor acrilico 59mm",
     "brandKey": "storz-bickel",
     "modelKey": "grinder-59mm",
     "modelSlug": "plastic-59mm",
@@ -4329,7 +4344,7 @@
   },
   {
     "id": 10227,
-    "name": "Calvo Glass Bong Rick &amp; Morty 24cm",
+    "name": "Calvo Glass Bong Rick & Morty 24cm",
     "brandKey": "calvo",
     "modelKey": "bong-rick-morty-24cm-24cm",
     "modelSlug": "rick-morty",
@@ -4389,7 +4404,6 @@
     "category": "Limpieza",
     "storeCount": 3,
     "offerIds": [
-      12254,
       13174,
       15800,
       77489
@@ -4476,7 +4490,7 @@
   },
   {
     "id": 10262,
-    "name": "Unidad De Enfriamiento Venty-Storz &amp; Bickel",
+    "name": "Unidad De Enfriamiento Venty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-venty",
     "modelSlug": "cooling-unit-venty",
@@ -4504,7 +4518,7 @@
   },
   {
     "id": 10264,
-    "name": "Boquilla Para Mighty/ Crafty 4Ud-Storz &amp; Bickel",
+    "name": "Boquilla Para Mighty/ Crafty 4Ud-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "filter-mighty",
     "modelSlug": "mouthpiece-crafty-4u",
@@ -4518,7 +4532,7 @@
   },
   {
     "id": 10265,
-    "name": "Storz &amp; Bickel Set de Boquillas Venty - 4 Unidades",
+    "name": "Storz & Bickel Set de Boquillas Venty - 4 Unidades",
     "brandKey": "storz-bickel",
     "modelKey": "filter-venty",
     "modelSlug": "mouthpiece-venty-4u",
@@ -4560,7 +4574,7 @@
   },
   {
     "id": 10275,
-    "name": "Juego De Piezas Desgaste Mighty-Storz &amp; Bickel",
+    "name": "Juego De Piezas Desgaste Mighty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-mighty",
     "modelSlug": "piezas-desgaste-mighty",
@@ -4588,7 +4602,7 @@
   },
   {
     "id": 10280,
-    "name": "Storz &amp; Bickel Juego De Anillos de Sellado Mighty",
+    "name": "Storz & Bickel Juego De Anillos de Sellado Mighty",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-mighty",
     "modelSlug": "anillos-sellado-mighty",
@@ -4602,7 +4616,7 @@
   },
   {
     "id": 10281,
-    "name": "Storz &amp; Bickel Llavero Capsule Caddy",
+    "name": "Storz & Bickel Llavero Capsule Caddy",
     "brandKey": "storz-bickel",
     "modelKey": null,
     "modelSlug": "capsule-caddy",
@@ -4645,7 +4659,7 @@
   },
   {
     "id": 10287,
-    "name": "Juego De Anillos Sellado Mighty-Storz &amp; Bickel",
+    "name": "Juego De Anillos Sellado Mighty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "vaporizadores-mighty",
     "modelSlug": "mighty",
@@ -4702,7 +4716,7 @@
   },
   {
     "id": 10303,
-    "name": "Unidad De Enfriamiento Mighty-Storz &amp; Bickel",
+    "name": "Unidad De Enfriamiento Mighty-Storz & Bickel",
     "brandKey": "storz-bickel",
     "modelKey": "repuestos-mighty",
     "modelSlug": "cooling-unit-mighty",
