@@ -11,9 +11,16 @@ const BRAND_ALIASES = new Map([
   ...SHARED_BRAND_ALIASES,
 ]);
 
+// Con --dry-run no escribe nada y reporta el delta agrupado por (antes -> despues).
+// Existe porque este script se corre en la higiene de CADA ronda y un cambio en
+// BRAND_ALIASES/KNOWN_BRAND_PHRASES reescribe brandKeys en masa: conviene ver el
+// efecto sobre las ~11.400 ofertas antes de tocar la BD viva.
+const DRY_RUN = process.argv.includes("--dry-run");
+
 async function main() {
   let offersWithBrandKey = 0;
   let productsWithBrandKey = 0;
+  const cambios = new Map<string, { n: number; ejemplos: string[] }>();
 
   const offers = await prisma.offer.findMany({
     select: {
@@ -42,11 +49,19 @@ async function main() {
     }
 
     if (brandKey !== offer.brandKey) {
-      await prisma.$executeRaw`
-        UPDATE "Offer"
-        SET "brandKey" = ${brandKey}
-        WHERE "id" = ${offer.id}
-      `;
+      const clave = `${offer.brandKey ?? "(null)"} -> ${brandKey}`;
+      const entrada = cambios.get(clave) ?? { n: 0, ejemplos: [] };
+      entrada.n += 1;
+      if (entrada.ejemplos.length < 3) entrada.ejemplos.push(`of${offer.id} ${offer.title.slice(0, 62)}`);
+      cambios.set(clave, entrada);
+
+      if (!DRY_RUN) {
+        await prisma.$executeRaw`
+          UPDATE "Offer"
+          SET "brandKey" = ${brandKey}
+          WHERE "id" = ${offer.id}
+        `;
+      }
     }
 
     offersWithBrandKey += 1;
@@ -72,13 +87,22 @@ async function main() {
       continue;
     }
 
-    await prisma.$executeRaw`
-      UPDATE "Product"
-      SET "brandKey" = ${brandKey}
-      WHERE "id" = ${product.id}
-    `;
+    if (!DRY_RUN) {
+      await prisma.$executeRaw`
+        UPDATE "Product"
+        SET "brandKey" = ${brandKey}
+        WHERE "id" = ${product.id}
+      `;
+    }
 
     productsWithBrandKey += 1;
+  }
+
+  const totalCambios = [...cambios.values()].reduce((acc, c) => acc + c.n, 0);
+  console.log(`\n${DRY_RUN ? "DRY-RUN" : "APLICADO"}: ${totalCambios} ofertas cambian de brandKey\n`);
+  for (const [clave, { n, ejemplos }] of [...cambios].sort((a, b) => b[1].n - a[1].n)) {
+    console.log(`  ${String(n).padStart(4)}  ${clave}`);
+    for (const e of ejemplos) console.log(`         ${e}`);
   }
 
   console.log({ offersWithBrandKey, productsWithBrandKey });

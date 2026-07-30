@@ -135,6 +135,29 @@ export const KNOWN_BRAND_PHRASES = [
 // scraper, el backfill y el matching; el alias gb-the-green-brand se maneja
 // aparte en cada script porque es un fallback de ultima prioridad.
 export const BRAND_ALIASES = new Map<string, string>([
+  // ── PRIORIDAD (2026-07-30) ──────────────────────────────────────────────────
+  // `getBrandKey` (backfill/scraper) prueba este Map ENTERO antes que
+  // KNOWN_BRAND_PHRASES, y dentro de cada lista gana la PRIMERA entrada que
+  // calce. O sea: la prioridad de marca es el ORDEN, no la logica. Estas
+  // entradas existen para que una marca especifica le gane a una regla mas
+  // golosa que la tapaba; varias ya estan en KNOWN_BRAND_PHRASES y se repiten
+  // aqui a proposito, solo para adelantarlas.
+  //
+  // Medido el 30 jul 2026 sobre las 76 ofertas cuyo brandKey contradecia al de
+  // su producto. NO se pueden arreglar "a mano" en la BD: `brand:backfill`
+  // re-deriva el brandKey del titulo en cada corrida y pisaria la correccion.
+  //
+  // El ORDEN DE ESTE BLOQUE IMPORTA: "khemo" va antes que "lion rolling circus"
+  // porque Kushbreak titula "Bandeja metalica Khemo Papers" pero su URL y su
+  // campo `brand` dicen Lion Rolling Circus, y el titulo es la fuente buena.
+  ["re stash", "re-stash"],            // "BongLab Contenedor Re:Stash" -> le ganaba bonglab (30 ofertas)
+  ["khemo", "khemo"],                  // URL/brand de Kushbreak mal puestos -> le ganaba lion-rolling-circus
+  ["ispire", "ispire"],                // "DynaVap Ispire The Wand" -> le ganaba dynavap
+  ["zippo", "zippo"],                  // "Encendedor Zippo Santa Cruz" -> le ganaba el alias santa cruz (regresion de r61)
+  ["clipper", "clipper"],              // "Encendedor Clipper Metalico Volcano" -> le ganaba el alias volcano
+  ["lion rolling circus", "lion-rolling-circus"], // -> le ganaba el alias papelillo celulosa transparente
+  ["bongalab", "bonglab"],             // typo de GrowBarato; sin esto cae al fallback gb-the-green-brand
+  // ────────────────────────────────────────────────────────────────────────────
   ["the bulldog amsterdam", "the-bulldog"],
   ["the bulldog", "the-bulldog"],
   ["bulldog", "the-bulldog"],

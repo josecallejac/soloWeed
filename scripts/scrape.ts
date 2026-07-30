@@ -1052,8 +1052,11 @@ async function reclassifyExistingOffers(storeId: number) {
 
   for (const offer of offers) {
     const category = classifyProduct(offer.title, offer.url, offer.sourceCategory ?? undefined);
-    const brand = offer.brand ?? inferKnownBrand(`${offer.title} ${offer.url} ${offer.sourceCategory ?? ""} ${offer.description ?? ""}`);
-    const brandKey = getBrandKey(`${brand ?? ""} ${offer.title} ${offer.url} ${offer.sourceCategory ?? ""} ${offer.description ?? ""}`);
+    const brand = offer.brand ?? resolveKnownBrand(`${offer.title} ${offer.url} ${offer.sourceCategory ?? ""}`, offer.description);
+    const brandKey = resolveBrandKey(
+      `${brand ?? ""} ${offer.title} ${offer.url} ${offer.sourceCategory ?? ""}`,
+      offer.description,
+    );
 
     const currentBrandKey = (offer as { brandKey?: string | null }).brandKey ?? undefined;
 
@@ -1350,6 +1353,13 @@ function inferKnownBrand(value: string) {
   return undefined;
 }
 
+// Misma precedencia que resolveBrandKey: la descripcion solo si no hay nada.
+// `brand` alimenta el string del que sale el brandKey, asi que si aqui se colara
+// una marca ajena leida de la descripcion, reintroduciria el mismo problema.
+function resolveKnownBrand(primary: string, description?: string | null) {
+  return inferKnownBrand(primary) ?? (description ? inferKnownBrand(description) : undefined);
+}
+
 function getBrandKey(value: string) {
   const normalized = normalizeForSearch(value);
   const tokens = tokenizeCandidatePath(normalized);
@@ -1386,6 +1396,19 @@ function getBrandKey(value: string) {
   }
 
   return undefined;
+}
+
+// La descripcion NO es una senal primaria de marca: menciona marcas ajenas.
+// Medido el 30 jul 2026: 118 moledores Galaxy de Astro ("Pack Moledor Aluminio
+// ... - Galaxy") quedaban con brandKey=clipper porque su descripcion menciona el
+// encendedor Clipper que viene en el pack; y casos como "The Boss ... -Dime Bags"
+// quedaban en calvo por lo mismo. Como `backfill-brand-keys.ts` SI la trata como
+// fallback y no como senal primaria, las dos derivaciones se pisaban en cada
+// ciclo scrape->backfill: 166 ofertas oscilando. Esta funcion iguala la
+// precedencia de las dos: primero las senales fiables (marca declarada, titulo,
+// URL, categoria de origen) y solo si no hay nada, la descripcion.
+function resolveBrandKey(primary: string, description?: string | null) {
+  return getBrandKey(primary) ?? (description ? getBrandKey(description) : undefined);
 }
 
 function getCandidateSignature(lastSegment: string, brand: string) {
@@ -1623,8 +1646,8 @@ export function extractOffer(
   const { sku, ean } = extractIdentifiers(html, product);
   const brand =
     cleanOptional(asText(productBrand?.["name"]) ?? asText(product?.["brand"]) ?? meta($, "property", "og:brand")) ??
-    inferKnownBrand(`${title} ${canonicalUrl} ${sourceCategory ?? ""} ${description ?? ""}`);
-  const brandKey = getBrandKey(`${brand ?? ""} ${title} ${canonicalUrl} ${sourceCategory ?? ""} ${description ?? ""}`);
+    resolveKnownBrand(`${title} ${canonicalUrl} ${sourceCategory ?? ""}`, description);
+  const brandKey = resolveBrandKey(`${brand ?? ""} ${title} ${canonicalUrl} ${sourceCategory ?? ""}`, description);
 
   if (!title || !price || price <= 0) {
     return null;
