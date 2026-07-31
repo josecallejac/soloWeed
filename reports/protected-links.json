@@ -7117,5 +7117,20 @@
       53604,
       78218
     ]
+  },
+  {
+    "id": 11088,
+    "name": "Soulblime Boquillas Tips de Cartón 50u",
+    "brandKey": "soulblime",
+    "modelKey": "tips-carton-50u",
+    "modelSlug": "tips-carton-50u",
+    "category": "Filtros y boquillas",
+    "storeCount": 3,
+    "offerIds": [
+      12332,
+      12333,
+      16108,
+      19452
+    ]
   }
 ]

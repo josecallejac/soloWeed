@@ -189,6 +189,19 @@ export const BRAND_ALIASES = new Map<string, string>([
   // Lo encontro el mapa de marcas y de paso lo ensuciaba: boveda figuraba con 6
   // huerfanas en 3 tiendas cuando en realidad solo tiene 2 ofertas reales.
   ["integra boost", "integra-boost"],
+  // r79: va ANTES que "focus v" a proposito. Las perlas "Ruby Terp 3mm Pack 2"
+  // son de Ruby Pearl Co., su tienda las declara "Generico" y su titulo no
+  // nombra la marca, asi que solo se pueden identificar por el fallback de
+  // description -- donde tambien aparecen los vaporizadores compatibles, y por
+  // eso la oferta oscilaba entre "puffco" y "focus-v", las DOS incorrectas.
+  //
+  // OJO CON LA FRASE ELEGIDA: `getBrandKey` hace `parts.every(p =>
+  // tokens.includes(p))`, o sea que una frase de varias palabras es un CONJUNTO
+  // DE TOKENS, no una secuencia adyacente. El primer intento fue "ruby terp" y
+  // se llevo por delante "Calvo Terp Balls Luminosas", cuyo texto tiene los dos
+  // tokens sueltos. "ruby pearl" es especifico: "pearl" en ingles no aparece en
+  // las fichas en español de la competencia (ahi dice "perlas").
+  ["ruby pearl", "ruby-pearl"],
   // r76: el patron clasico de r68/r69, ahora tapando el filon Pulsar. Kushbreak
   // declara brand="Pulsar" en el "Focus V Aeris", cuyo TITULO y URL dicen Focus
   // V, y "pulsar" (linea 89) le gana a "focus v" (linea 121) por ORDEN dentro de
