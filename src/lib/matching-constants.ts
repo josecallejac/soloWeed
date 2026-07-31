@@ -189,6 +189,12 @@ export const BRAND_ALIASES = new Map<string, string>([
   // Lo encontro el mapa de marcas y de paso lo ensuciaba: boveda figuraba con 6
   // huerfanas en 3 tiendas cuando en realidad solo tiene 2 ofertas reales.
   ["integra boost", "integra-boost"],
+  // r76: el patron clasico de r68/r69, ahora tapando el filon Pulsar. Kushbreak
+  // declara brand="Pulsar" en el "Focus V Aeris", cuyo TITULO y URL dicen Focus
+  // V, y "pulsar" (linea 89) le gana a "focus v" (linea 121) por ORDEN dentro de
+  // KNOWN_BRAND_PHRASES. Aparecia como huerfana de Pulsar y ensuciaba el cruce
+  // Fumetas<->Kushbreak de esa marca, que es de donde salieron 13 productos.
+  ["focus v", "focus-v"],
   // ────────────────────────────────────────────────────────────────────────────
   ["the bulldog amsterdam", "the-bulldog"],
   ["the bulldog", "the-bulldog"],
