@@ -35,6 +35,14 @@ La base productiva ya está migrada en el servidor casero. Configura `DATABASE_U
 en el entorno de despliegue antes de iniciar la app; no ejecutes migraciones ni
 recrees datos como parte de un deploy normal.
 
+## Operación
+
+- Healthcheck de aplicación y PostgreSQL: `GET /api/health` responde `200` con
+  `{ "ok": true, "database": "ok" }`; responde `503` si la base no está disponible.
+- `npm run test` ejecuta pruebas unitarias sin acceder a producción.
+- `npm run test:integration` ejecuta las pruebas que consultan PostgreSQL; úsalo
+  solo desde un entorno autorizado contra una base de pruebas.
+
 ## Scraping
 
 El scraper usa sitemaps y paginas publicas de categorias, evitando rutas de carrito, checkout, usuario, busqueda y administracion. Por defecto intenta guardar hasta 35 productos por tienda.

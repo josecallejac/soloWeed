@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node scripts/run-tests.mjs",
+    "test:integration": "node scripts/run-tests.mjs --integration",
     "scrape": "tsx scripts/scrape.ts",
     "prices:refresh": "tsx scripts/refresh-product-prices.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",

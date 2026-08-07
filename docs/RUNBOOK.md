@@ -39,6 +39,21 @@ npm run build
 npm run test
 ```
 
+Las pruebas unitarias no consultan PostgreSQL. Las pruebas de integración se
+ejecutan explícitamente con `npm run test:integration`; nunca las apuntes a la
+base productiva.
+
+## Healthcheck
+
+El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
+
+```text
+GET /api/health
+```
+
+Responde `200` cuando la base está disponible y `503` cuando no lo está. En
+Docker Compose configura este endpoint como healthcheck del contenedor web.
+
 Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
 
 Para correr un solo archivo:
