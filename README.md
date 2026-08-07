@@ -5,7 +5,7 @@ Comparador de precios de parafernalia en Chile, inspirado en el flujo de SoloTod
 ## Stack
 
 - Next.js 16 + TypeScript + Tailwind CSS
-- Prisma + SQLite
+- Prisma + PostgreSQL
 - Cheerio para scraping HTML/JSON-LD
 
 ## Antes De Modificar El Proyecto
@@ -27,10 +27,13 @@ La documentacion operativa completa esta en `docs/`:
 
 ```bash
 npm install
-npm run db:migrate
 npm run scrape
 npm run dev
 ```
+
+La base productiva ya está migrada en el servidor casero. Configura `DATABASE_URL`
+en el entorno de despliegue antes de iniciar la app; no ejecutes migraciones ni
+recrees datos como parte de un deploy normal.
 
 ## Scraping
 

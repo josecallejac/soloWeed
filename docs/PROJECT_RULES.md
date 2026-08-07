@@ -10,7 +10,7 @@ SoloWeed es un comparador de precios de parafernalia en Chile. La app no vende p
 - TypeScript.
 - Tailwind CSS.
 - Prisma.
-- SQLite local por defecto.
+- PostgreSQL en el servidor casero.
 - Cheerio para scraping HTML/JSON-LD.
 
 ## Arquitectura
@@ -43,7 +43,7 @@ SoloWeed es un comparador de precios de parafernalia en Chile. La app no vende p
 - Externalizacion de Prisma en `next.config.ts`.
 - Criterio del home `storeCount > 1`.
 - Curacion normal `CURATE_MIN_STORES=2`.
-- Persistencia manual en `prisma/dev.db`.
+- Migraciones o restauraciones de la base productiva sin autorización explícita.
 
 ## Archivos Generados O Sensibles
 
@@ -52,7 +52,7 @@ No edites manualmente:
 - `.next/`
 - `node_modules/`
 - cliente Prisma generado
-- `prisma/dev.db`
+- bases de datos y respaldos históricos en `prisma/`
 - archivos `.env` con secretos reales
 
 ## Flujo De Cambios
@@ -61,7 +61,7 @@ No edites manualmente:
 - Scraper: modifica `scripts/scrape.ts`; ejecuta corrida limitada; ejecuta `npm run lint` y `npm run build`.
 - Clasificacion, marcas o categorias: actualiza reglas de scraping y constantes del matcher si el detalle depende de esos datos.
 - Matching o curacion: verifica que no se creen `Product` innecesarios y que las URLs publicas sigan limpias.
-- Slugs, backfill o migraciones: conserva juntos `brandKey`, `modelKey` y `modelSlug`; no edites SQLite manualmente.
+- Slugs, backfill o migraciones: conserva juntos `brandKey`, `modelKey` y `modelSlug`; no edites PostgreSQL manualmente ni ejecutes migraciones en un deploy normal.
 
 ## Gotchas
 

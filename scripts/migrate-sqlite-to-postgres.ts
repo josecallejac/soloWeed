@@ -2,7 +2,7 @@ import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 import { prisma } from "../src/lib/prisma";
 
-// Migración one-shot SQLite -> PostgreSQL (2026-07-12, deploy a Railway).
+// Migración histórica one-shot SQLite -> PostgreSQL (2026-07-12).
 // Lee la BD legada en modo SOLO LECTURA y copia todas las tablas al Postgres
 // apuntado por DATABASE_URL, preservando IDs, y resetea las secuencias al final.
 //

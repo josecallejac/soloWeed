@@ -28,7 +28,7 @@ if (-not $Name) {
 # Ensure backups directory
 New-Item -ItemType Directory -Path backups -Force | Out-Null
 
-# La BD viva es el Postgres de Railway apuntado por .env; el dump lógico lo
+# La BD viva es el Postgres del servidor casero apuntado por .env; el dump lógico lo
 # hace scripts/pg-snapshot.ts vía Prisma (sin pg_dump). El flujo SQLite legado
 # (file:./X) se mantiene por si se restaura un checkpoint antiguo.
 $isPostgres = $true

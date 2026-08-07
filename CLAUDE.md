@@ -37,9 +37,9 @@ npx tsx --test tests/matching.test.ts   # run a single test file
 npm run test:e2e             # Playwright, needs a built server
 ```
 
-> **Do not `Copy-Item .env.example .env`.** `.env.example` is stale: it still says
-> `DATABASE_URL="file:./dev.db"`, which would silently point you at a dead SQLite file
-> instead of the live Postgres. Get the real URL from the Railway service.
+> Configure `DATABASE_URL` from the server's deployment environment. The live
+> PostgreSQL database is already migrated and populated; do not run migrations or
+> recreate data as part of a normal deployment.
 
 Data pipeline commands:
 
@@ -98,7 +98,7 @@ npm run lint; npm run test; npm run build
 
 ## Architecture
 
-### Data model (Prisma, PostgreSQL on Railway — see invariants)
+### Data model (Prisma, PostgreSQL on the home server — see invariants)
 
 `Store -> Offer -> PriceHistory`, with `Offer.productId -> Product` **optional**. An `Offer` is a raw scraped listing from one store; a `Product` is a *curated* identity (same brand/model/variant/size) that groups equivalent offers across stores. `Product` carries `brandKey` + `modelKey` + `modelSlug`, which must always stay in sync — they drive public URLs. `MatchDecision` records accepted/rejected offer-pair matches reviewed in the admin UI. `User`/`Session` back the `/interno` admin (session auth in `src/lib/auth.ts`; create admins with `npm run admin:create`).
 
@@ -152,7 +152,7 @@ Two traps that follow from this:
 
 - **Webpack, not Turbopack.** `npm run dev`/`npm run build` use `--webpack` because Turbopack fails to externalize Prisma here. `next.config.ts` sets `serverExternalPackages: ["@prisma/client"]` — keep it.
 - **Public URL structure is approved and stable**: `/productos/<brandKey>/<modelSlug>`. Don't change or "simplify" it. `modelSlug` must not repeat the brand or the category word, and must be a clean model concept (e.g. good: `/productos/raw/classic-king-size-slim`; bad: `/productos/raw/raw-classic-papelillos-1-1-4`).
-- **The live DB is whatever `DATABASE_URL` in `.env` points to** — since the 12 Jul 2026 migration that is the **PostgreSQL on Railway (production)**, reached over its public URL, and `schema.prisma` declares `provider = "postgresql"`. Scraping and curation run from the local machine straight against production, so **every script you run touches live data**. The SQLite files in `prisma/` (`dev.db`, `dev_recovered.db`, the `dev*.db` checkpoints) are read-only historical backups — never query them and never assume the DB is SQLite. Snapshots are logical JSON dumps via `pg-snapshot.ts` (`snapshot-save.ps1`/`snapshot-restore.ps1`). Use scripts/migrations/scraping.
+- **The live DB is whatever `DATABASE_URL` in `.env` points to** — it is the **PostgreSQL on the home server**, and `schema.prisma` declares `provider = "postgresql"`. Scraping and curation run straight against production, so **every script you run touches live data**. The SQLite files in `prisma/` (`dev.db`, `dev_recovered.db`, the `dev*.db` checkpoints) are read-only historical backups — never query them and never assume the DB is SQLite. Snapshots are logical JSON dumps via `pg-snapshot.ts` (`snapshot-save.ps1`/`snapshot-restore.ps1`). Do not run migrations or resets in normal operation.
 - **Products that reached 4 stores are frozen**: their offers and URLs must never change. The one exception is **"solo sumar"** — a frozen product may *receive* the offer of a store it lacks and move up a level; it may never lose or swap an existing one. Anything that would drop a frozen product a level needs explicit user approval, case by case. Protect them around any curation/linking cycle with `scripts/protect-multistore-links.ts` (`--save` before curating, `--verify`/`--restore` after linking; backup at `reports/protected-links.json`).
 - **Every proposed link must answer "does this add a store?"** before it is applied. Measure it on the whole batch against the *previous* state, never offer by offer: when several offers of the same store come from one batch, each one sees its siblings already linked and reports a false "that store was already there". The same aggregate-vs-individual trap bit `find-curated-destinations`, `diagnose-identity-evidence` (comparing an offer against itself) and phase 3 of r54.
 - **The URL settles identity before the photo does.** If the orphan's store already sells the destination product under a *different* base URL, they are two models — no image needed. `scripts/diagnose-identity-evidence.ts` (`$env:EV_PAIRS="offerId:productId,..."`) emits this mechanically as `MISMA-FICHA` / `SKU-COMPARTIDO` / `OTRA-FICHA-MISMA-TIENDA` / `TIENDA-AUSENTE`. A shared SKU/EAN **across stores** is hard identity; a shared SKU *within* one store means the two offers belong in the same product, which is the opposite of a mislink. Size and edition never merge (55mm ≠ 63mm, Wu-Tang ≠ Tyga); colour does.

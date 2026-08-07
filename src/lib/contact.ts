@@ -1,5 +1,5 @@
 // Datos de contacto para los CTA de la demo pública de inteligencia de precios.
-// Son NEXT_PUBLIC_* → se inlinean en build; cambiarlos exige redeploy (ver deploy-railway).
+// Son NEXT_PUBLIC_* → se inlinean en build; cambiarlos exige reconstruir la imagen.
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "jose.ue98@gmail.com";
 
 // Número en formato internacional sin "+" ni espacios, ej. "569XXXXXXXX".

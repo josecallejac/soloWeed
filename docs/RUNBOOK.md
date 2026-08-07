@@ -6,15 +6,17 @@ Comandos reproducibles para operar el proyecto. Los ejemplos usan PowerShell por
 
 ```powershell
 npm install
-Copy-Item .env.example .env
-npm run db:migrate
 ```
 
-La base SQLite por defecto usa:
+Configura el entorno de la aplicación con el PostgreSQL del servidor casero:
 
 ```text
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://<usuario>:<password>@192.168.100.2:5435/soloweed"
+NEXT_PUBLIC_SITE_URL="http://192.168.100.2:8093"
 ```
+
+La base local ya contiene las migraciones y los datos migrados. No ejecutes
+`npm run db:migrate` ni comandos de restauración durante un deploy normal.
 
 ## Desarrollo
 

@@ -26,7 +26,7 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot\..
 
-# La BD viva es el Postgres de Railway apuntado por .env; el restore lógico lo
+# La BD viva es el Postgres del servidor casero apuntado por .env; el restore lógico lo
 # hace scripts/pg-snapshot.ts (TRUNCATE + repoblado). El flujo SQLite legado
 # (file:./X + backup .db) se mantiene por si se restaura un checkpoint antiguo.
 $isPostgres = $true

@@ -18,7 +18,7 @@ Este archivo es el punto de entrada para cualquier modelo, agente o persona que 
 - Desarrollo y build usan Webpack: `npm run dev` y `npm run build`.
 - No cambies a Turbopack sin resolver primero la externalizacion de Prisma.
 - Para cambios de app, scraper, matching o datos derivados, ejecuta `npm run lint` y `npm run build` antes de terminar.
-- No edites manualmente `prisma/dev.db`.
+- No edites manualmente la base PostgreSQL ni ejecutes migraciones durante un deploy normal: la base del servidor casero ya está migrada y poblada.
 - No edites `.next/`, `node_modules/`, clientes Prisma generados ni otros artefactos generados.
 - No cambies la estructura publica de URLs salvo solicitud explicita.
 - No reviertas cambios ajenos sin permiso explicito.
