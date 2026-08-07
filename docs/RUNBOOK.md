@@ -54,6 +54,50 @@ GET /api/health
 Responde `200` cuando la base está disponible y `503` cuando no lo está. En
 Docker Compose configura este endpoint como healthcheck del contenedor web.
 
+## Monitoreo Y Backups Del Servidor
+
+Estos scripts se ejecutan **en el host Linux** que tiene el `docker-compose.yml`;
+no los ejecutes desde una estación de trabajo contra producción.
+
+```bash
+chmod +x scripts/ops/*.sh
+
+# Backup lógico comprimido, conserva 14 días en /var/backups/soloweed.
+sudo scripts/ops/backup-postgres.sh
+
+# Valida app + PostgreSQL por la URL pública.
+scripts/ops/check-health.sh
+```
+
+Variables opcionales:
+
+```bash
+BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 sudo scripts/ops/backup-postgres.sh
+HEALTHCHECK_WEBHOOK_URL='https://<webhook>' scripts/ops/check-health.sh
+```
+
+Programa ambas tareas con `crontab -e` del usuario que puede ejecutar Docker:
+
+```cron
+# Backup diario a las 03:15 UTC; errores quedan en el log del sistema.
+15 3 * * * /ruta/soloWeed/scripts/ops/backup-postgres.sh
+
+# Healthcheck cada 5 minutos; retorna error y envía webhook si fue configurado.
+*/5 * * * * /ruta/soloWeed/scripts/ops/check-health.sh
+```
+
+Para que el healthcheck de Docker reinicie el contenedor cuando corresponda,
+agrega al servicio web del `docker-compose.yml` del servidor:
+
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 30s
+```
+
 Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
 
 Para correr un solo archivo:

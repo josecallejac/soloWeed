@@ -42,6 +42,9 @@ recrees datos como parte de un deploy normal.
 - `npm run test` ejecuta pruebas unitarias sin acceder a producción.
 - `npm run test:integration` ejecuta las pruebas que consultan PostgreSQL; úsalo
   solo desde un entorno autorizado contra una base de pruebas.
+- En el host Docker, `scripts/ops/backup-postgres.sh` crea backups comprimidos de
+  PostgreSQL y aplica retención; `scripts/ops/check-health.sh` monitorea la URL
+  pública y puede notificar un webhook opcional.
 
 ## Scraping
 
