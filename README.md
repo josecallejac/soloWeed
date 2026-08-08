@@ -45,6 +45,8 @@ recrees datos como parte de un deploy normal.
 - En el host Docker, `scripts/ops/backup-postgres.sh` crea backups comprimidos de
   PostgreSQL y aplica retención; `scripts/ops/check-health.sh` monitorea la URL
   pública y puede notificar un webhook opcional.
+- GitHub Actions valida `lint`, pruebas unitarias y build en cada push o pull
+  request a `main`, con una URL de base ficticia y sin migraciones.
 
 ## Scraping
 
