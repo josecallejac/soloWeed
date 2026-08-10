@@ -21,3 +21,7 @@ export function getVariantName(title: string, url: string): string | null {
 
   return null;
 }
+
+export function resolveSelectedVariant(variants: string[], queryValue: string | undefined) {
+  return queryValue && variants.includes(queryValue) ? queryValue : "";
+}

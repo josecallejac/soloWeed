@@ -162,14 +162,14 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                   </h2>
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-center text-sm sm:min-w-72">
-                  <Stat label="Mas barata" value={data.summary.cheapest} />
-                  <Stat label="Empatada" value={data.summary.tied} />
-                  <Stat label="Sobrepreciada" value={data.summary.overpriced} />
+                  <Stat label="Bajo mediana" value={data.summary.cheapest} />
+                  <Stat label="En mediana" value={data.summary.tied} />
+                  <Stat label="Sobre mediana" value={data.summary.overpriced} />
                 </div>
               </div>
               {data.summary.overpriced > 0 ? (
                 <p className="mt-4 text-sm font-bold text-black/60">
-                  Gap promedio en productos sobrepreciados: {data.summary.avgGapPct.toFixed(1)}%
+                  Diferencia promedio sobre la mediana: {data.summary.avgGapPct.toFixed(1)}%
                 </p>
               ) : null}
               {data.summary.suspects > 0 ? (
@@ -194,13 +194,13 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                       <tr>
                         <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Producto</th>
                         <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Tu precio</th>
-                        <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Mejor competencia</th>
+                        <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Mediana / mínimo</th>
                         <th className="whitespace-nowrap px-3 py-3 text-xs font-black uppercase tracking-[0.12em]">Estado</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.positions.map((row) => {
-                        const gap = row.myPrice - row.bestOtherPrice;
+                        const gap = row.myPrice - row.marketMedianPrice;
                         const status = positionStatus(row);
                         const statusClass = row.suspect
                           ? "bg-amber-500/10 text-amber-700 border-amber-500/30"
@@ -223,13 +223,13 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                             </td>
                             <td className="whitespace-nowrap px-3 py-2 align-top font-bold text-black/70">{formatPrice(row.myPrice)}</td>
                             <td className="whitespace-nowrap px-3 py-2 align-top text-black/70">
-                              {formatPrice(row.bestOtherPrice)} <span className="text-black/40">({row.bestOtherStore})</span>
+                              {formatPrice(row.marketMedianPrice)} <span className="text-black/40">/ {formatPrice(row.bestOtherPrice)} ({row.bestOtherStore})</span>
                             </td>
                             <td className="whitespace-nowrap px-3 py-2 align-top">
                               <span className={`rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] ${statusClass}`}>
                                 {status}
                                 {row.suspect
-                                  ? ` ${(Math.max(row.myPrice, row.bestOtherPrice) / Math.min(row.myPrice, row.bestOtherPrice)).toFixed(1)}x`
+                                  ? ` ${(Math.max(row.myPrice, row.marketMedianPrice) / Math.min(row.myPrice, row.marketMedianPrice)).toFixed(1)}x`
                                   : gap !== 0
                                     ? ` ${formatPrice(Math.abs(gap))}`
                                     : ""}
@@ -285,7 +285,7 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                 <div className="flex flex-wrap items-end justify-between gap-3">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">
-                      Lo que vende el mercado y esta tienda no
+                      Lo observado en varias tiendas y no detectado aquí
                     </p>
                     <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Brecha de surtido</h2>
                   </div>
@@ -314,7 +314,7 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                               {brand.brandName}
                               {!brand.carriedByStore ? (
                                 <span className="ml-2 whitespace-nowrap rounded-full border border-[#bddf57] bg-[#bddf57]/30 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.1em]">
-                                  no la vende
+                                  marca no detectada
                                 </span>
                               ) : null}
                             </td>

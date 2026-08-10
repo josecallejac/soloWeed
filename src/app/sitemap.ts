@@ -2,32 +2,40 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, productPath } from "@/lib/site";
 
-// El catalogo cambia con cada ronda de curacion: usamos ISR de 24 horas
-// para no castigar al crawler y mantener rendimiento.
-export const revalidate = 86400;
+// El sitemap depende del catalogo vivo. No debe conectarse a la base durante
+// el build: en produccion se genera bajo demanda y, ante una caida puntual,
+// al menos conserva la entrada principal del sitio.
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await prisma.product.findMany({
-    where: {
-      brandKey: { not: null },
-      modelSlug: { not: null },
-    },
-    select: { brandKey: true, modelSlug: true, updatedAt: true },
-    orderBy: { id: "asc" },
-  });
+  const homeEntry: MetadataRoute.Sitemap[number] = {
+    url: SITE_URL,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 1,
+  };
 
-  return [
-    {
-      url: SITE_URL,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-    ...products.map((product) => ({
-      url: `${SITE_URL}${productPath(product.brandKey!, product.modelSlug!)}`,
-      lastModified: product.updatedAt,
-      changeFrequency: "daily" as const,
-      priority: 0.8,
-    })),
-  ];
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        brandKey: { not: null },
+        modelSlug: { not: null },
+      },
+      select: { brandKey: true, modelSlug: true, updatedAt: true },
+      orderBy: { id: "asc" },
+    });
+
+    return [
+      homeEntry,
+      ...products.map((product) => ({
+        url: `${SITE_URL}${productPath(product.brandKey!, product.modelSlug!)}`,
+        lastModified: product.updatedAt,
+        changeFrequency: "daily" as const,
+        priority: 0.8,
+      })),
+    ];
+  } catch (error) {
+    console.warn("No se pudo generar el sitemap completo:", error);
+    return [homeEntry];
+  }
 }

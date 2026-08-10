@@ -1,0 +1,63 @@
+name: soloweed
+
+services:
+  soloweed-db:
+    image: ${POSTGRES_IMAGE:?Define POSTGRES_IMAGE con la imagen exacta del contenedor existente}
+    container_name: soloweed-db
+    restart: unless-stopped
+    env_file:
+      - ${SERVER_ENV_FILE:-.env.docker.local}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Define POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER:?Define POSTGRES_USER}
+    ports:
+      - "${POSTGRES_BIND_ADDRESS:-127.0.0.1}:${POSTGRES_HOST_PORT:-5435}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+
+  soloweed:
+    image: soloweed:local
+    container_name: soloweed
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?Define NEXT_PUBLIC_SITE_URL}
+    restart: unless-stopped
+    init: true
+    env_file:
+      - ${SERVER_ENV_FILE:-.env.docker.local}
+    environment:
+      DATABASE_URL: ${DATABASE_URL_INTERNAL:?Define DATABASE_URL_INTERNAL con soloweed-db:5432}
+      DEPLOY_TARGET: home-server
+      EXPECTED_DATABASE_HOST: soloweed-db
+      HOSTNAME: 0.0.0.0
+      NODE_ENV: production
+      PORT: 3000
+    depends_on:
+      soloweed-db:
+        condition: service_healthy
+    ports:
+      - "${APP_BIND_ADDRESS:-0.0.0.0}:${APP_PORT:-8093}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  postgres-data:
+    external: true
+    name: ${POSTGRES_VOLUME_NAME:?Define POSTGRES_VOLUME_NAME con el volumen existente; no crees uno vacío}

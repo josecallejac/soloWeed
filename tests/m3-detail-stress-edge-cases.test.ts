@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { formatPrice, formatPriceRange } from "../src/lib/format";
-import { getVariantName } from "../src/lib/variant-utils";
+import { getVariantName, resolveSelectedVariant } from "../src/lib/variant-utils";
 import { StorePriceCard, StoreStatusRow } from "../src/components/store-price-card";
 
 type MockStore = {
@@ -331,7 +331,7 @@ describe("Milestone 3 Edge Case 3: Variant query parameter updates (?v=...)", ()
     assert.equal(v3, null);
   });
 
-  it("resolves selectedVariant query parameter with fallback to first variant", () => {
+  it("resolves selectedVariant query parameter with fallback to all variants", () => {
     const variantsSet = new Set<string>();
     offers.forEach((o) => {
       const v = getVariantName(o.title, o.url);
@@ -342,16 +342,16 @@ describe("Milestone 3 Edge Case 3: Variant query parameter updates (?v=...)", ()
 
     // Test query param resolution
     const validQueryParam = "Purple";
-    const selected1 = validQueryParam && variants.includes(validQueryParam) ? validQueryParam : variants[0];
+    const selected1 = resolveSelectedVariant(variants, validQueryParam);
     assert.equal(selected1, "Purple");
 
     const invalidQueryParam = "Green";
-    const selected2 = invalidQueryParam && variants.includes(invalidQueryParam) ? invalidQueryParam : variants[0];
-    assert.equal(selected2, "Pink");
+    const selected2 = resolveSelectedVariant(variants, invalidQueryParam);
+    assert.equal(selected2, "");
 
     const emptyQueryParam = undefined;
-    const selected3 = emptyQueryParam && variants.includes(emptyQueryParam as unknown as string) ? emptyQueryParam : variants[0];
-    assert.equal(selected3, "Pink");
+    const selected3 = resolveSelectedVariant(variants, emptyQueryParam);
+    assert.equal(selected3, "");
   });
 
   it("filters visibleOffers by selected variant while retaining unvarianted offers", () => {

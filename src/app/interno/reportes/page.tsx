@@ -52,7 +52,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   const query = typeof params.q === "string" ? params.q.trim() : "";
   const table = filterTable(await readReport(selectedReport.file, selectedRun), query);
   const comparison = compareRun ? compareTables(await readReport(selectedReport.file, selectedRun), await readReport(selectedReport.file, compareRun)) : null;
-  const clicks = await getOutboundClickStats();
+  const [clicks, operations] = await Promise.all([getOutboundClickStats(), getOperationsStats()]);
 
   return (
     <main className="min-h-screen bg-[#f4f1e8] px-5 py-6 text-[#17150f] sm:px-8 lg:px-10">
@@ -93,6 +93,48 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
             </form>
           </div>
         </header>
+
+        <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[6px_6px_0_#17150f]">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-black/40">Salud del catálogo</p>
+              <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Cobertura y frescura operativa</h2>
+            </div>
+            <p className="max-w-md text-sm leading-5 text-black/55">
+              Datos en vivo, solo lectura. Una oferta se considera pendiente de refresco si no se ve hace más de 72 horas.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat label="Tiendas activas" value={operations.enabledStores} />
+            <Stat label="Ofertas" value={operations.offers} />
+            <Stat label="Productos curados" value={operations.products} />
+            <Stat label="Ofertas huérfanas" value={operations.orphanOffers} />
+          </div>
+          <div className="mt-5 grid gap-3 lg:grid-cols-[1.4fr_1fr]">
+            <div className="rounded-2xl border border-black/10 bg-[#f4f1e8] p-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-black/45">Frescura por tienda</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                {operations.stores.map((store) => (
+                  <div className="rounded-xl bg-white px-3 py-2" key={store.id}>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="truncate text-sm font-black">{store.name}</span>
+                      <span className={store.staleOffers > 0 ? "text-xs font-black text-amber-700" : "text-xs font-black text-emerald-700"}>
+                        {store.staleOffers > 0 ? `${store.staleOffers} vencidas` : "al día"}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-xs text-black/50">{store.offers} ofertas · última: {store.lastSeenAt ? formatOperationalDate(store.lastSeenAt) : "sin datos"}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-[#f4f1e8] p-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-black/45">Cobertura por producto</p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {operations.coverage.map((tier) => <Stat key={tier.stores} label={`${tier.stores} tienda${tier.stores === 1 ? "" : "s"}`} value={tier.products} />)}
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="mt-6 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[6px_6px_0_#17150f]">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -242,6 +284,62 @@ function Stat({ label, value }: { label: string; value: number }) {
   );
 }
 
+async function getOperationsStats() {
+  const staleSince = new Date(Date.now() - 72 * 60 * 60 * 1000);
+
+  try {
+    const [enabledStores, offers, products, orphanOffers, stores, coverage] = await Promise.all([
+      prisma.store.count({ where: { enabled: true } }),
+      prisma.offer.count(),
+      prisma.product.count(),
+      prisma.offer.count({ where: { productId: null } }),
+      prisma.store.findMany({
+        orderBy: { name: "asc" },
+        select: {
+          id: true,
+          name: true,
+          _count: { select: { offers: true } },
+          offers: { orderBy: { lastSeenAt: "desc" }, select: { lastSeenAt: true }, take: 1 },
+        },
+      }),
+      prisma.$queryRaw<Array<{ products: bigint; stores: bigint }>>`
+        SELECT COUNT(*) AS "products", "stores"
+        FROM (
+          SELECT "productId", COUNT(DISTINCT "storeId") AS "stores"
+          FROM "Offer"
+          WHERE "productId" IS NOT NULL
+          GROUP BY "productId"
+        ) AS "coverage"
+        GROUP BY "stores"
+        ORDER BY "stores" ASC
+      `,
+    ]);
+    const staleCounts = await prisma.offer.groupBy({
+      by: ["storeId"],
+      where: { lastSeenAt: { lt: staleSince } },
+      _count: true,
+    });
+    const staleByStore = new Map(staleCounts.map((row) => [row.storeId, row._count]));
+
+    return {
+      enabledStores,
+      offers,
+      products,
+      orphanOffers,
+      stores: stores.map((store) => ({
+        id: store.id,
+        name: store.name,
+        offers: store._count.offers,
+        staleOffers: staleByStore.get(store.id) ?? 0,
+        lastSeenAt: store.offers[0]?.lastSeenAt ?? null,
+      })),
+      coverage: coverage.map((row) => ({ products: Number(row.products), stores: Number(row.stores) })),
+    };
+  } catch {
+    return { enabledStores: 0, offers: 0, products: 0, orphanOffers: 0, stores: [], coverage: [] };
+  }
+}
+
 async function getOutboundClickStats() {
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
@@ -375,6 +473,14 @@ function formatRunLabel(run: string) {
   return new Intl.DateTimeFormat("es-CL", {
     dateStyle: "short",
     timeStyle: "medium",
+    timeZone: "America/Santiago",
+  }).format(date);
+}
+
+function formatOperationalDate(date: Date) {
+  return new Intl.DateTimeFormat("es-CL", {
+    dateStyle: "short",
+    timeStyle: "short",
     timeZone: "America/Santiago",
   }).format(date);
 }

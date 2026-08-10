@@ -1,5 +1,10 @@
 import { normalizeForSearch } from "@/lib/tokenize";
 import { prisma } from "@/lib/prisma";
+import {
+  buildCatalogCoverage,
+  catalogItemMatchesStoreFilter,
+  type CatalogCoverage,
+} from "@/lib/catalog-coverage";
 import { Prisma } from "@prisma/client";
 import type { Store } from "@prisma/client";
 import { unstable_cache } from "next/cache";
@@ -62,7 +67,7 @@ interface PageCacheEntry {
   categories: { category: string; count: number }[];
   brands: { brand: string; brandKey: string; count: number }[];
   catalogItems: CatalogItem[];
-  coverage: { tier5: number; tier4: number; tier3: number; tier2: number; full: number; high: number; mid: number };
+  coverage: CatalogCoverage;
   expiresAt: number;
 }
 const PAGE_CACHE = new Map<string, PageCacheEntry>();
@@ -110,14 +115,10 @@ export async function getCatalogData(
       };
     }
 
-    const brandFilterSql = options?.brandFilter ? Prisma.sql`AND "Offer"."brandKey" = ${options.brandFilter}` : Prisma.empty;
     const categoryFilterSql = selectedCategory ? Prisma.sql`AND "Offer"."category" = ${selectedCategory}` : Prisma.empty;
-    const storeFilterSql = options?.storeFilter?.length
-      ? Prisma.sql`AND "Store"."slug" IN (${Prisma.join(options.storeFilter)})`
-      : Prisma.empty;
 
     const [stores, offersRaw, { categories, brands: brandsGlobal, brandsByCategory }, coverage] = await Promise.all([
-      prisma.store.findMany({ orderBy: { name: "asc" } }),
+      prisma.store.findMany({ where: { enabled: true }, orderBy: { name: "asc" } }),
       prisma.$queryRaw(Prisma.sql`
         -- Solo las columnas que consume el catálogo: excluir description (texto
         -- largo) reduce el I/O de hasta 10k filas por render.
@@ -128,7 +129,7 @@ export async function getCatalogData(
                "Offer"."lastSeenAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
-        WHERE 1=1 ${categoryFilterSql} ${storeFilterSql} ${brandFilterSql}
+        WHERE "Store"."enabled" = true ${categoryFilterSql}
         ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
         -- Techo de seguridad: debe superar siempre el total de ofertas. Si el
         -- catalogo lo alcanza, el home descuenta tiendas en silencio (las
@@ -183,17 +184,18 @@ export async function getCatalogData(
         if (!matchTerm) return false;
       }
       if (selectedCategory && o.category !== selectedCategory) return false;
-      if (options?.storeFilter?.length && !options.storeFilter.includes(o.store.slug)) return false;
+      if (options?.brandFilter && o.brandKey !== options.brandFilter) return false;
       return true;
     });
 
-    // Expand result: if a product is matched, include all of its offers (respecting category/store filters)
+    // Expande el producto completo. Los filtros de tienda y marca seleccionan
+    // comparables, no recortan sus ofertas: así una tienda elegida conserva el
+    // resto de precios con los que debe compararse.
     const matchedProductIds = new Set(initialMatched.map((o) => o.productId).filter(Boolean));
     const initialMatchedIds = new Set(initialMatched.map((o) => o.id));
     const expandedOffers = offersWithStore.filter((o) => {
       if (o.productId && matchedProductIds.has(o.productId)) {
         if (selectedCategory && o.category !== selectedCategory) return false;
-        if (options?.storeFilter?.length && !options.storeFilter.includes(o.store.slug)) return false;
         return true;
       }
       return initialMatchedIds.has(o.id);
@@ -217,7 +219,9 @@ export async function getCatalogData(
 
     const totalStores = stores.length;
     let catalogItems = buildCatalogItems(offers)
-      .filter((item) => hasCatalogVisibility(item, selectedCategory, (options?.storeFilter?.length ?? 0) > 0))
+      .filter(hasCatalogVisibility)
+      .filter((item) => catalogItemMatchesStoreFilter(item.stores, options?.storeFilter))
+      .filter((item) => !options?.brandFilter || item.brandKey === options.brandFilter)
       .map((item) => ({ ...item, totalStores }));
 
     if (options?.minPrice !== undefined && !Number.isNaN(options.minPrice)) {
@@ -271,7 +275,7 @@ export async function getCatalogData(
       brands: [],
       page: 1,
       totalPages: 1,
-      coverage: { tier5: 0, tier4: 0, tier3: 0, tier2: 0, full: 0, high: 0, mid: 0 },
+      coverage: buildCatalogCoverage([], 0),
     };
   }
 }
@@ -295,25 +299,17 @@ function safeCache<Args extends unknown[], R>(
 // así que se cachea compartido (Next data cache) en vez de recalcularse por render.
 const getProductCoverage = safeCache(
   async () => {
-    const covRows = await prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
-      SELECT "productId", COUNT(DISTINCT "storeId") AS "cnt"
-      FROM "Offer"
-      WHERE "productId" IS NOT NULL
-      GROUP BY "productId"
-    `;
-    const coverage = { tier5: 0, tier4: 0, tier3: 0, tier2: 0, full: 0, high: 0, mid: 0 };
-    for (const row of covRows) {
-      const cnt = Number(row.cnt);
-      if (cnt >= 5) coverage.tier5++;
-      if (cnt === 4) coverage.tier4++;
-      if (cnt === 3) coverage.tier3++;
-      if (cnt === 2) coverage.tier2++;
-
-      if (cnt >= 4) coverage.full++;
-      else if (cnt >= 3) coverage.high++;
-      else if (cnt >= 2) coverage.mid++;
-    }
-    return coverage;
+    const [totalStores, covRows] = await Promise.all([
+      prisma.store.count({ where: { enabled: true } }),
+      prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
+        SELECT "Offer"."productId", COUNT(DISTINCT "Offer"."storeId") AS "cnt"
+        FROM "Offer"
+        INNER JOIN "Store" ON "Offer"."storeId" = "Store"."id"
+        WHERE "Offer"."productId" IS NOT NULL AND "Store"."enabled" = true
+        GROUP BY "Offer"."productId"
+      `,
+    ]);
+    return buildCatalogCoverage(covRows.map((row) => Number(row.cnt)), totalStores);
   },
   ["home-product-coverage"],
   { revalidate: 300 },
@@ -397,7 +393,7 @@ const getComparableFiltersCounts = safeCache(
   async (normalizedQuery: string, where: Prisma.OfferWhereInput) => {
   void normalizedQuery;
   const baseOffers = await prisma.offer.findMany({
-    where,
+    where: { AND: [where, { store: { enabled: true } }] },
     select: {
       id: true,
       storeId: true,
@@ -606,10 +602,9 @@ function hasCatalogComparison(item: CatalogItem) {
   return item.storeCount > 1;
 }
 
-function hasCatalogVisibility(item: CatalogItem, selectedCategory: string, storeFilterActive = false) {
+function hasCatalogVisibility(item: CatalogItem) {
   const cat = item.category.toLowerCase();
   if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
-  if (storeFilterActive) return hasCatalogComparison(item);
   return hasCatalogComparison(item);
 }
 

@@ -34,9 +34,11 @@ type ScrapedOffer = {
   availability?: string;
 };
 
-const MAX_PRODUCTS_PER_STORE = Number(process.env.SCRAPE_LIMIT_PER_STORE ?? 35);
-const MAX_CANDIDATES_PER_STORE = MAX_PRODUCTS_PER_STORE * 12;
-const MAX_DISCOVERY_PAGES_PER_STORE = Math.max(20, MAX_PRODUCTS_PER_STORE * 2);
+// El límite representa fichas/páginas visitadas, no ofertas. En Jumpseller una
+// sola ficha puede producir muchas variantes y antes consumía todo el cupo.
+const MAX_PAGES_PER_STORE = Number(process.env.SCRAPE_LIMIT_PER_STORE ?? 35);
+const MAX_CANDIDATES_PER_STORE = MAX_PAGES_PER_STORE * 12;
+const MAX_DISCOVERY_PAGES_PER_STORE = Math.max(20, MAX_PAGES_PER_STORE * 2);
 const REQUEST_DELAY_MS = Number(process.env.SCRAPE_DELAY_MS ?? 350);
 const REQUEST_TIMEOUT_MS = Number(process.env.SCRAPE_TIMEOUT_MS ?? 20_000);
 const STORE_FILTER = new Set(
@@ -779,6 +781,7 @@ const VAPE_ACCESSORY_TERMS = [
   "bolsas",
   "boquilla",
   "boquillas",
+  "chamber",
   "capsula",
   "capsulas",
   "cargador",
@@ -792,6 +795,7 @@ const VAPE_ACCESSORY_TERMS = [
   "enigma box",
   "filtro",
   "filtros",
+  "coil",
   "juego de mallas",
   "malla",
   "mallas",
@@ -801,6 +805,7 @@ const VAPE_ACCESSORY_TERMS = [
   "piezas desgaste",
   "porta capsulas",
   "repuesto",
+  "resistencia",
   "saber tip",
   "set tubos",
   "starter set",
@@ -815,7 +820,7 @@ async function main() {
   if (CATEGORY_FILTER.size > 0) {
     console.log(`SoloWeed scraper: filtering categories: ${[...CATEGORY_FILTER].join(", ")}.`);
   } else {
-    console.log(`SoloWeed scraper: up to ${MAX_PRODUCTS_PER_STORE} products per store.`);
+    console.log(`SoloWeed scraper: up to ${MAX_PAGES_PER_STORE} product pages per store.`);
   }
 
   const storesToScrape = STORE_FILTER.size
@@ -847,12 +852,14 @@ async function main() {
     let saved = 0;
     let skipped = 0;
     let failed = 0;
+    let processedPages = 0;
 
     for (const url of candidates) {
-      if (saved >= MAX_PRODUCTS_PER_STORE) {
+      if (processedPages >= MAX_PAGES_PER_STORE) {
         break;
       }
 
+      processedPages += 1;
       await delay(REQUEST_DELAY_MS);
 
       try {
@@ -885,6 +892,7 @@ async function main() {
       console.log(`${storeConfig.name}: reclassified ${repaired} existing offers.`);
     }
 
+    console.log(`${storeConfig.name}: processed ${processedPages} product pages.`);
     console.log(`${storeConfig.name}: saved ${saved}, skipped ${skipped}, failed ${failed}.`);
   }
 
@@ -1624,7 +1632,7 @@ export function extractOffer(
     parsePrice(meta($, "property", "product:original_price:amount")) ??
     parsePrice(offer?.highPrice) ??
     undefined;
-  const sourceCategory = cleanOptional(asText(product?.["category"]) ?? extractBreadcrumbCategory(product));
+  const sourceCategory = cleanOptional(extractBreadcrumbCategory($, product));
   const availability = cleanOptional(
     asText(offer?.availability) ?? meta($, "property", "product:availability"),
   );
@@ -1918,14 +1926,20 @@ function getJsonLdImage(value: unknown): string | undefined {
   return undefined;
 }
 
-function extractBreadcrumbCategory(product: Record<string, unknown> | null) {
+function extractBreadcrumbCategory($: ReturnType<typeof load>, product: Record<string, unknown> | null) {
   const category = product?.category;
+  const jsonCategory = Array.isArray(category) ? asText(category[category.length - 1]) : asText(category);
 
-  if (Array.isArray(category)) {
-    return asText(category[category.length - 1]);
+  if (jsonCategory && !/^\d+$/.test(jsonCategory.trim())) {
+    return jsonCategory;
   }
 
-  return asText(category);
+  const breadcrumbs = $(".theme-breadcrumbs a")
+    .map((_, element) => cleanText($(element).text()))
+    .get()
+    .filter((value) => value && !/^(?:inicio|home)$/i.test(value));
+
+  return breadcrumbs.at(-1) ?? jsonCategory;
 }
 
 export function classifyProduct(title: string, url: string, sourceCategory?: string) {
@@ -2069,7 +2083,7 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return "Contenedores y estuches";
   }
 
-  if (hasAny(text, ["accesorios-vaporizadores", "vaporizacion/accesorios"]) && !hasAny(text, VAPE_EXCLUDED_TERMS)) {
+  if (hasAny(text, ["accesorios vaporizadores", "vaporizacion accesorios"]) && !hasAny(text, VAPE_EXCLUDED_TERMS)) {
     return VAPORIZER_REPLACEMENT_CATEGORY;
   }
 
@@ -2097,9 +2111,9 @@ function isVaporizerAccessory(titleOnly: string, text: string) {
   }
 
   return (
-    hasAny(text, ["accesorios-vaporizadores", "vaporizacion/accesorios"]) ||
+    hasAny(text, ["accesorios vaporizadores", "vaporizacion accesorios"]) ||
     (hasAny(text, ["vaporizador", "vaporizer"]) && hasAny(titleOnly, VAPE_ACCESSORY_TERMS)) ||
-    (hasAny(text, ["airis", "airistech", "storz", "bickel", "dynavap", "davinci", "pax", "arizer", "xvape", "fenix", "focus v", "vivant", "volcano", "mighty", "crafty", "venty", "veazy"]) &&
+    (hasAny(text, ["airis", "airistech", "storz", "bickel", "dynavap", "davinci", "pax", "arizer", "xvape", "fenix", "focus v", "puffco", "yocan", "vivant", "volcano", "mighty", "crafty", "venty", "veazy"]) &&
       hasAny(titleOnly, VAPE_ACCESSORY_TERMS))
   );
 }
@@ -2167,8 +2181,10 @@ function isOutOfScopeVape(titleOnly: string, text: string) {
 }
 
 function isExtractVape(titleOnly: string) {
-  return /\b(?:puffco|yocan|apx\s+volt|wax\s+pen|cartridge\s+510|bateria\s+510|bater[ií]a\s+510)\b/.test(titleOnly) ||
-    (/\bvaporizador\b/.test(titleOnly) && /\b(?:extractos?|wax|cartridge)\b/.test(titleOnly));
+  if (hasAny(titleOnly, VAPE_ACCESSORY_TERMS)) return false;
+
+  return /\b(?:puffco|doteco|apx\s+volt|wax\s+pen|hot\s+knife|dabber\s+electrico|cartridges?\s+510|bateria\s+510|bater[ií]a\s+510)\b/.test(titleOnly) ||
+    (/\bvaporizador\b/.test(titleOnly) && /\b(?:extractos?|concentrados?|wax|cartridges?)\b/.test(titleOnly));
 }
 
 function hasKnownBongModel(text: string) {
@@ -2223,7 +2239,7 @@ export function isLikelyProductUrl(value: string) {
   }
 }
 
-function isDiscoveryUrl(value: string, baseUrl: string) {
+export function isDiscoveryUrl(value: string, baseUrl: string) {
   try {
     const url = new URL(value);
     const base = new URL(baseUrl);
@@ -2231,6 +2247,10 @@ function isDiscoveryUrl(value: string, baseUrl: string) {
 
     if (url.hostname !== base.hostname || path === "/") {
       return false;
+    }
+
+    if (url.searchParams.has("page")) {
+      return true;
     }
 
     if (url.hostname === "piranha.cl" || url.hostname === "www.growbaratochile.cl") {
@@ -2255,7 +2275,7 @@ export async function fetchText(url: string) {
     const response = await fetch(url, {
       signal: controller.signal,
       headers: {
-        "user-agent": "SoloWeedBot/0.1 (+https://soloweed.local; price comparison MVP)",
+        "user-agent": "SoloWeedBot/0.1 (+https://soloweed.store; price comparison)",
         accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
     });

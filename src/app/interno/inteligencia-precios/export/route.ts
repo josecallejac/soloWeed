@@ -27,22 +27,25 @@ export async function GET(request: Request) {
 
   const data = await getPriceIntelligence(store.id);
   const lines = [
-    ["Producto", "Tu precio", "Mejor competencia", "Tienda competencia", "Estado", "Diferencia", "Diferencia %", "Ficha"]
+    ["Producto", "Tu precio", "Mediana competencia", "Mínimo competencia", "Tienda mínimo", "Posición", "Tiendas", "Estado", "Diferencia vs mediana", "Diferencia %", "Ficha"]
       .map(csvValue)
       .join(SEPARATOR),
   ];
 
   for (const row of data.positions) {
-    const gap = row.myPrice - row.bestOtherPrice;
+    const gap = row.myPrice - row.marketMedianPrice;
     lines.push(
       [
         row.productName,
         row.myPrice,
+        row.marketMedianPrice,
         row.bestOtherPrice,
         row.bestOtherStore,
+        row.priceRank,
+        row.marketStoreCount,
         positionStatus(row),
         row.suspect ? "" : gap,
-        row.suspect ? "" : ((gap / row.bestOtherPrice) * 100).toFixed(1),
+        row.suspect ? "" : ((gap / row.marketMedianPrice) * 100).toFixed(1),
         row.productPath ? new URL(row.productPath, SITE_URL).toString() : "",
       ]
         .map(csvValue)

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { classifyProduct } from "../scripts/scrape";
+import { classifyProduct, extractOffer, isDiscoveryUrl, isPotentialCandidate } from "../scripts/scrape";
 
 /**
  * Regresiones del clasificador de alcance. Tres veces ya un termino de la lista
@@ -118,5 +118,53 @@ describe("classifyProduct: desechables de sabores fuera de alcance", () => {
     assert.ok(classifyProduct("Vaporizador Bateria Alien Doteco Et500 Para Cartridges 510", "https://www.friendlygrow.cl/vaporizador-bateria-alien-doteco-et500"));
     assert.ok(classifyProduct("Bateria 510 Puffco Plus", "https://astrogrowshop.cl/bateria-510-puffco-plus"));
     assert.ok(classifyProduct("Vaporizador Brass Knuckles 900mah Rosca 510 Original.", "https://www.friendlygrow.cl/vaporizador-brass-knuckles-900mah-510"));
+  });
+});
+
+describe("classifyProduct: catálogo Yocan y Doteco de Friendly Grow", () => {
+  it("separa vaporizadores herbales Yocan de los dispositivos de extracción", () => {
+    assert.equal(classifyProduct("Vaporizador Herbal Yocan Hit", "https://www.friendlygrow.cl/yocan-hit"), "Vaporizadores herbales");
+    assert.equal(classifyProduct("Vaporizador Yocan Vane Para Hierbas Secas", "https://www.friendlygrow.cl/yocan-vane"), "Vaporizadores herbales");
+  });
+
+  it("clasifica boquillas, coils y resistencias Yocan como repuestos", () => {
+    assert.equal(classifyProduct("Boquilla de Repuesto Yocan Hit", "https://www.friendlygrow.cl/boquilla-yocan-hit"), "Repuestos para bongs y vaporizadores");
+    assert.equal(classifyProduct("Yocan Cloud QBC Coil Resistencia", "https://www.friendlygrow.cl/yocan-cloud-qbc-coil"), "Repuestos para bongs y vaporizadores");
+  });
+
+  it("conserva los Yocan y Doteco de extracción en su categoría", () => {
+    assert.equal(classifyProduct("Vaporizador Yocan iCan Para Concentrados", "https://www.friendlygrow.cl/yocan-ican"), "Accesorios de extraccion");
+    assert.equal(classifyProduct("Vaporizador Yocan Ziva Para Cartridges", "https://www.friendlygrow.cl/yocan-ziva"), "Accesorios de extraccion");
+    assert.equal(classifyProduct("Dabber Electrico Yocan Dirk", "https://www.friendlygrow.cl/yocan-dirk"), "Accesorios de extraccion");
+    assert.equal(classifyProduct("Doteco COXL", "https://www.friendlygrow.cl/doteco-coxl"), "Accesorios de extraccion");
+    assert.equal(isPotentialCandidate("https://www.friendlygrow.cl/doteco-coxl"), true);
+  });
+});
+
+describe("Friendly Grow: paginación de categorías", () => {
+  it("descubre las páginas siguientes de categorías con slugs de producto", () => {
+    assert.equal(isDiscoveryUrl("https://www.friendlygrow.cl/pipas-silicona?page=2", "https://www.friendlygrow.cl"), true);
+    assert.equal(isDiscoveryUrl("https://www.friendlygrow.cl/bongs-pyrex?page=2", "https://www.friendlygrow.cl"), true);
+  });
+});
+
+describe("Friendly Grow: categoría de origen", () => {
+  it("prefiere el breadcrumb textual cuando Jumpseller entrega un id numérico", () => {
+    const html = `
+      <html><head>
+        <link rel="canonical" href="https://www.friendlygrow.cl/papelillos-raw-classic">
+        <meta property="og:type" content="product">
+        <script type="application/ld+json">{
+          "@type":"Product",
+          "name":"Papelillos RAW Classic King Size Slim",
+          "category":"4091",
+          "offers":{"@type":"Offer","price":"1490","priceCurrency":"CLP","availability":"InStock"}
+        }</script>
+      </head><body>
+        <nav class="theme-breadcrumbs"><a href="/">Inicio</a><a href="/papeleria">Papelería y Enrolado</a></nav>
+      </body></html>`;
+    const offers = extractOffer(html, "https://www.friendlygrow.cl/papelillos-raw-classic", { includeVariants: false });
+    assert.ok(offers);
+    assert.equal(offers[0].sourceCategory, "Papelería y Enrolado");
   });
 });

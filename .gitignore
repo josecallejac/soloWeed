@@ -34,8 +34,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files: nunca versionar credenciales; solo las plantillas seguras.
 .env*
+!.env.example
+!.env.docker.example
 
 # vercel
 .vercel
@@ -56,6 +58,8 @@ next-env.d.ts
 /backups/*.db
 /backups/*.json
 /backups/*.json.gz
+/backups_nuevo/
+/backups*.zip
 
 # temporary DB files and dumps
 /prisma/*.before-docs
@@ -90,6 +94,7 @@ reports/upgrades-run.txt
 
 # Scaffolding de frameworks multi-agente (teamwork/antigravity) — no versionar
 /.agents/
+/.claude/settings.local.json
 /PROJECT.md
 /ORIGINAL_REQUEST.md
 /TEST_READY.md

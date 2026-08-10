@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "env:check": "node scripts/validate-runtime-env.mjs",
+    "prestart": "node scripts/validate-runtime-env.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "node scripts/run-tests.mjs",
@@ -17,6 +19,7 @@
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
+    "catalog:six-store": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --env-file-if-exists=.env.development.local --import tsx scripts/diagnose-six-store-potential.ts",
     "catalog:short-desc": "tsx scripts/generate-short-descriptions.ts",
     "admin:create": "tsx scripts/create-admin.ts",
     "brand:backfill": "tsx scripts/backfill-brand-keys.ts",

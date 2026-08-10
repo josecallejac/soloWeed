@@ -35,6 +35,15 @@ La base productiva ya está migrada en el servidor casero. Configura `DATABASE_U
 en el entorno de despliegue antes de iniciar la app; no ejecutes migraciones ni
 recrees datos como parte de un deploy normal.
 
+Las plantillas separan explícitamente ambos contextos:
+
+- `.env.example` → desarrollo desde el notebook, usando `192.168.100.2:5435`.
+- `.env.docker.example` → Docker en el servidor, usando `soloweed-db:5432`.
+
+El despliegue reproducible está en `Dockerfile` y `docker-compose.yml`. Consulta
+`docs/RUNBOOK.md` antes de recrear el contenedor de PostgreSQL: Compose exige el
+nombre del volumen existente para evitar levantar una base vacía por accidente.
+
 ## Operación
 
 - Healthcheck de aplicación y PostgreSQL: `GET /api/health` responde `200` con

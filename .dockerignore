@@ -1,0 +1,27 @@
+.git
+.github
+.next
+node_modules
+
+# Ninguna credencial local debe entrar al contexto o a las capas de imagen.
+.env
+.env.*
+
+# Artefactos grandes, datos vivos y resultados regenerables.
+backups
+backups_nuevo
+backups*.zip
+playwright-report
+test-results
+reports
+scratch
+prisma/*.db*
+
+# Configuración local de agentes y editores.
+.agents
+.antigravitycli
+.claude
+.tmp-appdata
+.tmp-userprofile
+*.tsbuildinfo
+npm-debug.log*

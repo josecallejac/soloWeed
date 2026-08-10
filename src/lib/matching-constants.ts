@@ -30,6 +30,9 @@ export const KNOWN_BRAND_PHRASES = [
   // producto que su propio titulo llama Dazzleaf. Dentro de alcance: es una
   // bateria 510 para cartuchos, no un pod kit de e-liquido.
   "dazzleaf",
+  // Friendly Grow vende varios dispositivos 510 Doteco cuyos slugs no incluyen
+  // palabras genericas como "vaporizador" o "bateria" (ej. /doteco-coxl).
+  "doteco",
   // r74: la "TOQI Blunt Box" de Fumetas caia en "boveda" SIN que su titulo, su
   // URL ni su campo `brand` dijeran boveda -- los tres dicen TOQI. Entraba por el
   // FALLBACK POR DESCRIPTION, que solo se usa cuando ninguna marca conocida

@@ -3,14 +3,16 @@ import { describe, it } from "node:test";
 import {
   buildAssortmentGap,
   GAP_MIN_STORES,
+  median,
   summarizeCategories,
   type GapProductInput,
 } from "../src/app/interno/inteligencia-precios/data";
 
 const ME = 24;
+const NOW = new Date("2026-08-09T12:00:00.000Z");
 
-function offer(storeId: number, price: number, inStock = true) {
-  return { storeId, price, inStock, store: { name: `Tienda ${storeId}` } };
+function offer(storeId: number, price: number, inStock = true, lastSeenAt = NOW) {
+  return { storeId, price, currency: "CLP", inStock, lastSeenAt, store: { name: `Tienda ${storeId}` } };
 }
 
 function makeProduct(overrides: Partial<GapProductInput> = {}): GapProductInput {
@@ -19,6 +21,7 @@ function makeProduct(overrides: Partial<GapProductInput> = {}): GapProductInput 
     name: overrides.name ?? "Producto de prueba",
     brand: overrides.brand ?? "RAW",
     brandKey: overrides.brandKey !== undefined ? overrides.brandKey : "raw",
+    modelKey: overrides.modelKey !== undefined ? overrides.modelKey : "classic",
     modelSlug: overrides.modelSlug !== undefined ? overrides.modelSlug : "classic",
     category: overrides.category ?? "Papelillos",
     // por defecto: 3 competidores con stock, la tienda foco ausente
@@ -28,7 +31,7 @@ function makeProduct(overrides: Partial<GapProductInput> = {}): GapProductInput 
 
 describe("buildAssortmentGap", () => {
   it("cuenta como brecha un producto que venden GAP_MIN_STORES competidores y la tienda no", () => {
-    const gap = buildAssortmentGap([makeProduct()], ME, new Set());
+    const gap = buildAssortmentGap([makeProduct()], ME, new Set(), new Set(), NOW);
     assert.equal(gap.summary.total, 1);
     assert.equal(gap.products[0].storeCount, GAP_MIN_STORES);
     assert.equal(gap.products[0].minPrice, 2000);
@@ -48,6 +51,23 @@ describe("buildAssortmentGap", () => {
   it("solo cuenta competidores CON stock para la cobertura", () => {
     const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), offer(3, 2500, false)] });
     assert.equal(buildAssortmentGap([p], ME, new Set()).summary.total, 0);
+  });
+
+  it("excluye precios vencidos de la cobertura competitiva", () => {
+    const stale = new Date("2026-07-01T12:00:00.000Z");
+    const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), offer(3, 2500, true, stale)] });
+    assert.equal(buildAssortmentGap([p], ME, new Set(), new Set(), NOW).summary.total, 0);
+  });
+
+  it("excluye precios que no están expresados en CLP", () => {
+    const usdOffer = { ...offer(3, 25), currency: "USD" };
+    const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), usdOffer] });
+    assert.equal(buildAssortmentGap([p], ME, new Set(), new Set(), NOW).summary.total, 0);
+  });
+
+  it("no declara brecha cuando existe una oferta huérfana con la misma marca y modelo", () => {
+    const identities = new Set(["raw:classic:Papelillos"]);
+    assert.equal(buildAssortmentGap([makeProduct()], ME, new Set(["raw"]), identities, NOW).summary.total, 0);
   });
 
   it("ignora las ofertas con precio 0 al elegir la más barata", () => {
@@ -113,6 +133,13 @@ describe("buildAssortmentGap", () => {
     const gap = buildAssortmentGap([makeProduct({ brandKey: null, brand: null })], ME, new Set());
     assert.equal(gap.summary.total, 1);
     assert.equal(gap.brands.length, 0);
+  });
+});
+
+describe("median", () => {
+  it("calcula la mediana sin dejar que el precio mínimo represente al mercado", () => {
+    assert.equal(median([10000, 20000, 20000, 20000]), 20000);
+    assert.equal(median([10000, 15000, 20000, 25000]), 17500);
   });
 });
 

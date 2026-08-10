@@ -2,17 +2,29 @@
 
 Comandos reproducibles para operar el proyecto. Los ejemplos usan PowerShell porque el entorno principal es Windows.
 
-## Setup Local
+## Entornos
+
+El proyecto usa dos direcciones distintas para el mismo PostgreSQL:
+
+- Desde el notebook/host: `192.168.100.2:5435` (puerto publicado por Docker).
+- Desde el contenedor web: `soloweed-db:5432` (DNS y puerto internos de Compose).
+
+No intercambies estas URLs. El servidor casero que publica `soloweed.store`
+ejecuta Next.js con `NODE_ENV=production`; estar alojado en casa no lo convierte
+en modo de desarrollo.
+
+## Setup Local En El Notebook
 
 ```powershell
 npm install
+Copy-Item .env.example .env.development.local
 ```
 
-Configura el entorno de la aplicación con el PostgreSQL del servidor casero:
+Edita solamente la copia ignorada por Git:
 
 ```text
-DATABASE_URL="postgresql://<usuario>:<password>@192.168.100.2:5435/soloweed"
-NEXT_PUBLIC_SITE_URL="http://192.168.100.2:8093"
+DATABASE_URL="postgresql://soloweed:<password-url-encoded>@192.168.100.2:5435/soloweed"
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
 ```
 
 La base local ya contiene las migraciones y los datos migrados. No ejecutes
@@ -24,7 +36,50 @@ La base local ya contiene las migraciones y los datos migrados. No ejecutes
 npm run dev
 ```
 
-El proyecto debe seguir usando Webpack.
+El proyecto debe seguir usando Webpack. Reinicia por completo `npm run dev`
+después de cambiar variables: Next.js no recarga el entorno con hot reload.
+
+La preview simulada está disponible en desarrollo en
+`/precios/friendlygrow-preview`. Sus datos y enlaces están aislados de
+PostgreSQL; las fichas reales `/productos/...` sí requieren la base.
+
+## Docker En El Servidor Casero
+
+Docker se versiona en `Dockerfile` y `docker-compose.yml`. Antes del primer uso,
+confirma la imagen y el volumen que ya utiliza la base existente:
+
+```bash
+docker inspect soloweed-db --format '{{.Config.Image}}'
+docker inspect soloweed-db --format '{{range .Mounts}}{{println .Name .Destination}}{{end}}'
+```
+
+Copia la plantilla y completa la contraseña, la imagen exacta y el nombre del
+volumen existente. El volumen está declarado como `external`, por lo que Compose
+fallará en vez de crear silenciosamente una base vacía.
+
+```bash
+cp .env.docker.example .env.docker.local
+```
+
+Dentro de `.env.docker.local`, `DATABASE_URL_INTERNAL` debe apuntar a
+`soloweed-db:5432` y `NEXT_PUBLIC_SITE_URL` a `https://soloweed.store`.
+La contraseña incluida en la URL debe estar codificada para URL.
+
+Valida sin imprimir el entorno resuelto y luego despliega:
+
+```bash
+docker compose --env-file .env.docker.local config --quiet
+docker compose --env-file .env.docker.local up -d --build
+docker compose --env-file .env.docker.local ps
+curl -fsS http://127.0.0.1:8093/api/health
+```
+
+No uses `docker compose restart` para cambiar variables: un restart no recrea
+el contenedor. No ejecutes Prisma migrate durante este flujo.
+
+Opcionalmente, `PRICING_DEMO_TOKEN=<token-largo-y-aleatorio>` habilita la preview
+simulada dentro del Docker productivo en `/precios/<token>`. Si no se define, la
+preview permanece deshabilitada en producción.
 
 ## Build Y Verificacion
 
@@ -51,8 +106,8 @@ El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
 GET /api/health
 ```
 
-Responde `200` cuando la base está disponible y `503` cuando no lo está. En
-Docker Compose configura este endpoint como healthcheck del contenedor web.
+Responde `200` cuando la base está disponible y `503` cuando no lo está. El
+`docker-compose.yml` versionado ya usa este endpoint como healthcheck de la app.
 
 ## Monitoreo Y Backups Del Servidor
 
@@ -72,7 +127,7 @@ scripts/ops/check-health.sh
 Variables opcionales:
 
 ```bash
-BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 sudo scripts/ops/backup-postgres.sh
+BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 COMPOSE_ENV_FILE=.env.docker.local sudo scripts/ops/backup-postgres.sh
 HEALTHCHECK_WEBHOOK_URL='https://<webhook>' scripts/ops/check-health.sh
 ```
 
@@ -86,17 +141,10 @@ Programa ambas tareas con `crontab -e` del usuario que puede ejecutar Docker:
 */5 * * * * /ruta/soloWeed/scripts/ops/check-health.sh
 ```
 
-Para que el healthcheck de Docker reinicie el contenedor cuando corresponda,
-agrega al servicio web del `docker-compose.yml` del servidor:
-
-```yaml
-healthcheck:
-  test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
-  interval: 30s
-  timeout: 10s
-  retries: 3
-  start_period: 30s
-```
+El healthcheck de Docker expone el estado `healthy`/`unhealthy`, pero Docker
+Compose no reinicia automáticamente un contenedor solo por quedar `unhealthy`.
+Usa el monitor anterior para alertar y define cualquier reinicio automático de
+forma explícita en la operación del servidor.
 
 Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
 
@@ -305,6 +353,26 @@ $env:MATCH_IMG_MAX_DIST="60"; npm run match:image            # solo alta certeza
 ```
 
 Distancia <= 60 es casi siempre el mismo arte de fabricante; la banda 60-140 exige mirar las fotos. **La imagen propone, el texto decide**: las tiendas reusan la misma foto para medidas distintas (14 vs 18mm), displays 24U/50U y variantes de color, asi que cada par se confirma contra titulo/precio/medidas y se aplica con un script dirigido (patron `scripts/apply-image-matching-r*.ts`, con guardia que nunca mueve ofertas ya vinculadas). Las imagenes se cachean por offerId en `MATCH_IMG_CACHE` (default `scratch/img/cache`).
+
+## Potencial De Cobertura Total
+
+El diagnóstico de cobertura busca ofertas huérfanas en cada tienda faltante y
+clusters partidos por EAN o referencia de fabricante. Es estrictamente de solo
+lectura y no admite `--apply`:
+
+```powershell
+npm run catalog:six-store
+```
+
+Genera `reports/six-store-potential.json` y `.csv`. Revisa primero los registros
+`reachesAllStores=true`, confirma marca, modelo, variante, medida y cantidad, y
+aplica únicamente los aprobados mediante un `link-r*-reviewed.ts` dirigido. Una
+oferta vinculada nunca se mueve y un producto de 4 o más tiendas solo puede
+recibir ofertas de una tienda que todavía no tenga.
+
+Variables opcionales: `SIX_MIN_CURRENT_STORES` (default 2),
+`SIX_MIN_TEXT_SCORE` (default 0.62), `SIX_TOP_PER_STORE` (default 3) y
+`SIX_INCLUDE_OUT_OF_STOCK` (default 1, porque el stock no cambia la identidad).
 
 ## Proteccion De Productos Multi-Tienda
 

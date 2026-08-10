@@ -6,6 +6,7 @@ set -Eeuo pipefail
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/soloweed}"
 RETENTION_DAYS="${RETENTION_DAYS:-14}"
 COMPOSE_SERVICE="${COMPOSE_DB_SERVICE:-soloweed-db}"
+COMPOSE_ENV_FILE="${COMPOSE_ENV_FILE:-.env.docker.local}"
 DB_USER="${POSTGRES_USER:-soloweed}"
 DB_NAME="${POSTGRES_DB:-soloweed}"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
@@ -20,7 +21,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-docker compose exec -T "$COMPOSE_SERVICE" pg_dump -U "$DB_USER" --format=plain --no-owner --no-privileges "$DB_NAME" \
+docker compose --env-file "$COMPOSE_ENV_FILE" exec -T "$COMPOSE_SERVICE" pg_dump -U "$DB_USER" --format=plain --no-owner --no-privileges "$DB_NAME" \
   | gzip -9 > "$TEMP"
 
 test -s "$TEMP"

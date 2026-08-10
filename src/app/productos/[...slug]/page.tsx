@@ -24,7 +24,7 @@ import nextDynamic from "next/dynamic";
 import { cache } from "react";
 import { VariantSelector } from "@/components/variant-selector";
 import { ProductDescription } from "@/components/product-description";
-import { getVariantName } from "@/lib/variant-utils";
+import { getVariantName, resolveSelectedVariant } from "@/lib/variant-utils";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { StoreComparisonMatrix } from "@/components/store-comparison-matrix";
 import { RelatedProductsCarousel } from "@/components/related-products-carousel";
@@ -41,13 +41,27 @@ export const revalidate = 3600;
 // rutas legacy /productos/<slug> y productos nuevos siguen resolviéndose
 // on-demand vía ISR (dynamicParams por defecto).
 export async function generateStaticParams() {
-  const products = await prisma.product.findMany({
-    where: { offers: { some: {} } },
-    select: { brandKey: true, modelSlug: true },
-  });
-  return products
-    .filter((product) => product.brandKey && product.modelSlug)
-    .map((product) => ({ slug: [product.brandKey!, ...product.modelSlug!.split("/")] }));
+  // En desarrollo las fichas se resuelven on-demand. Las imágenes Docker y CI
+  // tampoco reciben credenciales productivas durante build.
+  if (process.env.NODE_ENV === "development" || process.env.SKIP_DATABASE_STATIC_PARAMS === "1") {
+    return [];
+  }
+
+  try {
+    const products = await prisma.product.findMany({
+      where: { offers: { some: {} } },
+      select: { brandKey: true, modelSlug: true },
+    });
+    return products
+      .filter((product) => product.brandKey && product.modelSlug)
+      .map((product) => ({ slug: [product.brandKey!, ...product.modelSlug!.split("/")] }));
+  } catch (error) {
+    // El build y CI no deben depender de PostgreSQL. Con la base disponible
+    // (producción) se mantienen las fichas pre-renderizadas; sin ella Next las
+    // genera on-demand mediante ISR al recibir la primera visita.
+    console.warn("No se pudieron pre-renderizar fichas de producto:", error);
+    return [];
+  }
 }
 
 // Compartido entre generateMetadata y la página: una sola query por request.
@@ -171,16 +185,14 @@ export default async function ProductDetail(props: ProductDetailProps) {
   
   // Selected variant logic
   const selectedVariantQuery = searchParams?.v as string | undefined;
-  const selectedVariant = selectedVariantQuery && variants.includes(selectedVariantQuery) 
-    ? selectedVariantQuery 
-    : variants.length > 0 ? variants[0] : "";
+  const selectedVariant = resolveSelectedVariant(variants, selectedVariantQuery);
 
   // Filtrar por variante solo cuando hay más de una (mismo umbral con el que se
   // muestra el selector); con 0-1 variantes se comparan todas las ofertas. Las
   // ofertas sin variante detectada se mantienen visibles en todas las variantes
   // para no descontar tiendas de la comparación.
   let visibleOffers = matchedOffers;
-  if (variants.length > 1) {
+  if (variants.length > 1 && selectedVariant) {
     visibleOffers = matchedOffers.filter(o => {
       const variant = getVariantName(o.title, o.url);
       return variant === null || variant === selectedVariant;
@@ -418,7 +430,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
             <dl className="mt-4 space-y-2.5 text-sm">
               <SummaryCard label="Producto" value={`#${product.id}`} variant="light" />
               <SummaryCard label="Actualizado" value={formatDateTime(product.updatedAt)} variant="light" />
-              <SummaryCard label="Cobertura" value={`${coverage}%`} variant="light" />
+              <SummaryCard label={selectedVariant ? "Cobertura variante" : "Cobertura"} value={`${coverage}%`} variant="light" />
               <SummaryCard label="Con stock" value={`${storesInStock.length}/${stores.length}`} variant="light" />
               <SummaryCard label="Rango" value={formatPriceRange(minPrice, maxPrice)} variant="light" />
             </dl>

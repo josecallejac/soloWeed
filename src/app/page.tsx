@@ -59,6 +59,11 @@ export default async function Home({ searchParams }: HomeProps) {
     : [];
   const page = Math.max(1, typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1);
   const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page, brandFilter: selectedBrand });
+  const totalCoverageStores = data.coverage.totalStores || data.stores.length;
+  const fullCoverageLevel = totalCoverageStores;
+  const nearFullCoverageLevel = Math.max(1, totalCoverageStores - 1);
+  const highCoverageLevel = Math.max(1, totalCoverageStores - 2);
+  const mediumCoverageLevel = Math.max(1, totalCoverageStores - 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -103,18 +108,18 @@ export default async function Home({ searchParams }: HomeProps) {
             <div className="w-full">
               {data.dbReady && (data.coverage.full > 0 || data.coverage.high > 0 || data.coverage.mid > 0) ? (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 text-left">
-                  {/* 5 Stores Card */}
+                  {/* Cobertura total */}
                   <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_10px_30px_rgba(192,255,0,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-accent/10 blur-xl group-hover:bg-accent/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 dark:bg-accent/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-slate-900 dark:text-accent-text border border-accent/30">
-                        <span>🏆</span> 5 Growshops
+                        <span>🏆</span> {fullCoverageLevel} Growshops
                       </span>
                       <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">100% Total</span>
                     </div>
                     <div className="flex items-baseline justify-between mt-3">
                       <span className="text-3xl sm:text-5xl font-black font-display font-mono tracking-tight text-slate-900 dark:text-white group-hover:text-[#050507] dark:group-hover:text-accent-text transition-colors">
-                        {data.coverage.tier5 > 0 ? data.coverage.tier5 : "—"}
+                        {data.coverage.full > 0 ? data.coverage.full : "—"}
                       </span>
                       <span className="text-xs font-mono font-bold text-slate-400 dark:text-white/40 uppercase">productos</span>
                     </div>
@@ -123,63 +128,63 @@ export default async function Home({ searchParams }: HomeProps) {
                     </p>
                   </div>
 
-                  {/* 4 Stores Card */}
+                  {/* Una tienda faltante */}
                   <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-[0_10px_30px_rgba(245,158,11,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-amber-500/10 blur-xl group-hover:bg-amber-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/15 dark:bg-amber-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-amber-800 dark:text-amber-400 border border-amber-500/30">
-                        <span>⭐</span> 4 Growshops
+                        <span>⭐</span> {nearFullCoverageLevel} Growshops
                       </span>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">Alta</span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">Casi total</span>
                     </div>
                     <div className="flex items-baseline justify-between mt-3">
                       <span className="text-3xl sm:text-5xl font-black font-display font-mono tracking-tight text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                        {data.coverage.tier4 > 0 ? data.coverage.tier4 : (data.coverage.full > 0 ? data.coverage.full : "—")}
+                        {(data.coverage.tiers[nearFullCoverageLevel] ?? 0) > 0 ? data.coverage.tiers[nearFullCoverageLevel] : "—"}
                       </span>
                       <span className="text-xs font-mono font-bold text-slate-400 dark:text-white/40 uppercase">productos</span>
                     </div>
                     <p className="mt-1.5 text-xs font-black font-mono uppercase tracking-wider text-slate-700 dark:text-white/80">
-                      En 4 Tiendas
+                      En {nearFullCoverageLevel} Tiendas
                     </p>
                   </div>
 
-                  {/* 3 Stores Card */}
+                  {/* Cobertura alta */}
                   <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-[0_10px_30px_rgba(16,185,129,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/15 dark:bg-emerald-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-emerald-800 dark:text-emerald-400 border border-emerald-500/30">
-                        <span>⚡</span> 3 Growshops
+                        <span>⚡</span> {highCoverageLevel} Growshops
                       </span>
                       <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">Media</span>
                     </div>
                     <div className="flex items-baseline justify-between mt-3">
                       <span className="text-3xl sm:text-5xl font-black font-display font-mono tracking-tight text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                        {data.coverage.tier3 > 0 ? data.coverage.tier3 : (data.coverage.high > 0 ? data.coverage.high : "—")}
+                        {(data.coverage.tiers[highCoverageLevel] ?? 0) > 0 ? data.coverage.tiers[highCoverageLevel] : "—"}
                       </span>
                       <span className="text-xs font-mono font-bold text-slate-400 dark:text-white/40 uppercase">productos</span>
                     </div>
                     <p className="mt-1.5 text-xs font-black font-mono uppercase tracking-wider text-slate-700 dark:text-white/80">
-                      En 3 Tiendas
+                      En {highCoverageLevel} Tiendas
                     </p>
                   </div>
 
-                  {/* 2 Stores Card */}
+                  {/* Cobertura media */}
                   <div className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white/90 dark:bg-[#0c0c10]/90 p-4 sm:p-5  shadow-md dark:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/50 hover:shadow-[0_10px_30px_rgba(6,182,212,0.2)]">
                     <div className="absolute -top-12 -right-12 size-24 rounded-full bg-cyan-500/10 blur-xl group-hover:bg-cyan-500/25 transition-all pointer-events-none" />
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-cyan-500/15 dark:bg-cyan-500/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-cyan-800 dark:text-cyan-400 border border-cyan-500/30">
-                        <span>⚖️</span> 2 Growshops
+                        <span>⚖️</span> {mediumCoverageLevel} Growshops
                       </span>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">Base</span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">Media</span>
                     </div>
                     <div className="flex items-baseline justify-between mt-3">
                       <span className="text-3xl sm:text-5xl font-black font-display font-mono tracking-tight text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                        {data.coverage.tier2 > 0 ? data.coverage.tier2 : (data.coverage.mid > 0 ? data.coverage.mid : "—")}
+                        {(data.coverage.tiers[mediumCoverageLevel] ?? 0) > 0 ? data.coverage.tiers[mediumCoverageLevel] : "—"}
                       </span>
                       <span className="text-xs font-mono font-bold text-slate-400 dark:text-white/40 uppercase">productos</span>
                     </div>
                     <p className="mt-1.5 text-xs font-black font-mono uppercase tracking-wider text-slate-700 dark:text-white/80">
-                      En 2 Tiendas
+                      En {mediumCoverageLevel} Tiendas
                     </p>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export const ALERT_WINDOW_DAYS = 14;
+export const DATA_FRESHNESS_DAYS = 3;
 // Pares con ratio de precio mayor a esto son casi siempre un repuesto/variante
 // capturado como precio mínimo, no una diferencia real: van a "Revisar" y fuera del resumen.
 export const OUTLIER_RATIO = 2;
@@ -12,6 +13,9 @@ export type PositionRow = {
   myPrice: number;
   bestOtherPrice: number;
   bestOtherStore: string;
+  marketMedianPrice: number;
+  marketStoreCount: number;
+  priceRank: number;
   suspect: boolean;
 };
 
@@ -26,10 +30,19 @@ export type Alert = {
   recordedAt: Date;
 };
 
+export type DataQuality = {
+  totalOffers: number;
+  freshOffers: number;
+  linkedFreshOffers: number;
+  trackedStores: number;
+  latestSeenAt: Date | null;
+  freshnessCutoff: Date;
+};
+
 export function positionStatus(row: PositionRow) {
   if (row.suspect) return "Revisar";
-  const gap = row.myPrice - row.bestOtherPrice;
-  return gap > 0 ? "Sobrepreciada" : gap < 0 ? "Mas barata" : "Empatada";
+  const gap = row.myPrice - row.marketMedianPrice;
+  return gap > 0 ? "Sobre la mediana" : gap < 0 ? "Bajo la mediana" : "En la mediana";
 }
 
 // ── BRECHA DE SURTIDO ────────────────────────────────────────────────────────
@@ -68,7 +81,7 @@ export type GapBrand = {
   brandKey: string;
   brandName: string;
   products: number;
-  // productos de la marca que venden 4+ competidores: los de demanda más probada
+  // productos de la marca que venden 4+ competidores: mayor cobertura observada
   wideProducts: number;
   minPrice: number;
   categories: string[];
@@ -85,23 +98,38 @@ export async function getAssortmentGap(storeId: number) {
         name: true,
         brand: true,
         brandKey: true,
+        modelKey: true,
         modelSlug: true,
         category: true,
-        offers: { select: { storeId: true, price: true, inStock: true, store: { select: { name: true } } } },
+        offers: {
+          where: { store: { enabled: true } },
+          select: {
+            storeId: true,
+            price: true,
+            currency: true,
+            inStock: true,
+            lastSeenAt: true,
+            store: { select: { name: true } },
+          },
+        },
       },
     }),
     // Marcas que la tienda trabaja, contando también sus ofertas huérfanas: si la
     // vende pero no está curada, NO es una brecha de marca y decirlo sería falso.
     prisma.offer.findMany({
       where: { storeId, brandKey: { not: null } },
-      select: { brandKey: true },
-      distinct: ["brandKey"],
+      select: { brandKey: true, modelKey: true, category: true },
     }),
   ]);
 
   const storeBrands = new Set(storeBrandRows.map((row) => row.brandKey).filter((key): key is string => !!key));
+  const storeIdentityKeys = new Set(
+    storeBrandRows
+      .filter((row) => row.brandKey && row.modelKey)
+      .map((row) => `${row.brandKey}:${row.modelKey}:${row.category}`),
+  );
 
-  return buildAssortmentGap(products, storeId, storeBrands);
+  return buildAssortmentGap(products, storeId, storeBrands, storeIdentityKeys);
 }
 
 // Entrada mínima que necesita la agregación: se declara aparte de Prisma para
@@ -111,16 +139,20 @@ export type GapProductInput = {
   name: string;
   brand: string | null;
   brandKey: string | null;
+  modelKey: string | null;
   modelSlug: string | null;
   category: string;
-  offers: Array<{ storeId: number; price: number; inStock: boolean; store: { name: string } }>;
+  offers: Array<{ storeId: number; price: number; currency: string; inStock: boolean; lastSeenAt: Date; store: { name: string } }>;
 };
 
 export function buildAssortmentGap(
   products: GapProductInput[],
   storeId: number,
   storeBrands: Set<string>,
+  storeIdentityKeys = new Set<string>(),
+  referenceDate = new Date(),
 ) {
+  const freshnessCutoff = new Date(referenceDate.getTime() - DATA_FRESHNESS_DAYS * 24 * 60 * 60 * 1000);
   const missing: GapProduct[] = [];
   const brands = new Map<string, GapBrand>();
 
@@ -128,8 +160,11 @@ export function buildAssortmentGap(
     // Presencia: cualquier oferta de la tienda, con stock o sin él. Si la tiene
     // agotada es un problema de stock, no de surtido, y no va en este informe.
     if (product.offers.some((offer) => offer.storeId === storeId)) continue;
+    if (product.brandKey && product.modelKey && storeIdentityKeys.has(`${product.brandKey}:${product.modelKey}:${product.category}`)) continue;
 
-    const live = product.offers.filter((offer) => offer.inStock && offer.price > 0);
+    const live = product.offers.filter(
+      (offer) => offer.inStock && offer.price > 0 && offer.currency === "CLP" && offer.lastSeenAt >= freshnessCutoff,
+    );
     const storeCount = new Set(live.map((offer) => offer.storeId)).size;
     if (storeCount < GAP_MIN_STORES) continue;
 
@@ -185,15 +220,17 @@ export function buildAssortmentGap(
 }
 
 export async function getPriceIntelligence(storeId: number) {
-  const positions = await prisma.$queryRaw<
+  const freshnessCutoff = new Date(Date.now() - DATA_FRESHNESS_DAYS * 24 * 60 * 60 * 1000);
+  const [observedPrices, totalOffers, freshOffers, linkedFreshOffers, trackedStores, latestOffer] = await Promise.all([
+    prisma.$queryRaw<
     Array<{
       productId: number;
       productName: string;
       brandKey: string | null;
       modelSlug: string | null;
-      myPrice: number;
-      bestOtherPrice: number;
-      bestOtherStore: string;
+      storeId: number;
+      storeName: string;
+      storePrice: number;
     }>
   >`
     SELECT
@@ -201,39 +238,70 @@ export async function getPriceIntelligence(storeId: number) {
       p."name" as "productName",
       p."brandKey" as "brandKey",
       p."modelSlug" as "modelSlug",
-      MIN(mine."price") as "myPrice",
-      MIN(others."price") as "bestOtherPrice",
-      (
-        SELECT s2."name" FROM "Offer" o2
-        JOIN "Store" s2 ON s2."id" = o2."storeId"
-        WHERE o2."productId" = p."id"
-          AND o2."storeId" != ${storeId}
-          AND o2."inStock"
-          AND o2."price" > 0
-        ORDER BY o2."price" ASC
-        LIMIT 1
-      ) as "bestOtherStore"
+      o."storeId" as "storeId",
+      s."name" as "storeName",
+      MIN(o."price") as "storePrice"
     FROM "Product" p
-    JOIN "Offer" mine ON mine."productId" = p."id" AND mine."storeId" = ${storeId} AND mine."inStock" AND mine."price" > 0
-    JOIN "Offer" others ON others."productId" = p."id" AND others."storeId" != ${storeId} AND others."inStock" AND others."price" > 0
-    GROUP BY p."id"
-    ORDER BY (MIN(mine."price") - MIN(others."price")) DESC
-  `;
+    JOIN "Offer" o ON o."productId" = p."id"
+    JOIN "Store" s ON s."id" = o."storeId"
+    WHERE s."enabled"
+      AND o."inStock"
+      AND o."price" > 0
+      AND o."currency" = 'CLP'
+      AND o."lastSeenAt" >= ${freshnessCutoff}
+    GROUP BY p."id", o."storeId", s."name"
+    ORDER BY p."id", MIN(o."price") ASC
+  `,
+    prisma.offer.count({ where: { storeId } }),
+    prisma.offer.count({ where: { storeId, lastSeenAt: { gte: freshnessCutoff } } }),
+    prisma.offer.count({
+      where: { storeId, productId: { not: null }, lastSeenAt: { gte: freshnessCutoff } },
+    }),
+    prisma.store.count({ where: { enabled: true } }),
+    prisma.offer.findFirst({
+      where: { storeId },
+      orderBy: { lastSeenAt: "desc" },
+      select: { lastSeenAt: true },
+    }),
+  ]);
 
-  const rows: PositionRow[] = positions.map((row) => {
-    const myPrice = Number(row.myPrice);
-    const bestOtherPrice = Number(row.bestOtherPrice);
+  const byProduct = new Map<number, typeof observedPrices>();
+  for (const price of observedPrices) {
+    const productPrices = byProduct.get(price.productId) ?? [];
+    productPrices.push(price);
+    byProduct.set(price.productId, productPrices);
+  }
 
-    return {
-      productId: row.productId,
-      productName: row.productName,
-      productPath: row.brandKey && row.modelSlug ? `/productos/${row.brandKey}/${row.modelSlug}` : null,
+  const rows: PositionRow[] = [];
+  for (const productPrices of byProduct.values()) {
+    const mine = productPrices.find((row) => row.storeId === storeId);
+    const others = productPrices
+      .filter((row) => row.storeId !== storeId)
+      .sort((a, b) => Number(a.storePrice) - Number(b.storePrice));
+    if (!mine || others.length === 0) continue;
+
+    const myPrice = Number(mine.storePrice);
+    const competitorPrices = others.map((row) => Number(row.storePrice));
+    const marketMedianPrice = median(competitorPrices);
+    const bestOther = others[0];
+    const allPrices = [myPrice, ...competitorPrices];
+    const product = productPrices[0];
+
+    rows.push({
+      productId: product.productId,
+      productName: product.productName,
+      productPath: product.brandKey && product.modelSlug ? `/productos/${product.brandKey}/${product.modelSlug}` : null,
       myPrice,
-      bestOtherPrice,
-      bestOtherStore: row.bestOtherStore,
-      suspect: Math.max(myPrice, bestOtherPrice) / Math.min(myPrice, bestOtherPrice) > OUTLIER_RATIO,
-    };
-  });
+      bestOtherPrice: Number(bestOther.storePrice),
+      bestOtherStore: bestOther.storeName,
+      marketMedianPrice,
+      marketStoreCount: productPrices.length,
+      priceRank: 1 + allPrices.filter((price) => price < myPrice).length,
+      suspect: Math.max(myPrice, marketMedianPrice) / Math.min(myPrice, marketMedianPrice) > OUTLIER_RATIO,
+    });
+  }
+
+  rows.sort((a, b) => (b.myPrice - b.marketMedianPrice) - (a.myPrice - a.marketMedianPrice));
 
   const summary = rows.reduce(
     (acc, row) => {
@@ -241,10 +309,10 @@ export async function getPriceIntelligence(storeId: number) {
         acc.suspects += 1;
         return acc;
       }
-      const gap = row.myPrice - row.bestOtherPrice;
+      const gap = row.myPrice - row.marketMedianPrice;
       if (gap > 0) {
         acc.overpriced += 1;
-        acc.gapPctSum += (gap / row.bestOtherPrice) * 100;
+        acc.gapPctSum += (gap / row.marketMedianPrice) * 100;
       } else if (gap < 0) {
         acc.cheapest += 1;
       } else {
@@ -262,7 +330,22 @@ export async function getPriceIntelligence(storeId: number) {
     positions: [...rows.filter((row) => !row.suspect), ...rows.filter((row) => row.suspect)],
     summary: { ...summary, avgGapPct: summary.overpriced > 0 ? summary.gapPctSum / summary.overpriced : 0 },
     alerts,
+    quality: {
+      totalOffers,
+      freshOffers,
+      linkedFreshOffers,
+      trackedStores,
+      latestSeenAt: latestOffer?.lastSeenAt ?? null,
+      freshnessCutoff,
+    } satisfies DataQuality,
   };
+}
+
+export function median(values: number[]) {
+  if (values.length === 0) return 0;
+  const ordered = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(ordered.length / 2);
+  return ordered.length % 2 === 0 ? (ordered[middle - 1] + ordered[middle]) / 2 : ordered[middle];
 }
 
 async function getUndercutAlerts(storeId: number, allPositions: PositionRow[]): Promise<Alert[]> {
@@ -272,15 +355,28 @@ async function getUndercutAlerts(storeId: number, allPositions: PositionRow[]): 
   const productIds = positions.map((row) => row.productId);
   const positionByProduct = new Map(positions.map((row) => [row.productId, row]));
   const since = new Date(Date.now() - ALERT_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+  const freshnessCutoff = new Date(Date.now() - DATA_FRESHNESS_DAYS * 24 * 60 * 60 * 1000);
 
   const competingOffers = await prisma.offer.findMany({
-    where: { productId: { in: productIds }, storeId: { not: storeId } },
+    where: {
+      productId: { in: productIds },
+      storeId: { not: storeId },
+      inStock: true,
+      price: { gt: 0 },
+      currency: "CLP",
+      lastSeenAt: { gte: freshnessCutoff },
+      store: { enabled: true },
+    },
     select: {
       id: true,
       productId: true,
       store: { select: { name: true } },
       product: { select: { name: true } },
-      histories: { orderBy: { recordedAt: "asc" }, select: { price: true, recordedAt: true } },
+      histories: {
+        orderBy: { recordedAt: "desc" },
+        take: 2,
+        select: { price: true, recordedAt: true },
+      },
     },
   });
 
@@ -291,30 +387,34 @@ async function getUndercutAlerts(storeId: number, allPositions: PositionRow[]): 
     if (!position) continue;
     const myPrice = position.myPrice;
 
-    for (let i = 1; i < offer.histories.length; i += 1) {
-      const previous = offer.histories[i - 1];
-      const current = offer.histories[i];
-      const isDrop = current.price < previous.price;
-      const isRecent = current.recordedAt >= since;
-      const undercutsMe = current.price < myPrice;
-      // bajas de más del 50% o que quedan a menos de la mitad de mi precio suelen ser
-      // cambios de variante (repuesto/accesorio), no un undercut real
-      const isPlausible = current.price >= previous.price / 2 && current.price * OUTLIER_RATIO >= myPrice;
+    if (offer.histories.length < 2) continue;
+    const [current, previous] = offer.histories;
+    const isDrop = current.price < previous.price;
+    const isRecent = current.recordedAt >= since;
+    const undercutsMe = current.price < myPrice;
+    // Bajas de más del 50% o que quedan a menos de la mitad de mi precio suelen ser
+    // cambios de variante (repuesto/accesorio), no un undercut real.
+    const isPlausible = current.price >= previous.price / 2 && current.price * OUTLIER_RATIO >= myPrice;
 
-      if (isDrop && isRecent && undercutsMe && isPlausible) {
-        alerts.push({
-          productId: offer.productId,
-          productName: offer.product.name,
-          productPath: position.productPath,
-          competitorStore: offer.store.name,
-          previousPrice: previous.price,
-          newPrice: current.price,
-          myPrice,
-          recordedAt: current.recordedAt,
-        });
-      }
+    if (isDrop && isRecent && undercutsMe && isPlausible) {
+      alerts.push({
+        productId: offer.productId,
+        productName: offer.product.name,
+        productPath: position.productPath,
+        competitorStore: offer.store.name,
+        previousPrice: previous.price,
+        newPrice: current.price,
+        myPrice,
+        recordedAt: current.recordedAt,
+      });
     }
   }
 
-  return alerts.sort((a, b) => b.recordedAt.getTime() - a.recordedAt.getTime());
+  const latestByProductAndStore = new Map<string, Alert>();
+  for (const alert of alerts.sort((a, b) => b.recordedAt.getTime() - a.recordedAt.getTime())) {
+    const key = `${alert.productId}:${alert.competitorStore}`;
+    if (!latestByProductAndStore.has(key)) latestByProductAndStore.set(key, alert);
+  }
+
+  return [...latestByProductAndStore.values()];
 }
