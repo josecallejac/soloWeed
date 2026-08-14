@@ -1,53 +1,33 @@
 name: soloweed
 
-services:
-  soloweed-db:
-    image: ${POSTGRES_IMAGE:?Define POSTGRES_IMAGE con la imagen exacta del contenedor existente}
-    container_name: soloweed-db
-    restart: unless-stopped
-    env_file:
-      - ${SERVER_ENV_FILE:-.env.docker.local}
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:?Define POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER:?Define POSTGRES_USER}
-    ports:
-      - "${POSTGRES_BIND_ADDRESS:-127.0.0.1}:${POSTGRES_HOST_PORT:-5435}:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 20s
-    security_opt:
-      - no-new-privileges:true
+x-server-env: &server-env
+  - ${SERVER_ENV_FILE:-.env}
 
+services:
   soloweed:
-    image: soloweed:local
+    image: ${APP_IMAGE:-soloweed-soloweed}
     container_name: soloweed
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?Define NEXT_PUBLIC_SITE_URL}
-    restart: unless-stopped
-    init: true
-    env_file:
-      - ${SERVER_ENV_FILE:-.env.docker.local}
+    env_file: *server-env
     environment:
-      DATABASE_URL: ${DATABASE_URL_INTERNAL:?Define DATABASE_URL_INTERNAL con soloweed-db:5432}
+      DATABASE_URL: ${DATABASE_URL:?Define DATABASE_URL en el archivo de entorno del servidor}
       DEPLOY_TARGET: home-server
-      EXPECTED_DATABASE_HOST: soloweed-db
+      EXPECTED_DATABASE_HOST: ${EXPECTED_DATABASE_HOST:-db}
       HOSTNAME: 0.0.0.0
       NODE_ENV: production
       PORT: 3000
+      CATALOG_AUDIT_DIR: /app/reports/catalog-audit
     depends_on:
-      soloweed-db:
+      db:
         condition: service_healthy
     ports:
       - "${APP_BIND_ADDRESS:-0.0.0.0}:${APP_PORT:-8093}:3000"
+    volumes:
+      - catalog-audit-data:/app/reports
+    restart: unless-stopped
+    init: true
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 30s
@@ -57,7 +37,33 @@ services:
     security_opt:
       - no-new-privileges:true
 
+  db:
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
+    container_name: soloweed-db
+    env_file: *server-env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-soloweed}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD en el archivo de entorno del servidor}
+      POSTGRES_USER: ${POSTGRES_USER:-soloweed}
+    ports:
+      - "${POSTGRES_BIND_ADDRESS:-192.168.100.2}:${POSTGRES_HOST_PORT:-5435}:5432"
+    volumes:
+      - soloweed_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
-  postgres-data:
+  # El volumen ya existe en el servidor. External evita crear una base vacía
+  # si alguien escribe mal el nombre durante un despliegue.
+  soloweed_data:
     external: true
-    name: ${POSTGRES_VOLUME_NAME:?Define POSTGRES_VOLUME_NAME con el volumen existente; no crees uno vacío}
+    name: ${POSTGRES_VOLUME_NAME:-soloweed_data}
+  catalog-audit-data:
+    name: ${CATALOG_AUDIT_VOLUME_NAME:-soloweed-catalog-audit}

@@ -10,7 +10,7 @@ function validate(overrides: Record<string, string>) {
     encoding: "utf8",
     env: {
       PATH: process.env.PATH,
-      DATABASE_URL: "postgresql://soloweed:super-secret@soloweed-db:5432/soloweed",
+      DATABASE_URL: "postgresql://soloweed:super-secret@db:5432/soloweed",
       NEXT_PUBLIC_SITE_URL: "https://soloweed.store",
       ...overrides,
     },
@@ -19,9 +19,9 @@ function validate(overrides: Record<string, string>) {
 
 describe("validación del entorno Docker", () => {
   it("acepta PostgreSQL por el DNS interno esperado sin imprimir credenciales", () => {
-    const result = validate({ DEPLOY_TARGET: "home-server", EXPECTED_DATABASE_HOST: "soloweed-db" });
+    const result = validate({ DEPLOY_TARGET: "home-server", EXPECTED_DATABASE_HOST: "db" });
     assert.equal(result.status, 0);
-    assert.match(result.stdout, /PostgreSQL soloweed-db:5432\/soloweed/);
+    assert.match(result.stdout, /PostgreSQL db:5432\/soloweed/);
     assert.doesNotMatch(`${result.stdout}${result.stderr}`, /super-secret/);
   });
 
@@ -37,9 +37,9 @@ describe("validación del entorno Docker", () => {
   it("rechaza un host distinto al declarado por Compose", () => {
     const result = validate({
       DATABASE_URL: "postgresql://soloweed:secret@192.168.100.2:5435/soloweed",
-      EXPECTED_DATABASE_HOST: "soloweed-db",
+      EXPECTED_DATABASE_HOST: "db",
     });
     assert.equal(result.status, 1);
-    assert.match(result.stderr, /debe apuntar a soloweed-db/);
+    assert.match(result.stderr, /debe apuntar a db/);
   });
 });

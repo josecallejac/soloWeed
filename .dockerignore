@@ -1,7 +1,12 @@
 .git
 .github
-.next
 node_modules
+
+# .next se genera en el host por deploy.sh y es el artefacto que empaqueta
+# Dockerfile; no excluirlo del contexto. Cache y artefactos de desarrollo no
+# participan en `next start` y solo inflan el contexto.
+.next/cache
+.next/dev
 
 # Ninguna credencial local debe entrar al contexto o a las capas de imagen.
 .env

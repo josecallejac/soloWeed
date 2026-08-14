@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+# Deploy reproducible del servidor casero.
+#
+# El webhook debe hacer git fetch/pull y luego invocar este script. Este archivo
+# no hace checkout ni migraciones: construye el commit que ya está en el árbol,
+# conserva la imagen anterior y revierte el contenedor si el healthcheck falla.
+set -Eeuo pipefail
+IFS=$'\n\t'
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+ENV_FILE="${DEPLOY_ENV_FILE:-.env}"
+APP_SERVICE="${APP_SERVICE:-soloweed}"
+APP_CONTAINER="${APP_CONTAINER:-}"
+DB_CONTAINER="${DB_CONTAINER:-soloweed-db}"
+APP_IMAGE="${APP_IMAGE:-soloweed-soloweed}"
+SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://soloweed.store}"
+HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/api/health}"
+HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-180}"
+BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-}"
+DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
+
+die() {
+  printf 'ERROR: %s\n' "$1" >&2
+  exit 1
+}
+
+[[ -f "$ENV_FILE" ]] || die "No existe el archivo de entorno: $ENV_FILE"
+command -v docker >/dev/null 2>&1 || die "docker no está instalado"
+command -v npm >/dev/null 2>&1 || die "npm no está instalado"
+command -v curl >/dev/null 2>&1 || die "curl no está instalado"
+command -v flock >/dev/null 2>&1 || die "flock no está instalado"
+
+exec 8>"$DEPLOY_LOCK_FILE"
+flock -n 8 || die "Ya hay otro deploy de soloWeed ejecutándose"
+
+# El .env solo vive en el servidor y nunca se imprime. Compose lo vuelve a
+# cargar mediante --env-file; aquí se necesita para construir la URL de sitio.
+set -a
+# shellcheck disable=SC1090
+. "$ENV_FILE"
+set +a
+
+SITE_URL="${NEXT_PUBLIC_SITE_URL:-$SITE_URL}"
+[[ -n "${DATABASE_URL:-}" ]] || die "DATABASE_URL no está definida en $ENV_FILE"
+
+# La app usa db:5432 dentro de Compose. El build corre en el host y accede al
+# mismo PostgreSQL mediante el puerto publicado, sin pasar la credencial a Docker.
+DB_HOST_PORT="${POSTGRES_HOST_PORT:-5435}"
+BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-${DATABASE_URL/db:5432/127.0.0.1:$DB_HOST_PORT}}"
+[[ "$BUILD_DATABASE_URL" != *"@db:5432/"* ]] || die "No se pudo adaptar DATABASE_URL para el build del host"
+
+export APP_IMAGE
+
+compose=(docker compose --env-file "$ENV_FILE")
+
+printf '%s\n' 'Validando configuración Compose...'
+"${compose[@]}" config --quiet
+
+db_running="$(docker inspect --format '{{.State.Running}}' "$DB_CONTAINER" 2>/dev/null || true)"
+[[ "$db_running" == "true" ]] || die "El contenedor $DB_CONTAINER no está ejecutándose; no se iniciará una base nueva durante este deploy."
+
+printf '%s\n' 'Instalando dependencias para el build del host...'
+DATABASE_URL="$BUILD_DATABASE_URL" npm ci
+
+printf '%s\n' 'Construyendo Next.js con Webpack en el host...'
+DATABASE_URL="$BUILD_DATABASE_URL" \
+NEXT_PUBLIC_SITE_URL="$SITE_URL" \
+npm run build
+
+app_container_ref() {
+  if [[ -n "$APP_CONTAINER" ]]; then
+    printf '%s\n' "$APP_CONTAINER"
+    return 0
+  fi
+
+  "${compose[@]}" ps -q "$APP_SERVICE" 2>/dev/null | head -n 1
+}
+
+previous_app_ref="$(app_container_ref || true)"
+previous_image_id=''
+if [[ -n "$previous_app_ref" ]]; then
+  previous_image_id="$(docker inspect --format '{{.Image}}' "$previous_app_ref" 2>/dev/null || true)"
+fi
+if [[ -n "$previous_image_id" ]]; then
+  docker tag "$previous_image_id" "${APP_IMAGE}:rollback"
+fi
+
+printf '%s\n' 'Construyendo imagen Docker...'
+"${compose[@]}" build "$APP_SERVICE"
+
+printf '%s\n' 'Recreando solo la aplicación...'
+"${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
+
+wait_for_health() {
+  local deadline=$((SECONDS + HEALTH_TIMEOUT_SECONDS))
+  local container_health=''
+  local body=''
+
+  while (( SECONDS < deadline )); do
+    local app_ref
+    app_ref="$(app_container_ref || true)"
+    container_health=''
+    if [[ -n "$app_ref" ]]; then
+      container_health="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "$app_ref" 2>/dev/null || true)"
+    fi
+    if [[ "$container_health" == 'unhealthy' ]]; then
+      return 1
+    fi
+
+    if body="$(curl --fail --silent --show-error --max-time 10 "$HEALTH_URL" 2>/dev/null)" \
+      && grep -Eq '"ok"[[:space:]]*:[[:space:]]*true' <<< "$body"; then
+      return 0
+    fi
+
+    sleep 3
+  done
+
+  return 1
+}
+
+rollback_app() {
+  [[ -n "$previous_image_id" ]] || return 1
+  printf '%s\n' 'Healthcheck fallido; restaurando la imagen anterior...'
+  docker tag "$previous_image_id" "$APP_IMAGE"
+  "${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
+  wait_for_health || printf '%s\n' 'WARNING: la imagen anterior tampoco pasó el healthcheck.' >&2
+}
+
+if ! wait_for_health; then
+  rollback_app || printf '%s\n' 'WARNING: no había una imagen anterior para rollback.' >&2
+  die "El deploy no pasó el healthcheck: $HEALTH_URL"
+fi
+
+printf 'Deploy OK: %s\n' "$HEALTH_URL"

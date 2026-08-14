@@ -1,53 +1,41 @@
 # syntax=docker/dockerfile:1.7
 
-FROM node:22-bookworm-slim AS base
+# La aplicación se construye en el host con deploy.sh. Esta imagen solo empaqueta
+# el .next ya generado y prepara un runtime reproducible para Docker.
+FROM node:22-alpine
 
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    HOSTNAME=0.0.0.0 \
+    PORT=3000
+
 WORKDIR /app
 
-# Prisma necesita OpenSSL en build y runtime.
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates openssl \
-  && rm -rf /var/lib/apt/lists/*
-
-FROM base AS dependencies
+# Prisma y los binarios nativos de Next necesitan estas librerias en Alpine.
+RUN apk add --no-cache ca-certificates openssl libc6-compat
 
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
-COPY prisma.config.ts ./
+COPY prisma.config.ts ./prisma.config.ts
 
-# URL ficticia y no enrutable: Prisma generate necesita una URL sintácticamente
-# válida, pero el build jamás debe recibir la credencial productiva.
-RUN DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build npm ci
+# El build no debe recibir ni necesitar la credencial productiva.
+RUN DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+    npm ci --omit=dev --ignore-scripts \
+  && DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+    npx prisma generate \
+  && npm cache clean --force
 
-FROM base AS builder
+RUN addgroup -S -g 1001 nodejs \
+  && adduser -S -D -H -u 1001 -G nodejs nextjs \
+  && mkdir -p /app/reports/catalog-audit \
+  && chown -R nextjs:nodejs /app
 
-ARG NEXT_PUBLIC_SITE_URL=https://soloweed.store
-ENV NODE_ENV=production
-ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
-
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY . .
-
-# generateStaticParams tolera que la URL ficticia no tenga PostgreSQL detrás.
-RUN DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build SKIP_DATABASE_STATIC_PARAMS=1 npm run build
-RUN npm prune --omit=dev --ignore-scripts
-
-FROM base AS runner
-
-ENV NODE_ENV=production
-ENV HOSTNAME=0.0.0.0
-ENV PORT=3000
-
-RUN groupadd --system --gid 1001 nodejs \
-  && useradd --system --uid 1001 --gid nodejs nextjs
-
-COPY --from=builder --chown=nextjs:nodejs /app/package.json /app/package-lock.json ./
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/next.config.ts ./next.config.ts
-COPY --from=builder --chown=nextjs:nodejs /app/scripts/validate-runtime-env.mjs ./scripts/validate-runtime-env.mjs
+# .next debe existir porque deploy.sh ejecuta el build en el host antes de
+# docker compose build. Copiar solo los artefactos necesarios reduce superficie.
+COPY --chown=nextjs:nodejs .next ./.next
+COPY --chown=nextjs:nodejs public ./public
+COPY --chown=nextjs:nodejs next.config.ts ./next.config.ts
+COPY --chown=nextjs:nodejs scripts/validate-runtime-env.mjs ./scripts/validate-runtime-env.mjs
 
 USER nextjs
 EXPOSE 3000
