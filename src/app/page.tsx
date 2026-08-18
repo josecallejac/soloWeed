@@ -11,6 +11,8 @@ import { SiteHeader } from "@/components/site-header";
 import { EmptyState } from "@/components/empty-state";
 import { getCatalogData, CATALOG_PAGE_LIMIT } from "./catalog-data";
 import type { Metadata } from "next";
+import { buildHomeJsonLd } from "@/lib/seo";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -18,16 +20,23 @@ export async function generateMetadata(
   { searchParams }: HomeProps
 ): Promise<Metadata> {
   const params = (await searchParams) ?? {};
-  const isFiltered = !!params.brand || !!params.category || !!params.q || !!params.store;
+  const isFiltered = Boolean(
+    params.brand || params.category || params.q || params.store || params.minPrice || params.maxPrice || params.sort || params.page,
+  );
+  const description = "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile. Encuentra el mejor precio siempre.";
 
   return {
-    title: "SoloWeed | El mejor comparador de precios de parafernalia en Chile",
-    description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile. Encuentra el mejor precio siempre.",
+    title: `${SITE_NAME} | El mejor comparador de precios de parafernalia en Chile`,
+    description,
     robots: isFiltered ? { index: false, follow: true } : { index: true, follow: true },
+    alternates: { canonical: "/" },
     openGraph: {
-      title: "SoloWeed | El mejor comparador de precios de parafernalia",
-      description: "Compara precios de bongs, vaporizadores, papelillos y toda la parafernalia en los mejores growshops de Chile.",
+      title: `${SITE_NAME} | El mejor comparador de precios de parafernalia`,
+      description,
       type: "website",
+      siteName: SITE_NAME,
+      locale: "es_CL",
+      url: SITE_URL,
     },
   };
 }
@@ -65,17 +74,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const highCoverageLevel = Math.max(1, totalCoverageStores - 2);
   const mediumCoverageLevel = Math.max(1, totalCoverageStores - 3);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "SoloWeed",
-    "url": "https://soloweed.cl/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://soloweed.cl/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  };
+  const jsonLd = buildHomeJsonLd(SITE_URL);
 
   const infiniteFilters = {
     query,

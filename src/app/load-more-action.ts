@@ -1,6 +1,7 @@
 "use server";
 
 import { getCatalogData } from "./catalog-data";
+import { serializeCatalogCard } from "@/lib/catalog-card";
 import type { OfferCardItem } from "@/components/offer-card";
 
 export type LoadMoreInput = {
@@ -35,23 +36,7 @@ export async function loadMoreCatalog(input: LoadMoreInput): Promise<{ items: Of
   return {
     // Solo lo que consume OfferCard: el Product completo (description, keys
     // internas) no debe viajar al cliente.
-    items: data.offers.map((item) => ({
-      brand: item.brand,
-      category: item.category,
-      id: item.id,
-      imageUrl: item.imageUrl,
-      inStock: item.inStock,
-      lastSeenAt: item.lastSeenAt,
-      maxPrice: item.maxPrice,
-      minPrice: item.minPrice,
-      offerCount: item.offerCount,
-      originalPrice: item.originalPrice,
-      product: item.product ? { brandKey: item.product.brandKey, modelSlug: item.product.modelSlug } : null,
-      storeCount: item.storeCount,
-      title: item.title,
-      totalStores: item.totalStores,
-      url: item.url,
-    })),
+    items: data.offers.map(serializeCatalogCard),
     totalPages: data.totalPages,
   };
 }

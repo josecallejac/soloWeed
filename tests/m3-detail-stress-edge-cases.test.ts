@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { formatPrice, formatPriceRange } from "../src/lib/format";
+import { summarizePrices } from "../src/lib/price-summary";
 import { getVariantName, resolveSelectedVariant } from "../src/lib/variant-utils";
 import { StorePriceCard, StoreStatusRow } from "../src/components/store-price-card";
 
@@ -231,28 +232,22 @@ describe("Milestone 3 Edge Case 2: Out-of-stock store offers vs in-stock offers"
     assert.equal(sorted[3].offer, undefined);
   });
 
-  it("handles Best Price badge calculation when the overall minimum price is out of stock", () => {
+  it("uses the lowest available price instead of a cheaper out-of-stock offer", () => {
     const storesWithPrice = storePrices.filter((r) => r.offer);
     const storesInStock = storePrices.filter((r) => r.offer?.inStock);
-    const detectedPrices = storesWithPrice.map((r) => r.offer!.price);
-    const minPrice = Math.min(...detectedPrices);
-    assert.equal(minPrice, 28000); // Overall min is 28k (out of stock)
+    const summary = summarizePrices(storesWithPrice.map((r) => r.offer!));
+    assert.equal(summary.minPrice, 35000); // The 28k offer is out of stock.
+    assert.equal(summary.maxPrice, 35000);
+    assert.equal(summary.outOfStockMinPrice, 28000);
 
-    // Check bestPriceStoreName logic from page.tsx:
-    // bestPriceStoreName = storesInStock.find(r => r.offer?.price === minPrice)?.store.name ?? storesWithPrice.find(r => r.offer?.price === minPrice)?.store.name
-    const bestPriceInStockStore = storesInStock.find((r) => r.offer?.price === minPrice)?.store.name;
-    assert.equal(bestPriceInStockStore, undefined); // No in-stock store has 28000
+    const bestPriceStore = storesInStock.find((r) => r.offer?.price === summary.minPrice)?.store.name;
+    assert.equal(bestPriceStore, "Astro Growshop");
 
-    const fallbackBestPriceStore = storesWithPrice.find((r) => r.offer?.price === minPrice)?.store.name;
-    assert.equal(fallbackBestPriceStore, "Fumetas");
+    const isStoreALowest = summary.minPrice !== undefined && offerInStock.price === summary.minPrice && offerInStock.inStock;
+    assert.equal(isStoreALowest, true);
 
-    // Check StorePriceCard isLowest evaluation:
-    // isLowest = minPrice !== undefined && offer.price === minPrice && offer.inStock
-    const isStoreALowest = minPrice !== undefined && offerInStock.price === minPrice && offerInStock.inStock;
-    assert.equal(isStoreALowest, false); // 35000 !== 28000
-
-    const isStoreBLowest = minPrice !== undefined && offerOutOfStockCheaper.price === minPrice && offerOutOfStockCheaper.inStock;
-    assert.equal(isStoreBLowest, false); // 28000 === 28000 but inStock is FALSE
+    const isStoreBLowest = summary.minPrice !== undefined && offerOutOfStockCheaper.price === summary.minPrice && offerOutOfStockCheaper.inStock;
+    assert.equal(isStoreBLowest, false);
   });
 
   it("filters correctly when toggling 'Con Stock'", () => {

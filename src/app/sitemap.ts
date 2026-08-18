@@ -20,8 +20,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: {
         brandKey: { not: null },
         modelSlug: { not: null },
+        offers: { some: { store: { enabled: true } } },
       },
-      select: { brandKey: true, modelSlug: true, updatedAt: true },
+      select: {
+        brandKey: true,
+        modelSlug: true,
+        updatedAt: true,
+        offers: {
+          where: { store: { enabled: true } },
+          select: { lastSeenAt: true },
+          orderBy: { lastSeenAt: "desc" },
+          take: 1,
+        },
+      },
       orderBy: { id: "asc" },
     });
 
@@ -29,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       homeEntry,
       ...products.map((product) => ({
         url: `${SITE_URL}${productPath(product.brandKey!, product.modelSlug!)}`,
-        lastModified: product.updatedAt,
+        lastModified: product.offers[0]?.lastSeenAt ?? product.updatedAt,
         changeFrequency: "daily" as const,
         priority: 0.8,
       })),

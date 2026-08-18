@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
-import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
+import Script from "next/script";
+import { ThemeProvider } from "@/components/theme-provider";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,24 +20,31 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+const umamiScriptUrl = process.env.NEXT_PUBLIC_UMAMI_SRC?.trim();
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID?.trim();
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "SoloWeed | Comparador de parafernalia en Chile",
-    template: "%s | SoloWeed",
+    default: `${SITE_NAME} | Comparador de parafernalia en Chile`,
+    template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    siteName: "SoloWeed",
+    siteName: SITE_NAME,
     locale: "es_CL",
-    title: "SoloWeed | Comparador de parafernalia en Chile",
+    title: `${SITE_NAME} | Comparador de parafernalia en Chile`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} | Comparador de parafernalia en Chile`,
     description: SITE_DESCRIPTION,
   },
 };
-
-import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -49,6 +58,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-white dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] antialiased selection:bg-[#C0FF00] selection:text-[#050507]">
+        {umamiScriptUrl && umamiWebsiteId ? <Script data-website-id={umamiWebsiteId} src={umamiScriptUrl} strategy="afterInteractive" /> : null}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
         </ThemeProvider>

@@ -37,15 +37,25 @@ export const friendlyGrowPreview: { data: PricingIntelligence; gap: AssortmentGa
         recordedAt: new Date("2026-08-07T12:20:00.000Z"),
       },
     ],
-    quality: {
+      quality: {
       totalOffers: 812,
       freshOffers: 784,
       linkedFreshOffers: 138,
       trackedStores: 6,
       latestSeenAt: observedAt,
-      freshnessCutoff: new Date("2026-08-06T14:35:00.000Z"),
+        freshnessCutoff: new Date("2026-08-06T14:35:00.000Z"),
+      },
+      clicks: {
+        total: 126,
+        last30Days: 21,
+        previous30Days: 16,
+        topProducts: [
+          { id: 105, name: "Moledor RAW 4 partes 56 mm", clicks: 6 },
+          { id: 101, name: "Vaporizador Yocan Ziva Pro", clicks: 5 },
+          { id: 108, name: "Bandeja OCB Rolling Tray", clicks: 4 },
+        ],
+      },
     },
-  },
   gap: {
     products: [
       gapProduct(201, "Papelillos RAW Black King Size Slim", null, "Papelillos", 5, 1490, "Astro Growshop"),

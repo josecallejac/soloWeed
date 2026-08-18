@@ -1,6 +1,11 @@
 import { cp, mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { prisma } from "../src/lib/prisma";
+import {
+  CATALOG_AUDIT_LATEST_DIR,
+  CATALOG_AUDIT_REPORT_FILES,
+  CATALOG_AUDIT_RUNS_DIR,
+} from "../src/lib/catalog-audit-paths";
 import type { Prisma } from "@prisma/client";
 
 type ProductWithOffers = Prisma.ProductGetPayload<{
@@ -35,21 +40,9 @@ type VisibleProduct = {
   url: string;
 };
 
-const REPORT_DIR = join(process.cwd(), "reports", "catalog-audit");
-const RUNS_DIR = join(REPORT_DIR, "runs");
-const LATEST_DIR = join(REPORT_DIR, "latest");
-const REPORT_FILES = [
-  "00-summary.csv",
-  "01-home-visible.csv",
-  "02-visible-products.csv",
-  "03-categories.csv",
-  "04-risks.csv",
-  "05-opportunities.csv",
-  "06-single-store-curated.csv",
-  "07-two-store-curated.csv",
-  "08-three-store-curated.csv",
-  "09-four-store-curated.csv",
-];
+const RUNS_DIR = CATALOG_AUDIT_RUNS_DIR;
+const LATEST_DIR = CATALOG_AUDIT_LATEST_DIR;
+const REPORT_FILES = CATALOG_AUDIT_REPORT_FILES;
 
 export async function exportCatalogAudit(options: ExportCatalogAuditOptions = {}) {
   const runId = getRunId();
@@ -68,6 +61,7 @@ export async function exportCatalogAudit(options: ExportCatalogAuditOptions = {}
   const visibleProducts = curatedProducts.filter((product) => product.storeCount > 1);
   const singleStoreProducts = curatedProducts.filter((product) => product.storeCount === 1);
   const homeProducts = selectBalancedHomeProducts(visibleProducts);
+  const coverageCounts = getCoverageCounts(curatedProducts);
   const summaryRows = [
     { metric: "runId", value: runId },
     { metric: "generatedAt", value: new Date().toISOString() },
@@ -78,9 +72,11 @@ export async function exportCatalogAudit(options: ExportCatalogAuditOptions = {}
     { metric: "visibleProducts", value: String(visibleProducts.length) },
     { metric: "singleStoreCuratedProducts", value: String(singleStoreProducts.length) },
     { metric: "homeProducts", value: String(homeProducts.length) },
-    { metric: "twoStoreProducts", value: String(visibleProducts.filter((product) => product.storeCount === 2).length) },
-    { metric: "threeStoreProducts", value: String(visibleProducts.filter((product) => product.storeCount === 3).length) },
-    { metric: "fourStoreProducts", value: String(visibleProducts.filter((product) => product.storeCount === stores.length).length) },
+    { metric: "twoStoreProducts", value: String(coverageCounts.twoStoreProducts) },
+    { metric: "threeStoreProducts", value: String(coverageCounts.threeStoreProducts) },
+    { metric: "fourPlusStoreProducts", value: String(coverageCounts.fourPlusStoreProducts) },
+    { metric: "fiveStoreProducts", value: String(coverageCounts.fiveStoreProducts) },
+    { metric: "sixStoreProducts", value: String(coverageCounts.sixStoreProducts) },
     { metric: "missingImages", value: String(visibleProducts.filter((product) => !product.hasImage).length) },
   ];
 
@@ -137,10 +133,34 @@ function getReportRows(
     case "08-three-store-curated.csv":
       return data.visibleProducts.filter((product) => product.storeCount === 3).map(serializeProduct);
     case "09-four-store-curated.csv":
-      return data.visibleProducts.filter((product) => product.storeCount === 4).map(serializeProduct);
+      return data.visibleProducts.filter((product) => product.storeCount >= 4).map(serializeProduct);
+    case "10-five-store-curated.csv":
+      return data.visibleProducts.filter((product) => product.storeCount === 5).map(serializeProduct);
+    case "11-six-store-curated.csv":
+      return data.visibleProducts.filter((product) => product.storeCount === 6).map(serializeProduct);
     default:
       return [];
   }
+}
+
+export type CoverageCounts = {
+  fiveStoreProducts: number;
+  fourPlusStoreProducts: number;
+  sixStoreProducts: number;
+  singleStoreProducts: number;
+  threeStoreProducts: number;
+  twoStoreProducts: number;
+};
+
+export function getCoverageCounts(products: Array<{ storeCount: number }>): CoverageCounts {
+  return {
+    singleStoreProducts: products.filter((product) => product.storeCount === 1).length,
+    twoStoreProducts: products.filter((product) => product.storeCount === 2).length,
+    threeStoreProducts: products.filter((product) => product.storeCount === 3).length,
+    fourPlusStoreProducts: products.filter((product) => product.storeCount >= 4).length,
+    fiveStoreProducts: products.filter((product) => product.storeCount === 5).length,
+    sixStoreProducts: products.filter((product) => product.storeCount === 6).length,
+  };
 }
 
 async function main() {

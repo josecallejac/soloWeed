@@ -11,8 +11,22 @@ permissions:
 
 jobs:
   verify:
-    name: Lint, test and build
+    name: Lint, unit tests, E2E and build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: soloweed
+          POSTGRES_PASSWORD: ci
+          POSTGRES_USER: soloweed
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U soloweed -d soloweed"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
     env:
       # URL sintácticamente válida y sin acceso a producción. El catálogo maneja
       # la BD no disponible durante build y las pruebas unitarias no la consultan.
@@ -20,6 +34,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
       NEXT_TELEMETRY_DISABLED: "1"
       SKIP_DATABASE_STATIC_PARAMS: "1"
+      E2E_DATABASE: "1"
 
     steps:
       - uses: actions/checkout@v4
@@ -30,6 +45,18 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: npx tsx scripts/seed-e2e.ts
+        env:
+          E2E_DATABASE: "1"
       - run: npm run lint
       - run: npm run test
       - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e -- --project=chromium
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          if-no-files-found: ignore
+          name: playwright-report
+          path: playwright-report/

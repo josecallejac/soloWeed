@@ -40,17 +40,17 @@ describe("buildAssortmentGap", () => {
 
   it("excluye el producto si la tienda ya lo vende", () => {
     const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), offer(3, 2500), offer(ME, 2200)] });
-    assert.equal(buildAssortmentGap([p], ME, new Set()).summary.total, 0);
+    assert.equal(buildAssortmentGap([p], ME, new Set(), new Set(), NOW).summary.total, 0);
   });
 
   it("tenerlo AGOTADO tampoco es brecha de surtido: es problema de stock", () => {
     const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), offer(3, 2500), offer(ME, 2200, false)] });
-    assert.equal(buildAssortmentGap([p], ME, new Set()).summary.total, 0);
+    assert.equal(buildAssortmentGap([p], ME, new Set(), new Set(), NOW).summary.total, 0);
   });
 
   it("solo cuenta competidores CON stock para la cobertura", () => {
     const p = makeProduct({ offers: [offer(1, 3000), offer(2, 2000), offer(3, 2500, false)] });
-    assert.equal(buildAssortmentGap([p], ME, new Set()).summary.total, 0);
+    assert.equal(buildAssortmentGap([p], ME, new Set(), new Set(), NOW).summary.total, 0);
   });
 
   it("excluye precios vencidos de la cobertura competitiva", () => {
@@ -72,18 +72,18 @@ describe("buildAssortmentGap", () => {
 
   it("ignora las ofertas con precio 0 al elegir la más barata", () => {
     const p = makeProduct({ offers: [offer(1, 0), offer(2, 3000), offer(3, 2000), offer(4, 2500)] });
-    const gap = buildAssortmentGap([p], ME, new Set());
+    const gap = buildAssortmentGap([p], ME, new Set(), new Set(), NOW);
     assert.equal(gap.products[0].minPrice, 2000);
     assert.equal(gap.products[0].storeCount, 3);
   });
 
   it("marca la marca como ausente solo si la tienda no vende NADA de ella", () => {
-    const ausente = buildAssortmentGap([makeProduct()], ME, new Set());
+    const ausente = buildAssortmentGap([makeProduct()], ME, new Set(), new Set(), NOW);
     assert.equal(ausente.brands[0].carriedByStore, false);
     assert.equal(ausente.summary.missingBrands, 1);
 
     // basta una oferta huérfana de la marca para que deje de ser brecha de marca
-    const presente = buildAssortmentGap([makeProduct()], ME, new Set(["raw"]));
+    const presente = buildAssortmentGap([makeProduct()], ME, new Set(["raw"]), new Set(), NOW);
     assert.equal(presente.brands[0].carriedByStore, true);
     assert.equal(presente.summary.missingBrands, 0);
   });
@@ -96,6 +96,8 @@ describe("buildAssortmentGap", () => {
       ],
       ME,
       new Set(),
+      new Set(),
+      NOW,
     );
     const raw = gap.brands[0];
     assert.equal(raw.products, 2);
@@ -116,21 +118,23 @@ describe("buildAssortmentGap", () => {
       ],
       ME,
       new Set(),
+      new Set(),
+      NOW,
     );
     assert.equal(gap.products[0].productId, 2, "el de 5 tiendas va primero");
     assert.equal(gap.brands[0].brandKey, "ocb", "la marca con productos de 4+ va primero");
   });
 
   it("construye la URL pública solo si hay brandKey y modelSlug", () => {
-    const con = buildAssortmentGap([makeProduct()], ME, new Set());
+    const con = buildAssortmentGap([makeProduct()], ME, new Set(), new Set(), NOW);
     assert.equal(con.products[0].productPath, "/productos/raw/classic");
 
-    const sin = buildAssortmentGap([makeProduct({ modelSlug: null })], ME, new Set());
+    const sin = buildAssortmentGap([makeProduct({ modelSlug: null })], ME, new Set(), new Set(), NOW);
     assert.equal(sin.products[0].productPath, null);
   });
 
   it("un producto sin brandKey cuenta en la brecha pero no inventa una marca", () => {
-    const gap = buildAssortmentGap([makeProduct({ brandKey: null, brand: null })], ME, new Set());
+    const gap = buildAssortmentGap([makeProduct({ brandKey: null, brand: null })], ME, new Set(), new Set(), NOW);
     assert.equal(gap.summary.total, 1);
     assert.equal(gap.brands.length, 0);
   });

@@ -575,6 +575,12 @@ describe("buildMatchSuggestions", () => {
 
     assert.equal(pending.length, 0);
   });
+
+  it("does not suggest moving an offer already linked to another product", () => {
+    const linkedCandidate = { ...offer2, id: 4, productId: 20 };
+
+    assert.deepEqual(buildMatchSuggestions([offer1, linkedCandidate], new Map(), "pending"), []);
+  });
 });
 
 describe("getPaperVariant", () => {

@@ -27,8 +27,11 @@ async function generateShareToken(formData: FormData) {
   const storeId = Number(formData.get("storeId"));
   if (!Number.isInteger(storeId)) return;
 
+  const store = await prisma.store.findFirst({ where: { id: storeId, enabled: true }, select: { id: true } });
+  if (!store) return;
+
   await prisma.store.update({
-    where: { id: storeId },
+    where: { id: store.id },
     data: { shareToken: randomBytes(16).toString("base64url") },
   });
 
@@ -55,7 +58,7 @@ type InteligenciaPreciosPageProps = {
 export default async function InteligenciaPreciosPage({ searchParams }: InteligenciaPreciosPageProps) {
   await requireAdmin();
 
-  const stores = await prisma.store.findMany({ orderBy: { name: "asc" } });
+  const stores = await prisma.store.findMany({ where: { enabled: true }, orderBy: { name: "asc" } });
   const params = (await searchParams) ?? {};
   const selectedStore = stores.find((s) => s.slug === params.store) ?? stores[0];
 
@@ -161,11 +164,12 @@ export default async function InteligenciaPreciosPage({ searchParams }: Intelige
                     {data.positions.length} productos comparables
                   </h2>
                 </div>
-                <div className="grid grid-cols-3 gap-2 text-center text-sm sm:min-w-72">
-                  <Stat label="Bajo mediana" value={data.summary.cheapest} />
-                  <Stat label="En mediana" value={data.summary.tied} />
-                  <Stat label="Sobre mediana" value={data.summary.overpriced} />
-                </div>
+                 <div className="grid grid-cols-4 gap-2 text-center text-sm sm:min-w-[22rem]">
+                   <Stat label="Bajo mediana" value={data.summary.cheapest} />
+                   <Stat label="En mediana" value={data.summary.tied} />
+                   <Stat label="Sobre mediana" value={data.summary.overpriced} />
+                   <Stat label="Clics 30d" value={data.clicks.last30Days} />
+                 </div>
               </div>
               {data.summary.overpriced > 0 ? (
                 <p className="mt-4 text-sm font-bold text-black/60">

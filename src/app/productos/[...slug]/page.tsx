@@ -28,6 +28,7 @@ import { getVariantName, resolveSelectedVariant } from "@/lib/variant-utils";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { StoreComparisonMatrix } from "@/components/store-comparison-matrix";
 import { RelatedProductsCarousel } from "@/components/related-products-carousel";
+import { summarizePrices } from "@/lib/price-summary";
 
 // Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
 // así queda en un chunk aparte en vez del bundle de cada página de producto.
@@ -94,9 +95,9 @@ export async function generateMetadata(props: ProductDetailProps): Promise<Metad
   if (!product) {
     return {};
   }
-  const prices = product.offers.filter((offer) => offer.inStock).map((offer) => offer.price);
+  const priceSummary = summarizePrices(product.offers);
   const storeCount = new Set(product.offers.map((offer) => offer.storeId)).size;
-  const minPrice = prices.length > 0 ? Math.min(...prices) : undefined;
+  const minPrice = priceSummary.hasInStockPrice ? priceSummary.minPrice : undefined;
   const priceText = minPrice !== undefined ? ` desde $${minPrice.toLocaleString("es-CL")}` : "";
   const storeText = storeCount > 1 ? ` en ${storeCount} tiendas` : "";
   const title = `${product.name}: precio${storeText}`;
@@ -203,9 +204,10 @@ export default async function ProductDetail(props: ProductDetailProps) {
   const storePrices = buildStorePrices(stores, visibleOffers, product.offers);
   const storesWithPrice = storePrices.filter((row) => row.offer);
   const storesInStock = storePrices.filter((row) => row.offer?.inStock);
-  const detectedPrices = storesWithPrice.map((row) => row.offer!.price);
-  const minPrice = detectedPrices.length > 0 ? Math.min(...detectedPrices) : undefined;
-  const maxPrice = detectedPrices.length > 0 ? Math.max(...detectedPrices) : undefined;
+  const pricedStoreRows = storesWithPrice.filter((row) => row.offer!.price > 0);
+  const priceSummary = summarizePrices(pricedStoreRows.map((row) => row.offer!));
+  const { hasInStockPrice, maxPrice, minPrice, outOfStockMinPrice } = priceSummary;
+  const priceRows = pricedStoreRows.filter((row) => !hasInStockPrice || row.offer!.inStock);
   const suggestedMatchCount = Math.max(storesWithPrice.length - 1, 0);
 
   // Collect unique image URLs for the thumbnail gallery
@@ -255,10 +257,10 @@ export default async function ProductDetail(props: ProductDetailProps) {
             priceCurrency: "CLP",
             lowPrice: minPrice,
             highPrice: maxPrice,
-            offerCount: storesWithPrice.length,
+            offerCount: priceRows.length,
             availability:
               storesInStock.length > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            offers: storesWithPrice.map(row => ({
+            offers: priceRows.map((row) => ({
               "@type": "Offer",
               price: row.offer!.price,
               priceCurrency: "CLP",
@@ -274,9 +276,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
       : {}),
   };
 
-  const bestPriceStoreName =
-    storesInStock.find((r) => r.offer?.price === minPrice)?.store.name ??
-    storesWithPrice.find((r) => r.offer?.price === minPrice)?.store.name;
+  const bestPriceStoreName = priceRows.find((r) => r.offer?.price === minPrice)?.store.name;
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] transition-colors duration-300 font-sans">
@@ -338,7 +338,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="block text-[11px] font-mono font-black uppercase tracking-widest text-slate-500 dark:text-white/50">
-                        Mejor precio detectado
+                        {hasInStockPrice ? "Mejor precio disponible" : "Menor precio detectado · sin stock"}
                       </span>
                       {bestPriceStoreName && (
                         <span className="rounded-md bg-accent/15 border border-accent/40 px-2 py-0.5 text-[11px] font-mono font-bold text-slate-900 dark:text-accent">
@@ -362,6 +362,12 @@ export default async function ProductDetail(props: ProductDetailProps) {
                     </div>
                   ) : null}
                 </div>
+              ) : null}
+
+              {hasInStockPrice && outOfStockMinPrice !== undefined && minPrice !== undefined && outOfStockMinPrice < minPrice ? (
+                <p className="mt-3 text-xs font-mono font-bold text-orange-700 dark:text-orange-300">
+                  Precio más bajo detectado sin stock: {formatPrice(outOfStockMinPrice)}
+                </p>
               ) : null}
 
               {/* Description */}

@@ -1044,6 +1044,12 @@ export function buildMatchSuggestions(offers: ReviewOfferInput[], decisionMap: M
         continue;
       }
 
+      // La aprobación solo puede agregar una oferta huérfana; nunca propone
+      // mover una oferta que ya pertenece a otro producto.
+      if (first.productId !== null && second.productId !== null) {
+        continue;
+      }
+
       const [seed, candidate] = pickSeedAndCandidate(first, second);
       const key = `${seed.id}:${candidate.id}`;
       const status = decisionMap.get(key) ?? "pending";

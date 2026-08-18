@@ -7,7 +7,8 @@ Comandos reproducibles para operar el proyecto. Los ejemplos usan PowerShell por
 El proyecto usa dos direcciones distintas para el mismo PostgreSQL:
 
 - Desde el notebook/host: `192.168.100.2:5435` (puerto publicado por Docker).
-- Desde el contenedor web: `soloweed-db:5432` (DNS y puerto internos de Compose).
+- Desde el contenedor web: `db:5432` (DNS y puerto internos de Compose; el
+  contenedor se llama `soloweed-db`).
 
 No intercambies estas URLs. El servidor casero que publica `soloweed.store`
 ejecuta Next.js con `NODE_ENV=production`; estar alojado en casa no lo convierte
@@ -61,21 +62,29 @@ fallará en vez de crear silenciosamente una base vacía.
 cp .env.docker.example .env.docker.local
 ```
 
-Dentro de `.env.docker.local`, `DATABASE_URL_INTERNAL` debe apuntar a
-`soloweed-db:5432` y `NEXT_PUBLIC_SITE_URL` a `https://soloweed.store`.
+Dentro de `.env.docker.local`, `DATABASE_URL` debe apuntar a `db:5432` y
+`NEXT_PUBLIC_SITE_URL` a `https://soloweed.store`.
 La contraseña incluida en la URL debe estar codificada para URL.
 
-Valida sin imprimir el entorno resuelto y luego despliega:
+Valida sin imprimir el entorno resuelto y despliega con el script dedicado:
 
 ```bash
 docker compose --env-file .env.docker.local config --quiet
-docker compose --env-file .env.docker.local up -d --build
+DEPLOY_ENV_FILE=.env.docker.local bash deploy.sh
 docker compose --env-file .env.docker.local ps
 curl -fsS http://127.0.0.1:8093/api/health
 ```
 
-No uses `docker compose restart` para cambiar variables: un restart no recrea
-el contenedor. No ejecutes Prisma migrate durante este flujo.
+`deploy.sh` ejecuta `npm ci` y `npm run build` en el host, adaptando `db:5432` a
+`127.0.0.1:5435`. Construye solo la imagen web, conserva la imagen anterior para
+rollback y
+espera un healthcheck real. No hace `git checkout`, no ejecuta Prisma migrate y
+no recrea el servicio PostgreSQL. No uses `docker compose restart` para cambiar
+variables: un restart no recrea el contenedor.
+
+El webhook del servidor debe hacer `git fetch`/`git pull` y luego invocar
+`DEPLOY_ENV_FILE=.env bash deploy.sh`; el script asume que la base existente ya está
+ejecutándose y que el volumen externo está presente.
 
 Opcionalmente, `PRICING_DEMO_TOKEN=<token-largo-y-aleatorio>` habilita la preview
 simulada dentro del Docker productivo en `/precios/<token>`. Si no se define, la
@@ -98,6 +107,28 @@ Las pruebas unitarias no consultan PostgreSQL. Las pruebas de integración se
 ejecutan explícitamente con `npm run test:integration`; nunca las apuntes a la
 base productiva.
 
+## E2E
+
+Las pruebas Playwright requieren una PostgreSQL efímera o local. La configuración
+bloquea la ejecución si `E2E_DATABASE=1` no está definido, si `DATABASE_URL` no
+existe o si apunta fuera de `localhost`/`127.0.0.1`. Tampoco reutiliza un servidor
+Next.js ya iniciado, para evitar heredar una base productiva.
+
+En una máquina con PostgreSQL local en el puerto `5432`:
+
+```powershell
+$env:E2E_DATABASE="1"
+$env:DATABASE_URL="postgresql://soloweed:ci@127.0.0.1:5432/soloweed"
+npx prisma migrate deploy
+npx tsx scripts/seed-e2e.ts
+npx playwright install chromium
+npm run test:e2e -- --project=chromium
+```
+
+El workflow de GitHub Actions crea su propio servicio PostgreSQL, ejecuta las
+migraciones y el seed antes de correr Chromium. No uses la `DATABASE_URL` del
+`.env` productivo para este flujo.
+
 ## Healthcheck
 
 El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
@@ -117,7 +148,7 @@ no los ejecutes desde una estación de trabajo contra producción.
 ```bash
 chmod +x scripts/ops/*.sh
 
-# Backup lógico comprimido, conserva 14 días en /var/backups/soloweed.
+# Backup lógico comprimido con checksum; conserva 14 días en /var/backups/soloweed.
 sudo scripts/ops/backup-postgres.sh
 
 # Valida app + PostgreSQL por la URL pública.
@@ -127,9 +158,21 @@ scripts/ops/check-health.sh
 Variables opcionales:
 
 ```bash
-BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 COMPOSE_ENV_FILE=.env.docker.local sudo scripts/ops/backup-postgres.sh
+BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 COMPOSE_ENV_FILE=.env sudo scripts/ops/backup-postgres.sh
 HEALTHCHECK_WEBHOOK_URL='https://<webhook>' scripts/ops/check-health.sh
 ```
+
+El backup usa un lock, comprueba que `db` esté corriendo, ejecuta `pg_dump` con
+`pipefail`, valida gzip y escribe el dump y su `.sha256` de forma atómica. Para
+probar una restauración sin tocar producción, usa un dump copiado a una carpeta
+temporal del notebook o del host:
+
+```bash
+scripts/ops/restore-postgres-test.sh /ruta/soloweed-20260813T120000Z.sql.gz
+```
+
+El comando crea un contenedor PostgreSQL efímero, valida tablas y cuenta
+`Store`, `Product` y `Offer`, y lo elimina incluso si la restauración falla.
 
 Programa ambas tareas con `crontab -e` del usuario que puede ejecutar Docker:
 
@@ -145,6 +188,28 @@ El healthcheck de Docker expone el estado `healthy`/`unhealthy`, pero Docker
 Compose no reinicia automáticamente un contenedor solo por quedar `unhealthy`.
 Usa el monitor anterior para alertar y define cualquier reinicio automático de
 forma explícita en la operación del servidor.
+
+`CATALOG_FRESHNESS_HOURS` controla la frescura exigida por `/api/health`; por defecto
+son 72 horas. Un healthcheck con PostgreSQL disponible pero con una tienda activa sin
+ofertas recientes responde `503` para que el monitor no confunda una base viva con un
+catálogo actualizado.
+
+## Informe B2B
+
+El panel privado para growshops está en `/interno/inteligencia-precios`. Desde allí un
+administrador puede generar, rotar o desactivar un token de solo lectura para
+`/precios/<token>`. Solo se muestran tiendas habilitadas y rotar el token invalida el
+enlace anterior.
+
+El informe compartible incluye posición frente a la mediana, alertas de rebajas,
+brecha de surtido y tráfico referido a la tienda desde `/ir`. Los clics son agregados
+y no representan ventas. Los botones de contacto pueden medirse en Umami con el evento
+`b2b-contacto`; configura `NEXT_PUBLIC_CONTACT_EMAIL` y, opcionalmente,
+`NEXT_PUBLIC_CONTACT_WHATSAPP` en el entorno del servidor.
+
+Los CSV de `reports/catalog-audit` se guardan en el volumen Docker
+`soloweed-catalog-audit` y sobreviven a la recreación del contenedor web. Puedes
+personalizar el nombre con `CATALOG_AUDIT_VOLUME_NAME` en `.env.docker.local`.
 
 Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
 
@@ -373,6 +438,33 @@ recibir ofertas de una tienda que todavía no tenga.
 Variables opcionales: `SIX_MIN_CURRENT_STORES` (default 2),
 `SIX_MIN_TEXT_SCORE` (default 0.62), `SIX_TOP_PER_STORE` (default 3) y
 `SIX_INCLUDE_OUT_OF_STOCK` (default 1, porque el stock no cambia la identidad).
+
+## Crecimiento Seguro
+
+Los diagnósticos de upgrades son solo lectura. Antes de preparar una ronda, respalda
+los vinculos de productos con 3 o mas tiendas:
+
+```powershell
+npx tsx scripts/protect-multistore-links.ts --save
+$env:UPGRADE_STORES="friendlygrow"; $env:UPGRADE_LEVELS="2,3,4,5"; npx tsx scripts/find-store-upgrades.ts
+```
+
+Despues de revisar manualmente cada candidato, crea un JSON explicito con esta forma:
+
+```json
+{
+  "links": [
+    { "offerId": 123, "productId": 456, "evidence": "EAN exacto ..." }
+  ]
+}
+```
+
+Validalo contra el estado actual antes de escribir mediante
+`npm run catalog:growth:validate -- reports/growth-reviewed.json`. El validador no
+modifica PostgreSQL, rechaza ofertas ya vinculadas, tiendas repetidas, tiendas
+deshabilitadas y productos sin una tienda faltante. Los productos con 4 o mas tiendas
+solo pueden recibir una oferta de una tienda nueva; nunca se mueven sus vinculos
+existentes.
 
 ## Proteccion De Productos Multi-Tienda
 

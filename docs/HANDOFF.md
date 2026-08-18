@@ -34,11 +34,13 @@ Este archivo es el punto de entrada para cualquier modelo, agente o persona que 
 
 ```powershell
 npm install
-npm run db:migrate
 npm run scrape
 npm run lint
 npm run build
 ```
+
+Las migraciones solo se ejecutan explícitamente sobre una base de pruebas autorizada
+(por ejemplo, el PostgreSQL efímero de CI); no forman parte del deploy normal.
 
 Curacion normal aprobada:
 

@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
   const data = await getPriceIntelligence(store.id);
   const lines = [
-    ["Producto", "Tu precio", "Mediana competencia", "Mínimo competencia", "Tienda mínimo", "Posición", "Tiendas", "Estado", "Diferencia vs mediana", "Diferencia %", "Ficha"]
+    ["Producto", "Tu precio", "Mediana competencia", "Mínimo competencia", "Tienda mínimo", "Posición", "Tiendas", "Estado", "Diferencia vs mediana", "Diferencia %", "Clics tienda 30d", "Clics previos 30d", "Ficha"]
       .map(csvValue)
       .join(SEPARATOR),
   ];
@@ -46,6 +46,8 @@ export async function GET(request: Request) {
         positionStatus(row),
         row.suspect ? "" : gap,
         row.suspect ? "" : ((gap / row.marketMedianPrice) * 100).toFixed(1),
+        data.clicks.last30Days,
+        data.clicks.previous30Days,
         row.productPath ? new URL(row.productPath, SITE_URL).toString() : "",
       ]
         .map(csvValue)

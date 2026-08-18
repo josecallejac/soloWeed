@@ -18,6 +18,7 @@
     "match:embedding": "tsx scripts/match-by-embedding.ts",
     "catalog:curate": "tsx scripts/curate-comparable-products.ts",
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
+    "catalog:growth:validate": "tsx scripts/validate-reviewed-catalog-growth.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
     "catalog:six-store": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --env-file-if-exists=.env.development.local --import tsx scripts/diagnose-six-store-potential.ts",
     "catalog:short-desc": "tsx scripts/generate-short-descriptions.ts",

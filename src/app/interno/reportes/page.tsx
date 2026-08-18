@@ -4,7 +4,9 @@ import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
+import { getCatalogFreshnessHours } from "@/lib/health";
 import { prisma } from "@/lib/prisma";
+import { CATALOG_AUDIT_DIR, CATALOG_AUDIT_RUNS_DIR } from "@/lib/catalog-audit-paths";
 import { LogoutButton } from "../logout-button";
 import { exportCatalogAudit } from "../../../../scripts/export-catalog-audit";
 
@@ -25,8 +27,6 @@ type ReportTable = {
   rows: Record<string, string>[];
 };
 
-const REPORT_DIR = join(process.cwd(), "reports", "catalog-audit");
-const RUNS_DIR = join(REPORT_DIR, "runs");
 const REPORT_FILES = [
   { file: "00-summary.csv", label: "Resumen" },
   { file: "01-home-visible.csv", label: "Home visible" },
@@ -38,12 +38,15 @@ const REPORT_FILES = [
   { file: "07-two-store-curated.csv", label: "Curados 2 tiendas" },
   { file: "08-three-store-curated.csv", label: "Curados 3 tiendas" },
   { file: "09-four-store-curated.csv", label: "Curados 4+ tiendas" },
+  { file: "10-five-store-curated.csv", label: "Curados 5 tiendas" },
+  { file: "11-six-store-curated.csv", label: "Curados 6 tiendas" },
 ];
 
 export default async function ReportsPage({ searchParams }: ReportsPageProps) {
   await requireAdmin();
 
   const params = (await searchParams) ?? {};
+  const freshnessHours = getCatalogFreshnessHours();
   const runs = await getReportRuns();
   const selectedRun = runs.includes(params.run ?? "") ? params.run! : runs[0] ?? "legacy";
   const compareRun = runs.includes(params.compareRun ?? "") && params.compareRun !== selectedRun ? params.compareRun! : "";
@@ -101,7 +104,7 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
               <h2 className="mt-1 text-3xl font-black tracking-[-0.04em]">Cobertura y frescura operativa</h2>
             </div>
             <p className="max-w-md text-sm leading-5 text-black/55">
-              Datos en vivo, solo lectura. Una oferta se considera pendiente de refresco si no se ve hace más de 72 horas.
+              Datos en vivo, solo lectura. Una oferta se considera pendiente de refresco si no se ve hace más de {freshnessHours} horas.
             </p>
           </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -285,7 +288,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 }
 
 async function getOperationsStats() {
-  const staleSince = new Date(Date.now() - 72 * 60 * 60 * 1000);
+  const staleSince = new Date(Date.now() - getCatalogFreshnessHours() * 60 * 60 * 1000);
 
   try {
     const [enabledStores, offers, products, orphanOffers, stores, coverage] = await Promise.all([
@@ -383,7 +386,7 @@ async function getOutboundClickStats() {
 }
 
 async function readReport(file: string, run: string): Promise<ReportTable> {
-  const baseDir = run === "legacy" ? REPORT_DIR : join(RUNS_DIR, run);
+  const baseDir = run === "legacy" ? CATALOG_AUDIT_DIR : join(CATALOG_AUDIT_RUNS_DIR, run);
 
   return readReportFromPath(file, join(baseDir, file));
 }
@@ -406,7 +409,7 @@ async function readReportFromPath(file: string, path: string): Promise<ReportTab
 
 async function getReportRuns() {
   try {
-    const entries = await readdir(RUNS_DIR, { withFileTypes: true });
+    const entries = await readdir(CATALOG_AUDIT_RUNS_DIR, { withFileTypes: true });
 
     return entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort().reverse();
   } catch {
@@ -522,7 +525,7 @@ async function clearReportHistory(formData: FormData) {
   const selectedFile = REPORT_FILES.some((report) => report.file === file) ? file : REPORT_FILES[0].file;
   const runToKeep = runs.includes(run) ? run : runs[0] ?? "";
 
-  await Promise.all(runs.filter((entry) => entry !== runToKeep).map((entry) => rm(join(RUNS_DIR, entry), { force: true, recursive: true })));
+  await Promise.all(runs.filter((entry) => entry !== runToKeep).map((entry) => rm(join(CATALOG_AUDIT_RUNS_DIR, entry), { force: true, recursive: true })));
 
   const params = new URLSearchParams({ file: selectedFile });
 

@@ -38,7 +38,11 @@ recrees datos como parte de un deploy normal.
 Las plantillas separan explícitamente ambos contextos:
 
 - `.env.example` → desarrollo desde el notebook, usando `192.168.100.2:5435`.
-- `.env.docker.example` → Docker en el servidor, usando `soloweed-db:5432`.
+- `.env.docker.example` → Docker en el servidor, usando `db:5432` (DNS interno
+  de Compose; el servicio conserva el contenedor `soloweed-db`).
+
+El flujo versionado usa `deploy.sh`: construye Next.js en el host, empaqueta la
+imagen Docker, espera `/api/health` y revierte la imagen anterior si falla.
 
 El despliegue reproducible está en `Dockerfile` y `docker-compose.yml`. Consulta
 `docs/RUNBOOK.md` antes de recrear el contenedor de PostgreSQL: Compose exige el
@@ -46,16 +50,20 @@ nombre del volumen existente para evitar levantar una base vacía por accidente.
 
 ## Operación
 
-- Healthcheck de aplicación y PostgreSQL: `GET /api/health` responde `200` con
-  `{ "ok": true, "database": "ok" }`; responde `503` si la base no está disponible.
+- Healthcheck de aplicación, PostgreSQL y frescura del catálogo: `GET /api/health`
+  responde `200` cuando incluye `{ "ok": true, "database": "ok", "catalog": "fresh" }`.
+  Responde `503` si la base no está disponible, el catálogo está vacío o alguna tienda
+  activa no tiene ofertas vistas dentro de `CATALOG_FRESHNESS_HOURS` (72 por defecto).
 - `npm run test` ejecuta pruebas unitarias sin acceder a producción.
 - `npm run test:integration` ejecuta las pruebas que consultan PostgreSQL; úsalo
   solo desde un entorno autorizado contra una base de pruebas.
 - En el host Docker, `scripts/ops/backup-postgres.sh` crea backups comprimidos de
+  PostgreSQL con checksum y retención; falla si `pg_dump` falla. La restauración
+  aislada se valida con `scripts/ops/restore-postgres-test.sh`.
   PostgreSQL y aplica retención; `scripts/ops/check-health.sh` monitorea la URL
   pública y puede notificar un webhook opcional.
-- GitHub Actions valida `lint`, pruebas unitarias y build en cada push o pull
-  request a `main`, con una URL de base ficticia y sin migraciones.
+- GitHub Actions valida `lint`, pruebas unitarias, E2E y build en cada push o pull
+  request a `main`, usando PostgreSQL efímero y migraciones aisladas de producción.
 
 ## Scraping
 

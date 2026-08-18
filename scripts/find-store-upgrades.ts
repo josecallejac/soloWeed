@@ -93,9 +93,10 @@ function toInput(o: {
 }
 
 async function main() {
-  const stores = await prisma.store.findMany();
+  const stores = await prisma.store.findMany({ where: { enabled: true } });
   const storeName = new Map(stores.map((s) => [s.id, s.slug]));
   const allStoreIds = stores.map((s) => s.id);
+  const allStoreIdSet = new Set(allStoreIds);
 
   // Un producto solo puede subir si le falta al menos una tienda.
   const maxLevel = stores.length - 1;
@@ -119,7 +120,7 @@ async function main() {
   });
   const targets = products.filter((p) => {
     if (CATEGORY_FILTER.size && !CATEGORY_FILTER.has(p.category)) return false;
-    const n = new Set(p.offers.map((o) => o.storeId)).size;
+    const n = new Set(p.offers.map((o) => o.storeId).filter((storeId) => allStoreIdSet.has(storeId))).size;
     return LEVELS.has(n);
   });
 
@@ -132,7 +133,7 @@ async function main() {
   // con el MISMO clasificador del scraper -- nunca con una lista aparte que se
   // desincronice (mismo criterio que diagnose-orphan-pairs.ts).
   const allOrphans = await prisma.offer.findMany({
-    where: { productId: null, inStock: true },
+    where: { productId: null, inStock: true, store: { enabled: true } },
   });
   const orphans = allOrphans.filter(
     (o) => classifyProduct(o.title, o.url, o.sourceCategory ?? undefined) !== null,
@@ -152,14 +153,16 @@ async function main() {
 
   const candidates: Candidate[] = [];
   for (const product of targets) {
-    const productStores = new Set(product.offers.map((o) => o.storeId));
+    const productOffers = product.offers.filter((offer) => allStoreIdSet.has(offer.storeId));
+    const productStores = new Set(productOffers.map((o) => o.storeId));
     const missingStores = allStoreIds.filter(
       (id) => !productStores.has(id) && (!STORE_FILTER.size || STORE_FILTER.has(storeName.get(id) ?? "")),
     );
     if (!missingStores.length) continue;
 
     // Seed: la oferta del producto con mas senal (titulo mas largo).
-    const seedOffer = [...product.offers].sort((a, b) => b.title.length - a.title.length)[0];
+    const seedOffer = [...productOffers].sort((a, b) => b.title.length - a.title.length)[0];
+    if (!seedOffer) continue;
     const seed = toInput(seedOffer);
 
     const perProduct: Candidate[] = [];

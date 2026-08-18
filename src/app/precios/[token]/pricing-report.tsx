@@ -7,10 +7,12 @@ import {
   ALERT_WINDOW_DAYS,
   DATA_FRESHNESS_DAYS,
   GAP_MIN_STORES,
+  compareClickPeriods,
   type getAssortmentGap,
   type getPriceIntelligence,
 } from "../../interno/inteligencia-precios/data";
 import { PositionExplorer } from "./position-explorer";
+import { B2BContactActions } from "./b2b-contact-actions";
 
 export type PricingIntelligence = Awaited<ReturnType<typeof getPriceIntelligence>>;
 export type AssortmentGap = Awaited<ReturnType<typeof getAssortmentGap>>;
@@ -36,6 +38,7 @@ export function PricingReport({ storeName, data, gap }: PricingReportProps) {
   const freshRate = ratio(data.quality.freshOffers, data.quality.totalOffers);
   const positionTotal = Math.max(positions.length, 1);
   const dataStatus = freshnessStatus(data.quality.latestSeenAt, data.quality.freshnessCutoff);
+  const clickTrend = compareClickPeriods(data.clicks.last30Days, data.clicks.previous30Days);
   const missingBrands = gap.brands.filter((brand) => !brand.carriedByStore && brand.wideProducts > 0).slice(0, 4);
   const missingModels = gap.brands.filter((brand) => brand.carriedByStore && brand.wideProducts > 0).slice(0, 4);
   const headline = reportHeadline(positions.length, aboveMedian.length, data.alerts.length);
@@ -85,11 +88,12 @@ export function PricingReport({ storeName, data, gap }: PricingReportProps) {
           </div>
         </header>
 
-        <section aria-label="Resumen del informe" className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <section aria-label="Resumen del informe" className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-5">
           <ExecutiveStat eyebrow="Productos comparados" value={positions.length} label="sin señales dudosas" tone="dark" />
           <ExecutiveStat eyebrow="Mejor precio" value={atBestObservedPrice} label="más bajo o empatado" tone="lime" />
           <ExecutiveStat eyebrow="Revisar ahora" value={aboveMedian.length} label="sobre el precio central" tone="yellow" />
           <ExecutiveStat eyebrow="Evaluar surtido" value={gap.summary.wide} label="presentes en 4+ tiendas" tone="white" />
+          <ExecutiveStat eyebrow="Clics a tienda" value={data.clicks.last30Days} label="últimos 30 días" tone="dark" />
         </section>
 
         <section className="mt-5 rounded-[1.75rem] border border-black/10 bg-white p-5 shadow-[5px_5px_0_#17150f] sm:p-6">
@@ -125,12 +129,40 @@ export function PricingReport({ storeName, data, gap }: PricingReportProps) {
           </p>
         </section>
 
-        <nav aria-label="Recorrido recomendado del informe" className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
+        <nav aria-label="Recorrido recomendado del informe" className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-5">
           <JourneyLink href="#prioridades" number="1" label="Empieza aquí" detail={`${Math.min(aboveMedian.length, 3)} decisiones`} />
           <JourneyLink href="#alertas" number="2" label="Cambios recientes" detail={`${data.alerts.length} movimientos`} />
           <JourneyLink href="#surtido" number="3" label="Qué podrías sumar" detail={`${gap.summary.wide} señales`} />
-          <JourneyLink href="#precios" number="4" label="Todos los precios" detail={`${positions.length} productos`} />
+          <JourneyLink href="#impacto" number="4" label="Impacto medible" detail={`${data.clicks.last30Days} clics`} />
+          <JourneyLink href="#precios" number="5" label="Todos los precios" detail={`${positions.length} productos`} />
         </nav>
+
+        <section className="mt-10 scroll-mt-5 rounded-[2rem] border border-black/10 bg-white p-5 shadow-[6px_6px_0_#17150f] sm:p-7 lg:p-9" id="impacto">
+          <SectionHeading kicker="Impacto medible" title="Tráfico referido desde SoloWeed" description="Muestra cuántas visitas salientes llegaron a ofertas de esta tienda desde el comparador. No confundimos clics con ventas." />
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <ExecutiveStat eyebrow="Últimos 30 días" value={data.clicks.last30Days} label="clics a esta tienda" tone="lime" />
+            <ExecutiveStat eyebrow="30 días previos" value={data.clicks.previous30Days} label="base de comparación" tone="white" />
+            <ExecutiveStat eyebrow="Histórico" value={data.clicks.total} label="clics registrados" tone="dark" />
+          </div>
+          <p className="mt-4 text-sm leading-6 text-black/65">
+            {clickTrend.changePct === null
+              ? data.clicks.last30Days > 0 ? "Hay actividad reciente, pero todavía no existe un período anterior comparable." : "Todavía no hay clics registrados desde el comparador."
+              : `El tráfico referido ${clickTrend.direction === "up" ? "subió" : clickTrend.direction === "down" ? "bajó" : "se mantuvo"} ${Math.abs(clickTrend.changePct)}% frente a los 30 días previos.`}
+          </p>
+          {data.clicks.topProducts.length > 0 ? (
+            <div className="mt-6">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-black/55">Productos que más tráfico enviaron</p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+                {data.clicks.topProducts.map((product) => (
+                  <div className="rounded-2xl bg-[#f4f1e8] px-4 py-3" key={product.id}>
+                    <span className="block text-2xl font-black">{product.clicks}</span>
+                    <span className="mt-1 block text-xs font-bold leading-4 text-black/65">{product.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </section>
 
         <section className="mt-10 scroll-mt-5" id="prioridades">
           <SectionHeading kicker="Empieza por aquí" title="Tres precios concretos para revisar" description="Los ordenamos por diferencia frente al precio central de los competidores. Son puntos de conversación, no cambios automáticos." />
@@ -293,10 +325,7 @@ export function PricingReport({ storeName, data, gap }: PricingReportProps) {
             <h2 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-5xl">Revisemos las oportunidades principales en 15 minutos.</h2>
             <p className="mt-3 text-sm leading-6 text-black/70">Validamos juntos los productos, adaptamos las reglas a su negocio y definimos qué alertas realmente necesitan recibir.</p>
           </div>
-          <div className="mt-6 flex shrink-0 flex-col gap-2 sm:flex-row lg:mt-0 lg:flex-col">
-            {wa ? <a className="rounded-full bg-[#17150f] px-5 py-3 text-center text-xs font-black uppercase tracking-[0.16em] text-[#c8ff52] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#17150f]" href={wa} rel="noreferrer" target="_blank">Coordinar por WhatsApp</a> : null}
-            <a className="rounded-full border-2 border-[#17150f] px-5 py-3 text-center text-xs font-black uppercase tracking-[0.16em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#17150f]" href={mail}>Escribir por email</a>
-          </div>
+          <B2BContactActions emailUrl={mail} storeName={storeName} whatsappUrl={wa} />
         </section>
 
         <footer className="py-8 text-center text-xs font-bold uppercase tracking-[0.13em] text-black/55">

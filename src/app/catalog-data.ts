@@ -1,4 +1,5 @@
 import { normalizeForSearch } from "@/lib/tokenize";
+import { getSearchTerms, matchesCatalogSearch } from "@/lib/catalog-search";
 import { prisma } from "@/lib/prisma";
 import {
   buildCatalogCoverage,
@@ -120,8 +121,8 @@ export async function getCatalogData(
     const [stores, offersRaw, { categories, brands: brandsGlobal, brandsByCategory }, coverage] = await Promise.all([
       prisma.store.findMany({ where: { enabled: true }, orderBy: { name: "asc" } }),
       prisma.$queryRaw(Prisma.sql`
-        -- Solo las columnas que consume el catálogo: excluir description (texto
-        -- largo) reduce el I/O de hasta 10k filas por render.
+         -- Solo las columnas que consume el catálogo: excluir description (texto
+         -- largo) reduce el I/O de cada render.
         SELECT "Offer"."id", "Offer"."storeId", "Offer"."productId", "Offer"."url",
                "Offer"."title", "Offer"."normalizedTitle", "Offer"."brand",
                "Offer"."brandKey", "Offer"."category", "Offer"."imageUrl",
@@ -129,13 +130,9 @@ export async function getCatalogData(
                "Offer"."lastSeenAt"
         FROM "Offer"
         LEFT JOIN "Store" ON "Offer"."storeId" = "Store"."id"
-        WHERE "Store"."enabled" = true ${categoryFilterSql}
-        ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
-        -- Techo de seguridad: debe superar siempre el total de ofertas. Si el
-        -- catalogo lo alcanza, el home descuenta tiendas en silencio (las
-        -- ofertas cortadas dejan de contar para el badge 4/4).
-        LIMIT 10000
-      `),
+         WHERE "Store"."enabled" = true ${categoryFilterSql}
+         ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
+       `),
       getComparableFiltersCounts(normalizedQuery, queryWhere),
       getProductCoverage(),
     ]);
@@ -173,16 +170,8 @@ export async function getCatalogData(
     }
 
     // Apply where clause filtering in JS
-    const terms = normalizedQuery.split(" ").filter(Boolean);
     const initialMatched = offersWithStore.filter((o) => {
-      if (terms.length > 0) {
-        const matchTerm = terms.some((term) =>
-          o.normalizedTitle.toLowerCase().includes(term) ||
-          (o.brand?.toLowerCase().includes(term) ?? false) ||
-          o.category.toLowerCase().includes(term)
-        );
-        if (!matchTerm) return false;
-      }
+      if (!matchesCatalogSearch(o, normalizedQuery)) return false;
       if (selectedCategory && o.category !== selectedCategory) return false;
       if (options?.brandFilter && o.brandKey !== options.brandFilter) return false;
       return true;
@@ -369,7 +358,7 @@ function selectCatalogPageItems(items: CatalogItem[], selectedCategory: string, 
 }
 
 function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
-  const terms = normalizedQuery.split(" ").filter(Boolean);
+  const terms = getSearchTerms(normalizedQuery);
 
   if (terms.length === 0) {
     return {};
@@ -378,9 +367,9 @@ function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
   return {
     AND: terms.map((term) => ({
       OR: [
-        { normalizedTitle: { contains: term } },
-        { brand: { contains: term } },
-        { category: { contains: term } },
+        { normalizedTitle: { contains: term, mode: "insensitive" } },
+        { brand: { contains: term, mode: "insensitive" } },
+        { category: { contains: term, mode: "insensitive" } },
       ],
     })),
   };

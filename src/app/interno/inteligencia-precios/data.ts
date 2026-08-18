@@ -39,6 +39,28 @@ export type DataQuality = {
   freshnessCutoff: Date;
 };
 
+export type StoreClickStats = {
+  last30Days: number;
+  previous30Days: number;
+  topProducts: Array<{ clicks: number; id: number; name: string }>;
+  total: number;
+};
+
+export type ClickTrend = {
+  changePct: number | null;
+  direction: "down" | "flat" | "up";
+};
+
+export function compareClickPeriods(current: number, previous: number): ClickTrend {
+  const currentValue = Math.max(0, Number.isFinite(current) ? current : 0);
+  const previousValue = Math.max(0, Number.isFinite(previous) ? previous : 0);
+
+  if (previousValue === 0) return { changePct: null, direction: currentValue > 0 ? "up" : "flat" };
+
+  const changePct = Math.round(((currentValue - previousValue) / previousValue) * 100);
+  return { changePct, direction: changePct > 0 ? "up" : changePct < 0 ? "down" : "flat" };
+}
+
 export function positionStatus(row: PositionRow) {
   if (row.suspect) return "Revisar";
   const gap = row.myPrice - row.marketMedianPrice;
@@ -132,6 +154,41 @@ export async function getAssortmentGap(storeId: number) {
   return buildAssortmentGap(products, storeId, storeBrands, storeIdentityKeys);
 }
 
+export async function getStoreClickStats(storeId: number): Promise<StoreClickStats> {
+  const now = Date.now();
+  const currentSince = new Date(now - 30 * 24 * 60 * 60 * 1000);
+  const previousSince = new Date(now - 60 * 24 * 60 * 60 * 1000);
+
+  const [total, last30Days, previous30Days, byProductRaw] = await Promise.all([
+    prisma.outboundClick.count({ where: { storeId } }),
+    prisma.outboundClick.count({ where: { storeId, createdAt: { gte: currentSince } } }),
+    prisma.outboundClick.count({ where: { storeId, createdAt: { gte: previousSince, lt: currentSince } } }),
+    prisma.outboundClick.groupBy({
+      by: ["productId"],
+      _count: true,
+      where: { storeId, createdAt: { gte: currentSince }, productId: { not: null } },
+      orderBy: { _count: { productId: "desc" } },
+      take: 5,
+    }),
+  ]);
+  const productIds = byProductRaw.map((row) => row.productId).filter((id): id is number => id !== null);
+  const products = productIds.length > 0
+    ? await prisma.product.findMany({ where: { id: { in: productIds } }, select: { id: true, name: true } })
+    : [];
+  const productNames = new Map(products.map((product) => [product.id, product.name]));
+
+  return {
+    total,
+    last30Days,
+    previous30Days,
+    topProducts: byProductRaw.map((row) => ({
+      id: row.productId!,
+      name: productNames.get(row.productId!) ?? `Producto ${row.productId}`,
+      clicks: row._count,
+    })),
+  };
+}
+
 // Entrada mínima que necesita la agregación: se declara aparte de Prisma para
 // poder testear las reglas (presencia, cobertura, marca ausente) sin BD.
 export type GapProductInput = {
@@ -221,7 +278,7 @@ export function buildAssortmentGap(
 
 export async function getPriceIntelligence(storeId: number) {
   const freshnessCutoff = new Date(Date.now() - DATA_FRESHNESS_DAYS * 24 * 60 * 60 * 1000);
-  const [observedPrices, totalOffers, freshOffers, linkedFreshOffers, trackedStores, latestOffer] = await Promise.all([
+  const [observedPrices, totalOffers, freshOffers, linkedFreshOffers, trackedStores, latestOffer, clicks] = await Promise.all([
     prisma.$queryRaw<
     Array<{
       productId: number;
@@ -263,6 +320,7 @@ export async function getPriceIntelligence(storeId: number) {
       orderBy: { lastSeenAt: "desc" },
       select: { lastSeenAt: true },
     }),
+    getStoreClickStats(storeId),
   ]);
 
   const byProduct = new Map<number, typeof observedPrices>();
@@ -337,7 +395,8 @@ export async function getPriceIntelligence(storeId: number) {
       trackedStores,
       latestSeenAt: latestOffer?.lastSeenAt ?? null,
       freshnessCutoff,
-    } satisfies DataQuality,
+      } satisfies DataQuality,
+    clicks,
   };
 }
 

@@ -10,6 +10,7 @@ function validate(overrides: Record<string, string>) {
     encoding: "utf8",
     env: {
       PATH: process.env.PATH,
+      NODE_ENV: process.env.NODE_ENV ?? "test",
       DATABASE_URL: "postgresql://soloweed:super-secret@db:5432/soloweed",
       NEXT_PUBLIC_SITE_URL: "https://soloweed.store",
       ...overrides,
