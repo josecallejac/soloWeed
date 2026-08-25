@@ -1,4 +1,6 @@
 import { formatDateTime, formatPrice, formatShortDate } from "@/lib/format";
+import { getAvailabilityLabel } from "@/lib/offer-status";
+import { shouldOptimizeImage } from "@/lib/image";
 import Image from "next/image";
 import { OutboundLink } from "./outbound-link";
 
@@ -246,8 +248,9 @@ export function StorePriceCard({
                   alt={offer.title}
                   className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-110 mix-blend-multiply"
                   src={offer.imageUrl}
-                  unoptimized
                   fill
+                  sizes="(max-width: 639px) 100vw, 120px"
+                  unoptimized={!shouldOptimizeImage(offer.imageUrl)}
                 />
               ) : (
                 <div className="grid h-full min-h-32 place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-3xl font-black text-slate-900 dark:text-black opacity-50 font-mono transition-colors">
@@ -290,7 +293,7 @@ export function StorePriceCard({
             <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-white/40 font-mono">
               {offer.sourceCategory ? `${offer.sourceCategory} · ` : ""}
               Actualizado {formatDateTime(offer.lastSeenAt)}
-              {offer.availability ? ` · ${offer.availability}` : ""}
+              {` · ${getAvailabilityLabel(offer.inStock)}`}
             </p>
           </div>
         </div>

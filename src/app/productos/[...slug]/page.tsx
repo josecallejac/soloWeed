@@ -29,6 +29,8 @@ import { ProductImageGallery } from "@/components/product-image-gallery";
 import { StoreComparisonMatrix } from "@/components/store-comparison-matrix";
 import { RelatedProductsCarousel } from "@/components/related-products-carousel";
 import { summarizePrices } from "@/lib/price-summary";
+import { getCatalogFreshnessHours } from "@/lib/health";
+import { getCatalogFreshnessLabel, getCatalogFreshnessState } from "@/lib/catalog-freshness";
 
 // Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
 // así queda en un chunk aparte en vez del bundle de cada página de producto.
@@ -209,6 +211,14 @@ export default async function ProductDetail(props: ProductDetailProps) {
   const { hasInStockPrice, maxPrice, minPrice, outOfStockMinPrice } = priceSummary;
   const priceRows = pricedStoreRows.filter((row) => !hasInStockPrice || row.offer!.inStock);
   const suggestedMatchCount = Math.max(storesWithPrice.length - 1, 0);
+  const latestOfferSeenAt = storesWithPrice.reduce<Date | null>((latest, row) => {
+    const seenAt = row.offer?.lastSeenAt ?? null;
+    if (!seenAt) return latest;
+    return !latest || seenAt > latest ? seenAt : latest;
+  }, null);
+  const freshnessLabel = getCatalogFreshnessLabel(
+    getCatalogFreshnessState(latestOfferSeenAt, new Date(), getCatalogFreshnessHours()),
+  );
 
   // Collect unique image URLs for the thumbnail gallery
   const galleryImages: Array<{ url: string; source: string }> = [];
@@ -403,7 +413,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
                     {hasSavings ? (
                       <SummaryCard label="Ahorro Máximo" value={formatPrice(maxPrice - minPrice)} />
                     ) : null}
-                    <SummaryCard label="Verificación" value="Precios al día" />
+                    <SummaryCard label="Verificación" value={freshnessLabel} />
                   </div>
                 );
               })()}

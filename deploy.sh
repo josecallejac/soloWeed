@@ -21,6 +21,8 @@ HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/api/health}"
 HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-180}"
 BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-}"
 DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
+EXPECTED_RELEASE_SHA="${EXPECTED_RELEASE_SHA:-}"
+SMOKE_PRODUCT_URL="${SMOKE_PRODUCT_URL:-}"
 
 die() {
   printf 'ERROR: %s\n' "$1" >&2
@@ -42,6 +44,11 @@ set -a
 # shellcheck disable=SC1090
 . "$ENV_FILE"
 set +a
+
+EXPECTED_RELEASE_SHA="${EXPECTED_RELEASE_SHA:-$(git rev-parse HEAD)}"
+[[ "$EXPECTED_RELEASE_SHA" =~ ^[0-9a-f]{7,40}$ ]] || die "EXPECTED_RELEASE_SHA no parece una SHA de Git válida"
+SOLOWEED_BUILD_TIME="${SOLOWEED_BUILD_TIME:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"
+export SOLOWEED_RELEASE_SHA="$EXPECTED_RELEASE_SHA" SOLOWEED_BUILD_TIME
 
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-$SITE_URL}"
 [[ -n "${DATABASE_URL:-}" ]] || die "DATABASE_URL no está definida en $ENV_FILE"
@@ -95,6 +102,7 @@ printf '%s\n' 'Recreando solo la aplicación...'
 "${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
 
 wait_for_health() {
+  local require_release="${1:-1}"
   local deadline=$((SECONDS + HEALTH_TIMEOUT_SECONDS))
   local container_health=''
   local body=''
@@ -112,7 +120,9 @@ wait_for_health() {
 
     if body="$(curl --fail --silent --show-error --max-time 10 "$HEALTH_URL" 2>/dev/null)" \
       && grep -Eq '"ok"[[:space:]]*:[[:space:]]*true' <<< "$body"; then
-      return 0
+      if [[ "$require_release" != "1" ]] || grep -Eq '"sha"[[:space:]]*:[[:space:]]*"'"$EXPECTED_RELEASE_SHA"'"' <<< "$body"; then
+        return 0
+      fi
     fi
 
     sleep 3
@@ -121,15 +131,23 @@ wait_for_health() {
   return 1
 }
 
+verify_smoke_routes() {
+  curl --fail --silent --show-error --max-time 15 "$SITE_URL/" >/dev/null
+  curl --fail --silent --show-error --max-time 15 "$SITE_URL/sitemap.xml" >/dev/null
+  if [[ -n "$SMOKE_PRODUCT_URL" ]]; then
+    curl --fail --silent --show-error --max-time 15 "$SMOKE_PRODUCT_URL" >/dev/null
+  fi
+}
+
 rollback_app() {
   [[ -n "$previous_image_id" ]] || return 1
   printf '%s\n' 'Healthcheck fallido; restaurando la imagen anterior...'
   docker tag "$previous_image_id" "$APP_IMAGE"
   "${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
-  wait_for_health || printf '%s\n' 'WARNING: la imagen anterior tampoco pasó el healthcheck.' >&2
+  wait_for_health 0 || printf '%s\n' 'WARNING: la imagen anterior tampoco pasó el healthcheck.' >&2
 }
 
-if ! wait_for_health; then
+if ! wait_for_health || ! verify_smoke_routes; then
   rollback_app || printf '%s\n' 'WARNING: no había una imagen anterior para rollback.' >&2
   die "El deploy no pasó el healthcheck: $HEALTH_URL"
 fi

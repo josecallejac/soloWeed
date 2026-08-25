@@ -20,6 +20,16 @@ if [[ -z "$DUMP_PATH" || ! -f "$DUMP_PATH" ]]; then
   exit 2
 fi
 
+CHECKSUM_PATH="$DUMP_PATH.sha256"
+if [[ -f "$CHECKSUM_PATH" ]]; then
+  EXPECTED_CHECKSUM="$(awk 'NF { print $1; exit }' "$CHECKSUM_PATH")"
+  ACTUAL_CHECKSUM="$(sha256sum "$DUMP_PATH" | awk '{ print $1 }')"
+  if [[ -z "$EXPECTED_CHECKSUM" || "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]]; then
+    printf 'Checksum inválido para el dump: %s\n' "$DUMP_PATH" >&2
+    exit 1
+  fi
+fi
+
 cleanup() {
   docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
 }

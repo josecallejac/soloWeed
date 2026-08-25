@@ -13,6 +13,8 @@ import { unstable_cache } from "next/cache";
 // Solo las columnas que el catálogo realmente consume: mantener este tipo
 // angosto es lo que permite excluir columnas pesadas (description) de las
 // queries del Home.
+type CatalogProduct = Pick<Prisma.ProductGetPayload<object>, "brandKey" | "category" | "id" | "imageUrl" | "modelSlug" | "name">;
+
 type CatalogOffer = {
   brand: string | null;
   brandKey: string | null;
@@ -24,7 +26,7 @@ type CatalogOffer = {
   normalizedTitle: string;
   originalPrice: number | null;
   price: number;
-  product?: Prisma.ProductGetPayload<object> | null;
+  product?: CatalogProduct | null;
   productId: number | null;
   store: { id: number; name: string; slug: string };
   storeId: number;
@@ -50,7 +52,7 @@ export type CatalogItem = {
   totalStores: number;
   url: string;
 };
-export const CATALOG_PAGE_LIMIT = 40;
+export const CATALOG_PAGE_LIMIT = 20;
 
 // El cache usa la búsqueda del usuario como parte de la key, así que sin un
 // tope cualquiera puede crecer la memoria sin límite spameando queries únicas.
@@ -97,8 +99,12 @@ export async function getCatalogData(
     const normalizedMaxPrice = options?.maxPrice !== undefined && !Number.isNaN(options.maxPrice) ? options.maxPrice : "";
     const normalizedSort = options?.sort ?? "";
     const normalizedBrandFilter = options?.brandFilter ?? "";
+    // El tamaño del conjunto de tiendas activas forma parte de la identidad de
+    // la caché. Así una nueva tienda invalida las etiquetas 5/6 antes de que
+    // expire el TTL de los productos ya agrupados.
+    const activeStoreCount = await prisma.store.count({ where: { enabled: true } });
 
-    const cacheKey = `${normalizedQuery}|${selectedCategory}|${normalizedStoreFilter}|${normalizedMinPrice}|${normalizedMaxPrice}|${normalizedSort}|${normalizedBrandFilter}`;
+    const cacheKey = `${normalizedQuery}|${selectedCategory}|${normalizedStoreFilter}|${normalizedMinPrice}|${normalizedMaxPrice}|${normalizedSort}|${normalizedBrandFilter}|stores=${activeStoreCount}`;
     const cached = PAGE_CACHE.get(cacheKey);
     if (cached && cached.expiresAt > Date.now()) {
       const { items: pageItems, totalItems } = selectCatalogPageItems(cached.catalogItems, selectedCategory, options?.sort, page);
@@ -118,7 +124,7 @@ export async function getCatalogData(
 
     const categoryFilterSql = selectedCategory ? Prisma.sql`AND "Offer"."category" = ${selectedCategory}` : Prisma.empty;
 
-    const [stores, offersRaw, { categories, brands: brandsGlobal, brandsByCategory }, coverage] = await Promise.all([
+    const [stores, offersRaw, { categories, brands: brandsGlobal, brandsByCategory }] = await Promise.all([
       prisma.store.findMany({ where: { enabled: true }, orderBy: { name: "asc" } }),
       prisma.$queryRaw(Prisma.sql`
          -- Solo las columnas que consume el catálogo: excluir description (texto
@@ -134,8 +140,12 @@ export async function getCatalogData(
          ORDER BY "Offer"."inStock" DESC, "Offer"."price" ASC, "Offer"."updatedAt" DESC
        `),
       getComparableFiltersCounts(normalizedQuery, queryWhere),
-      getProductCoverage(),
     ]);
+    // El número de tiendas activas es la fuente de verdad del render. La
+    // cobertura de productos permanece cacheada, pero recibe este valor para
+    // que habilitar/deshabilitar una tienda no deje etiquetas obsoletas como
+    // 5/6 mostrado como 100%.
+    const coverage = await getProductCoverage(stores.length);
 
     // La lista de marcas del sidebar depende de la categoría activa: con categoría
     // seleccionada solo se muestran las marcas que tienen productos en ella (evita
@@ -198,6 +208,7 @@ export async function getCatalogData(
     if (productIds.length > 0) {
       const products = await prisma.product.findMany({
         where: { id: { in: productIds } },
+        select: { brandKey: true, category: true, id: true, imageUrl: true, modelSlug: true, name: true },
       });
       for (const p of products) productMap.set(p.id, p);
     }
@@ -287,17 +298,14 @@ function safeCache<Args extends unknown[], R>(
 // Agregado global sobre toda la tabla Offer: cambia solo con scrapes/curación,
 // así que se cachea compartido (Next data cache) en vez de recalcularse por render.
 const getProductCoverage = safeCache(
-  async () => {
-    const [totalStores, covRows] = await Promise.all([
-      prisma.store.count({ where: { enabled: true } }),
-      prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
-        SELECT "Offer"."productId", COUNT(DISTINCT "Offer"."storeId") AS "cnt"
-        FROM "Offer"
-        INNER JOIN "Store" ON "Offer"."storeId" = "Store"."id"
-        WHERE "Offer"."productId" IS NOT NULL AND "Store"."enabled" = true
-        GROUP BY "Offer"."productId"
-      `,
-    ]);
+  async (totalStores: number) => {
+    const covRows = await prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
+      SELECT "Offer"."productId", COUNT(DISTINCT "Offer"."storeId") AS "cnt"
+      FROM "Offer"
+      INNER JOIN "Store" ON "Offer"."storeId" = "Store"."id"
+      WHERE "Offer"."productId" IS NOT NULL AND "Store"."enabled" = true
+      GROUP BY "Offer"."productId"
+    `;
     return buildCatalogCoverage(covRows.map((row) => Number(row.cnt)), totalStores);
   },
   ["home-product-coverage"],
@@ -408,6 +416,7 @@ const getComparableFiltersCounts = safeCache(
   if (productIds.length > 0) {
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } },
+      select: { brandKey: true, category: true, id: true, imageUrl: true, modelSlug: true, name: true },
     });
     for (const p of products) productMap.set(p.id, p);
   }
@@ -555,6 +564,7 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
   const sortedOffers = [...offers].sort(compareCatalogOffers);
   const representative = sortedOffers[0];
   const productOffer = sortedOffers.find((offer) => offer.product) ?? representative;
+  const canonicalProduct = sortedOffers.find((offer) => offer.product?.name?.trim())?.product ?? productOffer.product;
   const stores = Array.from(new Map(offers.map((offer) => [offer.store.id, offer.store])).values()).sort((first, second) =>
     first.name.localeCompare(second.name),
   );
@@ -578,10 +588,10 @@ function buildCatalogItem(offers: CatalogOffer[]): CatalogItem {
     minPrice: prices.length > 0 ? Math.min(...prices) : 0,
     offerCount: offers.length,
     originalPrice: representative.originalPrice,
-    product: productOffer.product,
+    product: canonicalProduct,
     storeCount: productOffer.productId ? productStores.length : stores.length,
     stores,
-    title: getCatalogTitle(offers, representative),
+    title: canonicalProduct?.name?.trim() || getCatalogTitle(offers, representative),
     totalStores: 0,
     url: representative.url,
   };

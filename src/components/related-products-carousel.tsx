@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { shouldOptimizeImage } from "@/lib/image";
 import { formatPrice } from "@/lib/format";
 import { productPath } from "@/lib/site";
 
@@ -154,7 +155,7 @@ export function RelatedProductsCarousel({ category, products }: RelatedProductsC
                         fill
                         sizes="320px"
                         src={related.imageUrl}
-                        unoptimized
+                        unoptimized={!shouldOptimizeImage(related.imageUrl)}
                       />
                     ) : (
                       <div className="grid size-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_62%)] text-4xl font-black text-slate-900 dark:text-black opacity-40 font-mono">

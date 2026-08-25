@@ -82,6 +82,12 @@ espera un healthcheck real. No hace `git checkout`, no ejecuta Prisma migrate y
 no recrea el servicio PostgreSQL. No uses `docker compose restart` para cambiar
 variables: un restart no recrea el contenedor.
 
+Cada imagen lleva `SOLOWEED_RELEASE_SHA` y `SOLOWEED_BUILD_TIME`. El script toma
+la SHA del árbol actual (o `EXPECTED_RELEASE_SHA` si el webhook la fija), exige
+que `/api/health` reporte esa misma SHA y valida `/`, `/sitemap.xml` y, si se
+define, `SMOKE_PRODUCT_URL`. Si falla una de esas comprobaciones restaura la
+imagen anterior; el rollback solo exige que la aplicación vuelva a estar sana.
+
 El webhook del servidor debe hacer `git fetch`/`git pull` y luego invocar
 `DEPLOY_ENV_FILE=.env bash deploy.sh`; el script asume que la base existente ya está
 ejecutándose y que el volumen externo está presente.
@@ -96,6 +102,13 @@ preview permanece deshabilitada en producción.
 npm run lint
 npm run build
 ```
+
+El `prebuild` bloquea URLs de Railway heredadas antes de que Next consulte
+PostgreSQL. Para un build deliberadamente sin acceso a la base, define
+`SKIP_DATABASE_STATIC_PARAMS=1`; esa opción omite los static params de productos.
+
+`npm run dev` usa `scripts/dev.mjs` para iniciar Next con Webpack y mantener
+`AGENTS.md` intacto aunque el entorno detecte un agente de código.
 
 ## Tests
 
@@ -140,6 +153,15 @@ GET /api/health
 Responde `200` cuando la base está disponible y `503` cuando no lo está. El
 `docker-compose.yml` versionado ya usa este endpoint como healthcheck de la app.
 
+El JSON incluye `release.sha` y `release.builtAt` para confirmar qué commit está
+sirviendo el host. La respuesta usa `Cache-Control: no-store` y
+`X-Robots-Tag: noindex, nofollow`, por lo que no se debe cachear ni indexar.
+
+Para auditar qué evidencia sigue rastreada en Git sin borrar nada, ejecuta
+`npm run ops:reports`. El modo `--strict` se reserva para después de respaldar y
+autorizar la limpieza; los reportes históricos deben permanecer en el volumen
+operativo `catalog-audit-data`.
+
 ## Monitoreo Y Backups Del Servidor
 
 Estos scripts se ejecutan **en el host Linux** que tiene el `docker-compose.yml`;
@@ -154,6 +176,16 @@ sudo scripts/ops/backup-postgres.sh
 # Valida app + PostgreSQL por la URL pública.
 scripts/ops/check-health.sh
 ```
+
+Para fijar qué release debe responder el monitor, exporta
+`EXPECTED_RELEASE_SHA=<sha-completa>` junto con `HEALTH_URL`. El monitor también
+puede notificar por `HEALTHCHECK_WEBHOOK_URL` si la SHA, la base o la frescura no
+coinciden.
+
+El chequeo de rendimiento público es de solo lectura:
+`npm run ops:performance`. Usa `PERF_URL` para revisar otro host y `--strict`
+solo cuando el entorno tenga los límites esperados. `PERF_TIMEOUT_MS` limita cada
+petición (15 s por defecto) para que un host caído no deje el monitor colgado.
 
 Variables opcionales:
 
@@ -170,6 +202,9 @@ temporal del notebook o del host:
 ```bash
 scripts/ops/restore-postgres-test.sh /ruta/soloweed-20260813T120000Z.sql.gz
 ```
+
+Si existe el archivo hermano `.sha256`, el script valida el checksum antes de
+abrir el contenedor temporal.
 
 El comando crea un contenedor PostgreSQL efímero, valida tablas y cuenta
 `Store`, `Product` y `Offer`, y lo elimina incluso si la restauración falla.
@@ -211,7 +246,8 @@ Los CSV de `reports/catalog-audit` se guardan en el volumen Docker
 `soloweed-catalog-audit` y sobreviven a la recreación del contenedor web. Puedes
 personalizar el nombre con `CATALOG_AUDIT_VOLUME_NAME` en `.env.docker.local`.
 
-Ejecuta `tsx --test` sobre `tests/password.test.ts`, `tests/export-catalog-audit.test.ts`, `tests/matching.test.ts` y `tests/catalog.test.ts`.
+`npm run test` ejecuta todos los archivos `tests/*.test.ts` mediante `tsx --test`,
+incluidos los checks de password, exportacion de catalogo, matching y catalogo.
 
 Para correr un solo archivo:
 

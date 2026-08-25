@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { shouldOptimizeImage } from "@/lib/image";
 
 type ImageItem = {
   url: string;
@@ -43,7 +44,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
               priority
               sizes="(max-width: 1024px) 100vw, 45vw"
               src={currentImage.url}
-              unoptimized
+              unoptimized={!shouldOptimizeImage(currentImage.url)}
             />
           ) : (
             <div className="grid size-full min-h-80 place-items-center text-6xl font-black opacity-40 font-mono">
@@ -82,7 +83,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
                   src={img.url}
                   fill
                   sizes="64px"
-                  unoptimized
+                  unoptimized={!shouldOptimizeImage(img.url)}
                 />
               </button>
             );

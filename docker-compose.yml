@@ -10,6 +10,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        SOLOWEED_RELEASE_SHA: ${SOLOWEED_RELEASE_SHA:-unknown}
+        SOLOWEED_BUILD_TIME: ${SOLOWEED_BUILD_TIME:-unknown}
     env_file: *server-env
     environment:
       DATABASE_URL: ${DATABASE_URL:?Define DATABASE_URL en el archivo de entorno del servidor}
@@ -18,6 +21,8 @@ services:
       HOSTNAME: 0.0.0.0
       NODE_ENV: production
       PORT: 3000
+      SOLOWEED_RELEASE_SHA: ${SOLOWEED_RELEASE_SHA:-unknown}
+      SOLOWEED_BUILD_TIME: ${SOLOWEED_BUILD_TIME:-unknown}
       CATALOG_AUDIT_DIR: /app/reports/catalog-audit
     depends_on:
       db:

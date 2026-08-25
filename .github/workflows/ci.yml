@@ -5,6 +5,13 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "30 8 * * 1"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -45,6 +52,7 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm audit --omit=dev --audit-level=high
       - run: npx prisma migrate deploy
       - run: npx tsx scripts/seed-e2e.ts
         env:
@@ -53,10 +61,15 @@ jobs:
       - run: npm run test
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e -- --project=chromium
+      - if: github.event_name == 'schedule'
+        run: npx playwright install --with-deps webkit
+      - run: npm run test:e2e -- --project=chromium --project=mobile-chromium
+      - if: github.event_name == 'schedule'
+        run: npm run test:e2e -- --project=webkit
       - if: always()
         uses: actions/upload-artifact@v4
         with:
           if-no-files-found: ignore
           name: playwright-report
           path: playwright-report/
+          retention-days: 7

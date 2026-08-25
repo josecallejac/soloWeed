@@ -19,6 +19,7 @@ Si tomas este proyecto como modelo, agente o colaborador nuevo, lee primero:
 La documentacion operativa completa esta en `docs/`:
 
 - `docs/RUNBOOK.md`
+- `docs/PROJECT_STATUS.md`
 - `docs/SCRAPER_RULES.md`
 - `docs/MATCHING_AND_SLUGS.md`
 - `docs/DATA_MODEL.md`
@@ -54,7 +55,12 @@ nombre del volumen existente para evitar levantar una base vacía por accidente.
   responde `200` cuando incluye `{ "ok": true, "database": "ok", "catalog": "fresh" }`.
   Responde `503` si la base no está disponible, el catálogo está vacío o alguna tienda
   activa no tiene ofertas vistas dentro de `CATALOG_FRESHNESS_HOURS` (72 por defecto).
+  También informa `release.sha` y `release.builtAt` para distinguir el código local,
+  CI y la imagen realmente desplegada.
 - `npm run test` ejecuta pruebas unitarias sin acceder a producción.
+- `npm run build` valida primero que `DATABASE_URL` no sea una URL heredada de
+  Railway; usa `SKIP_DATABASE_STATIC_PARAMS=1` solo cuando el build no deba
+  consultar PostgreSQL.
 - `npm run test:integration` ejecuta las pruebas que consultan PostgreSQL; úsalo
   solo desde un entorno autorizado contra una base de pruebas.
 - En el host Docker, `scripts/ops/backup-postgres.sh` crea backups comprimidos de

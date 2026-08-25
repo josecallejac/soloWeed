@@ -15,6 +15,8 @@ import { OfferCard } from "../src/components/offer-card";
 import { StorePriceCard, StoreStatusRow } from "../src/components/store-price-card";
 import { productPath } from "../src/lib/site";
 import { formatPrice, formatPriceRange, truncateAtBoundary, cleanDescription } from "../src/lib/format";
+import { getAvailabilityLabel } from "../src/lib/offer-status";
+import { shouldOptimizeImage } from "../src/lib/image";
 
 // Mock catalog item factory for E2E tests
 function createMockCatalogItem(overrides: Partial<{
@@ -243,6 +245,17 @@ describe("E2E Requirement Tier 3: Comparative Detail View & Store Matrix", () =>
 
     const statusRowElement = StoreStatusRow({ row: { store: mockStore, offer: mockOffer } });
     assert.ok(statusRowElement);
+  });
+
+  it("normalizes technical availability values for the public card", () => {
+    assert.equal(getAvailabilityLabel(true), "Con stock");
+    assert.equal(getAvailabilityLabel(false), "Sin stock");
+  });
+
+  it("optimizes only the image CDNs allowed by Next configuration", () => {
+    assert.equal(shouldOptimizeImage("https://cdnx.jumpseller.com/store/product.jpg"), true);
+    assert.equal(shouldOptimizeImage("https://example.com/product.jpg"), false);
+    assert.equal(shouldOptimizeImage("not-a-url"), false);
   });
 });
 

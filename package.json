@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "node scripts/dev.mjs",
+    "prebuild": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --env-file-if-exists=.env.development.local scripts/validate-build-env.mjs",
     "build": "next build --webpack",
     "env:check": "node scripts/validate-runtime-env.mjs",
     "prestart": "node scripts/validate-runtime-env.mjs",
@@ -20,6 +21,8 @@
     "catalog:expand": "tsx scripts/expand-curated-product-offers.ts",
     "catalog:growth:validate": "tsx scripts/validate-reviewed-catalog-growth.ts",
     "catalog:audit:export": "tsx scripts/export-catalog-audit.ts",
+    "ops:reports": "node scripts/ops/check-reports-hygiene.mjs",
+    "ops:performance": "node scripts/ops/check-public-performance.mjs",
     "catalog:six-store": "node --env-file-if-exists=.env --env-file-if-exists=.env.local --env-file-if-exists=.env.development.local --import tsx scripts/diagnose-six-store-potential.ts",
     "catalog:short-desc": "tsx scripts/generate-short-descriptions.ts",
     "admin:create": "tsx scripts/create-admin.ts",
@@ -41,18 +44,33 @@
     "@prisma/client": "^6.19.3",
     "cheerio": "^1.0.0",
     "clsx": "^2.1.1",
-    "next": "16.2.10",
+    "next": "16.3.2",
     "next-themes": "^0.4.6",
     "prisma": "^6.19.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.9.0",
-    "sharp": "^0.34.5",
+    "sharp": "0.35.3",
     "tsx": "^4.22.4"
   },
   "overrides": {
+    "adm-zip": "0.6.0",
+    "deepmerge-ts": "8.0.2",
+    "js-yaml": "4.3.1",
+    "nanoid": "3.3.18",
+    "undici": "6.28.0",
+    "onnxruntime-node": "1.29.0",
+    "postcss": "8.5.26",
+    "protobufjs": "7.6.5",
+    "sharp": "0.35.3",
+    "minimatch@3.1.5": {
+      "brace-expansion": "1.1.18"
+    },
+    "minimatch@10.2.5": {
+      "brace-expansion": "5.0.9"
+    },
     "next": {
-      "postcss": "8.5.10"
+      "postcss": "8.5.26"
     }
   },
   "devDependencies": {
@@ -63,7 +81,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.3.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

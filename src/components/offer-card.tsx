@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CoverageBadge } from "./coverage-badge";
 import { OutboundLink } from "./outbound-link";
 import { formatPrice } from "@/lib/format";
+import { shouldOptimizeImage } from "@/lib/image";
 
 export type OfferCardItem = {
   brand: string | null;
@@ -52,8 +53,9 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
               alt={offer.title}
               className="h-full w-full object-contain p-2 transition-transform duration-500 ease-out group-hover:scale-[1.08] mix-blend-multiply"
               src={offer.imageUrl}
-              unoptimized
               fill
+              sizes="(max-width: 639px) 100vw, 190px"
+              unoptimized={!shouldOptimizeImage(offer.imageUrl)}
             />
           ) : (
             <div className="grid h-full place-items-center bg-[radial-gradient(circle,#C0FF00,transparent_70%)] text-4xl font-black text-black opacity-20 transition-opacity duration-300 group-hover:opacity-40 font-mono">

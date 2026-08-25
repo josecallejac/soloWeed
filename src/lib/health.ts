@@ -17,8 +17,21 @@ export type HealthStatus = {
   freshnessHours: number;
   lastScrapeAt: string | null;
   ok: boolean;
+  release: {
+    builtAt: string | null;
+    sha: string | null;
+  };
   staleStores: string[];
 };
+
+export function getReleaseInfo() {
+  const shaValue = process.env.SOLOWEED_RELEASE_SHA?.trim() || "";
+  const sha = /^[0-9a-f]{7,40}$/i.test(shaValue) ? shaValue : null;
+  const builtAtValue = process.env.SOLOWEED_BUILD_TIME?.trim() || null;
+  const builtAt = builtAtValue && Number.isNaN(Date.parse(builtAtValue)) ? null : builtAtValue;
+
+  return { builtAt, sha };
+}
 
 export async function getHealthStatus(
   probe: DatabaseProbe = () => prisma.$queryRaw`SELECT 1`,
@@ -38,6 +51,7 @@ export async function getHealthStatus(
       catalog,
       freshnessHours,
       lastScrapeAt: freshness.lastScrapeAt?.toISOString() ?? null,
+      release: getReleaseInfo(),
       staleStores: freshness.staleStores,
     };
   } catch {
@@ -47,6 +61,7 @@ export async function getHealthStatus(
       catalog: "unknown",
       freshnessHours,
       lastScrapeAt: null,
+      release: getReleaseInfo(),
       staleStores: [],
     };
   }

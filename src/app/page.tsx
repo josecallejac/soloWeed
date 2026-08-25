@@ -13,6 +13,7 @@ import { getCatalogData, CATALOG_PAGE_LIMIT } from "./catalog-data";
 import type { Metadata } from "next";
 import { buildHomeJsonLd } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { serializeCatalogCard } from "@/lib/catalog-card";
 
 export const dynamic = "force-dynamic";
 
@@ -68,7 +69,14 @@ export default async function Home({ searchParams }: HomeProps) {
     : [];
   const page = Math.max(1, typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1);
   const data = await getCatalogData(query, selectedCategory, { maxPrice, minPrice, sort, storeFilter: selectedStores, page, brandFilter: selectedBrand });
-  const totalCoverageStores = data.coverage.totalStores || data.stores.length;
+  // La primera página se renderiza en el servidor, pero sus props todavía
+  // pueden quedar en el payload RSC. No envíes el Product completo (descripción,
+  // claves internas y timestamps) cuando la tarjeta solo necesita dos campos.
+  const visibleOffers = data.offers.map(serializeCatalogCard);
+  // Las tiendas activas de la consulta actual mandan sobre cualquier entrada
+  // de caché de cobertura. Así una tienda nueva no queda invisible bajo un
+  // rótulo incorrecto de 100% hasta que expire la caché compartida.
+  const totalCoverageStores = data.stores.length || data.coverage.totalStores;
   const fullCoverageLevel = totalCoverageStores;
   const nearFullCoverageLevel = Math.max(1, totalCoverageStores - 1);
   const highCoverageLevel = Math.max(1, totalCoverageStores - 2);
@@ -114,7 +122,9 @@ export default async function Home({ searchParams }: HomeProps) {
                       <span className="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 dark:bg-accent/20 px-2.5 py-1 text-[11px] font-black uppercase font-mono tracking-wider text-slate-900 dark:text-accent-text border border-accent/30">
                         <span>🏆</span> {fullCoverageLevel} Growshops
                       </span>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">100% Total</span>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">
+                        {fullCoverageLevel === totalCoverageStores ? "100% Total" : `${fullCoverageLevel}/${totalCoverageStores}`}
+                      </span>
                     </div>
                     <div className="flex items-baseline justify-between mt-3">
                       <span className="text-3xl sm:text-5xl font-black font-display font-mono tracking-tight text-slate-900 dark:text-white group-hover:text-[#050507] dark:group-hover:text-accent-text transition-colors">
@@ -263,10 +273,10 @@ export default async function Home({ searchParams }: HomeProps) {
             />
           </div>
 
-          {data.offers.length > 0 ? (
+          {visibleOffers.length > 0 ? (
             <>
               <div className="grid gap-4 xl:grid-cols-2">
-                {data.offers.map((offer, index) => (
+                {visibleOffers.map((offer, index) => (
                   <OfferCard key={offer.id} offer={offer} rank={(data.page - 1) * CATALOG_PAGE_LIMIT + index + 1} />
                 ))}
               </div>

@@ -4,10 +4,15 @@
 # el .next ya generado y prepara un runtime reproducible para Docker.
 FROM node:22-alpine
 
+ARG SOLOWEED_RELEASE_SHA=unknown
+ARG SOLOWEED_BUILD_TIME=unknown
+
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     HOSTNAME=0.0.0.0 \
-    PORT=3000
+    PORT=3000 \
+    SOLOWEED_RELEASE_SHA=$SOLOWEED_RELEASE_SHA \
+    SOLOWEED_BUILD_TIME=$SOLOWEED_BUILD_TIME
 
 WORKDIR /app
 
