@@ -89,6 +89,8 @@ define, `SMOKE_PRODUCT_URL`. Si falla una de esas comprobaciones restaura la
 imagen anterior; el rollback solo exige que la aplicación vuelva a estar sana.
 
 El webhook del servidor debe hacer `git fetch`/`git pull` y luego invocar
+la entrada versionada `bash scripts/deploy-webhook.sh <sha-completa>`; ese
+wrapper hace `fetch`, checkout de la SHA recibida y delega en `deploy.sh`.
 `DEPLOY_ENV_FILE=.env bash deploy.sh`; el script asume que la base existente ya está
 ejecutándose y que el volumen externo está presente.
 
