@@ -70,6 +70,6 @@ volumes:
   # si alguien escribe mal el nombre durante un despliegue.
   soloweed_data:
     external: true
-    name: ${POSTGRES_VOLUME_NAME:-soloweed_data}
+    name: ${POSTGRES_VOLUME_NAME:-soloweed_soloweed_data}
   catalog-audit-data:
     name: ${CATALOG_AUDIT_VOLUME_NAME:-soloweed-catalog-audit}
