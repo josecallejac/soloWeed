@@ -5,8 +5,9 @@ x-server-env: &server-env
 
 services:
   soloweed:
+    # Sin container_name Compose puede reemplazar el contenedor legado
+    # soloweed-soloweed-1 sin dejar el puerto 8093 ocupado.
     image: ${APP_IMAGE:-soloweed-soloweed}
-    container_name: soloweed
     build:
       context: .
       dockerfile: Dockerfile

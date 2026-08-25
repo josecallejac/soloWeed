@@ -64,7 +64,8 @@ nombre del volumen existente para evitar levantar una base vacía por accidente.
 - `npm run test:integration` ejecuta las pruebas que consultan PostgreSQL; úsalo
   solo desde un entorno autorizado contra una base de pruebas.
 - En el host Docker, `scripts/ops/backup-postgres.sh` crea backups comprimidos de
-  PostgreSQL con checksum y retención; falla si `pg_dump` falla. La restauración
+  PostgreSQL con checksum y retención; el deploy automático conserva las 7 copias
+  más recientes y falla si `pg_dump` falla. La restauración
   aislada se valida con `scripts/ops/restore-postgres-test.sh`.
   PostgreSQL y aplica retención; `scripts/ops/check-health.sh` monitorea la URL
   pública y puede notificar un webhook opcional.

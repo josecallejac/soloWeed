@@ -24,9 +24,9 @@ COPY prisma ./prisma
 COPY prisma.config.ts ./prisma.config.ts
 
 # El build no debe recibir ni necesitar la credencial productiva.
-RUN DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+RUN DATABASE_URL=postgresql://127.0.0.1:5432/build \
     npm ci --omit=dev --ignore-scripts \
-  && DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build \
+  && DATABASE_URL=postgresql://127.0.0.1:5432/build \
     npx prisma generate \
   && npm cache clean --force
 

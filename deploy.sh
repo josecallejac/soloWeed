@@ -2,9 +2,10 @@
 
 # Deploy reproducible del servidor casero.
 #
-# El webhook debe hacer git fetch/pull y luego invocar este script. Este archivo
-# no hace checkout ni migraciones: construye el commit que ya está en el árbol,
-# conserva la imagen anterior y revierte el contenedor si el healthcheck falla.
+# El webhook prepara el checkout y luego invoca este script. Este archivo no
+# hace checkout ni migraciones: construye el commit que ya está en el árbol,
+# respalda PostgreSQL, conserva la imagen anterior y revierte el contenedor si
+# el healthcheck falla.
 set -Eeuo pipefail
 IFS=$'\n\t'
 
@@ -15,15 +16,19 @@ ENV_FILE="${DEPLOY_ENV_FILE:-.env}"
 APP_SERVICE="${APP_SERVICE:-soloweed}"
 APP_CONTAINER="${APP_CONTAINER:-}"
 DB_CONTAINER="${DB_CONTAINER:-soloweed-db}"
+DB_SERVICE="${DB_SERVICE:-db}"
 APP_IMAGE="${APP_IMAGE:-soloweed-soloweed}"
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://soloweed.store}"
 HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/api/health}"
 ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-}"
-HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-180}"
+HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-90}"
 BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-}"
 DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
 EXPECTED_RELEASE_SHA="${EXPECTED_RELEASE_SHA:-}"
 SMOKE_PRODUCT_URL="${SMOKE_PRODUCT_URL:-}"
+BACKUP_SCRIPT="${BACKUP_SCRIPT:-$SCRIPT_DIR/scripts/ops/backup-postgres.sh}"
+BACKUP_DIR="${SOLOWEED_BACKUP_DIR:-/mnt/ollama_models/backups/soloweed}"
+BACKUP_RETENTION_COUNT="${SOLOWEED_BACKUP_RETENTION_COUNT:-7}"
 
 die() {
   printf 'ERROR: %s\n' "$1" >&2
@@ -31,6 +36,7 @@ die() {
 }
 
 [[ -f "$ENV_FILE" ]] || die "No existe el archivo de entorno: $ENV_FILE"
+[[ -x "$BACKUP_SCRIPT" ]] || die "No existe el script de backup ejecutable: $BACKUP_SCRIPT"
 command -v docker >/dev/null 2>&1 || die "docker no está instalado"
 command -v npm >/dev/null 2>&1 || die "npm no está instalado"
 command -v curl >/dev/null 2>&1 || die "curl no está instalado"
@@ -62,7 +68,6 @@ BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-${DATABASE_URL/db:5432/127.0.0.1:$DB_H
 [[ "$BUILD_DATABASE_URL" != *"@db:5432/"* ]] || die "No se pudo adaptar DATABASE_URL para el build del host"
 
 export APP_IMAGE
-
 compose=(docker compose --env-file "$ENV_FILE")
 
 printf '%s\n' 'Validando configuración Compose...'
@@ -97,11 +102,15 @@ if [[ -n "$previous_image_id" ]]; then
   docker tag "$previous_image_id" "${APP_IMAGE}:rollback"
 fi
 
-printf '%s\n' 'Construyendo imagen Docker...'
-"${compose[@]}" build "$APP_SERVICE"
-
-printf '%s\n' 'Recreando solo la aplicación...'
-"${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
+backup_database() {
+  printf '%s\n' 'Respaldando PostgreSQL antes del swap...'
+  BACKUP_DIR="$BACKUP_DIR" \
+  RETENTION_COUNT="$BACKUP_RETENTION_COUNT" \
+  COMPOSE_ENV_FILE="$ENV_FILE" \
+  COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml" \
+  COMPOSE_DB_SERVICE="$DB_SERVICE" \
+  bash "$BACKUP_SCRIPT"
+}
 
 wait_for_health() {
   local require_release="${1:-1}"
@@ -133,10 +142,8 @@ wait_for_health() {
       fi
     fi
 
-    # La primera transición puede volver a una imagen antigua que todavía no
-    # expone /api/health. Solo aceptamos la portada como fallback si el
-    # endpoint responde explícitamente 404; un 503 de una release compatible
-    # sigue siendo un rollback fallido.
+    # A legacy image may not expose /api/health. Only accept its home page
+    # when the health endpoint explicitly returns 404.
     if [[ -n "$fallback_url" && "$health_status" == '404' ]] \
       && curl --fail --silent --show-error --max-time 15 "$fallback_url" >/dev/null 2>&1; then
       printf 'Rollback legacy verificado mediante %s\n' "$fallback_url"
@@ -169,9 +176,24 @@ rollback_app() {
   return 1
 }
 
+printf '%s\n' 'Construyendo imagen Docker...'
+if ! "${compose[@]}" build "$APP_SERVICE"; then
+  die 'No se pudo construir la imagen Docker; la aplicacion anterior permanece activa.'
+fi
+
+if ! backup_database; then
+  die 'No se pudo crear el backup PostgreSQL; no se hara el swap de la aplicacion.'
+fi
+
+printf '%s\n' 'Recreando solo la aplicacion...'
+if ! "${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"; then
+  rollback_app || printf '%s\n' 'WARNING: no se pudo restaurar la imagen anterior tras el fallo de Compose.' >&2
+  die 'No se pudo recrear la aplicacion.'
+fi
+
 if ! wait_for_health || ! verify_smoke_routes; then
-  rollback_app || printf '%s\n' 'WARNING: no había una imagen anterior para rollback.' >&2
-  die "El deploy no pasó el healthcheck: $HEALTH_URL"
+  rollback_app || printf '%s\n' 'WARNING: no se pudo verificar el rollback de la aplicacion.' >&2
+  die "El deploy no paso el healthcheck: $HEALTH_URL"
 fi
 
 printf 'Deploy OK: %s\n' "$HEALTH_URL"

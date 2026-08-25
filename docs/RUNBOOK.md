@@ -76,23 +76,25 @@ curl -fsS http://127.0.0.1:8093/api/health
 ```
 
 `deploy.sh` ejecuta `npm ci` y `npm run build` en el host, adaptando `db:5432` a
-`127.0.0.1:5435`. Construye solo la imagen web, conserva la imagen anterior para
-rollback y
-espera un healthcheck real. No hace `git checkout`, no ejecuta Prisma migrate y
-no recrea el servicio PostgreSQL. No uses `docker compose restart` para cambiar
-variables: un restart no recrea el contenedor.
+`127.0.0.1:5435`. Construye solo la imagen web, crea antes del swap un backup
+comprimido con checksum en `/mnt/ollama_models/backups/soloweed/` y conserva las
+7 copias mas recientes. Si el build, el swap o el healthcheck falla, mantiene la
+base existente y restaura la imagen anterior. No hace `git checkout`, no ejecuta
+Prisma migrate y no recrea el servicio PostgreSQL. No uses `docker compose restart`
+para cambiar variables: un restart no recrea el contenedor.
 
 Cada imagen lleva `SOLOWEED_RELEASE_SHA` y `SOLOWEED_BUILD_TIME`. El script toma
 la SHA del árbol actual (o `EXPECTED_RELEASE_SHA` si el webhook la fija), exige
 que `/api/health` reporte esa misma SHA y valida `/`, `/sitemap.xml` y, si se
-define, `SMOKE_PRODUCT_URL`. Si falla una de esas comprobaciones restaura la
-imagen anterior; el rollback solo exige que la aplicación vuelva a estar sana.
+define, `SMOKE_PRODUCT_URL`. El healthcheck espera hasta 90 segundos por defecto.
+Si falla una de esas comprobaciones restaura la imagen anterior; el rollback
+solo exige que la aplicación vuelva a estar sana.
 
-El webhook del servidor debe hacer `git fetch`/`git pull` y luego invocar
-la entrada versionada `bash scripts/deploy-webhook.sh <sha-completa>`; ese
-wrapper hace `fetch`, checkout de la SHA recibida y delega en `deploy.sh`.
-`DEPLOY_ENV_FILE=.env bash deploy.sh`; el script asume que la base existente ya está
-ejecutándose y que el volumen externo está presente.
+El webhook del servidor debe invocar la entrada versionada
+`bash scripts/deploy-webhook.sh <sha-completa>`. El wrapper toma un lock antes de
+`fetch`/checkout, delega en `deploy.sh` y, si el deploy falla, restaura el checkout
+a la SHA previa. El script asume que la base existente ya está ejecutándose y que
+el volumen externo está presente.
 
 Opcionalmente, `PRICING_DEMO_TOKEN=<token-largo-y-aleatorio>` habilita la preview
 simulada dentro del Docker productivo en `/precios/<token>`. Si no se define, la
@@ -197,6 +199,8 @@ Variables opcionales:
 
 ```bash
 BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 COMPOSE_ENV_FILE=.env sudo scripts/ops/backup-postgres.sh
+# El deploy usa el mismo script con retención por cantidad:
+BACKUP_DIR=/mnt/ollama_models/backups/soloweed RETENTION_COUNT=7 COMPOSE_ENV_FILE=.env sudo scripts/ops/backup-postgres.sh
 HEALTHCHECK_WEBHOOK_URL='https://<webhook>' scripts/ops/check-health.sh
 ```
 
