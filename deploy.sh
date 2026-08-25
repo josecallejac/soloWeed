@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Asegurar que node/npm esten disponibles (systemd corre con PATH minimo)
+export PATH="/home/jose/.local/bin:/home/jose/.hermes/node/bin:$PATH"
+
 # Deploy reproducible del servidor casero.
 #
 # El webhook prepara el checkout y luego invoca este script. Este archivo no
