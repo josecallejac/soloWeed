@@ -28,7 +28,10 @@ necesita el comparador.
 
 ## CI Y Producción
 
-La ejecución remota anterior sobre `876aa50` quedó bloqueada antes de comenzar
+El workflow publicado usa únicamente runners estándar, no tiene ejecución
+programada, limita cada job a 20 minutos y retiene reportes solo en fallos o
+ejecuciones manuales para reducir el consumo de GitHub Free. La ejecución remota
+anterior sobre `876aa50` quedó bloqueada antes de comenzar
 los steps por el estado de facturación de GitHub. No se considera una regresión
 de código; el resultado de la nueva release debe comprobarse cuando GitHub
 permita iniciar CI. La producción conserva la release actualmente desplegada

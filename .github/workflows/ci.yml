@@ -18,6 +18,7 @@ jobs:
   verify:
     name: Lint, unit tests, E2E and build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     services:
       postgres:
         image: postgres:16-alpine
@@ -64,10 +65,10 @@ jobs:
       - run: npm run test:e2e -- --project=chromium --project=mobile-chromium
       - if: github.event_name == 'workflow_dispatch'
         run: npm run test:e2e -- --project=webkit
-      - if: always()
+      - if: failure() || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           if-no-files-found: ignore
           name: playwright-report
           path: playwright-report/
-          retention-days: 7
+          retention-days: 3

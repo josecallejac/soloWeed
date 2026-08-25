@@ -70,6 +70,8 @@ nombre del volumen existente para evitar levantar una base vacía por accidente.
   pública y puede notificar un webhook opcional.
 - GitHub Actions valida `lint`, pruebas unitarias, E2E y build en cada push o pull
   request a `main`, usando PostgreSQL efímero y migraciones aisladas de producción.
+  Usa únicamente `ubuntu-latest`, limita cada job a 20 minutos y conserva reportes
+  solo cuando fallan o se ejecuta manualmente, para mantenerse dentro de GitHub Free.
 
 ## Scraping
 
