@@ -4,9 +4,9 @@
 
 ## Fuentes De Verdad
 
-- `main` local y `origin/main` apuntan al mismo commit base `876aa50`.
-- El árbol contiene cambios locales del ciclo de estabilización; todavía no se
-  han publicado ni desplegado.
+- `main` local y `origin/main` apuntan al commit publicado `719fe36`.
+- El ciclo de estabilización ya está publicado en GitHub; todavía no se ha
+  desplegado en el servidor casero.
 - `estado-catalogo.md` y `category_deep_dive.md` son snapshots históricos. Sus
   cifras no deben usarse como métricas actuales sin regenerar una auditoría
   autorizada contra PostgreSQL.
@@ -28,10 +28,11 @@ necesita el comparador.
 
 ## CI Y Producción
 
-La última ejecución remota sobre `876aa50` quedó bloqueada antes de comenzar los
-steps por el estado de facturación de GitHub. No se considera una regresión de
-código. La producción conserva la release actualmente desplegada hasta que se
-resuelva CI, se confirme un backup y se ejecute `deploy.sh` con una SHA explícita.
+La ejecución remota anterior sobre `876aa50` quedó bloqueada antes de comenzar
+los steps por el estado de facturación de GitHub. No se considera una regresión
+de código; el resultado de la nueva release debe comprobarse cuando GitHub
+permita iniciar CI. La producción conserva la release actualmente desplegada
+hasta que se confirme un backup y se ejecute `deploy.sh` con una SHA explícita.
 El `.env` ignorado de este checkout contiene una URL externa heredada de Railway;
 `prebuild` la bloquea para evitar consultas accidentales. No se modificaron
 credenciales ni se intentó migrar esa base.
