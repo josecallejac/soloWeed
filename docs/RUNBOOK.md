@@ -144,6 +144,10 @@ migraciones y el seed antes de correr Chromium. No uses la `DATABASE_URL` del
 
 ## Healthcheck
 
+Durante la primera transicion de una release sin `/api/health`, el rollback
+acepta solo una respuesta `404` de ese endpoint mas una portada `2xx`. Un
+`503` de una release que ya soporta healthcheck sigue siendo un fallo.
+
 El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
 
 ```text

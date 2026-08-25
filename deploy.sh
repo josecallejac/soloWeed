@@ -18,6 +18,7 @@ DB_CONTAINER="${DB_CONTAINER:-soloweed-db}"
 APP_IMAGE="${APP_IMAGE:-soloweed-soloweed}"
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://soloweed.store}"
 HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/api/health}"
+ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-}"
 HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-180}"
 BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-}"
 DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
@@ -51,6 +52,7 @@ SOLOWEED_BUILD_TIME="${SOLOWEED_BUILD_TIME:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"
 export SOLOWEED_RELEASE_SHA="$EXPECTED_RELEASE_SHA" SOLOWEED_BUILD_TIME
 
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-$SITE_URL}"
+ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-${HEALTH_URL%/api/health}/}"
 [[ -n "${DATABASE_URL:-}" ]] || die "DATABASE_URL no está definida en $ENV_FILE"
 
 # La app usa db:5432 dentro de Compose. El build corre en el host y accede al
@@ -103,8 +105,11 @@ printf '%s\n' 'Recreando solo la aplicación...'
 
 wait_for_health() {
   local require_release="${1:-1}"
+  local fallback_url="${2:-}"
   local deadline=$((SECONDS + HEALTH_TIMEOUT_SECONDS))
   local container_health=''
+  local health_response=''
+  local health_status=''
   local body=''
 
   while (( SECONDS < deadline )); do
@@ -114,15 +119,28 @@ wait_for_health() {
     if [[ -n "$app_ref" ]]; then
       container_health="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "$app_ref" 2>/dev/null || true)"
     fi
-    if [[ "$container_health" == 'unhealthy' ]]; then
+    if [[ "$container_health" == 'unhealthy' && -z "$fallback_url" ]]; then
       return 1
     fi
 
-    if body="$(curl --fail --silent --show-error --max-time 10 "$HEALTH_URL" 2>/dev/null)" \
+    health_response="$(curl --silent --show-error --max-time 10 --write-out $'\n%{http_code}' "$HEALTH_URL" 2>/dev/null || true)"
+    health_status="${health_response##*$'\n'}"
+    body="${health_response%$'\n'*}"
+    if [[ "$health_status" =~ ^2[0-9][0-9]$ ]] \
       && grep -Eq '"ok"[[:space:]]*:[[:space:]]*true' <<< "$body"; then
       if [[ "$require_release" != "1" ]] || grep -Eq '"sha"[[:space:]]*:[[:space:]]*"'"$EXPECTED_RELEASE_SHA"'"' <<< "$body"; then
         return 0
       fi
+    fi
+
+    # La primera transición puede volver a una imagen antigua que todavía no
+    # expone /api/health. Solo aceptamos la portada como fallback si el
+    # endpoint responde explícitamente 404; un 503 de una release compatible
+    # sigue siendo un rollback fallido.
+    if [[ -n "$fallback_url" && "$health_status" == '404' ]] \
+      && curl --fail --silent --show-error --max-time 15 "$fallback_url" >/dev/null 2>&1; then
+      printf 'Rollback legacy verificado mediante %s\n' "$fallback_url"
+      return 0
     fi
 
     sleep 3
@@ -144,7 +162,11 @@ rollback_app() {
   printf '%s\n' 'Healthcheck fallido; restaurando la imagen anterior...'
   docker tag "$previous_image_id" "$APP_IMAGE"
   "${compose[@]}" up -d --no-build --no-deps "$APP_SERVICE"
-  wait_for_health 0 || printf '%s\n' 'WARNING: la imagen anterior tampoco pasó el healthcheck.' >&2
+  if wait_for_health 0 "$ROLLBACK_SMOKE_URL"; then
+    return 0
+  fi
+  printf '%s\n' 'WARNING: la imagen anterior tampoco pasó la verificación de rollback.' >&2
+  return 1
 }
 
 if ! wait_for_health || ! verify_smoke_routes; then

@@ -4,7 +4,10 @@
 
 ## Fuentes De Verdad
 
-- `main` local y `origin/main` apuntan al commit publicado `719fe36`.
+- La SHA efectiva no se mantiene como dato manual en este documento. Para
+  comprobarla, usa `git rev-parse HEAD`, `git ls-remote origin refs/heads/main`
+  y la SHA reportada por `GET /api/health`; así se distinguen checkout, remoto
+  y producción aunque el repositorio avance.
 - El ciclo de estabilización ya está publicado en GitHub; todavía no se ha
   desplegado en el servidor casero.
 - `estado-catalogo.md` y `category_deep_dive.md` son snapshots históricos. Sus
