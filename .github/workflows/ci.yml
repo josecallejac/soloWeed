@@ -6,8 +6,6 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: "30 8 * * 1"
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -61,10 +59,10 @@ jobs:
       - run: npm run test
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - if: github.event_name == 'schedule'
+      - if: github.event_name == 'workflow_dispatch'
         run: npx playwright install --with-deps webkit
       - run: npm run test:e2e -- --project=chromium --project=mobile-chromium
-      - if: github.event_name == 'schedule'
+      - if: github.event_name == 'workflow_dispatch'
         run: npm run test:e2e -- --project=webkit
       - if: always()
         uses: actions/upload-artifact@v4
