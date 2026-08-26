@@ -12,12 +12,18 @@ function normalizeDateWhitespace(value: string) {
   return value.replace(/\s+/g, " ").trim();
 }
 
+// Product offer cards render inside a client component. Keep the timezone
+// explicit so Node and the user's browser produce the same text during
+// hydration, regardless of the host/container timezone.
+const CHILE_TIME_ZONE = "America/Santiago";
+
 export function formatDate(value: Date) {
   return normalizeDateWhitespace(new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: CHILE_TIME_ZONE,
   }).format(value));
 }
 
@@ -27,6 +33,7 @@ export function formatDateTime(value: Date) {
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: CHILE_TIME_ZONE,
   }).format(value));
 }
 
@@ -34,6 +41,7 @@ export function formatShortDate(value: Date) {
   return normalizeDateWhitespace(new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
     month: "short",
+    timeZone: CHILE_TIME_ZONE,
   }).format(value));
 }
 
