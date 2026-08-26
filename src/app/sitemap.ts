@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, productPath } from "@/lib/site";
+import { isProductAlias } from "@/lib/product-aliases";
 
 // El sitemap depende del catalogo vivo. No debe conectarse a la base durante
 // el build: en produccion se genera bajo demanda y, ante una caida puntual,
@@ -50,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly" as const,
         priority: 0.5,
       },
-      ...products.map((product) => ({
+      ...products.filter((product) => !isProductAlias(product.brandKey!, product.modelSlug!)).map((product) => ({
         url: `${SITE_URL}${productPath(product.brandKey!, product.modelSlug!)}`,
         lastModified: product.offers[0]?.lastSeenAt ?? product.updatedAt,
         changeFrequency: "daily" as const,

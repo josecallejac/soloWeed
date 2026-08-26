@@ -34,6 +34,11 @@ import { PriceAlertButton } from "@/components/price-alert-button";
 import { summarizePrices } from "@/lib/price-summary";
 import { getCatalogFreshnessHours } from "@/lib/health";
 import { getCatalogFreshnessLabel, getCatalogFreshnessState } from "@/lib/catalog-freshness";
+import {
+  getProductAliases,
+  isProductAlias,
+  resolveProductSlug,
+} from "@/lib/product-aliases";
 
 // Carga diferida: recharts es pesado y el chart muchas veces ni se muestra;
 // así queda en un chunk aparte en vez del bundle de cada página de producto.
@@ -60,6 +65,7 @@ export async function generateStaticParams() {
     });
     return products
       .filter((product) => product.brandKey && product.modelSlug)
+      .filter((product) => !isProductAlias(product.brandKey!, product.modelSlug!))
       .map((product) => ({ slug: [product.brandKey!, ...product.modelSlug!.split("/")] }));
   } catch (error) {
     // El build y CI no deben depender de PostgreSQL. Con la base disponible
@@ -71,9 +77,10 @@ export async function generateStaticParams() {
 }
 
 // Compartido entre generateMetadata y la página: una sola query por request.
-const findProductBySlug = cache(async (brandKey: string, modelSlug: string) =>
-  prisma.product.findFirst({
-    where: { brandKey, modelSlug },
+const findProductBySlug = cache(async (brandKey: string, modelSlug: string) => {
+  const canonical = resolveProductSlug(brandKey, modelSlug);
+  const product = await prisma.product.findFirst({
+    where: { brandKey: canonical.brandKey, modelSlug: canonical.modelSlug },
     include: {
       offers: {
         include: {
@@ -87,8 +94,50 @@ const findProductBySlug = cache(async (brandKey: string, modelSlug: string) =>
         orderBy: [{ inStock: "desc" }, { price: "asc" }, { lastSeenAt: "desc" }],
       },
     },
-  }),
-);
+  });
+
+  if (!product) {
+    return null;
+  }
+
+  const aliases = getProductAliases(canonical.brandKey, canonical.modelSlug);
+  if (aliases.length === 0) {
+    return product;
+  }
+
+  const aliasProducts = await prisma.product.findMany({
+    where: {
+      OR: aliases.map((alias) => ({ brandKey: alias.brandKey, modelSlug: alias.modelSlug })),
+    },
+    include: {
+      offers: {
+        include: {
+          store: true,
+          product: true,
+          histories: {
+            orderBy: { recordedAt: "desc" },
+            take: 4,
+          },
+        },
+        orderBy: [{ inStock: "desc" }, { price: "asc" }, { lastSeenAt: "desc" }],
+      },
+    },
+  });
+
+  const aliasOfferIds = new Set(product.offers.map((offer) => offer.id));
+  const aliasOffers = aliasProducts
+    .flatMap((aliasProduct) => aliasProduct.offers)
+    .filter((offer) => !aliasOfferIds.has(offer.id));
+
+  if (aliasOffers.length === 0) {
+    return product;
+  }
+
+  return {
+    ...product,
+    offers: [...product.offers, ...aliasOffers].sort(compareMatchedOffers),
+  };
+});
 
 export async function generateMetadata(props: ProductDetailProps): Promise<Metadata> {
   const { slug } = await props.params;
@@ -96,7 +145,9 @@ export async function generateMetadata(props: ProductDetailProps): Promise<Metad
     return {};
   }
   const [brandKey, ...modelParts] = slug;
-  const product = await findProductBySlug(brandKey, modelParts.join("/"));
+  const requestedModelSlug = modelParts.join("/");
+  const canonical = resolveProductSlug(brandKey, requestedModelSlug);
+  const product = await findProductBySlug(brandKey, requestedModelSlug);
   if (!product) {
     return {};
   }
@@ -107,17 +158,17 @@ export async function generateMetadata(props: ProductDetailProps): Promise<Metad
   const storeText = storeCount > 1 ? ` en ${storeCount} tiendas` : "";
   const title = `${product.name}: precio${storeText}`;
   const description = `Compara el precio de ${product.name}${priceText}${storeText} de Chile. Historial de precios y stock actualizado.`;
-  const canonical = productPath(brandKey, modelParts.join("/"));
+  const canonicalUrl = productPath(canonical.brandKey, canonical.modelSlug);
   const image = product.imageUrl ?? product.offers.find((offer) => offer.imageUrl)?.imageUrl;
   return {
     title,
     description,
-    alternates: { canonical },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       type: "website",
       title,
       description,
-      url: canonical,
+      url: canonicalUrl,
       ...(image ? { images: [{ url: image }] } : {}),
     },
   };
@@ -171,6 +222,13 @@ export default async function ProductDetail(props: ProductDetailProps) {
       permanentRedirect(productPath(legacy.brandKey, legacy.modelSlug));
     }
     notFound();
+  }
+
+  const [requestedBrandKey, ...requestedModelParts] = slug;
+  const requestedModelSlug = requestedModelParts.join("/");
+  if (isProductAlias(requestedBrandKey, requestedModelSlug)) {
+    const canonical = resolveProductSlug(requestedBrandKey, requestedModelSlug);
+    permanentRedirect(productPath(canonical.brandKey, canonical.modelSlug));
   }
 
   const data = await getProductData(slug);
@@ -592,16 +650,18 @@ async function getRelatedProducts(category: string, excludeId: number) {
     LIMIT 10
   `;
 
-  return result.map(row => ({
-    brandKey: row.brandKey,
-    id: row.id,
-    imageUrl: row.imageUrl,
-    maxPrice: Number(row.maxPrice) || 0,
-    minPrice: Number(row.minPrice) || 0,
-    modelSlug: row.modelSlug,
-    name: row.name,
-    storeCount: Number(row.storeCount),
-  }));
+  return result
+    .filter((row) => !isProductAlias(row.brandKey, row.modelSlug))
+    .map(row => ({
+      brandKey: row.brandKey,
+      id: row.id,
+      imageUrl: row.imageUrl,
+      maxPrice: Number(row.maxPrice) || 0,
+      minPrice: Number(row.minPrice) || 0,
+      modelSlug: row.modelSlug,
+      name: row.name,
+      storeCount: Number(row.storeCount),
+    }));
 }
 
 function getExpandedMatchedOffers(seedOffers: OfferOption[], candidateOffers: OfferOption[], productId: number) {

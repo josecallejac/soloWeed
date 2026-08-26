@@ -9,6 +9,7 @@ import {
 import { Prisma } from "@prisma/client";
 import type { Store } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { PRODUCT_ALIASES, productSlugKey } from "@/lib/product-aliases";
 
 // Solo las columnas que el catálogo realmente consume: mantener este tipo
 // angosto es lo que permite excluir columnas pesadas (description) de las
@@ -105,7 +106,10 @@ export async function getCatalogData(
     // El tamaño del conjunto de tiendas activas forma parte de la identidad de
     // la caché. Así una nueva tienda invalida las etiquetas 5/6 antes de que
     // expire el TTL de los productos ya agrupados.
-    const activeStoreCount = await prisma.store.count({ where: { enabled: true } });
+    const [activeStoreCount, productAliasLinks] = await Promise.all([
+      prisma.store.count({ where: { enabled: true } }),
+      getCatalogProductAliasLinks(),
+    ]);
 
     const cacheKey = `${normalizedQuery}|${selectedCategory}|${normalizedStoreFilter}|${normalizedMinPrice}|${normalizedMaxPrice}|${normalizedSort}|${normalizedBrandFilter}|stores=${activeStoreCount}`;
     const cached = PAGE_CACHE.get(cacheKey);
@@ -182,8 +186,12 @@ export async function getCatalogData(
       });
     }
 
+    // Los alias editoriales se agrupan en memoria bajo el Product canonico. No
+    // se mueven ofertas en la base: esto conserva enlaces protegidos e historial.
+    const canonicalOffers = remapCatalogOfferProductIds(offersWithStore, productAliasLinks);
+
     // Apply where clause filtering in JS
-    const initialMatched = offersWithStore.filter((o) => {
+    const initialMatched = canonicalOffers.filter((o) => {
       if (!matchesCatalogSearch(o, normalizedQuery)) return false;
       if (selectedCategory && o.category !== selectedCategory) return false;
       if (options?.brandFilter && o.brandKey !== options.brandFilter) return false;
@@ -195,7 +203,7 @@ export async function getCatalogData(
     // resto de precios con los que debe compararse.
     const matchedProductIds = new Set(initialMatched.map((o) => o.productId).filter(Boolean));
     const initialMatchedIds = new Set(initialMatched.map((o) => o.id));
-    const expandedOffers = offersWithStore.filter((o) => {
+    const expandedOffers = canonicalOffers.filter((o) => {
       if (o.productId && matchedProductIds.has(o.productId)) {
         if (selectedCategory && o.category !== selectedCategory) return false;
         return true;
@@ -298,18 +306,86 @@ function safeCache<Args extends unknown[], R>(
   };
 }
 
+type CatalogProductAliasLink = {
+  aliasId: number;
+  canonicalId: number;
+};
+
+// Resuelve los alias editoriales contra los IDs vivos de PostgreSQL. El mapa
+// queda cacheado como JSON plano para que Next no intente serializar un Map.
+const getCatalogProductAliasLinks = safeCache(
+  async (): Promise<CatalogProductAliasLink[]> => {
+    const lookupKeys = Array.from(
+      new Map(
+        PRODUCT_ALIASES.flatMap((entry) => [entry.alias, entry.canonical]).map((key) => [
+          productSlugKey(key.brandKey, key.modelSlug),
+          key,
+        ]),
+      ).values(),
+    );
+
+    if (lookupKeys.length === 0) {
+      return [];
+    }
+
+    const products = await prisma.product.findMany({
+      where: {
+        OR: lookupKeys.map((key) => ({ brandKey: key.brandKey, modelSlug: key.modelSlug })),
+      },
+      select: { id: true, brandKey: true, modelSlug: true },
+    });
+    const productsBySlug = new Map(
+      products
+        .filter((product) => product.brandKey && product.modelSlug)
+        .map((product) => [productSlugKey(product.brandKey!, product.modelSlug!), product]),
+    );
+
+    return PRODUCT_ALIASES.flatMap((entry) => {
+      const aliasProduct = productsBySlug.get(productSlugKey(entry.alias.brandKey, entry.alias.modelSlug));
+      const canonicalProduct = productsBySlug.get(productSlugKey(entry.canonical.brandKey, entry.canonical.modelSlug));
+      if (!aliasProduct || !canonicalProduct || aliasProduct.id === canonicalProduct.id) {
+        return [];
+      }
+      return [{ aliasId: aliasProduct.id, canonicalId: canonicalProduct.id }];
+    });
+  },
+  ["catalog-product-alias-links"],
+  { revalidate: 300 },
+);
+
+function remapCatalogOfferProductIds(offers: CatalogOffer[], links: CatalogProductAliasLink[]) {
+  if (links.length === 0) {
+    return offers;
+  }
+
+  const canonicalByAliasId = new Map(links.map((link) => [link.aliasId, link.canonicalId]));
+  return offers.map((offer) => {
+    const canonicalId = offer.productId ? canonicalByAliasId.get(offer.productId) : undefined;
+    return canonicalId ? { ...offer, productId: canonicalId } : offer;
+  });
+}
+
 // Agregado global sobre toda la tabla Offer: cambia solo con scrapes/curación,
 // así que se cachea compartido (Next data cache) en vez de recalcularse por render.
 const getProductCoverage = safeCache(
   async (totalStores: number) => {
-    const covRows = await prisma.$queryRaw<Array<{ productId: number; cnt: number | bigint }>>`
-      SELECT "Offer"."productId", COUNT(DISTINCT "Offer"."storeId") AS "cnt"
+    const aliasLinks = await getCatalogProductAliasLinks();
+    const canonicalByAliasId = new Map(aliasLinks.map((link) => [link.aliasId, link.canonicalId]));
+    const covRows = await prisma.$queryRaw<Array<{ productId: number | bigint; storeId: number | bigint }>>`
+      SELECT "Offer"."productId", "Offer"."storeId"
       FROM "Offer"
       INNER JOIN "Store" ON "Offer"."storeId" = "Store"."id"
       WHERE "Offer"."productId" IS NOT NULL AND "Store"."enabled" = true
-      GROUP BY "Offer"."productId"
     `;
-    return buildCatalogCoverage(covRows.map((row) => Number(row.cnt)), totalStores);
+    const storesByProduct = new Map<number, Set<number>>();
+    for (const row of covRows) {
+      const productId = Number(row.productId);
+      const canonicalId = canonicalByAliasId.get(productId) ?? productId;
+      const stores = storesByProduct.get(canonicalId) ?? new Set<number>();
+      stores.add(Number(row.storeId));
+      storesByProduct.set(canonicalId, stores);
+    }
+    return buildCatalogCoverage([...storesByProduct.values()].map((stores) => stores.size), totalStores);
   },
   ["home-product-coverage"],
   { revalidate: 300 },
@@ -392,6 +468,10 @@ function buildSearchWhere(normalizedQuery: string): Prisma.OfferWhereInput {
 const getComparableFiltersCounts = safeCache(
   async (normalizedQuery: string, where: Prisma.OfferWhereInput) => {
   void normalizedQuery;
+  const aliasLinks = await getCatalogProductAliasLinks();
+  const canonicalByAliasId = new Map(aliasLinks.map((link) => [link.aliasId, link.canonicalId]));
+  const canonicalProductId = (productId: number | null) =>
+    productId ? canonicalByAliasId.get(productId) ?? productId : null;
   const baseOffers = await prisma.offer.findMany({
     where: { AND: [where, { store: { enabled: true } }] },
     select: {
@@ -414,7 +494,7 @@ const getComparableFiltersCounts = safeCache(
   });
 
   // Batch-fetch products for offers that have productId (workaround for Prisma SQLite bulk include issue)
-  const productIds = [...new Set(baseOffers.map((o) => o.productId).filter(Boolean))] as number[];
+  const productIds = [...new Set(baseOffers.map((o) => canonicalProductId(o.productId)).filter(Boolean))] as number[];
   const productMap = new Map<number, CatalogOffer["product"]>();
   if (productIds.length > 0) {
     const products = await prisma.product.findMany({
@@ -423,10 +503,14 @@ const getComparableFiltersCounts = safeCache(
     });
     for (const p of products) productMap.set(p.id, p);
   }
-  const offers = baseOffers.map((o): CatalogOffer => ({
-    ...o,
-    product: o.productId ? productMap.get(o.productId) ?? null : null,
-  }));
+  const offers = baseOffers.map((o): CatalogOffer => {
+    const productId = canonicalProductId(o.productId);
+    return {
+      ...o,
+      productId,
+      product: productId ? productMap.get(productId) ?? null : null,
+    };
+  });
 
   const catalogItems = buildCatalogItems(offers).filter(hasCatalogCategoryVisibility);
 
