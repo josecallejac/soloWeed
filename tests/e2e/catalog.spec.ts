@@ -18,7 +18,7 @@ test.describe("SoloWeed catalog", () => {
     await expect(page).toHaveTitle(/SoloWeed/i);
     await expect(page.getByRole("heading", { name: "Comparaciones encontradas" })).toBeVisible();
 
-    const compareLink = page.getByRole("link", { name: /Comparar/ }).first();
+    const compareLink = page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first();
     await expect(compareLink).toBeVisible();
     await expect(compareLink).toHaveAttribute("href", /^\/productos\/[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)+$/);
 
@@ -62,7 +62,7 @@ test.describe("SoloWeed catalog", () => {
     await searchInput.fill("raw");
     await page.getByRole("button", { name: "Buscar ofertas" }).click();
     await expect(page).toHaveURL(/q=raw/, { timeout: 30000 });
-    await expect(page.getByRole("link", { name: /Comparar/ }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first()).toBeVisible();
   });
 
   test("filters the catalog by brand within a category", async ({ page }, testInfo) => {
@@ -87,7 +87,7 @@ test.describe("SoloWeed catalog", () => {
   test("opens product detail and uses the outbound tracking route", async ({ page }) => {
     await page.goto("/");
 
-    const compareLink = page.getByRole("link", { name: /Comparar/ }).first();
+    const compareLink = page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first();
     await expect(compareLink).toBeVisible();
     await compareLink.click();
     await expect(page).toHaveURL(/\/productos\//, { timeout: 30000 });
@@ -99,13 +99,18 @@ test.describe("SoloWeed catalog", () => {
     const shopLink = page.getByRole("link", { name: /IR A TIENDA/ }).first();
     await expect(shopLink).toBeVisible();
     await expect(shopLink).toHaveAttribute("href", /^\/ir\/\d+$/);
+    const outboundHref = await shopLink.getAttribute("href");
+    expect(outboundHref).not.toBeNull();
+    const outboundResponse = await page.request.get(outboundHref!, { maxRedirects: 0 });
+    expect([302, 303, 307, 308]).toContain(outboundResponse.status());
+    expect(outboundResponse.headers().location).toMatch(/^https:\/\//);
 
     await expect(page.getByRole("heading", { name: /Otras comparaciones en Papelillos/ })).toBeVisible();
   });
 
   test("switches product variants when the selector is available", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /Comparar/ }).first().click();
+    await page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first().click();
     await expect(page.locator("h1")).toBeVisible();
 
     const selector = page.locator("#variant-selector");

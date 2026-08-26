@@ -24,7 +24,13 @@ export function SiteHeader({ subtitle, trailing }: SiteHeaderProps) {
           </span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <nav aria-label="Navegación principal" className="mr-1 hidden items-center gap-1 sm:flex">
+            <Link className="rounded-lg px-2.5 py-2 text-[10px] font-black uppercase tracking-wider text-slate-600 transition hover:bg-black/5 hover:text-slate-950 dark:text-white/55 dark:hover:bg-white/5 dark:hover:text-accent-text" href="/oportunidades">Radar</Link>
+            <Link className="rounded-lg px-2.5 py-2 text-[10px] font-black uppercase tracking-wider text-slate-600 transition hover:bg-black/5 hover:text-slate-950 dark:text-white/55 dark:hover:bg-white/5 dark:hover:text-accent-text" href="/lista">Mi lista</Link>
+            <Link className="rounded-lg px-2.5 py-2 text-[10px] font-black uppercase tracking-wider text-slate-600 transition hover:bg-black/5 hover:text-slate-950 dark:text-white/55 dark:hover:bg-white/5 dark:hover:text-accent-text" href="/canasta">Canasta</Link>
+            <Link className="rounded-lg px-2.5 py-2 text-[10px] font-black uppercase tracking-wider text-slate-600 transition hover:bg-black/5 hover:text-slate-950 dark:text-white/55 dark:hover:bg-white/5 dark:hover:text-accent-text" href="/alertas">Alertas</Link>
+          </nav>
           {trailing ?? (
             <span className="glass-badge rounded-full border border-black/15 dark:border-white/15 bg-black/5 dark:bg-white/5 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.22em] text-slate-700 dark:text-white/80 font-mono shadow-sm">
               +18

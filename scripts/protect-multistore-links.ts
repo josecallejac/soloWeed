@@ -15,7 +15,7 @@ import {
 // solo se agregan productos nuevos a ese grupo.
 
 const MIN_STORES = Number(process.env.PROTECT_MIN_STORES ?? 3);
-const SNAPSHOT_PATH = path.join("reports", "protected-links.json");
+const SNAPSHOT_PATH = process.env.PROTECT_SNAPSHOT_PATH?.trim() || path.join("reports", "protected-links.json");
 
 async function collect(): Promise<ProtectedProductSnapshot[]> {
   const products = await prisma.product.findMany({

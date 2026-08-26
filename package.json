@@ -13,6 +13,7 @@
     "test": "node scripts/run-tests.mjs",
     "test:integration": "node scripts/run-tests.mjs --integration",
     "scrape": "tsx scripts/scrape.ts",
+    "catalog:weekly": "tsx scripts/weekly-catalog.ts",
     "prices:refresh": "tsx scripts/refresh-product-prices.ts",
     "match:auto": "tsx scripts/auto-match-offers.ts",
     "match:image": "tsx scripts/match-by-image.ts",

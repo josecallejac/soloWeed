@@ -2,8 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { CoverageBadge } from "./coverage-badge";
 import { OutboundLink } from "./outbound-link";
-import { formatPrice } from "@/lib/format";
+import { FavoriteButton } from "./favorite-button";
+import { BasketButton } from "./basket-button";
+import { formatDateTime, formatPrice } from "@/lib/format";
 import { shouldOptimizeImage } from "@/lib/image";
+import { getCatalogFreshnessHours } from "@/lib/health";
+import { getCatalogFreshnessLabel, getCatalogFreshnessState } from "@/lib/catalog-freshness";
 
 export type OfferCardItem = {
   brand: string | null;
@@ -18,7 +22,10 @@ export type OfferCardItem = {
   originalPrice: number | null;
   product:
     | {
+        id?: number;
         brandKey: string | null;
+        name?: string;
+        imageUrl?: string | null;
         modelSlug: string | null;
       }
     | null
@@ -42,6 +49,16 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
     : 0;
   const storeSavings = offer.storeCount > 1 && offer.minPrice > 0 ? offer.maxPrice - offer.minPrice : 0;
   const stores = offer.stores ?? [];
+  const productHref = offer.product?.brandKey && offer.product.modelSlug
+    ? `/productos/${offer.product.brandKey}/${offer.product.modelSlug}`
+    : null;
+  const freshnessState = getCatalogFreshnessState(offer.lastSeenAt, new Date(), getCatalogFreshnessHours());
+  const freshnessLabel = getCatalogFreshnessLabel(freshnessState);
+  const freshnessStyles = freshnessState === "fresh"
+    ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+    : freshnessState === "due"
+      ? "border-amber-500/25 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+      : "border-slate-300 bg-slate-100 text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-white/45";
 
   return (
     <article className="relative group grid min-w-0 gap-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#0d0d12]/90 p-4 sm:p-5 shadow-sm dark:shadow-none transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:border-slate-300 dark:hover:border-accent/40 hover:bg-white dark:hover:bg-[#14141e]/90 dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(192,255,0,0.15)] sm:grid-cols-[190px_minmax(0,1fr)]">
@@ -66,6 +83,34 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
         <span className="absolute left-4 top-4 z-10 rounded-md bg-slate-900/90 dark:bg-black/90 px-2.5 py-1 text-[10px] font-black tracking-widest text-white font-mono border border-white/20 backdrop-blur-md shadow-sm">
           #{rank}
         </span>
+        {offer.product && productHref && offer.product.id !== undefined ? (
+          <>
+            <FavoriteButton
+              item={{
+                id: offer.product.id,
+                title: offer.title,
+                href: productHref,
+                price: offer.minPrice,
+                category: offer.category,
+                brand: offer.brand,
+                storeCount: offer.storeCount,
+                imageUrl: offer.imageUrl ?? offer.product.imageUrl ?? null,
+              }}
+            />
+            <BasketButton
+              item={{
+                id: offer.product.id,
+                title: offer.title,
+                href: productHref,
+                price: offer.minPrice,
+                category: offer.category,
+                brand: offer.brand,
+                storeCount: offer.storeCount,
+                imageUrl: offer.imageUrl ?? offer.product.imageUrl ?? null,
+              }}
+            />
+          </>
+        ) : null}
       </div>
 
       <div className="flex min-w-0 flex-col py-1">
@@ -110,6 +155,11 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
             Sin stock detectado
           </div>
         ) : null}
+
+        <div className="mb-3 flex flex-wrap items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-wider">
+          <span className={`rounded-md border px-2 py-1 ${freshnessStyles}`}>{freshnessLabel}</span>
+          <span className="text-slate-400 dark:text-white/35">{formatDateTime(offer.lastSeenAt)}</span>
+        </div>
 
         {/* Pricing & Savings Callouts */}
         <div className="mt-auto pt-3 border-t border-slate-200/80 dark:border-white/5 flex flex-col gap-3">
@@ -162,7 +212,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
               <OutboundLink
                 className="flex items-center justify-center min-w-0 rounded-xl px-4 py-3 text-center text-xs sm:text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-white/80 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-950 dark:hover:text-accent-text"
                 offerId={offer.id}
-                eventData={{ origen: "home", categoria: offer.category, marca: offer.brand ?? undefined }}
+                eventData={{ origen: "home", categoria: offer.category, ...(offer.brand ? { marca: offer.brand } : {}) }}
               >
                 Ir a tienda ↗
               </OutboundLink>

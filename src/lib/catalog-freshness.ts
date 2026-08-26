@@ -1,11 +1,12 @@
 export type CatalogFreshnessState = "fresh" | "due" | "stale" | "unknown";
 
 const WARNING_FRACTION = 2 / 3;
+export const DEFAULT_CATALOG_FRESHNESS_HOURS = 192;
 
 export function getCatalogFreshnessState(
   lastSeenAt: Date | null,
   now = new Date(),
-  freshnessHours = 72,
+  freshnessHours = DEFAULT_CATALOG_FRESHNESS_HOURS,
 ): CatalogFreshnessState {
   if (!lastSeenAt || !Number.isFinite(lastSeenAt.getTime())) return "unknown";
 
@@ -18,7 +19,7 @@ export function getCatalogFreshnessState(
 export function getCatalogFreshnessLabel(state: CatalogFreshnessState) {
   switch (state) {
     case "fresh":
-      return "Precios al día";
+      return "Verificado esta semana";
     case "due":
       return "Revisión próxima";
     case "stale":

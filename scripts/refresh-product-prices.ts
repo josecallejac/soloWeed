@@ -1,10 +1,21 @@
+import { pathToFileURL } from "node:url";
 import { load } from "cheerio";
 import { prisma } from "../src/lib/prisma";
-import { extractOffer, fetchText, saveOffer } from "./scrape";
+import {
+  basePageUrl,
+  extractOffer,
+  fetchText,
+  mapWithConcurrency,
+  markOffersOutOfStock,
+  SAVE_BATCH_SIZE,
+  saveOffers,
+  STORE_CONCURRENCY,
+  type ScrapedOffer,
+} from "./scrape";
 
 // Refresco de precio/stock SOLO para ofertas vinculadas a un Product curado.
 // No descubre candidatos nuevos ni crea ofertas: visita cada URL ya vinculada,
-// re-extrae y guarda via saveOffer (que registra PriceHistory solo si cambia
+// re-extrae y guarda via saveOffers (que registra PriceHistory solo si cambia
 // precio, precio original o stock). Las paginas que responden 404/410 se marcan
 // sin stock (nunca se eliminan ni desvinculan, ver reglas del proyecto).
 //
@@ -23,41 +34,118 @@ const STORE_FILTER = new Set(
     .filter(Boolean),
 );
 
-function basePageUrl(offerUrl: string) {
-  // Las variantes Jumpseller se persisten como <url>?variant=<nombre>; todas
-  // comparten la misma pagina fisica.
-  return offerUrl.split("?variant=")[0];
-}
-
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function markOutOfStock(offerIds: number[]) {
-  for (const offerId of offerIds) {
-    const latest = await prisma.priceHistory.findFirst({
-      where: { offerId },
-      orderBy: { recordedAt: "desc" },
-    });
-    const offer = await prisma.offer.findUnique({ where: { id: offerId } });
-    if (!offer || !offer.inStock) {
-      continue;
-    }
-    await prisma.offer.update({ where: { id: offerId }, data: { inStock: false } });
-    if (!latest || latest.inStock) {
-      await prisma.priceHistory.create({
-        data: {
-          offerId,
-          price: offer.price,
-          originalPrice: offer.originalPrice,
-          inStock: false,
-        },
-      });
-    }
+type RefreshPage = {
+  storeId: number;
+  storeSlug: string;
+  offerIds: number[];
+  offerUrls: Set<string>;
+  pageUrl: string;
+};
+
+type RefreshStats = {
+  pages: number;
+  saved: number;
+  batches: number;
+  gone: number;
+  skipped: number;
+  errors: number;
+};
+
+function isSoftRedirect(html: string, pageUrl: string) {
+  const canonical = load(html)("link[rel='canonical']").attr("href");
+  if (!canonical) {
+    return false;
+  }
+  try {
+    return new URL(canonical, pageUrl).pathname.replace(/\/$/, "") !== new URL(pageUrl).pathname.replace(/\/$/, "");
+  } catch {
+    return false;
   }
 }
 
-async function main() {
+async function refreshStorePages(storeSlug: string, pages: RefreshPage[]) {
+  const stats: RefreshStats = { pages: 0, saved: 0, batches: 0, gone: 0, skipped: 0, errors: 0 };
+  const selectedPages = LIMIT_PER_STORE > 0 ? pages.slice(0, LIMIT_PER_STORE) : pages;
+  const pendingOffers: ScrapedOffer[] = [];
+
+  const flushPendingOffers = async () => {
+    if (pendingOffers.length === 0) {
+      return;
+    }
+
+    const batch = pendingOffers.splice(0, pendingOffers.length);
+    const storeId = pages[0]?.storeId;
+    if (storeId === undefined) {
+      return;
+    }
+    await saveOffers(storeId, batch);
+    stats.batches += 1;
+    stats.saved += batch.length;
+  };
+
+  for (const entry of selectedPages) {
+    stats.pages += 1;
+    try {
+      const html = await fetchText(entry.pageUrl);
+      const scraped = extractOffer(html, entry.pageUrl);
+      if (!scraped || scraped.length === 0) {
+        if (isSoftRedirect(html, entry.pageUrl)) {
+          await markOffersOutOfStock(entry.offerIds);
+          stats.gone += 1;
+          console.warn(`[gone] soft-redirect: ${entry.pageUrl}`);
+        } else {
+          stats.skipped += 1;
+          console.warn(`[skip] sin oferta extraible: ${entry.pageUrl}`);
+        }
+        continue;
+      }
+
+      let selectedOffers = scraped.filter((offer) => entry.offerUrls.has(offer.url));
+      if (entry.offerUrls.has(entry.pageUrl) && !scraped.some((offer) => offer.url === entry.pageUrl)) {
+        const baseOnly = extractOffer(html, entry.pageUrl, { includeVariants: false });
+        if (baseOnly) {
+          selectedOffers = selectedOffers.concat(baseOnly.filter((offer) => entry.offerUrls.has(offer.url)));
+        }
+      }
+      if (selectedOffers.length > 0) {
+        pendingOffers.push(...selectedOffers);
+      } else {
+        stats.skipped += 1;
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (/HTTP (404|410)/.test(message)) {
+        await markOffersOutOfStock(entry.offerIds);
+        stats.gone += 1;
+        console.warn(`[gone] marcada sin stock (${message}): ${entry.pageUrl}`);
+      } else {
+        stats.errors += 1;
+        console.warn(`[error] ${message}: ${entry.pageUrl}`);
+      }
+    }
+
+    if (pendingOffers.length >= SAVE_BATCH_SIZE) {
+      await flushPendingOffers();
+    }
+
+    await delay(DELAY_MS);
+  }
+
+  await flushPendingOffers();
+
+  console.log(
+    `${storeSlug}: paginas=${stats.pages} ofertas actualizadas=${stats.saved} ` +
+      `lotes=${stats.batches} desaparecidas=${stats.gone} ` +
+      `sin-extraccion=${stats.skipped} errores=${stats.errors}`,
+  );
+  return stats;
+}
+
+export async function runPriceRefresh() {
   const staleHours = Number(process.env.REFRESH_STALE_HOURS ?? 0);
   const offers = await prisma.offer.findMany({
     where: {
@@ -75,98 +163,67 @@ async function main() {
     : offers;
 
   // Agrupar por pagina fisica y por tienda para respetar limites y reportes.
-  const pages = new Map<string, { storeId: number; storeSlug: string; offerIds: number[]; offerUrls: Set<string> }>();
+  const pages = new Map<string, RefreshPage>();
   for (const offer of filtered) {
     const pageUrl = basePageUrl(offer.url);
-    const entry = pages.get(pageUrl) ?? {
+    const key = `${offer.storeId}:${pageUrl}`;
+    const entry = pages.get(key) ?? {
       storeId: offer.storeId,
       storeSlug: offer.store.slug,
       offerIds: [],
       offerUrls: new Set<string>(),
+      pageUrl,
     };
     entry.offerIds.push(offer.id);
     entry.offerUrls.add(offer.url);
-    pages.set(pageUrl, entry);
+    pages.set(key, entry);
   }
-
-  const perStoreCount = new Map<string, number>();
-  const stats = { pages: 0, saved: 0, gone: 0, skipped: 0, errors: 0 };
 
   console.log(`Ofertas vinculadas: ${filtered.length} en ${pages.size} paginas`);
-
-  for (const [pageUrl, entry] of pages) {
-    if (LIMIT_PER_STORE > 0) {
-      const count = perStoreCount.get(entry.storeSlug) ?? 0;
-      if (count >= LIMIT_PER_STORE) {
-        continue;
-      }
-      perStoreCount.set(entry.storeSlug, count + 1);
-    }
-
-    stats.pages += 1;
-    try {
-      const html = await fetchText(pageUrl);
-      const scraped = extractOffer(html, pageUrl);
-      if (!scraped || scraped.length === 0) {
-        // PrestaShop (Piranha/GrowBarato) responde 200 con la portada cuando el
-        // producto fue eliminado: el canonical deja de apuntar a la URL pedida.
-        const canonical = load(html)("link[rel='canonical']").attr("href");
-        const isSoftRedirect = canonical ? new URL(canonical).pathname.replace(/\/$/, "") !== new URL(pageUrl).pathname.replace(/\/$/, "") : false;
-        if (isSoftRedirect) {
-          await markOutOfStock(entry.offerIds);
-          stats.gone += 1;
-          console.warn(`[gone] soft-redirect a ${canonical}: ${pageUrl}`);
-        } else {
-          stats.skipped += 1;
-          console.warn(`[skip] sin oferta extraible: ${pageUrl}`);
-        }
-        continue;
-      }
-      for (const offer of scraped) {
-        // Solo actualizar ofertas ya vinculadas; no crear variantes/ofertas nuevas.
-        if (!entry.offerUrls.has(offer.url)) {
-          continue;
-        }
-        await saveOffer(entry.storeId, offer);
-        stats.saved += 1;
-      }
-
-      // Ofertas pre-variantes: la oferta vinculada usa la URL base pero la
-      // pagina ahora expone variantes (?variant=...). Se refresca la oferta
-      // base con el precio/stock a nivel de pagina (JSON-LD), sin crear nuevas.
-      if (entry.offerUrls.has(pageUrl) && !scraped.some((offer) => offer.url === pageUrl)) {
-        const baseOnly = extractOffer(html, pageUrl, { includeVariants: false });
-        if (baseOnly && baseOnly.length === 1) {
-          await saveOffer(entry.storeId, baseOnly[0]);
-          stats.saved += 1;
-        }
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      if (/HTTP (404|410)/.test(message)) {
-        await markOutOfStock(entry.offerIds);
-        stats.gone += 1;
-        console.warn(`[gone] marcada sin stock (${message}): ${pageUrl}`);
-      } else {
-        stats.errors += 1;
-        console.warn(`[error] ${message}: ${pageUrl}`);
-      }
-    }
-
-    await delay(DELAY_MS);
+  const byStore = new Map<string, RefreshPage[]>();
+  for (const page of pages.values()) {
+    const storePages = byStore.get(page.storeSlug) ?? [];
+    storePages.push(page);
+    byStore.set(page.storeSlug, storePages);
   }
+  const results = await mapWithConcurrency([...byStore.entries()], STORE_CONCURRENCY, async ([storeSlug, storePages]) => {
+    try {
+      return await refreshStorePages(storeSlug, storePages);
+    } catch (error) {
+      console.error(`${storeSlug}: fatal refresh error - ${error instanceof Error ? error.message : String(error)}`);
+      return { pages: 0, saved: 0, batches: 0, gone: 0, skipped: 0, errors: 1 } satisfies RefreshStats;
+    }
+  });
+  const stats = results.reduce(
+    (total, current) => ({
+      pages: total.pages + current.pages,
+      saved: total.saved + current.saved,
+      batches: total.batches + current.batches,
+      gone: total.gone + current.gone,
+      skipped: total.skipped + current.skipped,
+      errors: total.errors + current.errors,
+    }),
+    { pages: 0, saved: 0, batches: 0, gone: 0, skipped: 0, errors: 0 },
+  );
 
   console.log(
     `Listo. paginas=${stats.pages} ofertas actualizadas=${stats.saved} ` +
-      `desaparecidas=${stats.gone} sin-extraccion=${stats.skipped} errores=${stats.errors}`,
+      `lotes=${stats.batches} desaparecidas=${stats.gone} ` +
+      `sin-extraccion=${stats.skipped} errores=${stats.errors}`,
   );
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+const isDirectRun = process.argv[1]
+  ? import.meta.url === pathToFileURL(process.argv[1]).href
+  : false;
+
+if (isDirectRun) {
+  runPriceRefresh()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

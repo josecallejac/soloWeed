@@ -1,22 +1,16 @@
 "use client";
 
+import { trackAnalytics } from "@/lib/analytics";
+
 type B2BContactActionsProps = {
   emailUrl: string;
   storeName: string;
   whatsappUrl: string | null;
 };
 
-declare global {
-  interface Window {
-    umami?: {
-      track: (event: string, data?: Record<string, unknown>) => void;
-    };
-  }
-}
-
 export function B2BContactActions({ emailUrl, storeName, whatsappUrl }: B2BContactActionsProps) {
   function track(channel: "email" | "whatsapp") {
-    window.umami?.track("b2b-contacto", { canal: channel, tienda: storeName });
+    trackAnalytics("b2b-contacto", { canal: channel, tienda: storeName });
   }
 
   return (

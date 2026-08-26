@@ -38,7 +38,7 @@ export function FiltersPanel({ activeCount, children }: FiltersPanelProps) {
 
       {/* Móvil: botón flotante */}
       <button
-        className={`fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-[#09090b] shadow-[0_10px_30px_rgba(192,255,0,0.4)] transition-[transform,opacity] duration-300 active:scale-95 font-mono lg:hidden ${
+        className={`fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-black uppercase tracking-[0.15em] text-[#09090b] shadow-[0_10px_30px_rgba(192,255,0,0.4)] transition-[transform,opacity] duration-300 active:scale-95 font-mono sm:bottom-5 lg:hidden ${
           scrolled ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0"
         }`}
         onClick={() => setOpen(true)}

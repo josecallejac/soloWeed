@@ -1,9 +1,8 @@
 import { prisma } from "./prisma";
+import { DEFAULT_CATALOG_FRESHNESS_HOURS } from "./catalog-freshness";
 
 type DatabaseProbe = () => Promise<unknown>;
 type FreshnessProbe = (cutoff: Date) => Promise<CatalogFreshness>;
-
-const DEFAULT_CATALOG_FRESHNESS_HOURS = 72;
 
 export type CatalogFreshness = {
   lastScrapeAt: Date | null;

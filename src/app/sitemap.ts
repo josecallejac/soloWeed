@@ -38,6 +38,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [
       homeEntry,
+      {
+        url: `${SITE_URL}/oportunidades`,
+        lastModified: new Date(),
+        changeFrequency: "daily" as const,
+        priority: 0.8,
+      },
+      {
+        url: `${SITE_URL}/metodologia`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.5,
+      },
       ...products.map((product) => ({
         url: `${SITE_URL}${productPath(product.brandKey!, product.modelSlug!)}`,
         lastModified: product.offers[0]?.lastSeenAt ?? product.updatedAt,

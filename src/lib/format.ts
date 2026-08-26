@@ -6,29 +6,35 @@ export function formatPrice(value: number) {
   }).format(value);
 }
 
+function normalizeDateWhitespace(value: string) {
+  // Intl may emit non-breaking spaces in browsers and regular spaces in Node.
+  // Normalize them so server-rendered and hydrated markup stay identical.
+  return value.replace(/\s+/g, " ").trim();
+}
+
 export function formatDate(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
+  return normalizeDateWhitespace(new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
-  }).format(value);
+  }).format(value));
 }
 
 export function formatDateTime(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
+  return normalizeDateWhitespace(new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
-  }).format(value);
+  }).format(value));
 }
 
 export function formatShortDate(value: Date) {
-  return new Intl.DateTimeFormat("es-CL", {
+  return normalizeDateWhitespace(new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
     month: "short",
-  }).format(value);
+  }).format(value));
 }
 
 const NAMED_ENTITIES: Record<string, string> = {

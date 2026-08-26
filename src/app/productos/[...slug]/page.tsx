@@ -28,6 +28,9 @@ import { getVariantName, resolveSelectedVariant } from "@/lib/variant-utils";
 import { ProductImageGallery } from "@/components/product-image-gallery";
 import { StoreComparisonMatrix } from "@/components/store-comparison-matrix";
 import { RelatedProductsCarousel } from "@/components/related-products-carousel";
+import { FavoriteButton } from "@/components/favorite-button";
+import { BasketButton } from "@/components/basket-button";
+import { PriceAlertButton } from "@/components/price-alert-button";
 import { summarizePrices } from "@/lib/price-summary";
 import { getCatalogFreshnessHours } from "@/lib/health";
 import { getCatalogFreshnessLabel, getCatalogFreshnessState } from "@/lib/catalog-freshness";
@@ -338,9 +341,55 @@ export default async function ProductDetail(props: ProductDetailProps) {
               </div>
 
               {/* Product Title */}
-              <h1 className="mt-4 max-w-4xl text-3xl sm:text-5xl lg:text-6xl font-black font-display leading-[0.98] tracking-tight text-slate-900 dark:text-white">
-                {product.name}
-              </h1>
+              <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
+                <h1 className="max-w-4xl text-3xl sm:text-5xl lg:text-6xl font-black font-display leading-[0.98] tracking-tight text-slate-900 dark:text-white">
+                  {product.name}
+                </h1>
+                {product.brandKey && product.modelSlug ? (
+                  <div className="flex flex-wrap gap-2">
+                    <FavoriteButton
+                      compact
+                      item={{
+                        id: product.id,
+                        title: product.name,
+                        href: productPath(product.brandKey, product.modelSlug),
+                        price: minPrice ?? 0,
+                        category: product.category,
+                        brand: product.brand,
+                        storeCount: storesWithPrice.length,
+                        imageUrl: imageUrl ?? null,
+                      }}
+                    />
+                    <BasketButton
+                      compact
+                      item={{
+                        id: product.id,
+                        title: product.name,
+                        href: productPath(product.brandKey, product.modelSlug),
+                        price: minPrice ?? 0,
+                        category: product.category,
+                        brand: product.brand,
+                        storeCount: storesWithPrice.length,
+                        imageUrl: imageUrl ?? null,
+                      }}
+                    />
+                    <PriceAlertButton
+                      compact
+                      item={{
+                        productId: product.id,
+                        title: product.name,
+                        href: productPath(product.brandKey, product.modelSlug),
+                        targetPrice: minPrice ?? 0,
+                        currentPrice: minPrice ?? 0,
+                        category: product.category,
+                        brand: product.brand,
+                        storeCount: storesWithPrice.length,
+                        imageUrl: imageUrl ?? null,
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </div>
 
               {/* Best Price & Savings Callout Hero Box */}
               {minPrice !== undefined ? (

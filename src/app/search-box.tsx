@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
+import { trackAnalytics } from "@/lib/analytics";
 
 const DEBOUNCE_MS = 300;
 
@@ -9,13 +10,30 @@ type SearchBoxProps = {
   query: string;
 };
 
+type SearchSuggestion = {
+  id: string;
+  label: string;
+  detail: string;
+  href: string | null;
+  type: "producto" | "marca" | "categoría";
+};
+
 export function SearchBox({ query }: SearchBoxProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [value, setValue] = useState(query);
   const [isPending, startTransition] = useTransition();
+  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
+  const [suggestionsError, setSuggestionsError] = useState("");
+  const [isSuggestionsLoading, setIsSuggestionsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputValueRef = useRef(value);
+  const suggestionsRef = useRef<SearchSuggestion[]>([]);
+  const suggestionsLoadingRef = useRef(false);
+  const listboxId = `${useId()}-catalog-search-suggestions`;
 
   const urlQuery = searchParams.get("q") ?? "";
 
@@ -33,6 +51,47 @@ export function SearchBox({ query }: SearchBoxProps) {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const normalized = value.trim();
+    if (normalized.length < 2) {
+      suggestionsRef.current = [];
+      suggestionsLoadingRef.current = false;
+      return;
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      suggestionsLoadingRef.current = true;
+      suggestionsRef.current = [];
+      setSuggestions([]);
+      setActiveSuggestionIndex(-1);
+      setSuggestionsError("");
+      setIsSuggestionsLoading(true);
+      try {
+        const response = await fetch(`/api/suggestions?q=${encodeURIComponent(normalized)}`, { signal: controller.signal });
+        if (!response.ok) throw new Error("No se pudieron cargar las sugerencias.");
+        const payload = (await response.json()) as { suggestions?: SearchSuggestion[] };
+        const nextSuggestions = Array.isArray(payload.suggestions) ? payload.suggestions : [];
+        suggestionsRef.current = nextSuggestions;
+        setSuggestions(nextSuggestions);
+        setIsSuggestionsOpen(document.activeElement === inputRef.current);
+      } catch (reason: unknown) {
+        if (!controller.signal.aborted) {
+          setSuggestions([]);
+          setSuggestionsError(reason instanceof Error ? reason.message : "No se pudieron cargar las sugerencias.");
+        }
+      } finally {
+        suggestionsLoadingRef.current = false;
+        if (!controller.signal.aborted) setIsSuggestionsLoading(false);
+      }
+    }, 180);
+
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [value]);
 
   function buildUrl(nextQuery: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -53,15 +112,42 @@ export function SearchBox({ query }: SearchBoxProps) {
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const next = event.target.value;
+    inputValueRef.current = next;
     setValue(next);
+    setIsSuggestionsOpen(true);
+    setActiveSuggestionIndex(-1);
+    setSuggestionsError("");
+    suggestionsRef.current = [];
+    suggestionsLoadingRef.current = next.trim().length >= 2;
+    if (next.trim().length < 2) {
+      setSuggestions([]);
+      setIsSuggestionsLoading(false);
+    }
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      if (next.trim() !== urlQuery) navigate(next.trim(), "replace");
+      // Keep a valid suggestion selection authoritative. While the lookup is
+      // loading (or has results), do not let the debounced query replace race
+      // with the keyboard/click navigation to the selected product.
+      if (
+        next.trim() !== urlQuery &&
+        inputValueRef.current.trim() === next.trim() &&
+        !suggestionsLoadingRef.current &&
+        suggestionsRef.current.length === 0
+      ) {
+        navigate(next.trim(), "replace");
+      }
     }, DEBOUNCE_MS);
   }
 
   function handleClear() {
     setValue("");
+    inputValueRef.current = "";
+    suggestionsRef.current = [];
+    suggestionsLoadingRef.current = false;
+    setSuggestions([]);
+    setSuggestionsError("");
+    setIsSuggestionsOpen(false);
+    setActiveSuggestionIndex(-1);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     if (inputRef.current) inputRef.current.focus();
     navigate("", "replace");
@@ -71,7 +157,52 @@ export function SearchBox({ query }: SearchBoxProps) {
     event.preventDefault();
     if (debounceRef.current) clearTimeout(debounceRef.current);
     const submittedValue = new FormData(event.currentTarget).get("q");
-    navigate(typeof submittedValue === "string" ? submittedValue.trim() : value.trim(), "push");
+    const submittedQuery = typeof submittedValue === "string" ? submittedValue.trim() : value.trim();
+    trackAnalytics("busqueda-enviada", { origen: "portada", tiene_consulta: submittedQuery.length > 0 });
+    setIsSuggestionsOpen(false);
+    navigate(submittedQuery, "push");
+  }
+
+  function selectSuggestion(suggestion: SearchSuggestion) {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    setIsSuggestionsOpen(false);
+    setActiveSuggestionIndex(-1);
+    trackAnalytics("sugerencia-elegida", { tipo: suggestion.type });
+    if (suggestion.href) {
+      startTransition(() => router.push(suggestion.href!, { scroll: true }));
+      return;
+    }
+    setValue(suggestion.label);
+    navigate(suggestion.label, "push");
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Escape") {
+      setIsSuggestionsOpen(false);
+      setActiveSuggestionIndex(-1);
+      return;
+    }
+
+    if (suggestions.length === 0) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setIsSuggestionsOpen(true);
+      setActiveSuggestionIndex((current) => current >= suggestions.length - 1 ? 0 : current + 1);
+      return;
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setIsSuggestionsOpen(true);
+      setActiveSuggestionIndex((current) => current <= 0 ? suggestions.length - 1 : current - 1);
+      return;
+    }
+
+    if (event.key === "Enter" && isSuggestionsOpen && activeSuggestionIndex >= 0) {
+      event.preventDefault();
+      selectSuggestion(suggestions[activeSuggestionIndex]);
+    }
   }
 
   return (
@@ -96,6 +227,19 @@ export function SearchBox({ query }: SearchBoxProps) {
           value={value}
           onChange={handleChange}
           autoComplete="off"
+          aria-label="Buscar productos"
+          aria-activedescendant={isSuggestionsOpen && activeSuggestionIndex >= 0 ? `${listboxId}-option-${activeSuggestionIndex}` : undefined}
+          aria-autocomplete="list"
+          aria-busy={isSuggestionsLoading}
+          aria-controls={listboxId}
+          aria-expanded={isSuggestionsOpen && suggestions.length > 0}
+          role="combobox"
+          onFocus={() => setIsSuggestionsOpen(suggestions.length > 0 || Boolean(suggestionsError))}
+          onBlur={() => {
+            setIsSuggestionsOpen(false);
+            setActiveSuggestionIndex(-1);
+          }}
+          onKeyDown={handleKeyDown}
         />
         {value ? (
           <button
@@ -115,6 +259,27 @@ export function SearchBox({ query }: SearchBoxProps) {
             role="status"
           />
         ) : null}
+        {isSuggestionsOpen && suggestions.length > 0 ? (
+          <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#101016]" id={listboxId} role="listbox">
+            {suggestions.map((suggestion, index) => (
+              <button
+                className={`flex w-full items-start justify-between gap-4 border-b border-slate-100 px-4 py-3 text-left transition last:border-0 dark:border-white/5 ${index === activeSuggestionIndex ? "bg-accent/15 text-slate-950 dark:text-white" : "hover:bg-slate-50 dark:hover:bg-white/5"}`}
+                id={`${listboxId}-option-${index}`}
+                key={suggestion.id}
+                onMouseDown={(event) => event.preventDefault()}
+                onMouseEnter={() => setActiveSuggestionIndex(index)}
+                onClick={() => selectSuggestion(suggestion)}
+                aria-selected={index === activeSuggestionIndex}
+                role="option"
+                type="button"
+              >
+                <span className="min-w-0"><span className="block truncate text-sm font-black text-slate-900 dark:text-white">{suggestion.label}</span><span className="mt-0.5 block truncate text-[10px] font-mono uppercase tracking-wider text-slate-400 dark:text-white/40">{suggestion.detail || "Ver producto"}</span></span>
+                <span className="shrink-0 rounded-md bg-accent/10 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-slate-700 dark:text-accent-text">{suggestion.type}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+        {isSuggestionsOpen && suggestionsError ? <p aria-live="polite" className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-40 rounded-xl border border-amber-500/30 bg-white px-4 py-3 text-xs font-bold text-amber-700 shadow-xl dark:bg-[#101016] dark:text-amber-200">{suggestionsError} Puedes buscar igualmente con Enter.</p> : null}
       </div>
       <button className="min-h-[58px] sm:min-h-[64px] rounded-xl bg-accent px-8 sm:px-10 text-base font-black text-[#070709] transition-all hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_0_25px_rgba(192,255,0,0.4)] active:translate-y-0 uppercase tracking-widest font-mono" type="submit">
         Buscar ofertas

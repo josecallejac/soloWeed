@@ -1,3 +1,5 @@
+import { mkdirSync, renameSync, writeFileSync } from "node:fs";
+import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { load } from "cheerio";
 import { decodeHtmlEntities } from "../src/lib/format";
@@ -14,7 +16,7 @@ export type StoreConfig = {
   seedUrls?: string[];
 };
 
-type ScrapedOffer = {
+export type ScrapedOffer = {
   url: string;
   sourceId?: string;
   sku?: string;
@@ -34,6 +36,13 @@ type ScrapedOffer = {
   availability?: string;
 };
 
+export type ScrapeMode = "discover" | "weekly";
+
+export type ScrapeRunOptions = {
+  mode?: ScrapeMode;
+  storeSlugs?: string[];
+};
+
 // El límite representa fichas/páginas visitadas, no ofertas. En Jumpseller una
 // sola ficha puede producir muchas variantes y antes consumía todo el cupo.
 const MAX_PAGES_PER_STORE = Number(process.env.SCRAPE_LIMIT_PER_STORE ?? 35);
@@ -41,6 +50,15 @@ const MAX_CANDIDATES_PER_STORE = MAX_PAGES_PER_STORE * 12;
 const MAX_DISCOVERY_PAGES_PER_STORE = Math.max(20, MAX_PAGES_PER_STORE * 2);
 const REQUEST_DELAY_MS = Number(process.env.SCRAPE_DELAY_MS ?? 350);
 const REQUEST_TIMEOUT_MS = Number(process.env.SCRAPE_TIMEOUT_MS ?? 20_000);
+const REFRESH_LIMIT = Number(process.env.REFRESH_LIMIT ?? 0);
+const configuredStoreConcurrency = Number(process.env.SCRAPE_STORE_CONCURRENCY ?? 3);
+export const STORE_CONCURRENCY = Number.isFinite(configuredStoreConcurrency)
+  ? Math.max(1, Math.min(6, Math.floor(configuredStoreConcurrency)))
+  : 3;
+const configuredSaveBatchSize = Number(process.env.SCRAPE_SAVE_BATCH_SIZE ?? 100);
+export const SAVE_BATCH_SIZE = Number.isFinite(configuredSaveBatchSize)
+  ? Math.max(1, Math.min(500, Math.floor(configuredSaveBatchSize)))
+  : 100;
 const STORE_FILTER = new Set(
   (process.env.SCRAPE_STORES ?? "")
     .split(",")
@@ -816,85 +834,92 @@ const VAPE_ACCESSORY_TERMS = [
 
 const VAPORIZER_REPLACEMENT_CATEGORY = "Repuestos para bongs y vaporizadores";
 
-async function main() {
+type FetchContext = {
+  cache: Map<string, Promise<string>>;
+  requests: number;
+  cacheHits: number;
+  requestErrors: number;
+  requestMs: number;
+};
+
+type PageWork = {
+  pageUrl: string;
+  discover: boolean;
+  refreshOfferIds: number[];
+  refreshOfferUrls: Set<string>;
+};
+
+type StoreRunResult = {
+  ok: boolean;
+  store: string;
+  candidates?: number;
+  processedPages?: number;
+  saved?: number;
+  skipped?: number;
+  failed?: number;
+  gone?: number;
+  reclassified?: number;
+  saveBatches?: number;
+  requests?: number;
+  cacheHits?: number;
+  requestMs?: number;
+  requestErrors?: number;
+  elapsedMs?: number;
+};
+
+function createFetchContext(): FetchContext {
+  return { cache: new Map(), requests: 0, cacheHits: 0, requestErrors: 0, requestMs: 0 };
+}
+
+async function fetchCachedText(context: FetchContext, url: string) {
+  const key = normalizeUrl(url, url) ?? url;
+  const cached = context.cache.get(key);
+
+  if (cached) {
+    context.cacheHits += 1;
+    return cached;
+  }
+
+  const startedAt = Date.now();
+  context.requests += 1;
+  const request = fetchText(url)
+    .catch((error) => {
+      context.requestErrors += 1;
+      context.cache.delete(key);
+      throw error;
+    })
+    .finally(() => {
+      context.requestMs += Date.now() - startedAt;
+    });
+  context.cache.set(key, request);
+  return request;
+}
+
+export async function runScrape(options: ScrapeRunOptions = {}) {
+  const runStartedAt = new Date();
+  const mode = options.mode ?? "discover";
+  const requestedStores = options.storeSlugs?.length
+    ? new Set(options.storeSlugs.map((value) => value.trim().toLowerCase()).filter(Boolean))
+    : new Set([...STORE_FILTER].map((value) => value.toLowerCase()));
+  const storesToScrape = requestedStores.size
+    ? STORES.filter((store) => requestedStores.has(store.slug.toLowerCase()) || requestedStores.has(store.name.toLowerCase()))
+    : STORES;
+
   if (CATEGORY_FILTER.size > 0) {
     console.log(`SoloWeed scraper: filtering categories: ${[...CATEGORY_FILTER].join(", ")}.`);
   } else {
     console.log(`SoloWeed scraper: up to ${MAX_PAGES_PER_STORE} product pages per store.`);
   }
+  console.log(`SoloWeed scraper: mode=${mode}, store concurrency=${STORE_CONCURRENCY}.`);
 
-  const storesToScrape = STORE_FILTER.size
-    ? STORES.filter((store) => STORE_FILTER.has(store.slug) || STORE_FILTER.has(store.name))
-    : STORES;
-
-  for (const storeConfig of storesToScrape) {
-    const store = await prisma.store.upsert({
-      where: { slug: storeConfig.slug },
-      update: {
-        name: storeConfig.name,
-        baseUrl: storeConfig.baseUrl,
-        platform: storeConfig.platform,
-        enabled: true,
-      },
-      create: {
-        slug: storeConfig.slug,
-        name: storeConfig.name,
-        baseUrl: storeConfig.baseUrl,
-        platform: storeConfig.platform,
-      },
-    });
-
-    await cleanupStaleOffers(store.id, storeConfig);
-
-    const candidates = await prioritizeComparableCandidates(await collectCandidateUrls(storeConfig), store.id);
-    console.log(`${storeConfig.name}: ${candidates.length} candidate URLs.`);
-
-    let saved = 0;
-    let skipped = 0;
-    let failed = 0;
-    let processedPages = 0;
-
-    for (const url of candidates) {
-      if (processedPages >= MAX_PAGES_PER_STORE) {
-        break;
-      }
-
-      processedPages += 1;
-      await delay(REQUEST_DELAY_MS);
-
-      try {
-        const html = await fetchText(url);
-        const offers = extractOffer(html, url);
-
-        if (!offers || offers.length === 0) {
-          skipped += 1;
-          continue;
-        }
-
-        for (const offer of offers) {
-          if (CATEGORY_FILTER.size > 0 && !CATEGORY_FILTER.has(offer.category)) {
-            skipped += 1;
-            continue;
-          }
-
-          await saveOffer(store.id, offer);
-          saved += 1;
-        }
-      } catch (error) {
-        failed += 1;
-        console.warn(`${storeConfig.name}: failed ${url} - ${getErrorMessage(error)}`);
-      }
+  const results = await mapWithConcurrency(storesToScrape, STORE_CONCURRENCY, async (storeConfig) => {
+    try {
+      return await processStore(storeConfig, mode);
+    } catch (error) {
+      console.error(`${storeConfig.name}: fatal scraper error - ${getErrorMessage(error)}`);
+      return { ok: false, store: storeConfig.name } satisfies StoreRunResult;
     }
-
-    const repaired = await reclassifyExistingOffers(store.id);
-
-    if (repaired > 0) {
-      console.log(`${storeConfig.name}: reclassified ${repaired} existing offers.`);
-    }
-
-    console.log(`${storeConfig.name}: processed ${processedPages} product pages.`);
-    console.log(`${storeConfig.name}: saved ${saved}, skipped ${skipped}, failed ${failed}.`);
-  }
+  });
 
   const deletedProducts = await cleanupOrphanProducts();
 
@@ -905,11 +930,226 @@ async function main() {
   const offerCount = await prisma.offer.count();
   const productCount = await prisma.product.count();
   console.log(`Done. ${productCount} grouped products and ${offerCount} offers in DB.`);
+
+  writeRunSummary({
+    startedAt: runStartedAt.toISOString(),
+    finishedAt: new Date().toISOString(),
+    mode,
+    stores: results,
+    totals: { products: productCount, offers: offerCount },
+  });
+
+  const failedStores = results.filter((result) => !result.ok).map((result) => result.store);
+  if (failedStores.length > 0) {
+    throw new Error(`Scraper failed for stores: ${failedStores.join(", ")}`);
+  }
 }
 
-async function collectCandidateUrls(store: StoreConfig) {
+async function processStore(storeConfig: StoreConfig, mode: ScrapeMode): Promise<StoreRunResult> {
+  const startedAt = Date.now();
+  const store = await prisma.store.upsert({
+    where: { slug: storeConfig.slug },
+    update: {
+      name: storeConfig.name,
+      baseUrl: storeConfig.baseUrl,
+      platform: storeConfig.platform,
+      enabled: true,
+    },
+    create: {
+      slug: storeConfig.slug,
+      name: storeConfig.name,
+      baseUrl: storeConfig.baseUrl,
+      platform: storeConfig.platform,
+    },
+  });
+
+  await cleanupStaleOffers(store.id, storeConfig);
+
+  const fetchContext = createFetchContext();
+  const candidates = await prioritizeComparableCandidates(
+    await collectCandidateUrls(storeConfig, fetchContext),
+    store.id,
+  );
+  console.log(`${storeConfig.name}: ${candidates.length} candidate URLs.`);
+
+  const works = mode === "weekly"
+    ? await buildWeeklyPageWorks(store.id, candidates)
+    : candidates.slice(0, MAX_PAGES_PER_STORE).map((url) => ({
+        pageUrl: basePageUrl(url),
+        discover: true,
+        refreshOfferIds: [],
+        refreshOfferUrls: new Set<string>(),
+      }));
+
+  let saved = 0;
+  let skipped = 0;
+  let failed = 0;
+  let processedPages = 0;
+  let gone = 0;
+  let saveBatches = 0;
+  const pendingOffers: ScrapedOffer[] = [];
+
+  const flushPendingOffers = async () => {
+    if (pendingOffers.length === 0) {
+      return;
+    }
+
+    const batch = pendingOffers.splice(0, pendingOffers.length);
+    await saveOffers(store.id, batch);
+    saveBatches += 1;
+    saved += batch.length;
+  };
+
+  for (const work of works) {
+    processedPages += 1;
+    await delay(REQUEST_DELAY_MS);
+
+    try {
+      const html = await fetchCachedText(fetchContext, work.pageUrl);
+      const offers = extractOffer(html, work.pageUrl);
+
+      if (!offers || offers.length === 0) {
+        if (work.refreshOfferIds.length > 0 && hasSoftRedirect(html, work.pageUrl)) {
+          gone += await markOffersOutOfStock(work.refreshOfferIds);
+          console.warn(`${storeConfig.name}: soft-redirect, marked ${work.refreshOfferIds.length} linked offers out of stock: ${work.pageUrl}`);
+        } else {
+          skipped += 1;
+        }
+        continue;
+      }
+
+      let selectedOffers = work.discover
+        ? offers
+        : offers.filter((offer) => work.refreshOfferUrls.has(offer.url));
+
+      if (!work.discover && work.refreshOfferUrls.has(work.pageUrl) && !offers.some((offer) => offer.url === work.pageUrl)) {
+        const baseOnly = extractOffer(html, work.pageUrl, { includeVariants: false });
+        selectedOffers = baseOnly?.filter((offer) => work.refreshOfferUrls.has(offer.url)) ?? selectedOffers;
+      }
+
+      if (CATEGORY_FILTER.size > 0) {
+        selectedOffers = selectedOffers.filter((offer) => CATEGORY_FILTER.has(offer.category));
+      }
+
+      if (selectedOffers.length > 0) {
+        pendingOffers.push(...selectedOffers);
+      } else {
+        skipped += 1;
+      }
+    } catch (error) {
+      const message = getErrorMessage(error);
+      if (work.refreshOfferIds.length > 0 && /HTTP (404|410)/.test(message)) {
+        gone += await markOffersOutOfStock(work.refreshOfferIds);
+      }
+      failed += 1;
+      console.warn(`${storeConfig.name}: failed ${work.pageUrl} - ${message}`);
+    }
+
+    if (pendingOffers.length >= SAVE_BATCH_SIZE) {
+      await flushPendingOffers();
+    }
+  }
+
+  await flushPendingOffers();
+
+  const repaired = await reclassifyExistingOffers(store.id);
+
+  if (repaired > 0) {
+    console.log(`${storeConfig.name}: reclassified ${repaired} existing offers.`);
+  }
+
+  console.log(`${storeConfig.name}: processed ${processedPages} product pages.`);
+  console.log(`${storeConfig.name}: saved ${saved}, skipped ${skipped}, failed ${failed}.`);
+  console.log(`${storeConfig.name}: save_batches=${saveBatches}, save_batch_size=${SAVE_BATCH_SIZE}.`);
+  console.log(
+    `${storeConfig.name}: requests=${fetchContext.requests}, cache_hits=${fetchContext.cacheHits}, ` +
+      `request_errors=${fetchContext.requestErrors}, request_ms=${fetchContext.requestMs}, ` +
+      `gone=${gone}, elapsed_ms=${Date.now() - startedAt}.`,
+  );
+
+  return {
+    ok: true,
+    store: storeConfig.name,
+    candidates: candidates.length,
+    processedPages,
+    saved,
+    skipped,
+    failed,
+    gone,
+    reclassified: repaired,
+    saveBatches,
+    requests: fetchContext.requests,
+    cacheHits: fetchContext.cacheHits,
+    requestErrors: fetchContext.requestErrors,
+    requestMs: fetchContext.requestMs,
+    elapsedMs: Date.now() - startedAt,
+  };
+}
+
+async function buildWeeklyPageWorks(storeId: number, candidates: string[]) {
+  const works = new Map<string, PageWork>();
+
+  for (const candidate of candidates.slice(0, MAX_PAGES_PER_STORE)) {
+    const pageUrl = basePageUrl(candidate);
+    const current = works.get(pageUrl);
+    if (current) {
+      current.discover = true;
+    } else {
+      works.set(pageUrl, {
+        pageUrl,
+        discover: true,
+        refreshOfferIds: [],
+        refreshOfferUrls: new Set<string>(),
+      });
+    }
+  }
+
+  const staleHours = Number(process.env.REFRESH_STALE_HOURS ?? 0);
+  const linkedOffers = await prisma.offer.findMany({
+    where: {
+      storeId,
+      productId: { not: null },
+      ...(staleHours > 0
+        ? { lastSeenAt: { lt: new Date(Date.now() - staleHours * 3600_000) } }
+        : {}),
+    },
+    select: { id: true, url: true },
+    orderBy: { url: "asc" },
+  });
+
+  let refreshPages = 0;
+  for (const offer of linkedOffers) {
+    const pageUrl = basePageUrl(offer.url);
+    const current = works.get(pageUrl);
+    if (!current && REFRESH_LIMIT > 0 && refreshPages >= REFRESH_LIMIT) {
+      continue;
+    }
+    const pageWork = current ?? {
+      pageUrl,
+      discover: false,
+      refreshOfferIds: [],
+      refreshOfferUrls: new Set<string>(),
+    };
+    pageWork.refreshOfferIds.push(offer.id);
+    pageWork.refreshOfferUrls.add(offer.url);
+    if (!current) {
+      refreshPages += 1;
+    }
+    works.set(pageUrl, pageWork);
+  }
+
+  return [...works.values()];
+}
+
+async function collectCandidateUrls(store: StoreConfig, fetchContext?: FetchContext) {
   const buckets: string[][] = [];
   const discoveryUrls = new Set<string>();
+  const fetchPage = fetchContext
+    ? (url: string) => fetchCachedText(fetchContext, url)
+    : fetchText;
+  const configuredCategoryUrls = new Set(
+    store.categoryUrls.map((url) => normalizeUrl(url, store.baseUrl) ?? url),
+  );
   const seedCandidates = sortCandidateUrls(
     (store.seedUrls ?? []).filter((url) => isAllowedUrl(url, store.baseUrl) && isLikelyProductUrl(url) && isPotentialCandidate(url)),
   );
@@ -921,7 +1161,7 @@ async function collectCandidateUrls(store: StoreConfig) {
   for (const categoryUrl of store.categoryUrls) {
     try {
       await delay(REQUEST_DELAY_MS);
-      const html = await fetchText(categoryUrl);
+      const html = await fetchPage(categoryUrl);
       const links = extractLinks(html, categoryUrl, store.baseUrl);
       const discoveryLinks = extractDiscoveryLinks(html, categoryUrl, store.baseUrl);
 
@@ -930,7 +1170,9 @@ async function collectCandidateUrls(store: StoreConfig) {
       }
 
       for (const link of discoveryLinks) {
-        discoveryUrls.add(link);
+        if (!configuredCategoryUrls.has(link)) {
+          discoveryUrls.add(link);
+        }
       }
     } catch (error) {
       console.warn(`${store.name}: category failed ${categoryUrl} - ${getErrorMessage(error)}`);
@@ -940,7 +1182,7 @@ async function collectCandidateUrls(store: StoreConfig) {
   for (const discoveryUrl of Array.from(discoveryUrls).slice(0, MAX_DISCOVERY_PAGES_PER_STORE)) {
     try {
       await delay(REQUEST_DELAY_MS);
-      const html = await fetchText(discoveryUrl);
+      const html = await fetchPage(discoveryUrl);
       const links = extractLinks(html, discoveryUrl, store.baseUrl);
 
       if (links.length > 0) {
@@ -953,7 +1195,7 @@ async function collectCandidateUrls(store: StoreConfig) {
 
   for (const sitemapUrl of store.sitemapUrls) {
     try {
-      const urls = await fetchSitemapUrls(sitemapUrl);
+      const urls = await fetchSitemapUrls(sitemapUrl, 0, fetchPage);
       const sitemapCandidates = sortCandidateUrls(
         urls.filter((url) => isAllowedUrl(url, store.baseUrl) && isLikelyProductUrl(url) && isPotentialCandidate(url)),
       );
@@ -977,9 +1219,21 @@ async function cleanupStaleOffers(storeId: number, store: StoreConfig) {
     return;
   }
 
+  const linkedOffers = await prisma.offer.findMany({
+    where: { storeId, productId: { not: null } },
+    select: {
+      id: true,
+      product: { select: { offers: { select: { storeId: true } } } },
+    },
+  });
+  const protectedOfferIds = linkedOffers
+    .filter((offer) => new Set(offer.product?.offers.map((linked) => linked.storeId) ?? []).size >= 4)
+    .map((offer) => offer.id);
+
   await prisma.offer.deleteMany({
     where: {
       storeId,
+      ...(protectedOfferIds.length > 0 ? { id: { notIn: protectedOfferIds } } : {}),
       NOT: {
         url: {
           endsWith: ".html",
@@ -990,7 +1244,8 @@ async function cleanupStaleOffers(storeId: number, store: StoreConfig) {
 }
 
 async function prioritizeComparableCandidates(candidates: string[], storeId: number) {
-  const knownOffers = await prisma.offer.findMany({
+  const [knownOffers, currentOffers] = await Promise.all([
+    prisma.offer.findMany({
     where: {
       NOT: {
         storeId,
@@ -999,8 +1254,14 @@ async function prioritizeComparableCandidates(candidates: string[], storeId: num
     select: {
       url: true,
     },
-  });
+    }),
+    prisma.offer.findMany({
+      where: { storeId },
+      select: { url: true },
+    }),
+  ]);
   const knownFamilies = new Set(knownOffers.map((offer) => getCandidateFamilyKey(offer.url)));
+  const knownCurrentPages = new Set(currentOffers.map((offer) => basePageUrl(offer.url)));
 
   let filtered = candidates;
 
@@ -1021,6 +1282,12 @@ async function prioritizeComparableCandidates(candidates: string[], storeId: num
 
     if (seedPriority !== 0) {
       return seedPriority;
+    }
+
+    const unseenPriority = Number(!knownCurrentPages.has(basePageUrl(second))) - Number(!knownCurrentPages.has(basePageUrl(first)));
+
+    if (unseenPriority !== 0) {
+      return unseenPriority;
     }
 
     const categoryPriority = getCandidateCategoryPriority(second) - getCandidateCategoryPriority(first);
@@ -1055,8 +1322,17 @@ function getCandidateCategoryPriority(value: string) {
 }
 
 async function reclassifyExistingOffers(storeId: number) {
-  const offers = await prisma.offer.findMany({ where: { storeId } });
-  let repaired = 0;
+  const offers = await prisma.offer.findMany({
+    where: { storeId },
+    include: { product: { select: { category: true } } },
+  });
+  const repairs: Array<{
+    id: number;
+    category: string;
+    brand: string | null;
+    brandKey: string | null;
+    normalizedTitle: string;
+  }> = [];
 
   for (const offer of offers) {
     const category = classifyProduct(offer.title, offer.url, offer.sourceCategory ?? undefined);
@@ -1066,34 +1342,46 @@ async function reclassifyExistingOffers(storeId: number) {
       offer.description,
     );
 
-    const currentBrandKey = (offer as { brandKey?: string | null }).brandKey ?? undefined;
+    const currentBrand = offer.brand ?? null;
+    const currentBrandKey = (offer as { brandKey?: string | null }).brandKey ?? null;
 
-    if (!category || (category === offer.category && brand === offer.brand && brandKey === currentBrandKey)) {
+    if (!category) {
       continue;
     }
 
-    await saveOffer(storeId, {
-      url: offer.url,
-      sourceId: offer.sourceId ?? undefined,
-      title: offer.title,
-      normalizedTitle: normalizeForSearch(offer.title),
-      brand: brand ?? undefined,
-      brandKey: brandKey ?? undefined,
-      category,
-      sourceCategory: offer.sourceCategory ?? undefined,
-      description: offer.description ?? undefined,
-      imageUrl: offer.imageUrl ?? undefined,
-      price: offer.price,
-      originalPrice: offer.originalPrice ?? undefined,
-      currency: offer.currency,
-      inStock: offer.inStock,
-      availability: offer.availability ?? undefined,
-    });
+    const categoryToSave = offer.product?.category ?? category;
 
-    repaired += 1;
+    const targetBrand = brand ?? null;
+    const targetBrandKey = brandKey ?? null;
+
+    if (categoryToSave === offer.category && targetBrand === currentBrand && targetBrandKey === currentBrandKey) {
+      continue;
+    }
+
+    repairs.push({
+      id: offer.id,
+      category: categoryToSave,
+      brand: targetBrand,
+      brandKey: targetBrandKey,
+      normalizedTitle: normalizeForSearch(offer.title),
+    });
   }
 
-  return repaired;
+  if (repairs.length > 0) {
+    await prisma.$transaction(
+      repairs.map((repair) => prisma.offer.update({
+        where: { id: repair.id },
+        data: {
+          category: repair.category,
+          brand: repair.brand,
+          brandKey: repair.brandKey,
+          normalizedTitle: repair.normalizedTitle,
+        },
+      })),
+    );
+  }
+
+  return repairs.length;
 }
 
 async function cleanupOrphanProducts() {
@@ -1106,6 +1394,48 @@ async function cleanupOrphanProducts() {
   });
 
   return result.count;
+}
+
+export async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  task: (item: T, index: number) => Promise<R>,
+) {
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+  const workerCount = Math.max(1, Math.min(items.length || 1, Math.floor(concurrency) || 1));
+
+  async function worker() {
+    while (true) {
+      const index = nextIndex;
+      nextIndex += 1;
+
+      if (index >= items.length) {
+        return;
+      }
+
+      results[index] = await task(items[index], index);
+    }
+  }
+
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+  return results;
+}
+
+function writeRunSummary(summary: Record<string, unknown>) {
+  const runDir = process.env.SCRAPE_RUN_DIR?.trim() || path.join(process.cwd(), "reports", "scrape-runs");
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const target = path.join(runDir, `scrape-${stamp}.json`);
+  const temporary = `${target}.tmp`;
+
+  try {
+    mkdirSync(runDir, { recursive: true });
+    writeFileSync(temporary, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
+    renameSync(temporary, target);
+    console.log(`Run summary: ${target}`);
+  } catch (error) {
+    console.warn(`Run summary unavailable: ${getErrorMessage(error)}`);
+  }
 }
 
 function interleaveBuckets(buckets: string[][], maxItems: number) {
@@ -1194,12 +1524,16 @@ function sortBucketsByPriority(buckets: string[][]) {
   });
 }
 
-export async function fetchSitemapUrls(sitemapUrl: string, depth = 0): Promise<string[]> {
+export async function fetchSitemapUrls(
+  sitemapUrl: string,
+  depth = 0,
+  fetchPage: (url: string) => Promise<string> = fetchText,
+): Promise<string[]> {
   if (depth > 2) {
     return [];
   }
 
-  const xml = await fetchText(sitemapUrl);
+  const xml = await fetchPage(sitemapUrl);
   const locs = Array.from(xml.matchAll(/<loc>(.*?)<\/loc>/gi)).map((match) => decodeXml(match[1]));
   const childSitemaps = locs.filter((loc) => loc.endsWith(".xml"));
 
@@ -1211,7 +1545,7 @@ export async function fetchSitemapUrls(sitemapUrl: string, depth = 0): Promise<s
 
   for (const child of childSitemaps) {
     await delay(REQUEST_DELAY_MS);
-    urls.push(...(await fetchSitemapUrls(child, depth + 1)));
+    urls.push(...(await fetchSitemapUrls(child, depth + 1, fetchPage)));
   }
 
   return urls;
@@ -1755,9 +2089,121 @@ function extractIdentifiers(html: string, product: Record<string, unknown> | nul
   return { sku: sku || undefined, ean: ean || undefined };
 }
 
+export async function saveOffers(storeId: number, offers: ScrapedOffer[]) {
+  const uniqueOffers = [...new Map(offers.map((offer) => [offer.url, offer])).values()];
+  if (uniqueOffers.length === 0) {
+    return;
+  }
+
+  const existing = await prisma.offer.findMany({
+    where: { url: { in: uniqueOffers.map((offer) => offer.url) } },
+    include: {
+      product: { select: { category: true } },
+      histories: {
+        orderBy: { recordedAt: "desc" },
+        take: 1,
+      },
+    },
+  });
+  const existingByUrl = new Map(existing.map((offer) => [offer.url, offer]));
+  const observedAt = new Date();
+
+  const upserts = uniqueOffers.map((offer) => {
+    const current = existingByUrl.get(offer.url);
+    const categoryToSave = current?.product?.category ?? offer.category;
+    const originalPrice = offer.originalPrice ?? null;
+
+    return prisma.offer.upsert({
+      where: { url: offer.url },
+      update: {
+        storeId,
+        sourceId: offer.sourceId,
+        sku: offer.sku,
+        ean: offer.ean,
+        title: offer.title,
+        normalizedTitle: offer.normalizedTitle,
+        brand: offer.brand,
+        brandKey: offer.brandKey ?? null,
+        category: categoryToSave,
+        sourceCategory: offer.sourceCategory,
+        description: offer.description,
+        imageUrl: offer.imageUrl,
+        price: offer.price,
+        originalPrice,
+        currency: offer.currency,
+        inStock: offer.inStock,
+        availability: offer.availability,
+        lastSeenAt: observedAt,
+      },
+      create: {
+        storeId,
+        productId: null,
+        url: offer.url,
+        sourceId: offer.sourceId,
+        sku: offer.sku,
+        ean: offer.ean,
+        title: offer.title,
+        normalizedTitle: offer.normalizedTitle,
+        brand: offer.brand,
+        brandKey: offer.brandKey ?? null,
+        category: categoryToSave,
+        sourceCategory: offer.sourceCategory,
+        description: offer.description,
+        imageUrl: offer.imageUrl,
+        price: offer.price,
+        originalPrice,
+        currency: offer.currency,
+        inStock: offer.inStock,
+        availability: offer.availability,
+        lastSeenAt: observedAt,
+      },
+    });
+  });
+
+  const saved = await prisma.$transaction(upserts);
+  const savedByUrl = new Map(saved.map((offer) => [offer.url, offer]));
+  const historyRows = uniqueOffers.flatMap((offer) => {
+    const current = existingByUrl.get(offer.url);
+    const latest = current?.histories[0];
+    const originalPrice = offer.originalPrice ?? null;
+    const changed =
+      !latest ||
+      latest.price !== offer.price ||
+      (latest.originalPrice ?? null) !== originalPrice ||
+      latest.inStock !== offer.inStock;
+
+    if (!changed) {
+      return [];
+    }
+
+    const savedOffer = savedByUrl.get(offer.url);
+    return savedOffer
+      ? [{
+          offerId: savedOffer.id,
+          price: offer.price,
+          originalPrice,
+          inStock: offer.inStock,
+        }]
+      : [];
+  });
+
+  if (historyRows.length > 0) {
+    await prisma.priceHistory.createMany({ data: historyRows });
+  }
+}
+
 export async function saveOffer(storeId: number, offer: ScrapedOffer) {
-  const existing = await prisma.offer.findUnique({
-    where: { url: offer.url },
+  await saveOffers(storeId, [offer]);
+}
+
+export async function markOffersOutOfStock(offerIds: number[]) {
+  const uniqueIds = [...new Set(offerIds)];
+  if (uniqueIds.length === 0) {
+    return 0;
+  }
+
+  const offers = await prisma.offer.findMany({
+    where: { id: { in: uniqueIds } },
     include: {
       histories: {
         orderBy: { recordedAt: "desc" },
@@ -1765,77 +2211,28 @@ export async function saveOffer(storeId: number, offer: ScrapedOffer) {
       },
     },
   });
-
-  const categoryToSave = existing?.productId
-    ? (await prisma.product.findUnique({ where: { id: existing.productId } }))?.category ?? offer.category
-    : offer.category;
-
-  const saved = await prisma.offer.upsert({
-    where: { url: offer.url },
-    update: {
-      storeId,
-      sourceId: offer.sourceId,
-      sku: offer.sku,
-      ean: offer.ean,
-      title: offer.title,
-      normalizedTitle: offer.normalizedTitle,
-      brand: offer.brand,
-      category: categoryToSave,
-      sourceCategory: offer.sourceCategory,
-      description: offer.description,
-      imageUrl: offer.imageUrl,
-      price: offer.price,
-      originalPrice: offer.originalPrice,
-      currency: offer.currency,
-      inStock: offer.inStock,
-      availability: offer.availability,
-      lastSeenAt: new Date(),
-    },
-    create: {
-      storeId,
-      productId: null,
-      url: offer.url,
-      sourceId: offer.sourceId,
-      sku: offer.sku,
-      ean: offer.ean,
-      title: offer.title,
-      normalizedTitle: offer.normalizedTitle,
-      brand: offer.brand,
-      category: categoryToSave,
-      sourceCategory: offer.sourceCategory,
-      description: offer.description,
-      imageUrl: offer.imageUrl,
-      price: offer.price,
-      originalPrice: offer.originalPrice,
-      currency: offer.currency,
-      inStock: offer.inStock,
-      availability: offer.availability,
-    },
-  });
-
-  await prisma.$executeRaw`
-    UPDATE "Offer"
-    SET "brandKey" = ${offer.brandKey ?? null}
-    WHERE "id" = ${saved.id}
-  `;
-
-  const latest = existing?.histories[0];
-  const changed =
-    !latest ||
-    latest.price !== offer.price ||
-    latest.originalPrice !== offer.originalPrice ||
-    latest.inStock !== offer.inStock;
-
-  if (changed) {
-    await prisma.priceHistory.create({
-      data: {
-        offerId: saved.id,
-        price: offer.price,
-        originalPrice: offer.originalPrice,
-        inStock: offer.inStock,
-      },
-    });
+  const active = offers.filter((offer) => offer.inStock);
+  if (active.length === 0) {
+    return 0;
   }
+
+  await prisma.$transaction(
+    active.map((offer) => prisma.offer.update({ where: { id: offer.id }, data: { inStock: false } })),
+  );
+
+  const historyRows = active
+    .filter((offer) => !offer.histories[0] || offer.histories[0].inStock)
+    .map((offer) => ({
+      offerId: offer.id,
+      price: offer.price,
+      originalPrice: offer.originalPrice,
+      inStock: false,
+    }));
+  if (historyRows.length > 0) {
+    await prisma.priceHistory.createMany({ data: historyRows });
+  }
+
+  return active.length;
 }
 
 function extractJsonLdProduct($: ReturnType<typeof load>): Record<string, unknown> | null {
@@ -2562,6 +2959,25 @@ function escapeRegex(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+export function basePageUrl(offerUrl: string) {
+  return offerUrl.split("?variant=")[0];
+}
+
+function hasSoftRedirect(html: string, pageUrl: string) {
+  const canonical = load(html)("link[rel='canonical']").attr("href");
+  if (!canonical) {
+    return false;
+  }
+
+  try {
+    const requestedPath = new URL(pageUrl).pathname.replace(/\/$/, "");
+    const canonicalPath = new URL(canonical, pageUrl).pathname.replace(/\/$/, "");
+    return requestedPath !== canonicalPath;
+  } catch {
+    return false;
+  }
+}
+
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -2577,7 +2993,7 @@ const isDirectRun = process.argv[1]
   : false;
 
 if (isDirectRun) {
-  main()
+  runScrape()
     .catch((error) => {
       console.error(error);
       process.exitCode = 1;

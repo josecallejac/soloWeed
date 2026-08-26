@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export const ALERT_WINDOW_DAYS = 14;
-export const DATA_FRESHNESS_DAYS = 3;
+export const DATA_FRESHNESS_DAYS = 8;
 // Pares con ratio de precio mayor a esto son casi siempre un repuesto/variante
 // capturado como precio mínimo, no una diferencia real: van a "Revisar" y fuera del resumen.
 export const OUTLIER_RATIO = 2;

@@ -39,9 +39,10 @@ los steps por el estado de facturación de GitHub. No se considera una regresió
 de código; el resultado de la nueva release debe comprobarse cuando GitHub
 permita iniciar CI. La producción conserva la release actualmente desplegada
 hasta que se confirme un backup y se ejecute `deploy.sh` con una SHA explícita.
-El `.env` ignorado de este checkout contiene una URL externa heredada de Railway;
-`prebuild` la bloquea para evitar consultas accidentales. No se modificaron
-credenciales ni se intentó migrar esa base.
+El `.env` ignorado de este checkout apunta al PostgreSQL del servidor casero;
+las credenciales permanecen fuera de Git. `prebuild` bloquea URLs externas
+heredadas de Railway para evitar consultas accidentales. No se modificó la base
+ni se ejecutó una migración.
 
 ## Regeneración
 

@@ -54,7 +54,7 @@ nombre del volumen existente para evitar levantar una base vacía por accidente.
 - Healthcheck de aplicación, PostgreSQL y frescura del catálogo: `GET /api/health`
   responde `200` cuando incluye `{ "ok": true, "database": "ok", "catalog": "fresh" }`.
   Responde `503` si la base no está disponible, el catálogo está vacío o alguna tienda
-  activa no tiene ofertas vistas dentro de `CATALOG_FRESHNESS_HOURS` (72 por defecto).
+  activa no tiene ofertas vistas dentro de `CATALOG_FRESHNESS_HOURS` (192 por defecto, una ventana semanal con margen).
   También informa `release.sha` y `release.builtAt` para distinguir el código local,
   CI y la imagen realmente desplegada.
 - `npm run test` ejecuta pruebas unitarias sin acceder a producción.
@@ -80,6 +80,12 @@ El scraper usa sitemaps y paginas publicas de categorias, evitando rutas de carr
 
 ```bash
 npm run scrape
+```
+
+Para la corrida semanal combinada (descubrimiento + refresco de precios):
+
+```bash
+npm run catalog:weekly
 ```
 
 Variables opcionales:

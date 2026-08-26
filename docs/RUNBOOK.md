@@ -235,7 +235,7 @@ Usa el monitor anterior para alertar y define cualquier reinicio automático de
 forma explícita en la operación del servidor.
 
 `CATALOG_FRESHNESS_HOURS` controla la frescura exigida por `/api/health`; por defecto
-son 72 horas. Un healthcheck con PostgreSQL disponible pero con una tienda activa sin
+son 192 horas. Un healthcheck con PostgreSQL disponible pero con una tienda activa sin
 ofertas recientes responde `503` para que el monitor no confunda una base viva con un
 catálogo actualizado.
 
@@ -291,6 +291,30 @@ Variables utiles:
 - `SCRAPE_DELAY_MS`: pausa entre requests.
 - `SCRAPE_TIMEOUT_MS`: timeout de requests.
 - `SCRAPE_STORES`: filtra tiendas por slug/configuracion.
+- `SCRAPE_STORE_CONCURRENCY`: tiendas simultáneas (3 por defecto, máximo 6).
+- `SCRAPE_SAVE_BATCH_SIZE`: ofertas por lote de persistencia (100 por defecto).
+
+## Catálogo semanal combinado
+
+`npm run catalog:weekly` combina el descubrimiento y el refresco de ofertas
+vinculadas. Mantiene una petición activa por tienda y procesa hasta tres tiendas
+en paralelo; `REFRESH_LIMIT` puede limitar páginas de refresco para una prueba.
+
+```bash
+SCRAPE_STORE_CONCURRENCY=3 npm run catalog:weekly
+```
+
+En el servidor casero se ejecuta desde el checkout del host, no dentro de la
+imagen web (la imagen productiva no incluye `tsx` ni los scripts de operación):
+
+```cron
+CRON_TZ=America/Santiago
+0 11 * * 1 bash /ruta/soloWeed/scripts/ops/run-weekly-catalog.sh
+```
+
+El runner usa `flock`, crea un backup PostgreSQL, guarda un snapshot temporal de
+los enlaces de productos de 4+ tiendas, ejecuta el comando y verifica el snapshot
+antes de devolver éxito. No instala dependencias ni ejecuta migraciones.
 
 ## Scrape Completo Frugal (Tokens)
 

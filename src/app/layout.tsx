@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
+import { MobileNavigation } from "@/components/mobile-navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({
         {umamiScriptUrl && umamiWebsiteId ? <Script data-website-id={umamiWebsiteId} src={umamiScriptUrl} strategy="afterInteractive" /> : null}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {children}
+          <MobileNavigation />
         </ThemeProvider>
       </body>
     </html>

@@ -17,7 +17,7 @@ describe("health status", () => {
       ok: true,
       database: "ok",
       catalog: "fresh",
-      freshnessHours: 72,
+      freshnessHours: 192,
       lastScrapeAt: "2026-08-10T11:00:00.000Z",
       release: { builtAt: null, sha: null },
       staleStores: [],
@@ -35,7 +35,7 @@ describe("health status", () => {
       ok: false,
       database: "ok",
       catalog: "stale",
-      freshnessHours: 72,
+      freshnessHours: 192,
       lastScrapeAt: "2026-08-07T11:00:00.000Z",
       release: { builtAt: null, sha: null },
       staleStores: ["Astro Growshop"],
@@ -59,7 +59,7 @@ describe("health status", () => {
       ok: false,
       database: "unavailable",
       catalog: "unknown",
-      freshnessHours: 72,
+      freshnessHours: 192,
       lastScrapeAt: null,
       release: { builtAt: null, sha: null },
       staleStores: [],
@@ -107,7 +107,7 @@ describe("catalog freshness labels", () => {
     assert.equal(getCatalogFreshnessState(new Date("2026-08-08T11:00:00.000Z"), now, 72), "due");
     assert.equal(getCatalogFreshnessState(new Date("2026-08-06T11:00:00.000Z"), now, 72), "stale");
     assert.equal(getCatalogFreshnessState(null, now, 72), "unknown");
-    assert.equal(getCatalogFreshnessLabel("fresh"), "Precios al día");
+    assert.equal(getCatalogFreshnessLabel("fresh"), "Verificado esta semana");
     assert.equal(getCatalogFreshnessLabel("stale"), "Datos desactualizados");
   });
 });

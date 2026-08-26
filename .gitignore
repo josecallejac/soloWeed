@@ -70,6 +70,7 @@ next-env.d.ts
 
 # reports runs and scratch directory
 /reports/catalog-audit/runs/
+/reports/scrape-runs/
 /scratch/
 
 reports/upgrades-run.txt

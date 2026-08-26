@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-black/10 dark:border-white/10 bg-zinc-50 dark:bg-[#050507] px-5 py-12 transition-colors duration-300 overflow-hidden">
@@ -11,6 +13,13 @@ export function SiteFooter() {
         <p className="max-w-lg text-center text-xs leading-5 text-zinc-400 dark:text-white/40 font-mono">
           SoloWeed no vende productos. Te ayudamos a comparar alternativas disponibles en tiendas externas para mayores de edad.
         </p>
+        <nav aria-label="Enlaces del sitio" className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[10px] font-black uppercase tracking-wider text-zinc-500 dark:text-white/45">
+          <Link className="transition hover:text-accent-text" href="/oportunidades">Radar</Link>
+          <Link className="transition hover:text-accent-text" href="/lista">Mi lista</Link>
+          <Link className="transition hover:text-accent-text" href="/canasta">Canasta</Link>
+          <Link className="transition hover:text-accent-text" href="/alertas">Alertas</Link>
+          <Link className="transition hover:text-accent-text" href="/metodologia">Metodología</Link>
+        </nav>
         <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-300 dark:text-white/20 font-mono font-bold">
           Comparador independiente · Chile
         </p>

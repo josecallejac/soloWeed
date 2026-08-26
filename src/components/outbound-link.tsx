@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { trackAnalytics, type AnalyticsValue } from "@/lib/analytics";
 
 // Enlace saliente a la tienda (vía /ir/[offerId], que registra el clic
 // server-side en OutboundClick). Además dispara un evento custom en Umami
@@ -8,19 +9,11 @@ import type { ReactNode } from "react";
 // Si el script de Umami está bloqueado (adblocker), el ?. lo vuelve no-op;
 // el registro server-side sigue siendo la fuente de verdad.
 
-declare global {
-  interface Window {
-    umami?: {
-      track: (event: string, data?: Record<string, unknown>) => void;
-    };
-  }
-}
-
 type OutboundLinkProps = {
   offerId: number;
   className?: string;
   children: ReactNode;
-  eventData?: Record<string, unknown>;
+  eventData?: Record<string, AnalyticsValue>;
 };
 
 export function OutboundLink({ offerId, className, children, eventData }: OutboundLinkProps) {
@@ -31,7 +24,7 @@ export function OutboundLink({ offerId, className, children, eventData }: Outbou
       rel="nofollow noreferrer"
       target="_blank"
       onClick={() => {
-        window.umami?.track("clic-tienda", eventData);
+        trackAnalytics("clic-tienda", eventData ?? {});
       }}
     >
       {children}

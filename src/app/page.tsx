@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { buildHomeJsonLd } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { serializeCatalogCard } from "@/lib/catalog-card";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -109,6 +110,12 @@ export default async function Home({ searchParams }: HomeProps) {
           <div className="flex flex-col items-center justify-center w-full max-w-5xl mx-auto text-center gap-8">
             <div className="w-full">
               <SearchBox query={query} />
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] font-black uppercase tracking-wider">
+              <Link className="rounded-xl border border-slate-300 bg-white/70 px-4 py-2.5 text-slate-700 transition hover:border-accent hover:text-slate-950 dark:border-white/15 dark:bg-white/5 dark:text-white/70 dark:hover:text-accent-text" href="/oportunidades">Ver Radar de oportunidades</Link>
+              <Link className="rounded-xl border border-slate-300 bg-white/70 px-4 py-2.5 text-slate-700 transition hover:border-accent hover:text-slate-950 dark:border-white/15 dark:bg-white/5 dark:text-white/70 dark:hover:text-accent-text" href="/lista">Abrir Mi lista</Link>
+              <Link className="rounded-xl border border-accent/50 bg-accent/10 px-4 py-2.5 text-slate-900 transition hover:bg-accent/20 dark:text-accent-text" href="/canasta">Comparar una canasta</Link>
             </div>
 
             {/* Store Coverage Counter Grid */}

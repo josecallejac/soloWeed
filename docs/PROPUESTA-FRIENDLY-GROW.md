@@ -48,7 +48,7 @@ No prometer todavía una frecuencia, integración, período de prueba o precio c
 
 1. Recuperar `https://soloweed.store`; mientras responda Cloudflare 1033, no enviar el enlace.
 2. Ejecutar en el servidor un refresco completo de Friendly Grow y de los competidores. No usar un límite bajo.
-3. Confirmar que la última observación de Friendly Grow tenga menos de 72 horas.
+3. Confirmar que la última observación de Friendly Grow tenga menos de 192 horas.
 4. Revisar manualmente todos los comparables que aparecerán en la demo pública.
 5. Revisar los principales “no detectados” contra las ofertas huérfanas de Friendly Grow.
 6. Verificar que no aparezcan mezclados packs, unidades, tamaños o variantes distintas.
@@ -59,4 +59,4 @@ No prometer todavía una frecuencia, integración, período de prueba o precio c
 
 ## Frase metodológica para la reunión
 
-“Esto no estima ventas ni margen. Observa cobertura competitiva, precios públicos y stock visible durante las últimas 72 horas. Las señales sirven para priorizar una revisión comercial; la decisión final siempre se valida con el catálogo y los objetivos de Friendly Grow.”
+“Esto no estima ventas ni margen. Observa cobertura competitiva, precios públicos y stock visible durante las últimas 192 horas. Las señales sirven para priorizar una revisión comercial; la decisión final siempre se valida con el catálogo y los objetivos de Friendly Grow.”
