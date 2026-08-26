@@ -2,6 +2,11 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
+# Cron y sesiones SSH no siempre heredan el PATH interactivo del servidor.
+# Mantener el mismo Node/npm que usa deploy.sh hace que la tarea semanal sea
+# reproducible tanto manualmente como desde el scheduler.
+export PATH="/home/jose/.local/bin:/home/jose/.hermes/node/bin:$PATH"
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 ENV_FILE="${DEPLOY_ENV_FILE:-$PROJECT_DIR/.env}"
