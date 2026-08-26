@@ -16,8 +16,20 @@ type ProductImageGalleryProps = {
 
 export function ProductImageGallery({ images, productName }: ProductImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [failedImageUrls, setFailedImageUrls] = useState<Set<string>>(() => new Set());
+  const visibleImages = images.filter((image) => !failedImageUrls.has(image.url));
 
-  const currentImage = images[selectedIndex] ?? images[0];
+  const markImageFailed = (url: string) => {
+    setFailedImageUrls((current) => {
+      if (current.has(url)) return current;
+      const next = new Set(current);
+      next.add(url);
+      return next;
+    });
+  };
+
+  const safeSelectedIndex = Math.min(selectedIndex, Math.max(visibleImages.length - 1, 0));
+  const currentImage = visibleImages[safeSelectedIndex] ?? visibleImages[0];
 
   if (!images || images.length === 0) {
     return (
@@ -45,6 +57,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
               sizes="(max-width: 1024px) 100vw, 45vw"
               src={currentImage.url}
               unoptimized={!shouldOptimizeImage(currentImage.url)}
+              onError={() => markImageFailed(currentImage.url)}
             />
           ) : (
             <div className="grid size-full min-h-80 place-items-center text-6xl font-black opacity-40 font-mono">
@@ -62,10 +75,10 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
       </div>
 
       {/* Thumbnail Selector Row */}
-      {images.length > 1 && (
+      {visibleImages.length > 1 && (
         <div className="mt-4 flex items-center gap-3 overflow-x-auto pb-1">
-          {images.map((img, idx) => {
-            const isSelected = idx === selectedIndex;
+          {visibleImages.map((img, idx) => {
+            const isSelected = idx === safeSelectedIndex;
             return (
               <button
                 key={`${img.url}-${idx}`}
@@ -84,6 +97,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
                   fill
                   sizes="64px"
                   unoptimized={!shouldOptimizeImage(img.url)}
+                  onError={() => markImageFailed(img.url)}
                 />
               </button>
             );
