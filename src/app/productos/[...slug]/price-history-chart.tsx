@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/lib/format";
 import {
   LineChart,
@@ -58,13 +58,16 @@ const CustomTooltip = ({ active, payload, label, hiddenStores }: any) => {
   return null;
 };
 
-const subscribe = () => () => {};
-
 export function PriceHistoryChart({ onlyOnFullCoverage, stores, totalStores }: PriceHistoryChartProps) {
   const { systemTheme, theme } = useTheme();
-  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const [mounted, setMounted] = useState(false);
   const [now] = useState(() => Date.now());
   const [hiddenStores, setHiddenStores] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const currentTheme = theme === "system" ? systemTheme : theme;
   const isDark = currentTheme === "dark" || (typeof document !== "undefined" && document.documentElement.classList.contains("dark"));

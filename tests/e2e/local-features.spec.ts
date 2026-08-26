@@ -18,6 +18,19 @@ test.describe("SoloWeed local features", () => {
     await expect(page.getByRole("heading", { name: "RAW Classic King Size Slim", exact: true })).toBeVisible();
   });
 
+  test("hydrates the product detail without React mismatch errors", async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "error" && /Hydration failed|Minified React error #418/i.test(message.text())) {
+        hydrationErrors.push(message.text());
+      }
+    });
+
+    await gotoStable(page, "/productos/raw/classic-king-size-slim");
+    await expect(page.getByRole("heading", { name: "RAW Classic King Size Slim", exact: true })).toBeVisible();
+    expect(hydrationErrors).toEqual([]);
+  });
+
   test("persists favorites and basket entries across reloads", async ({ page }, testInfo) => {
     test.setTimeout(120000);
     await gotoStable(page, "/");
