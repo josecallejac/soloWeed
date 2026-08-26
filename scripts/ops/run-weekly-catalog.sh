@@ -14,6 +14,8 @@ COMPOSE_FILE="${COMPOSE_FILE:-$PROJECT_DIR/docker-compose.yml}"
 RUN_DIR="${SCRAPE_RUN_DIR:-$PROJECT_DIR/reports/scrape-runs}"
 LOCK_FILE="${SCRAPE_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-catalog-weekly.lock}"
 BACKUP_SCRIPT="${BACKUP_SCRIPT:-$PROJECT_DIR/scripts/ops/backup-postgres.sh}"
+BACKUP_DIR="${BACKUP_DIR:-${SOLOWEED_BACKUP_DIR:-/mnt/ollama_models/backups/soloweed}}"
+BACKUP_RETENTION_COUNT="${BACKUP_RETENTION_COUNT:-${SOLOWEED_BACKUP_RETENTION_COUNT:-7}}"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG_FILE="$RUN_DIR/weekly-$STAMP.log"
 PROTECTED_SNAPSHOT="$RUN_DIR/protected-links-$STAMP.json"
@@ -66,6 +68,8 @@ if [[ "${WEEKLY_SCRAPE_BACKUP:-1}" == "1" ]]; then
   COMPOSE_ENV_FILE="$ENV_FILE" \
   COMPOSE_FILE="$COMPOSE_FILE" \
   COMPOSE_DB_SERVICE="${COMPOSE_DB_SERVICE:-db}" \
+  BACKUP_DIR="$BACKUP_DIR" \
+  RETENTION_COUNT="$BACKUP_RETENTION_COUNT" \
   bash "$BACKUP_SCRIPT"
 fi
 
