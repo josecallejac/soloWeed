@@ -52,7 +52,10 @@ export type CatalogItem = {
   totalStores: number;
   url: string;
 };
-export const CATALOG_PAGE_LIMIT = 20;
+// Nine cards keep the initial home RSC/HTML response comfortably below the
+// performance budget while the observer preloads the next page as the user
+// scrolls.
+export const CATALOG_PAGE_LIMIT = 9;
 
 // El cache usa la búsqueda del usuario como parte de la key, así que sin un
 // tope cualquiera puede crecer la memoria sin límite spameando queries únicas.

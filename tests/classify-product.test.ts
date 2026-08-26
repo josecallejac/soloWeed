@@ -121,6 +121,43 @@ describe("classifyProduct: desechables de sabores fuera de alcance", () => {
   });
 });
 
+describe("classifyProduct: accesorios Storz & Bickel no son vaporizadores completos", () => {
+  it("separa un hitter que menciona Mighty como pipa", () => {
+    assert.equal(
+      classifyProduct(
+        "Anomaly Mighty Hitter 17mm",
+        "https://fumetas.cl/anomaly-mighty-hitter-17mm",
+        "Vaporizadores herbales",
+      ),
+      "Pipas",
+    );
+  });
+
+  it("clasifica adaptadores, estuches y kits Mighty como repuestos", () => {
+    const cases = [
+      ["Mighty Adaptador de Corriente", "https://piranha.cl/inicio/330/mighty-adaptador-de-corriente.html"],
+      ["Estuche rígido Mighty y Mighty+", "https://piranha.cl/inicio/6092/mightymighty-estuche-rigido.html"],
+      ["Mighty/Crafty Kit de Accesorios", "https://piranha.cl/inicio/7816/mightycrafty-kit-de-accesorios.html"],
+      ["SIDE KIT VENTY/VEAZY/MIGHTY/CRAFTY-STORZ & BICKEL", "https://astrogrowshop.cl/side-kit-ventyveazymightycrafty-storz-bickel"],
+      ["Storz & Bickel Juego de Piezas de Desgastes Mighty", "https://fumetas.cl/juego-de-piezas-de-desgastes-mighty"],
+    ] as const;
+
+    for (const [title, url] of cases) {
+      assert.equal(classifyProduct(title, url, "Vaporizadores herbales"), "Repuestos para bongs y vaporizadores", title);
+    }
+  });
+
+  it("mantiene el dispositivo Mighty completo como vaporizador herbal", () => {
+    assert.equal(
+      classifyProduct(
+        "Vaporizador Mighty V2 Storz & Bickel",
+        "https://fumetas.cl/storz-bickel-mighty-v2-vaporizador-herbal",
+      ),
+      "Vaporizadores herbales",
+    );
+  });
+});
+
 describe("classifyProduct: catálogo Yocan y Doteco de Friendly Grow", () => {
   it("separa vaporizadores herbales Yocan de los dispositivos de extracción", () => {
     assert.equal(classifyProduct("Vaporizador Herbal Yocan Hit", "https://www.friendlygrow.cl/yocan-hit"), "Vaporizadores herbales");

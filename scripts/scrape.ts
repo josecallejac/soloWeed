@@ -811,6 +811,7 @@ const VAPE_ACCESSORY_TERMS = [
   "contenedor",
   "dynakit",
   "enigma box",
+  "estuche",
   "filtro",
   "filtros",
   "coil",
@@ -821,10 +822,15 @@ const VAPE_ACCESSORY_TERMS = [
   "monodosis",
   "mouthpiece",
   "piezas desgaste",
+  "piezas de desgaste",
+  "juego de piezas",
+  "juego de accesorios",
+  "kit de accesorios",
   "porta capsulas",
   "repuesto",
   "resistencia",
   "saber tip",
+  "side kit",
   "set tubos",
   "starter set",
   "tubos",
@@ -2405,10 +2411,6 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return VAPORIZER_REPLACEMENT_CATEGORY;
   }
 
-  if (isHerbalVaporizer(titleOnly, text)) {
-    return "Vaporizadores herbales";
-  }
-
   if (/\biso\s*[- ]?plex\b|\bisoplex\b/.test(text)) {
     return "Accesorios de extraccion";
   }
@@ -2432,7 +2434,9 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
     return "Accesorios de extraccion";
   }
 
-  // Quemadores, difusores, bowls y repuestos (Repuestos de Bongs y Vapos)
+  // Quemadores, difusores, bowls y repuestos (Repuestos de Bongs y Vapos).
+  // This must run before the herbal-vaporizer fallback: brand names such as
+  // Mighty, Crafty and Storz & Bickel also appear on their accessories.
   if (hasAny(titleOnly, ["quemador", "difusor", "atrapa ceniza", "atrapaceniza", "bowl", "repuesto", "chiller unit", "purify carbon", "adaptador", "titanium screen", "malla para extractos"])) {
     return VAPORIZER_REPLACEMENT_CATEGORY;
   }
@@ -2443,6 +2447,10 @@ export function classifyProduct(title: string, url: string, sourceCategory?: str
 
   if (/\bpipas?\b|\bpipe\b|\bhitter\b|\bchillum\b/.test(titleOnly) || titleOnly.includes("heavy gear")) {
     return "Pipas";
+  }
+
+  if (isHerbalVaporizer(titleOnly, text)) {
+    return "Vaporizadores herbales";
   }
 
   if (

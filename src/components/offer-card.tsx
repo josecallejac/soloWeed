@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CoverageBadge } from "./coverage-badge";
 import { OutboundLink } from "./outbound-link";
-import { FavoriteButton } from "./favorite-button";
-import { BasketButton } from "./basket-button";
+import { ProductCardActions } from "./product-card-actions";
 import { formatDateTime, formatPrice } from "@/lib/format";
 import { shouldOptimizeImage } from "@/lib/image";
 import { getCatalogFreshnessHours } from "@/lib/health";
@@ -85,19 +84,7 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
         </span>
         {offer.product && productHref && offer.product.id !== undefined ? (
           <>
-            <FavoriteButton
-              item={{
-                id: offer.product.id,
-                title: offer.title,
-                href: productHref,
-                price: offer.minPrice,
-                category: offer.category,
-                brand: offer.brand,
-                storeCount: offer.storeCount,
-                imageUrl: offer.imageUrl ?? offer.product.imageUrl ?? null,
-              }}
-            />
-            <BasketButton
+            <ProductCardActions
               item={{
                 id: offer.product.id,
                 title: offer.title,
