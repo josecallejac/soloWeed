@@ -5,6 +5,7 @@ export type StoredCollectionDefinition<T> = {
   eventName: string;
   limit: number;
   isValid: (value: unknown) => value is T;
+  normalize?: (value: T) => T;
   getKey: (item: T) => number | string;
 };
 
@@ -43,6 +44,7 @@ export function parseStoredCollection<T>(
   const items: T[] = [];
   const seen = new Set<number | string>();
   let discardedCount = 0;
+  let normalizedCount = 0;
 
   for (const value of parsed) {
     if (!definition.isValid(value)) {
@@ -50,21 +52,28 @@ export function parseStoredCollection<T>(
       continue;
     }
 
-    const key = definition.getKey(value);
+    const normalized = definition.normalize ? definition.normalize(value) : value;
+    if (normalized !== value) {
+      // A normalizer can upgrade a valid legacy item (for example, adding a
+      // default quantity) without discarding it.
+      normalizedCount += 1;
+    }
+
+    const key = definition.getKey(normalized);
     if (seen.has(key) || items.length >= definition.limit) {
       discardedCount += 1;
       continue;
     }
 
     seen.add(key);
-    items.push(value);
+    items.push(normalized);
   }
 
   return {
     items,
     discardedCount,
     malformed: false,
-    needsRepair: discardedCount > 0,
+    needsRepair: discardedCount > 0 || normalizedCount > 0,
     storageError: false,
   };
 }
@@ -135,10 +144,11 @@ export function normalizeStoredCollection<T>(
 
   for (const value of values) {
     if (!definition.isValid(value)) continue;
-    const key = definition.getKey(value);
+    const normalized = definition.normalize ? definition.normalize(value) : value;
+    const key = definition.getKey(normalized);
     if (seen.has(key)) continue;
     seen.add(key);
-    items.push(value);
+    items.push(normalized);
     if (items.length >= definition.limit) break;
   }
 

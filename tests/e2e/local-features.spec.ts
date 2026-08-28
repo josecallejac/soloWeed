@@ -64,6 +64,57 @@ test.describe("SoloWeed local features", () => {
     await expect(page.getByText("1 de 20 productos seleccionados")).toBeVisible();
   });
 
+  test("previews a shared basket and merges quantities only after confirmation", async ({ page }) => {
+    await page.route("**/api/canasta*", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          products: [{
+            id: 123,
+            name: "Producto compartido",
+            href: "/productos/raw/producto-compartido",
+            category: "Papelillos",
+            brand: "RAW",
+            imageUrl: null,
+            offers: [{
+              id: 1231,
+              productId: 123,
+              storeId: 1,
+              storeName: "Tienda 1",
+              storeSlug: "tienda-1",
+              price: 1000,
+              inStock: true,
+              lastSeenAt: "2026-08-25T12:00:00.000Z",
+              url: "https://example.com/1231",
+            }],
+          }],
+          missingIds: [],
+        }),
+      });
+    });
+    await page.addInitScript(() => {
+      window.localStorage.setItem("soloweed:basket:v1", JSON.stringify([{
+        id: 123,
+        title: "Producto compartido",
+        href: "/productos/raw/producto-compartido",
+        price: 1000,
+        category: "Papelillos",
+        brand: "RAW",
+        storeCount: 1,
+        imageUrl: null,
+        addedAt: "2026-08-25T12:00:00.000Z",
+        quantity: 2,
+      }]));
+    });
+
+    await gotoStable(page, "/canasta#v=1&i=123:2&s=tienda-1:500:5000");
+    await expect(page.getByRole("heading", { name: "Vista previa de canasta compartida" })).toBeVisible();
+    await expect(page.getByText("No cambia tu canasta local hasta que elijas una acción.")).toBeVisible();
+    await page.getByRole("button", { name: "Mezclar con local" }).click();
+    await expect(page.getByText("Canasta compartida mezclada con la local.")).toBeVisible();
+    await expect(page.getByRole("spinbutton", { name: "Cantidad de Producto compartido" })).toHaveValue("4");
+  });
+
   test("creates, persists and edits a local price alert", async ({ page }, testInfo) => {
     await gotoStable(page, "/productos/raw/classic-king-size-slim");
     await expect(page.getByRole("heading", { name: "RAW Classic King Size Slim", exact: true })).toBeVisible();

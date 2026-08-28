@@ -23,7 +23,7 @@ export function BasketButton({ item, compact = false }: BasketButtonProps) {
 
     const result = update((current) => added
       ? current.filter((entry) => entry.id !== item.id)
-      : [{ ...item, addedAt: new Date().toISOString() }, ...current]);
+      : [{ ...item, quantity: 1, addedAt: new Date().toISOString() }, ...current]);
 
     if (!result.ok) {
       setStatus("");

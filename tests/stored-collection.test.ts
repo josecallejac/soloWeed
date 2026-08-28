@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { BASKET_STORAGE_KEY } from "../src/lib/basket";
+import { BASKET_COLLECTION, BASKET_STORAGE_KEY } from "../src/lib/basket";
 import { FAVORITES_COLLECTION, FAVORITES_STORAGE_KEY, type FavoriteItem } from "../src/lib/favorites";
 import { PRICE_ALERTS_STORAGE_KEY } from "../src/lib/price-alerts";
 import {
@@ -123,6 +123,26 @@ describe("colecciones locales", () => {
       savedAt: "2026-08-25T12:00:00.000Z",
     };
     assert.deepEqual(parseStoredCollection(JSON.stringify([favorite]), FAVORITES_COLLECTION).items, [favorite]);
+  });
+
+  it("actualiza una entrada de canasta v1 antigua con cantidad 1 sin perderla", () => {
+    const legacy = {
+      id: 8,
+      title: "RAW Classic",
+      href: "/productos/raw/classic",
+      price: 1990,
+      category: "Papelillos",
+      brand: "RAW",
+      storeCount: 1,
+      imageUrl: null,
+      addedAt: "2026-08-25T12:00:00.000Z",
+    };
+    const storage = new MemoryStorage({ [BASKET_STORAGE_KEY]: JSON.stringify([legacy]) });
+    const result = readStoredCollection(storage, BASKET_COLLECTION, { repair: true });
+
+    assert.equal(result.items[0].quantity, 1);
+    assert.equal(result.needsRepair, true);
+    assert.equal(JSON.parse(storage.getItem(BASKET_STORAGE_KEY) ?? "[]")[0].quantity, 1);
   });
 });
 

@@ -22,8 +22,8 @@ DB_CONTAINER="${DB_CONTAINER:-soloweed-db}"
 DB_SERVICE="${DB_SERVICE:-db}"
 APP_IMAGE="${APP_IMAGE:-soloweed-soloweed}"
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://soloweed.store}"
-HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/}"
-ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-}"
+HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:${APP_PORT:-8093}/api/health}"
+ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-http://127.0.0.1:${APP_PORT:-8093}/}"
 HEALTH_TIMEOUT_SECONDS="${HEALTH_TIMEOUT_SECONDS:-90}"
 BUILD_DATABASE_URL="${BUILD_DATABASE_URL:-}"
 DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
@@ -61,7 +61,7 @@ SOLOWEED_BUILD_TIME="${SOLOWEED_BUILD_TIME:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}"
 export SOLOWEED_RELEASE_SHA="$EXPECTED_RELEASE_SHA" SOLOWEED_BUILD_TIME
 
 SITE_URL="${NEXT_PUBLIC_SITE_URL:-$SITE_URL}"
-ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-$HEALTH_URL}"
+ROLLBACK_SMOKE_URL="${ROLLBACK_SMOKE_URL:-http://127.0.0.1:${APP_PORT:-8093}/}"
 [[ -n "${DATABASE_URL:-}" ]] || die "DATABASE_URL no está definida en $ENV_FILE"
 
 # La app usa db:5432 dentro de Compose. El build corre en el host y accede al
@@ -138,15 +138,24 @@ wait_for_health() {
     health_response="$(curl --silent --show-error --max-time 10 --write-out $'\n%{http_code}' "$HEALTH_URL" 2>/dev/null || true)"
     health_status="${health_response##*$'\n'}"
     body="${health_response%$'\n'*}"
-    if [[ "$health_status" =~ ^2[0-9][0-9]$ ]]; then
+    if [[ "$health_status" == '200' ]] \
+      && grep -Eq '"ok"[[:space:]]*:[[:space:]]*true' <<<"$body" \
+      && grep -Eq '"database"[[:space:]]*:[[:space:]]*"ok"' <<<"$body" \
+      && grep -Eq '"catalog"[[:space:]]*:[[:space:]]*"fresh"' <<<"$body"; then
+      if [[ "$require_release" == '1' && -n "$EXPECTED_RELEASE_SHA" ]] \
+        && ! grep -Eq '"sha"[[:space:]]*:[[:space:]]*"'"$EXPECTED_RELEASE_SHA"'"' <<<"$body"; then
+        sleep 3
+        continue
+      fi
       return 0
     fi
 
-    # A legacy image may not expose /api/health. Only accept its home page
-    # when the health endpoint explicitly returns 404.
-    if [[ -n "$fallback_url" && "$health_status" == '404' ]] \
+    # El deploy nuevo siempre exige readiness completa. Durante un rollback,
+    # en cambio, basta comprobar que la imagen anterior volvió a servir la app:
+    # su catálogo puede seguir stale por una causa externa a la release.
+    if [[ "$require_release" == '0' && -n "$fallback_url" ]] \
       && curl --fail --silent --show-error --max-time 15 "$fallback_url" >/dev/null 2>&1; then
-      printf 'Rollback legacy verificado mediante %s\n' "$fallback_url"
+      printf 'Rollback verificado mediante %s\n' "$fallback_url"
       return 0
     fi
 

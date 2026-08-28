@@ -44,6 +44,13 @@ La preview simulada está disponible en desarrollo en
 `/precios/friendlygrow-preview`. Sus datos y enlaces están aislados de
 PostgreSQL; las fichas reales `/productos/...` sí requieren la base.
 
+La canasta inteligente (`/canasta`) es deliberadamente local al navegador: conserva
+la clave v1 de productos, agrega cantidades de 1 a 99 y guarda el despacho bajo
+`soloweed:basket-shipping:v1`. El botón Compartir genera un fragmento `#v=1` con
+IDs, cantidades y valores de despacho; no envía esa información en la query ni la
+persiste en PostgreSQL. Al abrir un enlace se muestra una vista previa y el usuario
+debe elegir `Reemplazar local` o `Mezclar con local`.
+
 ## Docker En El Servidor Casero
 
 Docker se versiona en `Dockerfile` y `docker-compose.yml`. Antes del primer uso,
@@ -148,9 +155,9 @@ migraciones y el seed antes de correr Chromium. No uses la `DATABASE_URL` del
 
 ## Healthcheck
 
-Durante la primera transicion de una release sin `/api/health`, el rollback
-acepta solo una respuesta `404` de ese endpoint mas una portada `2xx`. Un
-`503` de una release que ya soporta healthcheck sigue siendo un fallo.
+El deploy nuevo exige siempre `/api/health` completo y la SHA esperada. Si debe
+revertir, valida que la imagen anterior vuelva a servir una portada `2xx`; la
+frescura puede seguir fallando por una causa de datos externa a ambas imágenes.
 
 El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
 
@@ -158,8 +165,10 @@ El contenedor puede verificar disponibilidad real de la app y PostgreSQL con:
 GET /api/health
 ```
 
-Responde `200` cuando la base está disponible y `503` cuando no lo está. El
-`docker-compose.yml` versionado ya usa este endpoint como healthcheck de la app.
+Responde `200` solo cuando la base está disponible y el catálogo está fresco;
+responde `503` si la base falla, el catálogo está vacío o alguna tienda activa
+supera la ventana de frescura. El `docker-compose.yml` versionado ya usa este
+endpoint como healthcheck de readiness de la app.
 
 El JSON incluye `release.sha` y `release.builtAt` para confirmar qué commit está
 sirviendo el host. La respuesta usa `Cache-Control: no-store` y

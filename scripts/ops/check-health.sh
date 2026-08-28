@@ -29,7 +29,10 @@ if ! status="$(curl --silent --show-error --max-time 15 --output "$body" --write
   exit 1
 fi
 
-if [[ "$status" != "200" ]] || ! grep -q '"ok":true' "$body" || ! grep -q '"database":"ok"' "$body" || ! grep -q '"catalog":"fresh"' "$body"; then
+if [[ "$status" != "200" ]] \
+  || ! grep -Eq '"ok"[[:space:]]*:[[:space:]]*true' "$body" \
+  || ! grep -Eq '"database"[[:space:]]*:[[:space:]]*"ok"' "$body" \
+  || ! grep -Eq '"catalog"[[:space:]]*:[[:space:]]*"fresh"' "$body"; then
   notify_failure "SoloWeed healthcheck falló (HTTP $status). Revisa $HEALTH_URL"
   exit 1
 fi
