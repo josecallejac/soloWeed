@@ -1,0 +1,9 @@
+[Unit]
+Description=SoloWeed backup PostgreSQL
+ConditionPathExists=__SOLOWEED_PROJECT_DIR__/.env
+
+[Service]
+Type=oneshot
+WorkingDirectory=__SOLOWEED_PROJECT_DIR__
+ExecStart=/bin/bash __SOLOWEED_PROJECT_DIR__/scripts/ops/run-backup-scheduled.sh
+TimeoutStartSec=30min

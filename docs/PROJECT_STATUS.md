@@ -1,6 +1,6 @@
 # Estado Operativo Del Proyecto
 
-Última revisión local: 28 de agosto de 2026.
+Última revisión local: 31 de agosto de 2026.
 
 ## Fuentes De Verdad
 
@@ -19,33 +19,56 @@
 
 ## Gates Locales
 
-La release candidata pasa `npm run lint`, `npm test` (299 pruebas), `npx tsc
+La release candidata local pasa `npm run lint`, `npm test` (308 pruebas), `npx tsc
 --noEmit`, `npm run build` con `SKIP_DATABASE_STATIC_PARAMS=1`, el audit completo
 de dependencias, `git diff --check` y la configuración Compose con variables de
 validación. Los scripts Bash pasan sintaxis sobre su representación LF, que es
-la almacenada por Git y la usada en Linux.
+la almacenada por Git y la usada en Linux. El verificador funcional de release
+también está preparado para exigir las landings públicas y el límite de 50 IDs.
 
-Las pruebas E2E se ejecutaron 48/48 en Chromium, móvil Chromium, Firefox y
-WebKit contra PostgreSQL efímero en `127.0.0.1:55432`; el contenedor fue detenido
-al terminar y nunca se utilizó el `.env` productivo. La Canasta candidata agrega
-cantidades, despacho y umbral gratis, tres estrategias y enlaces por fragmento
-con vista previa antes de reemplazar o mezclar el estado local.
+La suite Playwright actual lista 56 pruebas en Chromium, móvil Chromium, Firefox y
+WebKit. El 31 de agosto pasó 56/56 contra una PostgreSQL efímera creada en WSL y
+expuesta únicamente como `127.0.0.1:55990`; se aplicaron las migraciones y el seed
+E2E antes de la corrida. Nunca se usó el `.env` productivo. La Canasta y Mi lista
+conservan sus enlaces por fragmento con vista previa antes de reemplazar o mezclar
+el estado local.
+
+La candidata local también incorpora páginas SEO dinámicas por categoría y marca,
+enlaces internos desde los filtros y entradas condicionadas en el sitemap. Estas
+rutas requieren la base viva al solicitarse y no inventan categorías cuando el
+catálogo está desconectado.
 
 ## CI Y Producción
 
 El workflow publicado usa únicamente runners estándar, no tiene ejecución
 programada, limita cada job a 20 minutos y retiene reportes solo en fallos o
-ejecuciones manuales para reducir el consumo de GitHub Free. Al comenzar esta
-revisión, `main` y `origin/main` estaban en `4247881` con CI correcta. Cualquier
-SHA posterior debe tener su propia comprobación remota y no debe presentarse
-como desplegada solo porque el push o CI hayan terminado.
+ejecuciones manuales para reducir el consumo de GitHub Free. En esta revisión,
+`main` y `origin/main` estaban en `5841969` en el corte inicial; la candidata de
+landings, lista compartible y límite de 50 IDs aún no estaba en ese commit.
+Cualquier SHA posterior debe tener su propia comprobación remota y no debe
+presentarse como desplegada solo porque el push o CI hayan terminado.
 
-El 28 de agosto la portada pública y `/api/health` respondieron HTTP 530. El host
-`192.168.100.2` tampoco respondió por SSH, por lo que no existe evidencia actual
-de checkout, contenedor, catálogo ni backup del servidor. El despliegue queda
-prohibido hasta recuperar el host; entonces debe crearse el backup obligatorio y
-verificarse por separado SHA local, `origin/main`, checkout del host, contenedor,
-health, frescura y checksum.
+El 31 de agosto se verificaron desde esta estación los puertos `22`, `5435` y `8093`.
+En el host, el checkout y `/api/health` coincidían en la release publicada
+`5841969a5edf787dfe7f3317ce38120be7a85d04`; `soloweed-db` y
+`soloweed-soloweed-1` estaban `running/healthy`. La portada y el sitemap
+respondían HTTP 200, y el health público informaba `database=ok` y
+`catalog=fresh`. La auditoría funcional de esa release encontró que
+`/categorias/papelillos` y `/marcas/raw` respondían 404, el sitemap no incluía
+landings y `/api/canasta` recortaba una consulta de 50 IDs a 20. Por eso `5841969`
+se considera saludable pero incompleta para las funcionalidades anunciadas.
+
+Se creó el backup
+`/mnt/ollama_models/backups/soloweed/soloweed-20260831T145653Z.sql.gz` sin podar las
+siete copias existentes. `gzip -t` y el checksum SHA-256
+`375198991c1d7ce10b84ef499c306a591c28b1487dfaa84bfe45cff26a57f13b` pasaron. La
+restauración aislada confirmó 9 tablas, 6 tiendas, 889 productos y 11.554 ofertas;
+el contenedor temporal fue eliminado al terminar.
+
+La publicación correctiva debe pasar backup, swap, health y
+`scripts/ops/verify-release.sh` para su SHA concreta antes de considerarse
+completa. Después se instalarán los timers systemd versionados para backup,
+refresco semanal con reintento, healthcheck y alertas Telegram.
 
 El `.env` ignorado de este checkout apunta al PostgreSQL del servidor casero;
 las credenciales permanecen fuera de Git. `prebuild` bloquea URLs externas
@@ -70,6 +93,8 @@ curación productiva como parte de esta documentación.
 
 ## Medición Pública Reciente
 
-No hay una medición de rendimiento válida mientras el origen responda HTTP 530.
-Un error de Cloudflare demuestra indisponibilidad pública, pero no permite
-inferir qué SHA, contenedor o estado de catálogo existe en el host.
+El 31 de agosto la ruta pública volvió a responder HTTP 200 para `/`, `/api/health`
+y `/sitemap.xml`. `npm run ops:performance -- --strict` pasó sus tres muestras por
+ruta: portada 265.059 bytes/p50 237 ms, sitemap 163.389 bytes/p50 259 ms y health
+219 bytes/p50 188 ms. Es una medición puntual desde esta estación, no monitoreo
+sostenido.

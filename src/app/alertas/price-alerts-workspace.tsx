@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCatalogProducts } from "@/hooks/use-catalog-products";
 import { useStoredCollection } from "@/hooks/use-stored-collection";
 import { trackAnalytics } from "@/lib/analytics";
@@ -15,6 +15,29 @@ export function PriceAlertsWorkspace() {
   const { error, isLoading, products, retry } = useCatalogProducts(productIds);
   const [status, setStatus] = useState("");
   const productsById = useMemo(() => new Map(products.map((product) => [product.id, product])), [products]);
+  const lastFocusRefresh = useRef(0);
+
+  useEffect(() => {
+    if (!isReady || alerts.length === 0) return;
+    lastFocusRefresh.current = Date.now();
+
+    const refreshIfNeeded = () => {
+      if (document.visibilityState === "hidden") return;
+      const now = Date.now();
+      // Avoid duplicate requests when a browser emits both focus and
+      // visibilitychange while the user returns to the tab.
+      if (now - lastFocusRefresh.current < 30_000) return;
+      lastFocusRefresh.current = now;
+      retry();
+    };
+
+    window.addEventListener("focus", refreshIfNeeded);
+    document.addEventListener("visibilitychange", refreshIfNeeded);
+    return () => {
+      window.removeEventListener("focus", refreshIfNeeded);
+      document.removeEventListener("visibilitychange", refreshIfNeeded);
+    };
+  }, [alerts.length, isReady, retry]);
 
   function removeAlert(alert: PriceAlert) {
     const result = update((current) => current.filter((entry) => entry.productId !== alert.productId));

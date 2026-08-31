@@ -13,6 +13,7 @@ export type AnalyticsEventPayloads = {
   "favorito-agregado": { categoria: string; producto_id: number; tiendas: number };
   "favorito-eliminado": { categoria: string; producto_id: number };
   "lista-compartida": { cantidad: number; metodo: "nativo" | "portapapeles" };
+  "lista-importada": { cantidad: number; modo: "reemplazar" | "mezclar"; omitidos: number };
   "sugerencia-elegida": { tipo: "categoría" | "marca" | "producto" };
 };
 

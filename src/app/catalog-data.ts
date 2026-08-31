@@ -10,6 +10,7 @@ import { Prisma } from "@prisma/client";
 import type { Store } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { PRODUCT_ALIASES, productSlugKey } from "@/lib/product-aliases";
+import { isPublicCatalogCategory } from "@/lib/catalog-landing";
 
 // Solo las columnas que el catálogo realmente consume: mantener este tipo
 // angosto es lo que permite excluir columnas pesadas (description) de las
@@ -689,14 +690,12 @@ function hasCatalogComparison(item: CatalogItem) {
 }
 
 function hasCatalogVisibility(item: CatalogItem) {
-  const cat = item.category.toLowerCase();
-  if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
+  if (!isPublicCatalogCategory(item.category)) return false;
   return hasCatalogComparison(item);
 }
 
 function hasCatalogCategoryVisibility(item: CatalogItem) {
-  const cat = item.category.toLowerCase();
-  if (cat === "limpieza" || cat === "vaporizadores electronicos") return false;
+  if (!isPublicCatalogCategory(item.category)) return false;
   return hasCatalogComparison(item);
 }
 

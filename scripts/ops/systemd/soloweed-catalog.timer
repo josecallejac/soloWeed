@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresco semanal de catalogo SoloWeed
+
+[Timer]
+OnCalendar=Mon *-*-* 11:00:00
+Persistent=true
+RandomizedDelaySec=10min
+AccuracySec=1min
+Unit=soloweed-catalog.service
+
+[Install]
+WantedBy=timers.target

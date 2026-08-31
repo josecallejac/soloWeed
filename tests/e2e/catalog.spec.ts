@@ -59,7 +59,12 @@ test.describe("SoloWeed catalog", () => {
     await expect(page).toHaveURL(/q=nonexistentproductxyz123/, { timeout: 30000 });
     await expect(page.getByRole("heading", { name: /Aun no hay ofertas para mostrar/i })).toBeVisible();
 
-    await searchInput.fill("raw");
+    // Replace the controlled value as a user would. WebKit can interleave the
+    // synthetic clear+insert performed by `fill` with the pending Next.js
+    // render and append to the previous query instead.
+    await searchInput.selectText();
+    await searchInput.pressSequentially("raw", { delay: 50 });
+    await expect(searchInput).toHaveValue("raw");
     await page.getByRole("button", { name: "Buscar ofertas" }).click();
     await expect(page).toHaveURL(/q=raw/, { timeout: 30000 });
     await expect(page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first()).toBeVisible();
@@ -82,6 +87,19 @@ test.describe("SoloWeed catalog", () => {
 
     await brands.first().click();
     await expect(page).toHaveURL(/category=Papelillos/);
+  });
+
+  test("serves canonical category and brand landing pages", async ({ page }) => {
+    await page.goto("/categorias/papelillos");
+    await expect(page).toHaveTitle(/Papelillos.*Comparar precios.*SoloWeed/i);
+    await expect(page.getByRole("heading", { name: "Papelillos", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Marcas en esta categoría", exact: true })).toBeVisible();
+    await expect(page).toHaveURL(/\/categorias\/papelillos$/);
+
+    await page.goto("/marcas/raw");
+    await expect(page).toHaveTitle(/RAW.*Comparar precios.*SoloWeed/i);
+    await expect(page.getByRole("heading", { name: "RAW", exact: true })).toBeVisible();
+    await expect(page).toHaveURL(/\/marcas\/raw$/);
   });
 
   test("opens product detail and uses the outbound tracking route", async ({ page }) => {

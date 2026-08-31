@@ -51,6 +51,24 @@ IDs, cantidades y valores de despacho; no envía esa información en la query ni
 persiste en PostgreSQL. Al abrir un enlace se muestra una vista previa y el usuario
 debe elegir `Reemplazar local` o `Mezclar con local`.
 
+Las alertas también permanecen locales, pero vuelven a consultar los precios al
+abrir la página y cuando la pestaña recupera el foco (con una espera de 30 segundos
+para no duplicar peticiones). No hay notificaciones push ni una cuenta remota: para
+recibir una señal debes volver a SoloWeed.
+
+Las páginas públicas indexables de crecimiento usan rutas canónicas separadas de los
+filtros temporales del home:
+
+- `/categorias/<slug>` para una categoría curada (el slug elimina acentos y conserva
+  palabras legibles como `filtros-y-boquillas`).
+- `/marcas/<brandKey>` para una marca cuyo `brandKey` ya forma parte de sus URLs de
+  producto.
+
+Ambas rutas muestran solo comparaciones con ofertas activas en dos o más tiendas,
+incluyen metadata/JSON-LD y reutilizan la paginación del catálogo. `/sitemap.xml`
+las agrega únicamente cuando existen productos comparables en la base viva; no se
+generan rutas durante el build seguro sin PostgreSQL.
+
 ## Docker En El Servidor Casero
 
 Docker se versiona en `Dockerfile` y `docker-compose.yml`. Antes del primer uso,
@@ -185,19 +203,23 @@ Estos scripts se ejecutan **en el host Linux** que tiene el `docker-compose.yml`
 no los ejecutes desde una estación de trabajo contra producción.
 
 ```bash
-chmod +x scripts/ops/*.sh
+# Instalación reproducible para el usuario que ejecuta Docker.
+bash scripts/ops/install-systemd-user.sh
 
-# Backup lógico comprimido con checksum; conserva 14 días en /var/backups/soloweed.
-sudo scripts/ops/backup-postgres.sh
+# Inspección de los tres timers y sus próximas ejecuciones.
+systemctl --user list-timers --all soloweed-backup.timer soloweed-catalog.timer soloweed-healthcheck.timer
 
-# Valida app + PostgreSQL por la URL pública.
-scripts/ops/check-health.sh
+# Ejecuciones manuales (el runner semanal escribe en la base productiva).
+bash scripts/ops/run-backup-scheduled.sh
+bash scripts/ops/run-weekly-catalog-scheduled.sh
+bash scripts/ops/check-health.sh
 ```
 
 Para fijar qué release debe responder el monitor, exporta
-`EXPECTED_RELEASE_SHA=<sha-completa>` junto con `HEALTH_URL`. El monitor también
-puede notificar por `HEALTHCHECK_WEBHOOK_URL` si la SHA, la base o la frescura no
-coinciden.
+`EXPECTED_RELEASE_SHA=<sha-completa>` junto con `HEALTH_URL`. El monitor puede
+notificar por `HEALTHCHECK_WEBHOOK_URL` y, si se configuran los secretos del host,
+por Telegram. Las alertas Telegram tienen deduplicación por estado y un aviso de
+recuperación; el estado queda en `reports/ops/` y nunca contiene el token.
 
 El chequeo de rendimiento público es de solo lectura:
 `npm run ops:performance`. Usa `PERF_URL` para revisar otro host y `--strict`
@@ -212,6 +234,17 @@ BACKUP_DIR=/mnt/backups/soloweed RETENTION_DAYS=30 COMPOSE_ENV_FILE=.env sudo sc
 BACKUP_DIR=/mnt/ollama_models/backups/soloweed RETENTION_COUNT=7 COMPOSE_ENV_FILE=.env sudo scripts/ops/backup-postgres.sh
 HEALTHCHECK_WEBHOOK_URL='https://<webhook>' scripts/ops/check-health.sh
 ```
+
+Telegram usa la Bot API. Crea el bot con `@BotFather`, guarda el token solo en el
+`.env` del servidor, envía `/start` al bot y define el chat numérico obtenido en:
+
+```text
+SOLOWEED_TELEGRAM_BOT_TOKEN=<token-del-bot>
+SOLOWEED_TELEGRAM_CHAT_ID=<chat-id>
+```
+
+El token no se necesita para construir ni publicar la aplicación. Si falta, los
+timers siguen funcionando y dejan el detalle en el journal.
 
 El backup usa un lock, comprueba que `db` esté corriendo, ejecuta `pg_dump` con
 `pipefail`, valida gzip y escribe el dump y su `.sha256` de forma atómica. Para
@@ -228,15 +261,12 @@ abrir el contenedor temporal.
 El comando crea un contenedor PostgreSQL efímero, valida tablas y cuenta
 `Store`, `Product` y `Offer`, y lo elimina incluso si la restauración falla.
 
-Programa ambas tareas con `crontab -e` del usuario que puede ejecutar Docker:
-
-```cron
-# Backup diario a las 03:15 UTC; errores quedan en el log del sistema.
-15 3 * * * /ruta/soloWeed/scripts/ops/backup-postgres.sh
-
-# Healthcheck cada 5 minutos; retorna error y envía webhook si fue configurado.
-*/5 * * * * /ruta/soloWeed/scripts/ops/check-health.sh
-```
+Los timers versionados sustituyen a cron: el backup corre diariamente a las 03:15,
+el healthcheck arranca cinco minutos después del boot y se repite cada 15 minutos,
+y el catálogo corre los lunes a las 11:00 (hora local del host). Los timers tienen
+`Persistent=true`, por lo que una ejecución perdida mientras el servidor estaba
+apagado se recupera al volver a encenderlo. El catálogo reintenta una vez después
+de 30 minutos y avisa por Telegram si ambos intentos fallan.
 
 El healthcheck de Docker expone el estado `healthy`/`unhealthy`, pero Docker
 Compose no reinicia automáticamente un contenedor solo por quedar `unhealthy`.
@@ -260,6 +290,12 @@ brecha de surtido y tráfico referido a la tienda desde `/ir`. Los clics son agr
 y no representan ventas. Los botones de contacto pueden medirse en Umami con el evento
 `b2b-contacto`; configura `NEXT_PUBLIC_CONTACT_EMAIL` y, opcionalmente,
 `NEXT_PUBLIC_CONTACT_WHATSAPP` en el entorno del servidor.
+
+La analítica pública usa eventos agregados (`busqueda-enviada`, `clic-tienda`,
+`favorito-agregado`, `canasta-agregada`, `lista-compartida` y `lista-importada`) para
+medir el embudo sin enviar la consulta ni los IDs de una lista compartida. Umami es
+opcional: si falta el script o un bloqueador lo intercepta, las acciones siguen
+funcionando y `/ir` conserva el registro server-side del clic.
 
 Los CSV de `reports/catalog-audit` se guardan en el volumen Docker
 `soloweed-catalog-audit` y sobreviven a la recreación del contenedor web. Puedes
@@ -314,16 +350,21 @@ SCRAPE_STORE_CONCURRENCY=3 npm run catalog:weekly
 ```
 
 En el servidor casero se ejecuta desde el checkout del host, no dentro de la
-imagen web (la imagen productiva no incluye `tsx` ni los scripts de operación):
-
-```cron
-CRON_TZ=America/Santiago
-0 11 * * 1 bash /ruta/soloWeed/scripts/ops/run-weekly-catalog.sh
-```
+imagen web (la imagen productiva no incluye `tsx` ni los scripts de operación).
+`run-weekly-catalog-scheduled.sh` es la entrada del timer: llama al runner,
+reintenta una vez a los 30 minutos y registra los cambios de estado en Telegram.
 
 El runner usa `flock`, crea un backup PostgreSQL, guarda un snapshot temporal de
 los enlaces de productos de 4+ tiendas, ejecuta el comando y verifica el snapshot
 antes de devolver éxito. No instala dependencias ni ejecuta migraciones.
+
+## Verificación funcional de release
+
+Además del healthcheck, `deploy.sh` ejecuta `scripts/ops/verify-release.sh`. El
+verificador consulta la SHA y frescura, exige al menos una landing de categoría y
+una de marca en el sitemap, prueba ambas rutas con HTTP 200 y confirma que
+`/api/canasta` procese 50 IDs. Así un commit antiguo no puede declararse correcto
+solo porque el contenedor esté `healthy`.
 
 ## Scrape Completo Frugal (Tokens)
 

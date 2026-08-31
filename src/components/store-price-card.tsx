@@ -192,7 +192,7 @@ export function StorePriceCard({
                 : "border border-slate-300 dark:border-white/15 bg-white dark:bg-transparent text-slate-800 dark:text-white/80 hover:border-accent/60 hover:text-slate-950 dark:hover:text-accent hover:bg-accent/10"
             }`}
             offerId={offer.id}
-            eventData={{ origen: "ficha_tabla", tienda: store.name, productId }}
+            eventData={{ origen: "ficha_tabla", tienda: store.name, producto_id: productId }}
           >
             IR A TIENDA ↗
           </OutboundLink>
@@ -366,7 +366,7 @@ export function StorePriceCard({
               : "border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-transparent text-slate-800 dark:text-white/80 hover:border-accent/60 hover:text-slate-950 dark:hover:text-accent hover:bg-accent/10 active:scale-[0.99]"
           }`}
           offerId={offer.id}
-          eventData={{ origen: "ficha", tienda: store.name, productId }}
+          eventData={{ origen: "ficha", tienda: store.name, producto_id: productId }}
         >
           IR A TIENDA ↗
         </OutboundLink>

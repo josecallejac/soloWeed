@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+ENV_FILE="${SOLOWEED_ENV_FILE:-$PROJECT_DIR/.env}"
+NOTIFIER="${SOLOWEED_NOTIFIER:-$SCRIPT_DIR/notify-telegram.sh}"
+
+if [[ -f "$ENV_FILE" ]]; then
+  set -a
+  # shellcheck disable=SC1090
+  . "$ENV_FILE"
+  set +a
+fi
+
 HEALTH_URL="${HEALTH_URL:-https://soloweed.store/api/health}"
 WEBHOOK_URL="${HEALTHCHECK_WEBHOOK_URL:-}"
 EXPECTED_RELEASE_SHA="${EXPECTED_RELEASE_SHA:-}"
@@ -19,6 +31,11 @@ notify_failure() {
       --data "{\"text\":\"$message\"}" \
       "$WEBHOOK_URL" >/dev/null || true
   fi
+  bash "$NOTIFIER" event health failure "$message" || true
+}
+
+notify_recovery() {
+  bash "$NOTIFIER" event health ok "El endpoint $HEALTH_URL responde correctamente." || true
 }
 
 body="$(mktemp)"
@@ -42,4 +59,5 @@ if [[ -n "$EXPECTED_RELEASE_SHA" ]] && ! grep -Eq '"sha"[[:space:]]*:[[:space:]]
   exit 1
 fi
 
+notify_recovery
 printf 'SoloWeed saludable: %s\n' "$HEALTH_URL"

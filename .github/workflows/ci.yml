@@ -52,6 +52,14 @@ jobs:
 
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
+      - name: Validar scripts operativos Bash
+        run: |
+          bash -n scripts/ops/check-health.sh
+          bash -n scripts/ops/verify-release.sh
+          bash -n scripts/ops/notify-telegram.sh
+          bash -n scripts/ops/run-weekly-catalog-scheduled.sh
+          bash -n scripts/ops/run-backup-scheduled.sh
+          bash -n scripts/ops/install-systemd-user.sh
       - run: npx prisma migrate deploy
       - run: npx tsx scripts/seed-e2e.ts
         env:

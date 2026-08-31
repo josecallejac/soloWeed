@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { LinkPendingBadge } from "./filter-pending";
+import { categoryLandingPath } from "@/lib/catalog-landing";
 
 type CategoryFilter = {
   category: string;
@@ -40,6 +41,8 @@ function buildCategoryUrl(
 }
 
 export function CategoryFilters({ categories, query, selectedCategory, sort, minPrice, maxPrice, stores }: CategoryFiltersProps) {
+  const canUseLandingLinks = !query && !sort && !minPrice && !maxPrice && stores.length === 0;
+
   return (
     <div className="rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-[#0d0d12]/80 p-5  shadow-lg transition-colors duration-300">
       <h2 className="text-lg font-black uppercase tracking-widest font-mono text-zinc-900 dark:text-white/90">Categorias</h2>
@@ -49,7 +52,9 @@ export function CategoryFilters({ categories, query, selectedCategory, sort, min
           <LinkPendingBadge>{null}</LinkPendingBadge>
         </FilterLink>
         {categories.map((cat) => {
-          const href = buildCategoryUrl(cat.category, query, sort, minPrice, maxPrice, stores);
+          const href = canUseLandingLinks
+            ? categoryLandingPath(cat.category)
+            : buildCategoryUrl(cat.category, query, sort, minPrice, maxPrice, stores);
 
           return (
             <FilterLink active={selectedCategory === cat.category} href={href} key={cat.category}>

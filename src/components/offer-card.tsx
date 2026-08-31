@@ -39,9 +39,10 @@ export type OfferCardItem = {
 type OfferCardProps = {
   offer: OfferCardItem;
   rank: number;
+  analyticsOrigin?: "home" | "landing";
 };
 
-export function OfferCard({ offer, rank }: OfferCardProps) {
+export function OfferCard({ analyticsOrigin = "home", offer, rank }: OfferCardProps) {
   const hasDiscount = offer.originalPrice && offer.originalPrice > offer.minPrice;
   const discount = hasDiscount
     ? Math.round(((offer.originalPrice! - offer.minPrice) / offer.originalPrice!) * 100)
@@ -199,7 +200,12 @@ export function OfferCard({ offer, rank }: OfferCardProps) {
               <OutboundLink
                 className="flex items-center justify-center min-w-0 rounded-xl px-4 py-3 text-center text-xs sm:text-sm font-bold uppercase tracking-[0.1em] font-mono transition-all border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-white/80 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-950 dark:hover:text-accent-text"
                 offerId={offer.id}
-                eventData={{ origen: "home", categoria: offer.category, ...(offer.brand ? { marca: offer.brand } : {}) }}
+                eventData={{
+                  origen: analyticsOrigin,
+                  categoria: offer.category,
+                  ...(offer.brand ? { marca: offer.brand } : {}),
+                  ...(offer.product?.id !== undefined ? { producto_id: offer.product.id } : {}),
+                }}
               >
                 Ir a tienda ↗
               </OutboundLink>

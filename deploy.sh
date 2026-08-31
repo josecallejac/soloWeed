@@ -30,6 +30,7 @@ DEPLOY_LOCK_FILE="${DEPLOY_LOCK_FILE:-${TMPDIR:-/tmp}/soloweed-deploy.lock}"
 EXPECTED_RELEASE_SHA="${EXPECTED_RELEASE_SHA:-}"
 SMOKE_PRODUCT_URL="${SMOKE_PRODUCT_URL:-}"
 BACKUP_SCRIPT="${BACKUP_SCRIPT:-$SCRIPT_DIR/scripts/ops/backup-postgres.sh}"
+RELEASE_VERIFY_SCRIPT="${RELEASE_VERIFY_SCRIPT:-$SCRIPT_DIR/scripts/ops/verify-release.sh}"
 BACKUP_DIR="${SOLOWEED_BACKUP_DIR:-/mnt/ollama_models/backups/soloweed}"
 BACKUP_RETENTION_COUNT="${SOLOWEED_BACKUP_RETENTION_COUNT:-7}"
 
@@ -40,6 +41,7 @@ die() {
 
 [[ -f "$ENV_FILE" ]] || die "No existe el archivo de entorno: $ENV_FILE"
 [[ -x "$BACKUP_SCRIPT" ]] || die "No existe el script de backup ejecutable: $BACKUP_SCRIPT"
+[[ -f "$RELEASE_VERIFY_SCRIPT" ]] || die "No existe el verificador de release: $RELEASE_VERIFY_SCRIPT"
 command -v docker >/dev/null 2>&1 || die "docker no está instalado"
 command -v npm >/dev/null 2>&1 || die "npm no está instalado"
 command -v curl >/dev/null 2>&1 || die "curl no está instalado"
@@ -171,6 +173,10 @@ verify_smoke_routes() {
   if [[ -n "$SMOKE_PRODUCT_URL" ]]; then
     curl --fail --silent --show-error --max-time 15 "$SMOKE_PRODUCT_URL" >/dev/null
   fi
+  RELEASE_VERIFY_BASE_URL="$SITE_URL" \
+  RELEASE_VERIFY_HEALTH_URL="$HEALTH_URL" \
+  EXPECTED_RELEASE_SHA="$EXPECTED_RELEASE_SHA" \
+  bash "$RELEASE_VERIFY_SCRIPT"
 }
 
 rollback_app() {

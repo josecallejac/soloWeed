@@ -3,11 +3,18 @@ import { expect, test, type Page } from "@playwright/test";
 test.describe("SoloWeed local features", () => {
   test("selects a search suggestion with the keyboard", async ({ page }) => {
     await gotoStable(page, "/");
-    // Let the client hydrate before dispatching keyboard input. This avoids a
-    // cold-start race that is especially visible in WebKit.
-    await page.waitForTimeout(1000);
     const search = page.getByRole("combobox", { name: "Buscar productos" });
-    await search.fill("raw");
+    await expect(search).toBeEditable();
+    const suggestionsResponse = page.waitForResponse((response) => {
+      const url = new URL(response.url());
+      return url.pathname === "/api/suggestions" && url.searchParams.get("q") === "raw";
+    });
+    // This test covers keyboard interaction, so enter the query through real
+    // key events and wait for the request that drives the listbox.
+    await search.pressSequentially("raw", { delay: 50 });
+    const response = await suggestionsResponse;
+    expect(response.ok()).toBe(true);
+    await search.focus();
     await expect(page.getByRole("option").filter({ hasText: "RAW Classic King Size Slim" })).toBeVisible({ timeout: 15000 });
 
     await search.press("ArrowDown");
@@ -140,6 +147,66 @@ test.describe("SoloWeed local features", () => {
     await editForm.getByRole("button", { name: "Guardar" }).click();
     await expect(page.getByText("Precio objetivo actualizado.")).toBeVisible();
     await expect(page.getByText(/950/).first()).toBeVisible();
+  });
+
+  test("previews a shared list and imports it only after confirmation", async ({ page }) => {
+    await page.route("**/api/canasta*", async (route) => {
+      const sharedId = new URL(route.request().url()).searchParams.get("ids") === "456" ? 456 : 123;
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          products: [{
+            id: sharedId,
+            name: sharedId === 456 ? "Producto alternativo" : "Producto compartido",
+            href: `/productos/raw/${sharedId === 456 ? "producto-alternativo" : "producto-compartido"}`,
+            category: "Papelillos",
+            brand: "RAW",
+            imageUrl: null,
+            offers: [{
+              id: sharedId * 10 + 1,
+              productId: sharedId,
+              storeId: 1,
+              storeName: "Tienda 1",
+              storeSlug: "tienda-1",
+              price: 1000,
+              inStock: true,
+              lastSeenAt: "2026-08-25T12:00:00.000Z",
+              url: "https://example.com/1231",
+            }],
+          }],
+          missingIds: [],
+        }),
+      });
+    });
+    await page.addInitScript(() => {
+      window.localStorage.setItem("soloweed:favorites:v1", JSON.stringify([{
+        id: 999,
+        title: "Favorito local",
+        href: "/productos/raw/favorito-local",
+        price: 1200,
+        category: "Papelillos",
+        brand: "RAW",
+        storeCount: 1,
+        imageUrl: null,
+        savedAt: "2026-08-25T12:00:00.000Z",
+      }]));
+    });
+
+    await gotoStable(page, "/lista#v=1&i=123");
+    await expect(page.getByRole("heading", { name: "Vista previa de lista compartida", exact: true })).toBeVisible();
+    await expect(page.getByText("No cambia tu lista local hasta que elijas una acción.")).toBeVisible();
+    await expect(page.getByText("Favorito local")).toBeVisible();
+
+    await page.evaluate(() => { window.location.hash = "v=1&i=456"; });
+    await expect(page.getByText("Producto alternativo")).toBeVisible();
+    await page.evaluate(() => { window.location.hash = "v=1&i=123"; });
+    await expect(page.getByText("Producto compartido")).toBeVisible();
+
+    await page.getByRole("button", { name: "Reemplazar local" }).click();
+    await expect(page.getByText("Lista compartida cargada.")).toBeVisible();
+    await expect(page.getByText("1 de 50 productos guardados en este navegador.")).toBeVisible();
+    await expect(page.getByText("Producto compartido")).toBeVisible();
+    await expect(page.getByText("Favorito local")).toHaveCount(0);
   });
 
   test("keeps public navigation out of private routes", async ({ page }) => {

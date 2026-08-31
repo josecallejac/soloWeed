@@ -1,0 +1,11 @@
+[Unit]
+Description=SoloWeed refresco semanal del catalogo
+After=network-online.target docker.service
+Wants=network-online.target
+ConditionPathExists=__SOLOWEED_PROJECT_DIR__/.env
+
+[Service]
+Type=oneshot
+WorkingDirectory=__SOLOWEED_PROJECT_DIR__
+ExecStart=/bin/bash __SOLOWEED_PROJECT_DIR__/scripts/ops/run-weekly-catalog-scheduled.sh
+TimeoutStartSec=3h

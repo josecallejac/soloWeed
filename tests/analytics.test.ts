@@ -39,6 +39,23 @@ describe("analítica pública", () => {
       });
     });
   });
+
+  it("registra la importación de una lista sin exponer sus productos", () => {
+    const calls: Array<{ event: string; data?: Record<string, unknown> }> = [];
+    withWindow({
+      umami: {
+        track: (event: string, data?: Record<string, unknown>) => calls.push({ event, data }),
+      },
+    }, () => {
+      trackAnalytics("lista-importada", { cantidad: 3, modo: "mezclar", omitidos: 1 });
+    });
+
+    assert.deepEqual(calls, [{
+      event: "lista-importada",
+      data: { cantidad: 3, modo: "mezclar", omitidos: 1 },
+    }]);
+    assert.equal("ids" in (calls[0].data ?? {}), false);
+  });
 });
 
 function withWindow(value: unknown, callback: () => void) {

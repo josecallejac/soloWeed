@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { type BasketProduct } from "@/lib/basket";
+import { parseCatalogProductIds } from "@/lib/catalog-lookup";
 import { productPath } from "@/lib/site";
-import { MAX_BASKET_ITEMS, type BasketProduct } from "@/lib/basket";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const rawIds = new URL(request.url).searchParams.get("ids") ?? "";
-  const ids = [...new Set(rawIds.split(",").map((value) => Number(value)).filter((value) => Number.isInteger(value) && value > 0))].slice(0, MAX_BASKET_ITEMS);
+  const ids = parseCatalogProductIds(rawIds);
 
   if (ids.length === 0) return NextResponse.json({ products: [], missingIds: [] });
 
