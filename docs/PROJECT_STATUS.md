@@ -42,33 +42,30 @@ catálogo está desconectado.
 
 El workflow publicado usa únicamente runners estándar, no tiene ejecución
 programada, limita cada job a 20 minutos y retiene reportes solo en fallos o
-ejecuciones manuales para reducir el consumo de GitHub Free. En esta revisión,
-`main` y `origin/main` estaban en `5841969` en el corte inicial; la candidata de
-landings, lista compartible y límite de 50 IDs aún no estaba en ese commit.
-Cualquier SHA posterior debe tener su propia comprobación remota y no debe
-presentarse como desplegada solo porque el push o CI hayan terminado.
+ejecuciones manuales para reducir el consumo de GitHub Free. La corrección se
+publicó en `23a2f20` después de que CI remoto 33415375037 pasara lint, tests,
+TypeScript, build, validación Bash y E2E Chromium/móvil. El push y el deploy se
+consideran gates distintos: la SHA efectiva se comprobó también desde el host.
 
 El 31 de agosto se verificaron desde esta estación los puertos `22`, `5435` y `8093`.
-En el host, el checkout y `/api/health` coincidían en la release publicada
-`5841969a5edf787dfe7f3317ce38120be7a85d04`; `soloweed-db` y
-`soloweed-soloweed-1` estaban `running/healthy`. La portada y el sitemap
-respondían HTTP 200, y el health público informaba `database=ok` y
-`catalog=fresh`. La auditoría funcional de esa release encontró que
-`/categorias/papelillos` y `/marcas/raw` respondían 404, el sitemap no incluía
-landings y `/api/canasta` recortaba una consulta de 50 IDs a 20. Por eso `5841969`
-se considera saludable pero incompleta para las funcionalidades anunciadas.
+En el host, el checkout y `/api/health` coinciden en la release publicada
+`23a2f202bddf073c8d0a3f2461cc3d4add85973d`; `soloweed-db` y
+`soloweed-soloweed-1` están `running/healthy`. El health público informa
+`database=ok`, `catalog=fresh` y `staleStores=[]`. El verificador funcional
+encontró 14 landings de categorías y 65 de marcas en el sitemap, HTTP 200 para
+`/categorias/papelillos` y `/marcas/raw`, y procesamiento de 50 IDs en
+`/api/canasta`.
 
-Se creó el backup
-`/mnt/ollama_models/backups/soloweed/soloweed-20260831T145653Z.sql.gz` sin podar las
-siete copias existentes. `gzip -t` y el checksum SHA-256
-`375198991c1d7ce10b84ef499c306a591c28b1487dfaa84bfe45cff26a57f13b` pasaron. La
-restauración aislada confirmó 9 tablas, 6 tiendas, 889 productos y 11.554 ofertas;
-el contenedor temporal fue eliminado al terminar.
+El deploy creó el backup
+`/mnt/ollama_models/backups/soloweed/soloweed-20260831T164819Z.sql.gz`. `gzip -t` y
+el checksum SHA-256
+`1ae361af850be9c9b52c02eb0dddd41643fc50584833492a2f7792780457dfb7` pasaron.
+Además, el backup anterior `soloweed-20260831T152458Z.sql.gz` se conservó.
 
-La publicación correctiva debe pasar backup, swap, health y
-`scripts/ops/verify-release.sh` para su SHA concreta antes de considerarse
-completa. Después se instalarán los timers systemd versionados para backup,
-refresco semanal con reintento, healthcheck y alertas Telegram.
+La publicación correctiva pasó backup, swap, health y
+`scripts/ops/verify-release.sh` para su SHA concreta. Después se instalaron y
+activaron los timers systemd versionados: backup diario, refresco semanal con
+reintento, healthcheck cada 15 minutos y alertas Telegram opcionales.
 
 El `.env` ignorado de este checkout apunta al PostgreSQL del servidor casero;
 las credenciales permanecen fuera de Git. `prebuild` bloquea URLs externas
@@ -93,8 +90,8 @@ curación productiva como parte de esta documentación.
 
 ## Medición Pública Reciente
 
-El 31 de agosto la ruta pública volvió a responder HTTP 200 para `/`, `/api/health`
-y `/sitemap.xml`. `npm run ops:performance -- --strict` pasó sus tres muestras por
-ruta: portada 265.059 bytes/p50 237 ms, sitemap 163.389 bytes/p50 259 ms y health
-219 bytes/p50 188 ms. Es una medición puntual desde esta estación, no monitoreo
-sostenido.
+El 31 de agosto, después del deploy correctivo, la ruta pública respondió HTTP 200
+para `/`, `/api/health`, `/sitemap.xml`, `/categorias/papelillos` y `/marcas/raw`.
+`npm run ops:performance -- --strict` pasó sus tres muestras por ruta: portada
+265.750 bytes/p50 241 ms, sitemap 176.448 bytes/p50 305 ms y health 219 bytes/p50
+241 ms. Es una medición puntual desde esta estación, no monitoreo sostenido.
