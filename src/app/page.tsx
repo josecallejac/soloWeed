@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import { CategoryFilters } from "./category-filters";
 import { FiltersPanel } from "./filters-panel";
 import { SearchBox } from "./search-box";
@@ -98,7 +99,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main className="min-h-screen overflow-hidden bg-white dark:bg-[#070709] text-zinc-900 dark:text-[#fafafa] transition-colors duration-300">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       
       {/* Sticky Header at top shell */}
       <SiteHeader subtitle="Compara parafernalia" />

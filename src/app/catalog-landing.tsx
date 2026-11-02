@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import Link from "next/link";
 import { CATALOG_PAGE_LIMIT } from "./catalog-data";
 import { InfiniteCatalog } from "./infinite-catalog";
@@ -66,7 +67,7 @@ export function CatalogLanding({
 
   return (
     <main className="min-h-screen overflow-hidden bg-white text-zinc-900 dark:bg-[#070709] dark:text-[#fafafa]">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
       <SiteHeader subtitle={eyebrow} />
 
       <section className="border-b border-slate-200 bg-slate-50/70 dark:border-white/10 dark:bg-[#070709]">

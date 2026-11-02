@@ -4,6 +4,7 @@ import { readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 
 const integrationFiles = new Set([
+  "curation-persistence.integration.test.ts",
   "m2-catalog-stress.test.ts",
   "m4-challenger-final-2.test.ts",
 ]);

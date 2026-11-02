@@ -151,25 +151,114 @@ base productiva.
 
 ## E2E
 
-Las pruebas Playwright requieren una PostgreSQL efímera o local. La configuración
-bloquea la ejecución si `E2E_DATABASE=1` no está definido, si `DATABASE_URL` no
-existe o si apunta fuera de `localhost`/`127.0.0.1`. Tampoco reutiliza un servidor
-Next.js ya iniciado, para evitar heredar una base productiva.
+Las pruebas Playwright y el seed comparten una guarda de destino. Exigen
+`E2E_DATABASE=1`, protocolo PostgreSQL, host `localhost`/`127.0.0.1` y base Y
+usuario exactamente `soloweed_e2e`. No se admiten parametros de conexion que
+puedan redirigir el destino; solo se permite opcionalmente `schema=public`.
+Los errores de validacion no imprimen la URL ni las credenciales.
 
-En una máquina con PostgreSQL local en el puerto `5432`:
+El seed valida la URL antes de importar/crear Prisma y fija la URL validada en su
+cliente. Antes del primer borrado comprueba tambien la identidad real: base,
+usuario y usuario de sesion de QA, esquema `public`, propiedad de la base y rol
+sin superusuario, creacion de bases/roles, replicacion, bypass de RLS ni membresias.
+Playwright verifica esa identidad en su global setup antes de ejecutar pruebas.
+No reutiliza un servidor Next.js ya iniciado. `--list` solo enumera casos y no
+conecta a PostgreSQL ni ejecuta el global setup.
+
+En una instancia PostgreSQL desechable dedicada a QA, su administrador prepara
+una unica vez el rol y la base. Estas instrucciones no se ejecutan en produccion:
+
+```sql
+CREATE ROLE soloweed_e2e LOGIN PASSWORD '<password-de-QA>'
+  NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+CREATE DATABASE soloweed_e2e OWNER soloweed_e2e;
+```
+
+Con esa instancia de QA en el puerto `5432`, usar su contraseña URL-encoded y
+verificar la identidad ANTES de migrar o cargar fixtures:
 
 ```powershell
 $env:E2E_DATABASE="1"
-$env:DATABASE_URL="postgresql://soloweed:ci@127.0.0.1:5432/soloweed"
+$env:DATABASE_URL="postgresql://soloweed_e2e:<password-de-QA-url-encoded>@127.0.0.1:5432/soloweed_e2e"
+npx tsx scripts/verify-e2e-database.ts
+if ($LASTEXITCODE -ne 0) { throw "Conexion E2E rechazada; no continuar." }
 npx prisma migrate deploy
+if ($LASTEXITCODE -ne 0) { throw "Migracion de QA fallida; no cargar fixtures." }
 npx tsx scripts/seed-e2e.ts
+if ($LASTEXITCODE -ne 0) { throw "Seed E2E rechazado o fallido; no continuar." }
+$previousSkipStaticParams=$env:SKIP_DATABASE_STATIC_PARAMS
+try {
+  $env:SKIP_DATABASE_STATIC_PARAMS="1"
+  npm run build
+  if ($LASTEXITCODE -ne 0) { throw "Build QA fallido; no iniciar E2E." }
+} finally { $env:SKIP_DATABASE_STATIC_PARAMS=$previousSkipStaticParams }
 npx playwright install chromium
 npm run test:e2e -- --project=chromium
 ```
 
-El workflow de GitHub Actions crea su propio servicio PostgreSQL, ejecuta las
-migraciones y el seed antes de correr Chromium. No uses la `DATABASE_URL` del
-`.env` productivo para este flujo.
+El workflow de GitHub Actions crea su propio servicio PostgreSQL y provisiona el
+rol restringido `soloweed_e2e`. Verifica identidad/permisos antes de migraciones y
+seed; el usuario administrador del servicio se usa solo para provisionar QA, no
+para Prisma, el seed ni las pruebas. Estos checks no certifican una corrida real
+de CI hasta que el workflow se ejecute. No uses la `DATABASE_URL` del `.env`
+productivo para este flujo; restaura las variables de tu shell al terminar.
+
+Playwright inicia `npm run start` para probar el build existente. La compilacion
+es un requisito previo; no usa el servidor de desarrollo ni reutiliza uno ya
+iniciado. CI aplica tambien `npm audit --audit-level=high` al arbol completo,
+incluidas las herramientas de desarrollo. Los avisos moderados siguen visibles.
+En CI `ONNXRUNTIME_NODE_INSTALL=skip` evita descargas CUDA opcionales; el job no
+valida matching por embeddings ni requiere GPU.
+
+Validacion local del 2 de noviembre de 2026: el provisionado del workflow,
+migraciones, seed repetido y global setup aislado pasaron en PostgreSQL 16.13
+desechable. Verificador y seed rechazaron ocho configuraciones de identidad o
+permisos inseguras sin alterar los fixtures. Esto no ejecuta GitHub Actions ni
+pruebas en navegador. Evidencia local en `scratch/a02-postgres-review/`.
+
+### Integracion de curacion protegida
+
+`npm run test` excluye `tests/curation-persistence.integration.test.ts`. Para
+ejecutarla, usar un PostgreSQL desechable ya migrado mediante el flujo QA anterior,
+con `E2E_DATABASE=1`, URL/base/usuario `soloweed_e2e` y `CURATION_DB_TEST=1`:
+
+```powershell
+$env:CURATION_DB_TEST="1"
+npx tsx --test tests/curation-persistence.integration.test.ts
+if ($LASTEXITCODE -ne 0) { throw "Integracion de curacion fallida; revisar logs de QA." }
+```
+
+La suite verifica las guardas de A02 antes de crear Prisma, usa prefijos de
+fixtures unicos y los limpia al finalizar. CI la ejecuta expresamente con su
+servicio QA. No ejecutar el script principal de curacion para validar estas
+pruebas: el script principal consulta la base activa incluso en dry-run.
+
+La persistencia de curacion bloquea y revalida filas dentro de Serializable;
+no mueve una oferta que haya adquirido `productId` desde el descubrimiento.
+Productos de >=4 tiendas no cambian identidad ni ofertas existentes. Las
+adiciones automaticas solo aceptan nuevas tiendas, una oferta por tienda, GTIN
+con checksum valido y titulo/modelo/marca/categoria exactos. Las propuestas
+ambiguas se omiten; no se relajan reglas globales de matching.
+
+Las consultas de sesion durante renderizado tampoco limpian cookies ni filas.
+La revocacion se ejecuta en logout y el login exitoso reemplaza la cookie desde
+su Server Action. No se introduce una limpieza masiva automatica de sesiones.
+Referencia: [restricciones de cookies de Next.js](https://nextjs.org/docs/app/api-reference/functions/cookies).
+
+### Avisos de herramientas de desarrollo
+
+Se aplicaron parches a adm-zip, js-yaml, brace-expansion, browserslist y zod.
+Los consumidores modernos de minimatch 10 usan mediante override 11.0.1;
+los plugins que requieren la API callable de minimatch 3 conservan esa rama.
+`npm audit --audit-level=high` incluye desarrollo y pasa sin altos ni criticos.
+`npm audit` sin umbral sigue informando avisos moderados derivados de minimatch
+3 en ESLint y sus plugins; no se filtran ni se silencian esos avisos.
+
+Los plugins de React/imports/accesibilidad actuales aun declaran minimatch 3
+y peers de ESLint 9. Forzar minimatch 11 globalmente o cambiar a ESLint 10
+requiere una migracion de herramientas con compatibilidad y reglas verificadas.
+ESLint 9.39.5 tambien informa fin de soporte; esa migracion queda pendiente.
+El aviso del mantenedor identifica [minimatch 11.0.1 como parche](https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249).
 
 ## Healthcheck
 

@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
@@ -351,7 +352,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] transition-colors duration-300 font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-slate-200 dark:border-white/10 bg-white/60 dark:bg-[#050507] text-slate-900 dark:text-white transition-colors duration-300">

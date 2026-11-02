@@ -57,10 +57,9 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
   const session = sessions[0];
 
   if (!session || session.expiresAt <= new Date()) {
-    if (session) {
-      await prisma.$executeRaw`DELETE FROM "Session" WHERE "id" = ${session.id}`;
-    }
-    cookieStore.delete(SESSION_COOKIE);
+    // Server Components may read cookies but cannot mutate them. Revocation
+    // belongs to signOut (called by the logout Server Action); successful login
+    // replaces the cookie from its own Server Action.
     return null;
   }
 
