@@ -126,21 +126,16 @@ test.describe("SoloWeed catalog", () => {
     await expect(page.getByRole("heading", { name: /Otras comparaciones en Papelillos/ })).toBeVisible();
   });
 
-  test("switches product variants when the selector is available", async ({ page }) => {
-    await page.goto("/");
-    await page.getByRole("link", { name: /^Comparar en \d+ tiendas/ }).first().click();
-    await expect(page.locator("h1")).toBeVisible();
-
-    const selector = page.locator("#variant-selector");
-    if (await selector.count() === 0) {
-      test.info().annotations.push({ type: "note", description: "Producto sin selector de variantes." });
-      return;
-    }
-
-    const secondValue = await selector.locator("option").nth(1).getAttribute("value");
-    expect(secondValue).not.toBeNull();
-    await selector.selectOption(secondValue!);
-    await expect(page).toHaveURL(new RegExp(`[?&]v=${secondValue}`));
-    await expect(selector).toHaveValue(secondValue!);
+  test("switches seeded variants and preserves their prices across reloads", async ({ page }) => {
+    await page.goto("/productos/raw/classic-king-size-slim");
+    await expect(page.getByRole("heading", { name: "RAW Classic King Size Slim", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Purple", exact: true }).click();
+    await expect(page).toHaveURL(/[?&]v=Purple/);
+    await page.reload();
+    await expect(page.getByRole("heading", { name: "RAW Classic King Size Slim", exact: true })).toBeVisible();
+    await expect.poll(async () => JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!).offers).toMatchObject({ lowPrice: 1100, highPrice: 1100, offerCount: 1 });
+    await page.getByRole("button", { name: "Todas", exact: true }).click();
+    await expect(page).not.toHaveURL(/[?&]v=/);
+    await expect.poll(async () => JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!).offers).toMatchObject({ lowPrice: 1000, highPrice: 1100, offerCount: 2 });
   });
 });
