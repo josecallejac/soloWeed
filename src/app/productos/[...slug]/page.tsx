@@ -1,3 +1,4 @@
+import { JsonLd } from "@/components/json-ld";
 import { SiteHeader, BackLink } from "@/components/site-header";
 import { StoreStatusRow } from "@/components/store-price-card";
 import { SummaryCard } from "@/components/summary-card";
@@ -46,35 +47,10 @@ const PriceHistoryChart = nextDynamic(() =>
   import("./price-history-chart").then((mod) => mod.PriceHistoryChart),
 );
 
-export const revalidate = 3600;
-
-// Pre-renderiza en build las fichas de productos curados con ofertas; las
-// rutas legacy /productos/<slug> y productos nuevos siguen resolviéndose
-// on-demand vía ISR (dynamicParams por defecto).
-export async function generateStaticParams() {
-  // En desarrollo las fichas se resuelven on-demand. Las imágenes Docker y CI
-  // tampoco reciben credenciales productivas durante build.
-  if (process.env.NODE_ENV === "development" || process.env.SKIP_DATABASE_STATIC_PARAMS === "1") {
-    return [];
-  }
-
-  try {
-    const products = await prisma.product.findMany({
-      where: { offers: { some: {} } },
-      select: { brandKey: true, modelSlug: true },
-    });
-    return products
-      .filter((product) => product.brandKey && product.modelSlug)
-      .filter((product) => !isProductAlias(product.brandKey!, product.modelSlug!))
-      .map((product) => ({ slug: [product.brandKey!, ...product.modelSlug!.split("/")] }));
-  } catch (error) {
-    // El build y CI no deben depender de PostgreSQL. Con la base disponible
-    // (producción) se mantienen las fichas pre-renderizadas; sin ella Next las
-    // genera on-demand mediante ISR al recibir la primera visita.
-    console.warn("No se pudieron pre-renderizar fichas de producto:", error);
-    return [];
-  }
-}
+// La variante y sus precios dependen de searchParams en cada request. ISR con
+// fallback no puede pasar de estatico a dinamico al abrir una ficha compilada.
+// El cache de React que sigue comparte lecturas dentro del mismo request.
+export const dynamic = "force-dynamic";
 
 // Compartido entre generateMetadata y la página: una sola query por request.
 const findProductBySlug = cache(async (brandKey: string, modelSlug: string) => {
@@ -351,7 +327,7 @@ export default async function ProductDetail(props: ProductDetailProps) {
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-[#050507] text-slate-900 dark:text-[#fafafa] transition-colors duration-300 font-sans">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd data={jsonLd} />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-slate-200 dark:border-white/10 bg-white/60 dark:bg-[#050507] text-slate-900 dark:text-white transition-colors duration-300">

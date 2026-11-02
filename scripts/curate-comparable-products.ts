@@ -1,4 +1,5 @@
 import { prisma } from "../src/lib/prisma";
+import { applyCuratedProducts } from "./lib/curation-persistence";
 
 type OfferRow = {
   brand: string | null;
@@ -13,6 +14,7 @@ type OfferRow = {
   title: string;
   url: string;
   description: string | null;
+  ean: string | null;
 };
 
 type CandidateGroup = {
@@ -51,7 +53,7 @@ const AMBIGUOUS_MODEL_KEYS = new Set([
 
 async function main() {
   const offers = await prisma.$queryRaw<OfferRow[]>`
-    SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url", "description"
+    SELECT "id", "storeId", "title", "normalizedTitle", "brand", "brandKey", "modelKey", "category", "imageUrl", "price", "url", "description", "ean"
     FROM "Offer"
     WHERE "productId" IS NULL AND ("brandKey" IS NOT NULL OR "category" IN ('Accesorios de extraccion', 'Bandejas y ceniceros', 'Conos y blunts', 'Contenedores y estuches', 'Encendedores y sopletes', 'Limpieza', 'Moledores', 'Otros parafernalia', 'Repuestos para bongs y vaporizadores', 'Vaporizadores electronicos', 'Vaporizadores herbales'))
     ORDER BY "category", "brandKey", "modelKey", "price"
@@ -83,55 +85,17 @@ async function main() {
     return;
   }
 
-  await prisma.$transaction(async (tx) => {
+  const result = await applyCuratedProducts(prisma, candidates.map((group) => {
+    const representative = pickRepresentative(group.offers);
+    const modelSlug = buildModelSlug(group.category, group.modelKey, group.hasTips, group.paperVariant);
+    return { identity: {
+      name: representative.title, normalizedName: representative.normalizedTitle,
+      brand: representative.brand, brandKey: group.brandKey, modelKey: group.modelKey,
+      modelSlug, category: representative.category, imageUrl: representative.imageUrl,
+    }, offers: group.offers };
+  }));
 
-    for (const group of candidates) {
-      const representative = pickRepresentative(group.offers);
-      const modelSlug = buildModelSlug(group.category, group.modelKey, group.hasTips, group.paperVariant);
-      const existingProduct = await tx.product.findFirst({
-        where: {
-          brandKey: group.brandKey,
-          modelSlug,
-        },
-      });
-      const product = existingProduct
-        ? await tx.product.update({
-            where: { id: existingProduct.id },
-            data: {
-              name: representative.title,
-              normalizedName: representative.normalizedTitle,
-              brand: representative.brand,
-              brandKey: group.brandKey,
-              modelKey: group.modelKey,
-              modelSlug,
-              category: representative.category,
-              imageUrl: representative.imageUrl,
-            },
-          })
-        : await tx.product.create({
-            data: {
-              name: representative.title,
-              normalizedName: representative.normalizedTitle,
-              brand: representative.brand,
-              brandKey: group.brandKey,
-              modelKey: group.modelKey,
-              modelSlug,
-              category: representative.category,
-              imageUrl: representative.imageUrl,
-            },
-          });
-
-      await tx.offer.updateMany({
-        where: { id: { in: group.offers.map((offer) => offer.id) } },
-        data: {
-          productId: product.id,
-          category: product.category,
-        },
-      });
-    }
-  });
-
-  console.log("Curated comparable products applied.");
+  console.log("Curated comparable products applied.", result);
 }
 
 function buildGroups(offers: OfferRow[]) {

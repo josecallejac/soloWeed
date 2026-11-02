@@ -1,9 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
+import { assertSafeE2eEnvironment } from './scripts/lib/e2e-database';
 
-assertSafeE2eEnvironment();
+// --list only collects tests and does not run global setup or start Next.js.
+if (!process.argv.includes('--list')) assertSafeE2eEnvironment();
 
 export default defineConfig({
   testDir: './tests/e2e',
+  globalSetup: './tests/e2e/global-setup.ts',
   fullyParallel: false,
   workers: 1,
   forbidOnly: !!process.env.CI,
@@ -33,7 +36,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run start',
+    env: { NEXT_PUBLIC_SITE_URL: 'http://localhost:3000' },
     url: 'http://localhost:3000',
     reuseExistingServer: false,
     stdout: 'ignore',
@@ -41,25 +45,3 @@ export default defineConfig({
     timeout: 120000,
   },
 });
-
-function assertSafeE2eEnvironment() {
-  // Listing tests does not start Next.js, so it remains available without a local DB.
-  if (process.argv.includes('--list')) return;
-  if (process.env.E2E_DATABASE !== '1') {
-    throw new Error('Las pruebas E2E requieren E2E_DATABASE=1 y una PostgreSQL efimera/local.');
-  }
-
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) throw new Error('Las pruebas E2E requieren DATABASE_URL local.');
-
-  let hostname = '';
-  try {
-    hostname = new URL(databaseUrl).hostname;
-  } catch {
-    throw new Error('DATABASE_URL invalida para E2E.');
-  }
-
-  if (!new Set(['127.0.0.1', 'localhost']).has(hostname)) {
-    throw new Error(`E2E bloqueado: DATABASE_URL apunta a ${hostname}, no a PostgreSQL local.`);
-  }
-}
